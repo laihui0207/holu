@@ -1,0 +1,14 @@
+<ion-view view-title="Account">
+  <ion-content>
+    <ion-list>
+    <ion-toggle  ng-model="settings.enableFriends">
+        Enable Friends
+    </ion-toggle>
+    </ion-list>
+    <ion-list>
+      <ion-item ng-repeat="news in newsList">
+        {{news.title}}!
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

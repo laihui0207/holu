@@ -1,0 +1,44 @@
+<!--
+Create tabs with an icon and label, using the tabs-positive style.
+Each tab's child <ion-nav-view> directive will have its own
+navigation history that also transitions its views in and out.
+-->
+
+
+<ion-tabs class="tabs-icon-top tabs-top  tabs-stable tabs-color-active-positive">
+
+  <!-- Dashboard Tab -->
+  <!--<ion-tab title="{{'News' | translate }}" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/dash">
+    <ion-nav-view name="tab-dash"></ion-nav-view>
+  </ion-tab>-->
+  <ion-tab title="{{'News' | translate }}" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/news">
+    <ion-nav-view name="tab-news"></ion-nav-view>
+  </ion-tab>
+  <!-- Chats Tab -->
+  <ion-tab title="{{ 'Posts' | translate }}" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" href="#/tab/chats">
+    <ion-nav-view name="tab-chats"></ion-nav-view>
+  </ion-tab>
+
+  <!-- Account Tab -->
+  <ion-tab title="{{ 'Notes' | translate }}" icon-off="ion-clipboard" icon-on="ion-clipboard" href="#/tab/account">
+    <ion-nav-view name="tab-account"></ion-nav-view>
+  </ion-tab>
+  <ion-tab title="{{ 'Documents' | translate }}" icon-off="ion-folder" icon-on="ion-folder" href="#/tab/account">
+    <ion-nav-view name="tab-account"></ion-nav-view>
+  </ion-tab>
+</ion-tabs>
+
+<div class="tabs tabs-icon-top">
+  <a class="tab-item" href="#/tab/account">
+    <i class="icon ion-home"></i>
+    HOME
+  </a>
+  <a class="tab-item">
+    <i class="icon ion-email-unread"></i>
+     Messages
+  </a>
+  <a class="tab-item">
+    <i class="icon ion-network"></i>
+    {{ 'PROJECT_TEXT' | translate }}
+  </a>
+</div>

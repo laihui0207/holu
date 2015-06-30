@@ -1,0 +1,24 @@
+<ion-view view-title="{{ 'News' | translate }}">
+    <ion-content >
+        <div class="list card">
+
+            <div class="item">
+<!--                <img src="avatar.jpg">-->
+                <h2>{{news.title}}</h2>
+                <p>{{'NewsType' | translate}}:{{news.newsType.name}}</p>
+            </div>
+
+           <!-- <div class="item item-image">
+                <img src="{{ServerUrl}}{{news.thumbnailUrl}}">
+            </div>-->
+            <div class="item item-body">
+                <p ng-bind-html="newContent"></p>
+            </div>
+            <!--<a class="item item-icon-left assertive" href="#">
+                <i class="icon ion-music-note"></i>
+                Start listening
+            </a>-->
+
+        </div>
+    </ion-content>
+</ion-view>
