@@ -5,10 +5,9 @@
         Enable Friends
     </ion-toggle>
     </ion-list>
-    <ion-list>
-      <ion-item ng-repeat="news in newsList">
-        {{news.title}}!
-      </ion-item>
-    </ion-list>
+    <div ng-controller="TranslateController">
+      <button ng-click="changeLanguage('zh')" translate="BUTTON_TEXT_ZH"></button>
+      <button ng-click="changeLanguage('en')" translate="BUTTON_TEXT_EN"></button>
+    </div>
   </ion-content>
 </ion-view>

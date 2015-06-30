@@ -2,6 +2,24 @@ angular.module('Holu.controllers', ['ngSanitize'])
 
     .controller('DashCtrl', function ($scope) {
     })
+    .controller('LoginCtrl',function($scope,AuthService,$ionicPopup, $state,$translate){
+        $scope.data={};
+        $translate(['LoginFailHeader', 'LoginFailMessage']).then(function (translations) {
+            $scope.loginFailHeader = translations.LoginFailHeader;
+            $scope.LoginFailMessage = translations.LoginFailMessage;
+        });
+        $scope.login=function(){
+            AuthService.login($scope.data.userName,$scope.data.password).success(function(data){
+
+                $state.go('tab.news')
+            }).error(function(data){
+                var alertPopup = $ionicPopup.alert({
+                    title: $scope.loginFailHeader,
+                    template: $scope.LoginFailMessage
+                });
+            })
+        }
+    })
     .controller("NewsCtrl", function ($scope, News, ServerUrl) {
         News.all().then(function (response) {
             $scope.newsList = response.data;
@@ -11,17 +29,19 @@ angular.module('Holu.controllers', ['ngSanitize'])
         $scope.doRefresh = function () {
             News.all().then(function (response) {
                 $scope.newsList = response.data;
+            }).then(function(){
+                $scope.$broadcast('scroll.refreshComplete');
             })
         }
     })
     .controller('NewsDetailCtrl', function ($scope, News, $stateParams, ServerUrl) {
         News.viewNews($stateParams.newsId).then(function (response) {
-            console.log(response.data.content)
+            /*console.log(response.data.content)
             var content = response.data.content;
-            var newContent=content.replace(new RegExp("(<img.*?(?: |\t|\r|\n)?src=['\"]?)(.+?)(['\"]?(?:(?: |\t|\r|\n)+.*?)?>)", 'gi'), function ($0, $1, $2, $3) {
+            var newContent = content.replace(new RegExp("(<img.*?(?: |\t|\r|\n)?src=['\"]?)(.+?)(['\"]?(?:(?: |\t|\r|\n)+.*?)?>)", 'gi'), function ($0, $1, $2, $3) {
                 return $1 + ServerUrl + $2 + $3;
             });
-            $scope.newContent=newContent;
+            $scope.newContent = newContent;*/
             $scope.news = response.data;
         })
         $scope.ServerUrl = ServerUrl;

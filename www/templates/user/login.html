@@ -1,0 +1,13 @@
+<ion-view view-title="{{ 'Login' | translate}}" name="login-view">
+    <ion-content class="padding">
+        <div class="list list-inset">
+            <label class="item item-input">
+                <input type="text" placeholder="{{ 'UserName' | translate }}" ng-model="data.userName">
+            </label>
+            <label class="item item-input">
+                <input type="password" placeholder="{{ 'Password' | translate }}" ng-model="data.password">
+            </label>
+        </div>
+        <button class="button button-block button-calm" ng-click="login()">{{ 'Login' | translate }}</button>
+    </ion-content>
+</ion-view>

@@ -6,14 +6,11 @@
         </ion-refresher>
         <ion-list>
             <ion-item class="item item-thumbnail-left" ng-repeat="item in newsList" href="#/tab/news/{{item.id}}">
-                <img src="{{item.thumbnailUrl | imagePath}}">
+                <img src="{{item.thumbnailUrl | imagePath:this}}">
                 <h2>{{ item.title }}</h2>
                 <p>{{'NewsType' | translate}}:{{item.newsType.name}}</p>
             </ion-item>
         </ion-list>
-        <div ng-controller="TranslateController">
-            <button ng-click="changeLanguage('zh')" translate="BUTTON_TEXT_ZH"></button>
-            <button ng-click="changeLanguage('en')" translate="BUTTON_TEXT_EN"></button>
-        </div>
+
     </ion-content>
 </ion-view>

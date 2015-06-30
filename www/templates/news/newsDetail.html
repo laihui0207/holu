@@ -12,7 +12,7 @@
                 <img src="{{ServerUrl}}{{news.thumbnailUrl}}">
             </div>-->
             <div class="item item-body">
-                <p ng-bind-html="newContent"></p>
+                <p ng-bind-html="news.content | image:this"></p>
             </div>
             <!--<a class="item item-icon-left assertive" href="#">
                 <i class="icon ion-music-note"></i>
