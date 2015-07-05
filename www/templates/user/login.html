@@ -2,10 +2,10 @@
     <ion-content class="padding">
         <div class="list list-inset">
             <label class="item item-input">
-                <input type="text" placeholder="{{ 'UserName' | translate }}" ng-model="data.userName">
+                <input type="text" placeholder="{{ 'UserName' | translate }}" ng-model="data.userName" required>
             </label>
             <label class="item item-input">
-                <input type="password" placeholder="{{ 'Password' | translate }}" ng-model="data.password">
+                <input type="password" placeholder="{{ 'Password' | translate }}" ng-model="data.password" required>
             </label>
         </div>
         <button class="button button-block button-calm" ng-click="login()">{{ 'Login' | translate }}</button>

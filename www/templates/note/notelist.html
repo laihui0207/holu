@@ -1,0 +1,18 @@
+<ion-view view-title="{{ 'Notes' | translate }}">
+    <ion-content>
+        <ion-refresher
+                pulling-text="{{ 'PullToFresh' | translate }}"
+                on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list>
+            <ion-item  ng-repeat="note in noteList" class="item" href="#/tab/notes/{{note.id}}" >
+                <h2>{{ note.title }}</h2>
+                <p> {{ note.createTime | date:'yyyy-MM-dd' }}</p>
+            </ion-item>
+
+        </ion-list>
+        <div class="row">
+            <a class="button  button-calm" href="#/tab/note/new">Add</a>
+        </div>
+    </ion-content>
+</ion-view>

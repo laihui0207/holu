@@ -5,7 +5,7 @@ navigation history that also transitions its views in and out.
 -->
 
 
-<ion-tabs class="tabs-icon-top tabs-top  tabs-stable tabs-color-active-positive">
+<ion-tabs class="tabs-icon-top tabs-top tabs-stable tabs-color-active-positive">
 
   <!-- Dashboard Tab -->
   <!--<ion-tab title="{{'News' | translate }}" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/dash">
@@ -20,15 +20,27 @@ navigation history that also transitions its views in and out.
   </ion-tab>
 
   <!-- Account Tab -->
-  <ion-tab title="{{ 'Notes' | translate }}" icon-off="ion-clipboard" icon-on="ion-clipboard" href="#/tab/account">
-    <ion-nav-view name="tab-account"></ion-nav-view>
+  <ion-tab title="{{ 'Notes' | translate }}" icon-off="ion-clipboard" icon-on="ion-clipboard" href="#/tab/notes">
+    <ion-nav-view name="tab-notes"></ion-nav-view>
   </ion-tab>
-  <ion-tab title="{{ 'Documents' | translate }}" icon-off="ion-folder" icon-on="ion-folder" href="#/tab/account">
+ <!-- <ion-tab title="{{ 'Documents' | translate }}" icon-off="ion-folder" icon-on="ion-folder" href="#/tab/documents">
     <ion-nav-view name="tab-account"></ion-nav-view>
+  </ion-tab>-->
+  <ion-tab title="{{ 'Documents' | translate }}" icon-off="ion-folder" icon-on="ion-folder" href="#/tab/docs">
+    <ion-nav-view name="tab-docs"></ion-nav-view>
   </ion-tab>
+  <ion-tab title="{{ 'Messages' | translate }}" icon-off="ion-folder" icon-on="ion-folder" href="#/tab/messages">
+    <ion-nav-view name="tab-messages"></ion-nav-view>
+  </ion-tab>
+  <ion-tab title="{{ 'Project' | translate }}" icon-off="ion-folder" icon-on="ion-folder" href="#/tab/project">
+    <ion-nav-view name="tab-project"></ion-nav-view>
+  </ion-tab>
+
+
+
 </ion-tabs>
 
-<div class="tabs tabs-icon-top">
+<!--<div class="tabs tabs-icon-top bottom-tab">
   <a class="tab-item" href="#/tab/account">
     <i class="icon ion-home"></i>
     HOME
@@ -41,4 +53,4 @@ navigation history that also transitions its views in and out.
     <i class="icon ion-network"></i>
     {{ 'PROJECT_TEXT' | translate }}
   </a>
-</div>
+</div>-->

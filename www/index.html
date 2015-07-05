@@ -6,6 +6,8 @@
     <title></title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="lib/textAngular/dist/textAngular.css" rel="stylesheet">
+    <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
@@ -15,6 +17,10 @@
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/angular-translate/angular-translate.min.js"></script>
+    <script src="lib/textAngular/dist/textAngular-rangy.min.js"></script>
+    <script src="lib/textAngular/dist/textAngular-sanitize.min.js"></script>
+    <script src="lib/textAngular/dist/textAngularSetup.js"></script>
+    <script src="lib/textAngular/dist/textAngular.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -36,7 +42,7 @@
             </ion-nav-back-button>
 
             <ion-nav-buttons side="left">
-                <button class="button button-icon button-clear ion-ionic" ng-click="showMenu()">
+                <button class="button button-icon button-clear ion-ionic" > <!--ng-click="showMenu()"-->
                 </button>
             </ion-nav-buttons>
 
@@ -48,7 +54,7 @@
         <ion-nav-view animation="slide-left-right"></ion-nav-view>
     </ion-side-menu-content>
 
-    <ion-side-menu side="left">
+    <!--<ion-side-menu side="left">
         <ion-header-bar class="bar bar-header bar-assertive">
             <h1 class="title">Left Menu</h1>
         </ion-header-bar>
@@ -65,38 +71,20 @@
                 </li>
             </ul>
         </ion-content>
-    </ion-side-menu>
+    </ion-side-menu>-->
 
-    <ion-side-menu side="right">
+    <ion-side-menu side="right" ng-controller="NavCtrl">
         <ion-header-bar class="bar bar-header bar-dark">
-            <h1 class="title">Right Menu</h1>
+            <h1 class="title">{{currentUser.username}}</h1>
         </ion-header-bar>
         <ion-content>
             <ul class="list">
-                <li>
-                    <a class="item" menu-close nav-clear href="#/search">Search</a>
-                </li>
-                <li>
-                    <a class="item" menu-close nav-clear href="#/settings">Settings</a>
+                <li ng-repeat="menu in menuItems" >
+                    <a class="item" menu-close nav-clear href="{{menu.action}}" ng-click="{{menu.click}}">{{menu.label | translate}}</a>
                 </li>
             </ul>
         </ion-content>
     </ion-side-menu>
-
 </ion-side-menus>
-<!--
-  The nav bar that will be updated as we navigate between views.
--->
-<!--<ion-nav-bar class="bar-stable">
-  <ion-nav-back-button>
-    Back
-  </ion-nav-back-button>
-</ion-nav-bar>-->
-<!--
-  The views will be rendered in the <ion-nav-view> directive below
-  Templates are in the /templates folder (but you could also
-  have templates inline in this html file if you'd like).
--->
-<!-- <ion-nav-view></ion-nav-view>-->
 </body>
 </html>

@@ -1,5 +1,5 @@
 <ion-view view-title="{{ 'News' | translate }}">
-    <ion-content >
+    <ion-content>
         <ion-refresher
                 pulling-text="{{ 'PullToFresh' | translate }}"
                 on-refresh="doRefresh()">
@@ -7,9 +7,12 @@
         <ion-list>
             <ion-item class="item item-thumbnail-left" ng-repeat="item in newsList" href="#/tab/news/{{item.id}}">
                 <img src="{{item.thumbnailUrl | imagePath:this}}">
+
                 <h2>{{ item.title }}</h2>
-                <p>{{'NewsType' | translate}}:{{item.newsType.name}}</p>
+
+                <p>{{'NewsType' | translate}}:{{item.newsType.name}} {{item.createTime | date:'yyyy-MM-dd' }}</p>
             </ion-item>
+
         </ion-list>
 
     </ion-content>

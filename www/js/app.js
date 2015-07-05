@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imageFilter','Holu.translate'])
+angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imageFilter','Holu.translate','textAngular'])
 
     .run(function ($ionicPlatform) {
         $ionicPlatform.ready(function () {
@@ -20,7 +20,7 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
             }
         });
     })
-    .constant("ServerUrl", "http://localhost:8087")
+    .constant("ServerUrl", "http://220.178.1.10：8089/holusystem")
     .config(function ($stateProvider, $urlRouterProvider) {
 
         // Ionic uses AngularUI Router which uses the concept of states
@@ -33,12 +33,21 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
             .state('tab', {
                 url: "/tab",
                 abstract: true,
-                templateUrl: "templates/tabs.html"
+                templateUrl: "templates/tabs.html",
+                controller: 'NavCtrl'
             })
             .state('login', {
                 url: '/login',
-                templateUrl: 'templates/user/login.html',
-                controller: 'LoginCtrl'
+                /*views:{
+                    'login-view':{*/
+                        templateUrl: 'templates/user/login.html',
+                        controller: 'LoginCtrl'
+                   /* },
+                    'menulist':{
+                        templateUrl: 'templates/menus/logoutmenu.html',
+                        controller: 'NavCtrl'
+                    }
+                }*/
             })
             // Each tab has its own nav history stack:
 
@@ -57,6 +66,10 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
                     'tab-news': {
                         templateUrl: 'templates/news/newslist.html',
                         controller: 'NewsCtrl'
+                    },
+                    'menuList':{
+                        templateUrl: 'templates/menus/Loginedmenu.html',
+                        controller: 'NavCtrl'
                     }
                 }
             })
@@ -66,6 +79,42 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
                     'tab-news': {
                         templateUrl: 'templates/news/newsDetail.html',
                         controller: 'NewsDetailCtrl'
+                    }
+                }
+            })
+            .state('tab.docs', {
+                url: '/docs',
+                views: {
+                    'tab-docs': {
+                        templateUrl: 'templates/documentations/doclist.html',
+                        controller: 'DocCtrl'
+                    }
+                }
+            })
+            .state('tab.notes', {
+                url: '/notes',
+                views: {
+                    'tab-notes': {
+                        templateUrl: 'templates/note/notelist.html',
+                        controller: 'NoteCtrl'
+                    }
+                }
+            })
+            .state('tab.notes-new', {
+                url: '/note/new',
+                views: {
+                    'tab-notes': {
+                        templateUrl: 'templates/note/new.html',
+                        controller: 'NoteCtrl'
+                    }
+                }
+            })
+            .state('tab.note-detail', {
+                url: '/notes/:noteId',
+                views: {
+                    'tab-notes': {
+                        templateUrl: 'templates/note/noteDetail.html',
+                        controller: 'NoteDetailCtrl'
                     }
                 }
             })

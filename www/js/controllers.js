@@ -2,15 +2,16 @@ angular.module('Holu.controllers', ['ngSanitize'])
 
     .controller('DashCtrl', function ($scope) {
     })
-    .controller('LoginCtrl',function($scope,AuthService,$ionicPopup, $state,$translate){
+    .controller('LoginCtrl',function($scope,AuthService,$ionicPopup,$rootScope, $state,$translate,menuItemService){
         $scope.data={};
         $translate(['LoginFailHeader', 'LoginFailMessage']).then(function (translations) {
             $scope.loginFailHeader = translations.LoginFailHeader;
             $scope.LoginFailMessage = translations.LoginFailMessage;
         });
+        $rootScope.menuItems=menuItemService.menuList(false);
         $scope.login=function(){
             AuthService.login($scope.data.userName,$scope.data.password).success(function(data){
-
+                $scope.data={};
                 $state.go('tab.news')
             }).error(function(data){
                 var alertPopup = $ionicPopup.alert({
@@ -36,13 +37,126 @@ angular.module('Holu.controllers', ['ngSanitize'])
     })
     .controller('NewsDetailCtrl', function ($scope, News, $stateParams, ServerUrl) {
         News.viewNews($stateParams.newsId).then(function (response) {
-            /*console.log(response.data.content)
-            var content = response.data.content;
-            var newContent = content.replace(new RegExp("(<img.*?(?: |\t|\r|\n)?src=['\"]?)(.+?)(['\"]?(?:(?: |\t|\r|\n)+.*?)?>)", 'gi'), function ($0, $1, $2, $3) {
-                return $1 + ServerUrl + $2 + $3;
-            });
-            $scope.newContent = newContent;*/
             $scope.news = response.data;
+        })
+        $scope.ServerUrl = ServerUrl;
+    })
+
+    .controller('DocCtrl',function($scope,Documentations,$ionicLoading,ServerUrl){
+        Documentations.all().then(function(response){
+            $scope.DocList=response.data;
+        })
+        $scope.ServerUrl=ServerUrl;
+        $scope.doRefresh = function () {
+            Documentations.all().then(function(response){
+                $scope.DocList=response.data;
+            }).then(function(){
+                $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
+        $scope.download = function() {
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
+                    fs.root.getDirectory(
+                        "Holu",
+                        {
+                            create: true
+                        },
+                        function(dirEntry) {
+                            dirEntry.getFile(
+                                "test.png",
+                                {
+                                    create: true,
+                                    exclusive: false
+                                },
+                                function gotFileEntry(fe) {
+                                    var p = fe.toURL();
+                                    fe.remove();
+                                    ft = new FileTransfer();
+                                    ft.download(
+                                        encodeURI("http://ionicframework.com/img/ionic-logo-blog.png"),
+                                        p,
+                                        function(entry) {
+                                            $ionicLoading.hide();
+                                            $scope.imgFile = entry.toURL();
+                                        },
+                                        function(error) {
+                                            $ionicLoading.hide();
+                                            alert("Download Error Source -> " + error.source);
+                                        },
+                                        false,
+                                        null
+                                    );
+                                },
+                                function() {
+                                    $ionicLoading.hide();
+                                    console.log("Get file failed");
+                                }
+                            );
+                        }
+                    );
+                },
+                function() {
+                    $ionicLoading.hide();
+                    console.log("Request for filesystem failed");
+                });
+        }
+    })
+    .controller('NoteCtrl',function($scope,Notes,$ionicPopup,$rootScope, $state,$translate){
+        Notes.all().then(function(response){
+            $scope.noteList=response.data
+        })
+        $scope.doRefresh = function () {
+            Notes.all().then(function (response) {
+                $scope.noteList = response.data;
+            }).then(function(){
+                $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
+        $scope.autoExpand = function(e) {
+            var element = typeof e === 'object' ? e.target : document.getElementById(e);
+            var scrollHeight = element.scrollHeight -20; // replace 60 by the sum of padding-top and padding-bottom
+            element.style.height =  scrollHeight + "px";
+        };
+        $translate(['SaveFailed', 'SaveFailedHeader','APICallFailed']).then(function (translations) {
+            $scope.SaveFailed = translations.LoginFailHeader;
+            $scope.SaveFailedHeader = translations.SaveFailedHeader;
+            $scope.APICallFailed = translations.LoginFailMessage;
+        });
+        $scope.note={};
+        $scope.saveNote=function(){
+            if($scope.note.title=="" || $scope.note.content==""){
+                // to do block save process
+            }
+            Notes.save($scope.note.title,$scope.note.content,$rootScope.currentUser.id)
+                .success(function(data){
+                    console.log("save note Controller:"+data)
+                   if(data.title==$scope.note.title){
+                      $state.go("tab.notes")
+                       doRefresh()
+                   }
+                    else {
+                       console.log("save note Controller:"+data)
+                       var alertPopup = $ionicPopup.alert({
+                           title: $scope.SaveFailedHeader,
+                           template: $scope.SaveFailed
+                       });
+                   }
+                })
+                .error(function(data){
+                    console.log("save note Controller:"+data)
+                    var alertPopup = $ionicPopup.alert({
+                        title: $scope.SaveFailedHeader,
+                        template: $scope.APICallFailed
+                    });
+                })
+        }
+    })
+    .controller('NoteDetailCtrl', function ($scope, Notes, $stateParams,ServerUrl) {
+        Notes.view($stateParams.noteId).then(function (response) {
+            $scope.note = response.data;
         })
         $scope.ServerUrl = ServerUrl;
     })
@@ -68,17 +182,35 @@ angular.module('Holu.controllers', ['ngSanitize'])
     .controller('ChatDetailCtrl', function ($scope, $stateParams, Chats) {
         $scope.chat = Chats.get($stateParams.chatId);
     })
-    .controller('NavCtrl', function ($scope, $ionicSideMenuDelegate) {
+    .controller('NavCtrl', function ($scope,$rootScope, $ionicSideMenuDelegate,$state,menuItemService) {
         $scope.showMenu = function () {
             $ionicSideMenuDelegate.toggleLeft();
         };
         $scope.showRightMenu = function () {
             $ionicSideMenuDelegate.toggleRight();
         };
+        $scope.logout=function(){
+            $rootScope.currentUser="";
+            $rootScope.menuItems=menuItemService.menuList(false);
+            $state.go('login')
+        }
     })
-    .controller('AccountCtrl', function ($scope, News) {
+    .controller('AccountCtrl', function ($scope,$state, $ionicModal ) {
+
+        $ionicModal.fromTemplateUrl('templates/user/login2.html', function(modal) {
+                $scope.loginModal = modal;
+            },
+            {
+                scope: $scope,
+                animation: 'slide-in-up',
+                focusFirstInput: true
+            }
+        );
+
         $scope.settings = {
             enableFriends: true
         };
-        $scope.newsList = News.all();
+        $scope.showLogin=function(){
+            $scope.loginModal.show();
+        }
     });

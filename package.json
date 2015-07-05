@@ -15,7 +15,9 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
-    "com.ionic.keyboard"
+    "com.ionic.keyboard",
+	"org.apache.cordova.file-transfer",
+	"cordova-plugin-file-transfer"
   ],
   "cordovaPlatforms": [
     "ios",

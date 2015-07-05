@@ -1,21 +1,33 @@
 angular.module('Holu.services', [])
-    .factory('AuthService', function ($http, ServerUrl, $q) {
+    .factory('AuthService', function ($http, ServerUrl, $q,$rootScope,menuItemService) {
         return ({
             login: doLogin,
             setCred: saveCred,
-            clearCred: cleanCred
+            clearCred: ClearCredentials
         })
         function doLogin(userName, pw) {
             var deferred = $q.defer();
             var promise = deferred.promise;
-
             // verify username and password
-            if (userName == 'admin' && pw == 'admin') {
-                deferred.resolve('Welcome ' + userName + '!');
-            }
-            else {
+            $http({
+                method: 'POST',
+                url: ServerUrl + "/services/api/users/userLogin.json",
+                data: "username="+userName+"&password="+pw,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (data) {
+                console.log("loo" + data);
+                if(data==""){
+                    deferred.reject('Wrong credentials.');
+                }
+                else {
+                    $rootScope.currentUser=data;
+                    $rootScope.menuItems=menuItemService.menuList(true);
+                    deferred.resolve('Welcome ' + userName + '!');
+                }
+            }).error(function (data) {
                 deferred.reject('Wrong credentials.');
-            }
+                $rootScope.menuItems=menuItemService.menuList(false);
+            })
 
             promise.success = function (fn) {
                 promise.then(fn);
@@ -27,12 +39,26 @@ angular.module('Holu.services', [])
             }
             return promise;
         }
-        function saveCred(userName,password){
-            var authdata = Base64.encode(username + ':' + password);
-        }
-        function cleanCred(){
 
+        function saveCred(userName, password) {
+            var authdata = Base64.encode(userName + ':' + password);
+            $rootScope.globals = {
+                currentUser: {
+                    username: username,
+                    authdata: authdata
+                }
+            };
+
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
+            $cookieStore.put('globals', $rootScope.globals);
         }
+
+        function ClearCredentials() {
+            $rootScope.globals = {};
+            $cookieStore.remove('globals');
+            $http.defaults.headers.common.Authorization = 'Basic ';
+        }
+
         // Base64 encoding service used by AuthenticationService
         var Base64 = {
 
@@ -129,6 +155,66 @@ angular.module('Holu.services', [])
             return $http.get(ServerUrl + "/services/api/news/" + id + ".json")
         }
     })
+    .factory('Documentations',function($http,ServerUrl){
+        return ({
+            all: listDoc,
+            download: downloadDoc
+        })
+        function listDoc(){
+            return $http.get(ServerUrl+"/services/api/Documentations.json")
+        }
+        function downloadDoc(){
+            return
+        }
+    })
+    .factory('Notes',function($http,$q,ServerUrl){
+        return({
+            all: listNote,
+            view: viewNote,
+            save: saveNote,
+            delete: deleteNote
+        })
+        function listNote(){
+            return $http.get(ServerUrl+"/services/api/notes.json")
+        }
+        function viewNote(id){
+            return $http.get(ServerUrl+"/services/api/notes/"+id+".json")
+        }
+        function saveNote(title,content,userId){
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            // verify username and password
+            $http({
+                method: 'POST',
+                url: ServerUrl + "/services/api/notes.json",
+                data: "title="+title+"&content="+content+"&userId="+userId,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (data) {
+                console.log("Note save:"+data)
+                if(data==""){
+                    deferred.reject('Failed');
+                }
+                else {
+                    deferred.resolve(data);
+                }
+            }).error(function (data) {
+                deferred.reject('Call Failed');
+            })
+
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
+        }
+        function deleteNote(){
+
+        }
+    })
     .factory('Chats', function ($http) {
         // Might use a resource here that returns a JSON array
 
@@ -176,4 +262,34 @@ angular.module('Holu.services', [])
                 return null;
             }
         };
-    });
+    })
+    .factory('menuItemService',function(){
+        return {
+            menuList:function(Logined){
+                var items=[];
+                if(Logined){
+                    items=[
+                        {
+                            label: 'Setting',
+                            action: '/#/tab/setting'
+                        },
+                        {
+                            label: 'Logout',
+                            action: '#',
+                            click: 'logout()'
+                        }
+                    ]
+                }
+                else {
+                    items=[
+                        {
+                            label: 'Login',
+                            action: '/#/login'
+                        }
+                    ]
+                }
+                return items;
+            }
+        }
+    })
+;
