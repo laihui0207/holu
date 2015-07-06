@@ -144,7 +144,9 @@ angular.module('Holu.services', [])
     .factory('News', function ($http, ServerUrl) {
         return ({
             all: listNews,
-            viewNews: getNews
+            viewNews: getNews,
+            newsTypes: getNewsTypes,
+            newsListByType: getNewsListByNewsType
         })
         function listNews() {
             //return news;
@@ -153,6 +155,12 @@ angular.module('Holu.services', [])
 
         function getNews(id) {
             return $http.get(ServerUrl + "/services/api/news/" + id + ".json")
+        }
+        function getNewsTypes(){
+            return $http.get(ServerUrl+"/services/api/newstypes.json")
+        }
+        function getNewsListByNewsType(typeId){
+            return $http.get(ServerUrl+"/services/api/news/newstype/"+typeId+".json");
         }
     })
     .factory('Documentations',function($http,ServerUrl){
@@ -180,14 +188,14 @@ angular.module('Holu.services', [])
         function viewNote(id){
             return $http.get(ServerUrl+"/services/api/notes/"+id+".json")
         }
-        function saveNote(title,content,userId){
+        function saveNote(title,content,userId,noteId){
             var deferred = $q.defer();
             var promise = deferred.promise;
             // verify username and password
             $http({
                 method: 'POST',
                 url: ServerUrl + "/services/api/notes.json",
-                data: "title="+title+"&content="+content+"&userId="+userId,
+                data: "title="+title+"&content="+content+"&userId="+userId+"&noteId="+noteId,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
                 console.log("Note save:"+data)
@@ -211,8 +219,23 @@ angular.module('Holu.services', [])
             }
             return promise;
         }
-        function deleteNote(){
-
+        function deleteNote(noteId){
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            $http.get(ServerUrl+"/services/api/notes/"+noteId+"/delete.json").success(function(){
+                deferred.resolve("OK")
+            }).error(function(){
+                deferred.reject("Failed")
+            })
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
         }
     })
     .factory('Chats', function ($http) {

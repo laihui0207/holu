@@ -20,7 +20,8 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
             }
         });
     })
-    .constant("ServerUrl", "http://220.178.1.10：8089/holusystem")
+/*    .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")*/
+    .constant("ServerUrl", "http://localhost:8087/holusystem")
     .config(function ($stateProvider, $urlRouterProvider) {
 
         // Ionic uses AngularUI Router which uses the concept of states
@@ -85,7 +86,7 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
             .state('tab.docs', {
                 url: '/docs',
                 views: {
-                    'tab-docs': {
+                    'tab-OA': {
                         templateUrl: 'templates/documentations/doclist.html',
                         controller: 'DocCtrl'
                     }
@@ -94,7 +95,7 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
             .state('tab.notes', {
                 url: '/notes',
                 views: {
-                    'tab-notes': {
+                    'tab-OA': {
                         templateUrl: 'templates/note/notelist.html',
                         controller: 'NoteCtrl'
                     }
@@ -103,16 +104,25 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
             .state('tab.notes-new', {
                 url: '/note/new',
                 views: {
-                    'tab-notes': {
+                    'tab-OA': {
                         templateUrl: 'templates/note/new.html',
-                        controller: 'NoteCtrl'
+                        controller: 'NoteNewCtrl'
+                    }
+                }
+            })
+            .state('tab.notes-edit', {
+                url: '/note/edit/:noteId',
+                views: {
+                    'tab-OA': {
+                        templateUrl: 'templates/note/edit.html',
+                        controller: 'NoteEditCtrl'
                     }
                 }
             })
             .state('tab.note-detail', {
                 url: '/notes/:noteId',
                 views: {
-                    'tab-notes': {
+                    'tab-OA': {
                         templateUrl: 'templates/note/noteDetail.html',
                         controller: 'NoteDetailCtrl'
                     }

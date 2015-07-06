@@ -1,5 +1,19 @@
 <ion-view view-title="{{ 'Notes' | translate }}">
-    <ion-content class="mainContent">
+    <ion-header-bar class="bar bar-subheader buttons-right custom-subheader">
+        <div class="tabs">
+            <a class="tab-item tab-item-active" ui-sref="tab.notes">
+                <p>{{ 'Notes' | translate }}</p>
+            </a>
+            <a class="tab-item" ui-sref="tab.docs">
+                <p>{{ 'Documents' | translate }}</p>
+            </a>
+            <a class="tab-item" ui-sref="tab.messages">
+                <p>{{ 'Messages' | translate }}</p>
+            </a>
+        </div>
+
+    </ion-header-bar>
+    <ion-content class="mainContent OA-content">
         <div class="list card">
 
             <div class="item">
@@ -19,9 +33,9 @@
                 Start listening
             </a>-->
             <div class="item tabs tabs-secondary tabs-icon-left">
-                <a class="tab-item" href="#">
-                    <i class="icon ion-thumbsup"></i>
-                    Like
+                <a class="tab-item" href="/#/tab/note/edit/{{note.id}}">
+                    <i class="icon ion-edit"></i>
+                    {{ 'Edit' | translate}}
                 </a>
                 <a class="tab-item" href="#">
                     <i class="icon ion-chatbox"></i>

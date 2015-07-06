@@ -14,7 +14,9 @@ var translations = {
         LoginFailMessage: 'Please check your credentials!',
         APICallFailed: 'API Call Failed, please check Network',
         SaveFailedHeader: 'Failed',
-        SaveFailed: 'Save Failed, please try latter'
+        SaveFailed: 'Save Failed, please try latter',
+        NewNote: 'New Note',
+        EditNote: 'Edit Note'
 
     },
     "zh": {
@@ -22,7 +24,7 @@ var translations = {
         INTRO_TEXT : 'And it has i18n support!',
         BUTTON_TEXT_EN: 'english',
         BUTTON_TEXT_ZH: '中文',
-        Project: '我的项目',
+        Project: '项目管理',
         News: '资讯',
         Posts: '贴吧',
         Notes: '日志',
@@ -42,7 +44,12 @@ var translations = {
         Content: '内容',
         APICallFailed: '网络请求失败，请检查网络连接',
         SaveFailed: '保存失败，请稍候再试',
-        SaveFailedHeader: '保存失败'
+        SaveFailedHeader: '保存失败',
+        All: '全部',
+        NewNote: '新建日志',
+        EditNote: '编辑日志',
+        Submit: '保存',
+        Delete: '删除'
     }
 }
 

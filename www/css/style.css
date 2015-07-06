@@ -38,4 +38,10 @@ textarea {
     -o-transition: height 2s ease;
     transition: height 2s ease;
 }
+.custom-subheader {
+    padding-top: 90px;
+}
+.OA-content {
+    padding-top: 50px;
+}
 

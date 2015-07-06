@@ -22,6 +22,9 @@ angular.module('Holu.controllers', ['ngSanitize'])
         }
     })
     .controller("NewsCtrl", function ($scope, News, ServerUrl) {
+        News.newsTypes().then(function(response){
+            $scope.newsTypeList=response.data;
+        })
         News.all().then(function (response) {
             $scope.newsList = response.data;
         })
@@ -32,6 +35,11 @@ angular.module('Holu.controllers', ['ngSanitize'])
                 $scope.newsList = response.data;
             }).then(function(){
                 $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
+        $scope.newsListByType=function(typeId){
+            News.newsListByType(typeId).then(function(response){
+                $scope.newsList = response.data;
             })
         }
     })
@@ -104,7 +112,7 @@ angular.module('Holu.controllers', ['ngSanitize'])
                 });
         }
     })
-    .controller('NoteCtrl',function($scope,Notes,$ionicPopup,$rootScope, $state,$translate){
+    .controller('NoteCtrl',function($scope,Notes,$rootScope){
         Notes.all().then(function(response){
             $scope.noteList=response.data
         })
@@ -115,9 +123,24 @@ angular.module('Holu.controllers', ['ngSanitize'])
                 $scope.$broadcast('scroll.refreshComplete');
             })
         }
+        $rootScope.$on('NoteUpdate',function(){
+            console.log("Get event:NoteUpdate")
+            Notes.all().then(function(response){
+                $scope.noteList=response.data
+            })
+        })
+
+    })
+    .controller('NoteDetailCtrl', function ($scope, Notes, $stateParams,ServerUrl) {
+        Notes.view($stateParams.noteId).then(function (response) {
+            $scope.note = response.data;
+        })
+        $scope.ServerUrl = ServerUrl;
+    })
+    .controller('NoteNewCtrl',function($scope, Notes, $translate,$rootScope,$state,$ionicPopup){
         $scope.autoExpand = function(e) {
             var element = typeof e === 'object' ? e.target : document.getElementById(e);
-            var scrollHeight = element.scrollHeight -20; // replace 60 by the sum of padding-top and padding-bottom
+            var scrollHeight = element.scrollHeight - 5; // replace 60 by the sum of padding-top and padding-bottom
             element.style.height =  scrollHeight + "px";
         };
         $translate(['SaveFailed', 'SaveFailedHeader','APICallFailed']).then(function (translations) {
@@ -133,17 +156,17 @@ angular.module('Holu.controllers', ['ngSanitize'])
             Notes.save($scope.note.title,$scope.note.content,$rootScope.currentUser.id)
                 .success(function(data){
                     console.log("save note Controller:"+data)
-                   if(data.title==$scope.note.title){
-                      $state.go("tab.notes")
-                       doRefresh()
-                   }
+                    if(data.title==$scope.note.title){
+                        $rootScope.$broadcast('NoteUpdate',data);
+                        $state.go("tab.notes")
+                    }
                     else {
-                       console.log("save note Controller:"+data)
-                       var alertPopup = $ionicPopup.alert({
-                           title: $scope.SaveFailedHeader,
-                           template: $scope.SaveFailed
-                       });
-                   }
+                        console.log("save note Controller:"+data)
+                        var alertPopup = $ionicPopup.alert({
+                            title: $scope.SaveFailedHeader,
+                            template: $scope.SaveFailed
+                        });
+                    }
                 })
                 .error(function(data){
                     console.log("save note Controller:"+data)
@@ -154,12 +177,61 @@ angular.module('Holu.controllers', ['ngSanitize'])
                 })
         }
     })
-    .controller('NoteDetailCtrl', function ($scope, Notes, $stateParams,ServerUrl) {
+    .controller('NoteEditCtrl',function($scope, Notes, $stateParams,$translate,$rootScope,$state,$ionicPopup){
+        $scope.autoExpand = function(e) {
+            var element = typeof e === 'object' ? e.target : document.getElementById(e);
+            var scrollHeight = element.scrollHeight - 5; // replace 60 by the sum of padding-top and padding-bottom
+            element.style.height =  scrollHeight + "px";
+        };
+        $translate(['SaveFailed', 'SaveFailedHeader','APICallFailed']).then(function (translations) {
+            $scope.SaveFailed = translations.LoginFailHeader;
+            $scope.SaveFailedHeader = translations.SaveFailedHeader;
+            $scope.APICallFailed = translations.LoginFailMessage;
+        });
         Notes.view($stateParams.noteId).then(function (response) {
             $scope.note = response.data;
         })
-        $scope.ServerUrl = ServerUrl;
+        $scope.deleteNote=function(){
+            Notes.delete($scope.note.id).success(function(data){
+                $rootScope.$broadcast('NoteUpdate');
+                $state.go("tab.notes")
+            }).error(function(data){
+                var alertPopup = $ionicPopup.alert({
+                    title: $scope.SaveFailedHeader,
+                    template: $scope.SaveFailed
+                });
+            })
+        }
+        $scope.saveNote=function(){
+            if($scope.note.title=="" || $scope.note.content==""){
+                // to do block save process
+            }
+            Notes.save($scope.note.title,$scope.note.content,$rootScope.currentUser.id,$scope.note.id)
+                .success(function(data){
+                    console.log("save note Controller:"+data)
+                    if(data.title==$scope.note.title){
+                        $rootScope.$broadcast('NoteUpdate',data);
+
+                        $state.go("tab.notes")
+                    }
+                    else {
+                        console.log("save note Controller:"+data)
+                        var alertPopup = $ionicPopup.alert({
+                            title: $scope.SaveFailedHeader,
+                            template: $scope.SaveFailed
+                        });
+                    }
+                })
+                .error(function(data){
+                    console.log("save note Controller:"+data)
+                    var alertPopup = $ionicPopup.alert({
+                        title: $scope.SaveFailedHeader,
+                        template: $scope.APICallFailed
+                    });
+                })
+        }
     })
+
     .controller('ChatsCtrl', function ($scope, Chats) {
         // With the new view caching in Ionic, Controllers are only called
         // when they are recreated or on app start, instead of every page change.

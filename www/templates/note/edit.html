@@ -18,7 +18,7 @@
 
         <div class="list card padding">
             <div class="item">
-                <h2>{{'NewNote' | translate }}</h2>
+                <h2>{{'EditNote' | translate }}</h2>
             </div>
             <label class="item item-input item-stacked-label">
                 <span class="input-label">{{'Title' | translate }}: </span>
@@ -31,6 +31,7 @@
         </div>
         <div class="padding">
             <button class="button button-block button-calm activated" ng-click="saveNote()">{{ 'Submit' | translate }}</button>
+            <button class="button button-block button-assertive" ng-click="deleteNote()">{{ 'Delete' | translate }}</button>
         </div>
 
     </ion-content>

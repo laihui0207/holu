@@ -1,5 +1,20 @@
 <ion-view view-title="{{ 'Documents' | translate }}">
-    <ion-content>
+    <ion-header-bar class="bar bar-subheader custom-subheader">
+        <div class="tabs">
+            <a class="tab-item" ui-sref="tab.notes">
+                <p>{{ 'Notes' | translate }}</p>
+            </a>
+            <a class="tab-item tab-item-active" ui-sref="tab.docs">
+                <p>{{ 'Documents' | translate }}</p>
+            </a>
+            <a class="tab-item" ui-sref="tab.messages">
+                <p>{{ 'Messages' | translate }}</p>
+            </a>
+
+        </div>
+    </ion-header-bar>
+    <ion-content class="OA-content">
+
         <ion-refresher
                 pulling-text="{{ 'PullToFresh' | translate }}"
                 on-refresh="doRefresh()">

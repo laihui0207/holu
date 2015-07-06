@@ -1,5 +1,22 @@
 <ion-view view-title="{{ 'News' | translate }}">
-    <ion-content>
+    <ion-header-bar class="bar bar-subheader buttons-right custom-subheader">
+        <div class="tabs">
+            <a class="tab-item" ng-click="newsListByType('all')">
+                <p> {{'All' | translate }} </p>
+            </a>
+            <a class="tab-item" ng-repeat="newstype in newsTypeList" ng-click="newsListByType({{newstype.id}})">
+                <p>{{newstype.name}}</p>
+            </a>
+            <!--<a class="tab-item" ui-sref="tab.docs">
+                <p>{{ 'Documents' | translate }}</p>
+            </a>
+            <a class="tab-item" ui-sref="tab.messages">
+                <p>{{ 'Messages' | translate }}</p>
+            </a>-->
+        </div>
+
+    </ion-header-bar>
+    <ion-content class="OA-content">
         <ion-refresher
                 pulling-text="{{ 'PullToFresh' | translate }}"
                 on-refresh="doRefresh()">
