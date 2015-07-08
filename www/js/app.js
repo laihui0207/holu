@@ -61,16 +61,48 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
                     }
                 }
             })*/
+            .state('tab.messages', {
+                url: '/messages',
+                views: {
+                    'tab-OA': {
+                        templateUrl: 'templates/message/messagelist.html',
+                        controller: 'MessageCtrl'
+                    }
+                }
+            })
+            .state('tab.message-detail', {
+                url: '/messages/:messageId',
+                views: {
+                    'tab-OA': {
+                        templateUrl: 'templates/message/messageDetail.html',
+                        controller: 'MessageDetailCtrl'
+                    }
+                }
+            })
+            .state('tab.message-new', {
+                url: '/message/new',
+                views: {
+                    'tab-OA': {
+                        templateUrl: 'templates/message/new.html',
+                        controller: 'MessageNewCtrl'
+                    }
+                }
+            })
+            .state('tab.message-edit', {
+                url: '/message/edit/:messageId',
+                views: {
+                    'tab-OA': {
+                        templateUrl: 'templates/message/edit.html',
+                        controller: 'MessageEditCtrl'
+                    }
+                }
+            })
             .state('tab.news', {
                 url: '/news',
                 views: {
                     'tab-news': {
                         templateUrl: 'templates/news/newslist.html',
                         controller: 'NewsCtrl'
-                    },
-                    'menuList':{
-                        templateUrl: 'templates/menus/Loginedmenu.html',
-                        controller: 'NavCtrl'
                     }
                 }
             })
@@ -119,6 +151,15 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
                     }
                 }
             })
+            .state('tab.notes-send', {
+                url: '/note/send/:noteId',
+                views: {
+                    'tab-OA': {
+                        templateUrl: 'templates/note/send.html',
+                        controller: 'NoteSendCtrl'
+                    }
+                }
+            })
             .state('tab.note-detail', {
                 url: '/notes/:noteId',
                 views: {
@@ -156,7 +197,7 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
                     }
                 }
             })
-            .state('tab.messages', {
+           /* .state('tab.messages', {
                 url: '/chats',
                 views: {
                     'tab-messages': {
@@ -164,7 +205,7 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
                         controller: 'AccountCtrl'
                     }
                 }
-            })
+            })*/
             .state('tab.project', {
                 url: '/account',
                 views: {

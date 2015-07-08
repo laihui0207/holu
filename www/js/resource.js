@@ -16,7 +16,12 @@ var translations = {
         SaveFailedHeader: 'Failed',
         SaveFailed: 'Save Failed, please try latter',
         NewNote: 'New Note',
-        EditNote: 'Edit Note'
+        EditNote: 'Edit Note',
+        NoteDetail: 'Note Detail',
+        NewMessage: 'New Message',
+        MessageDetail: 'Message Detail',
+        EditMessage: 'Edit Message',
+        Edit: 'Edit'
 
     },
     "zh": {
@@ -49,7 +54,14 @@ var translations = {
         NewNote: '新建日志',
         EditNote: '编辑日志',
         Submit: '保存',
-        Delete: '删除'
+        Delete: '删除',
+        NoteDetail: '日志明细',
+        NewMessage: '新建消息',
+        MessageDetail: '消息明细',
+        EditMessage: '编辑消息',
+        Edit: '编辑',
+        Send: '发送'
+
     }
 }
 

@@ -1,0 +1,39 @@
+<ion-view view-title="{{ 'Messages' | translate }}">
+    <ion-header-bar class="bar bar-subheader buttons-right custom-subheader">
+        <div class="tabs">
+            <a class="tab-item " ui-sref="tab.notes">
+                <p>{{ 'Notes' | translate }}</p>
+            </a>
+            <a class="tab-item" ui-sref="tab.docs">
+                <p>{{ 'Documents' | translate }}</p>
+            </a>
+            <a class="tab-item tab-item-active" ui-sref="tab.messages">
+                <p>{{ 'Messages' | translate }}</p>
+            </a>
+        </div>
+
+    </ion-header-bar>
+    <ion-content class="padding OA-content">
+<!--        <div text-angular ng-model="htmlContent" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>-->
+
+        <div class="list card padding">
+            <div class="item">
+                <h2>{{'EditMessage' | translate }}</h2>
+            </div>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">{{'Title' | translate }}: </span>
+                <input type="text" ng-model="message.title">
+            </label>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">{{'Content' | translate }}: </span>
+                <textarea ng-keyup="autoExpand($event)" ng-model="message.content"></textarea>
+            </label>
+        </div>
+        <div class="padding">
+            <button class="button button-block button-calm activated" ng-click="save()">{{ 'Submit' | translate }}</button>
+            <button class="button button-block button-assertive" ng-click="delete()">{{ 'Delete' | translate }}</button>
+        </div>
+
+    </ion-content>
+
+</ion-view>

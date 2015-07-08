@@ -175,6 +175,82 @@ angular.module('Holu.services', [])
             return
         }
     })
+    .factory('Messages',function($http,$rootScope,$q,ServerUrl){
+        return({
+            list: listMyMessage,
+            view: getMessage,
+            save: saveMessage,
+            send: sendMessage,
+            delete: deleteMessage
+        })
+        function listMyMessage(userId){
+            return $http.get(ServerUrl+"/services/api/msgs/user/"+userId+".json")
+        }
+        function saveMessage(title,content,userId,messageId){
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            // verify username and password
+            $http({
+                method: 'POST',
+                url: ServerUrl + "/services/api/msgs.json",
+                data: "title="+title+"&content="+content+"&userId="+userId+"&messageId="+messageId,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (data) {
+                console.log("Message save:"+data)
+                if(data==""){
+                    deferred.reject('Failed');
+                }
+                else {
+                    deferred.resolve(data);
+                }
+            }).error(function (data) {
+                deferred.reject('Call Failed');
+            })
+
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
+        }
+        function getMessage(id){
+            return $http.get(ServerUrl+"/services/api/msgs/"+id+".json")
+        }
+        function sendMessage(){
+
+        }
+        function deleteMessage(messageId){
+            return $http.get(ServerUrl+"/services/api/msgs/"+messageId+"/delete.json")
+        }
+    })
+    .factory('UserService',function($http,ServerUrl){
+        return ({
+            list: listUser
+        })
+        function listUser(){
+            return $http.get(ServerUrl+"/services/api/users.json")
+        }
+    })
+    .factory('UserGroup',function($http,$q,ServerUlr){
+        return({
+            list: listUserGroups,
+            save: saveUserGroup,
+            delete: deleteUserGroup
+        })
+        function listUserGroups(){
+            return $http.get(ServerUrl+"/services/api/usergroups.json")
+        }
+        function saveUserGroup(){
+
+        }
+        function deleteUserGroup(){
+
+        }
+    })
     .factory('Notes',function($http,$q,ServerUrl){
         return({
             all: listNote,

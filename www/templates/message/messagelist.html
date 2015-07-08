@@ -1,0 +1,33 @@
+<ion-view view-title="{{ 'Messages' | translate }}">
+    <ion-header-bar class="bar bar-subheader buttons-right custom-subheader">
+        <div class="tabs">
+            <a class="tab-item" ui-sref="tab.notes">
+                <p>{{ 'Notes' | translate }}</p>
+            </a>
+            <a class="tab-item" ui-sref="tab.docs">
+                <p>{{ 'Documents' | translate }}</p>
+            </a>
+            <a class="tab-item tab-item-active" ui-sref="tab.messages">
+                <p>{{ 'Messages' | translate }}</p>
+            </a>
+        </div>
+
+    </ion-header-bar>
+    <ion-content class="OA-content">
+        <ion-refresher
+                pulling-text="{{ 'PullToFresh' | translate }}"
+                on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list>
+            <ion-item ng-repeat="message in messageList" class="item" href="#/tab/messages/{{message.id}}">
+                <h2>{{ message.title }}</h2>
+
+                <p> {{ message.createTime | date:'yyyy-MM-dd' }}</p>
+            </ion-item>
+
+        </ion-list>
+        <div class="row">
+            <a class="button  button-calm" href="#/tab/message/new">{{ 'NewMessage' | translate}} </a>
+        </div>
+    </ion-content>
+</ion-view>

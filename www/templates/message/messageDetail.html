@@ -1,13 +1,13 @@
-<ion-view view-title="{{ 'Notes' | translate }}">
+<ion-view view-title="{{ 'Messages' | translate }}">
     <ion-header-bar class="bar bar-subheader buttons-right custom-subheader">
         <div class="tabs">
-            <a class="tab-item tab-item-active" ui-sref="tab.notes">
+            <a class="tab-item " ui-sref="tab.notes">
                 <p>{{ 'Notes' | translate }}</p>
             </a>
             <a class="tab-item" ui-sref="tab.docs">
                 <p>{{ 'Documents' | translate }}</p>
             </a>
-            <a class="tab-item" ui-sref="tab.messages">
+            <a class="tab-item tab-item-active" ui-sref="tab.messages">
                 <p>{{ 'Messages' | translate }}</p>
             </a>
         </div>
@@ -15,27 +15,25 @@
     </ion-header-bar>
     <ion-content class="mainContent OA-content">
         <div class="list card">
-            <div class="item">
-                <h2>{{'NoteDetail' | translate }}</h2>
-            </div>
+
             <div class="item">
 <!--                <img src="avatar.jpg">-->
-                <h2>{{note.title}}</h2>
-                <p>{{note.createTime | date:'yyyy-MM-dd' }}</p>
+                <h2>{{message.title}}</h2>
+                <p>{{message.createTime | date:'yyyy-MM-dd' }}</p>
             </div>
 
            <!-- <div class="item item-image">
                 <img src="{{ServerUrl}}{{news.thumbnailUrl}}">
             </div>-->
             <div class="item item-body">
-                <p ng-bind-html="note.content | image:this"></p>
+                <p ng-bind-html="message.content"></p>
             </div>
             <!--<a class="item item-icon-left assertive" href="#">
                 <i class="icon ion-music-note"></i>
                 Start listening
             </a>-->
             <div class="item tabs tabs-secondary tabs-icon-left">
-                <a class="tab-item" href="/#/tab/note/edit/{{note.id}}">
+                <a class="tab-item" href="/#/tab/message/edit/{{message.id}}">
                     <i class="icon ion-edit"></i>
                     {{ 'Edit' | translate}}
                 </a>
