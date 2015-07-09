@@ -231,6 +231,54 @@ angular.module('Holu.controllers', ['ngSanitize'])
                 })
         }
     })
+    .controller('PostSubjectCtrl',function($scope,PostBars,$state,$rootScope){
+        PostBars.postSubjects().then(function(response){
+            $scope.subjectList=response.data
+        })
+        $scope.doRefresh = function () {
+            PostBars.postSubjects().then(function(response){
+                $scope.subjectList=response.data
+            }).then(function(){
+                $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
+    })
+    .controller('PostBarCtrl',function($scope,PostBars,$stateParams,$rootScope){
+        $scope.subjectId=$stateParams.subjectId;
+        PostBars.postBars($stateParams.subjectId).then(function(response){
+            $scope.postBarList=response.data
+        })
+        $scope.doRefresh = function () {
+            PostBars.postBars($stateParams.subjectId).then(function(response){
+                $scope.postBarList=response.data
+            }).then(function(){
+                $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
+    })
+    .controller('PostBarDetailCtrl',function($scope,PostBars,$stateParams,$rootScope){
+        PostBars.viewPost($stateParams.postbarId).then(function(response){
+            $scope.postbar=response.data
+        })
+        $scope.doRefresh = function () {
+            PostBars.viewPost($stateParams.postbarId).then(function(response){
+                $scope.postbar=response.data
+            }).then(function(){
+                $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
+    })
+    .controller('PostBarNewCtrl',function($scope,PostBars,$stateParams,$rootScope){
+       $scope.postBar={};
+        $scope.countries = [
+            {id: 1, text: 'USA', checked: false, icon: null},
+            {id: 2, text: 'France', checked: false, icon: 'https://www.zeendoc.com/wp-content/themes/zeendoc/img/french_flag_small.jpg'},
+            {id : 3, text: 'Japan', checked: true, icon: null}];
+
+        $scope.countries_text_single = 'Choose country';
+        $scope.countries_text_multiple = 'Choose countries';
+        $scope.val =  {single: null, multiple: null};
+    })
     .controller('MessageCtrl',function($scope,Messages,$state,$rootScope){
        /* if($rootScope.currentUser==undefined){
             $state.go("login")

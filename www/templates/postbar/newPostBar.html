@@ -1,0 +1,33 @@
+<ion-view view-title="{{ 'Notes' | translate }}">
+    <ion-content class="padding OA-content">
+<!--        <div text-angular ng-model="htmlContent" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>-->
+
+        <div class="list card padding">
+            <div class="item">
+                <h2>{{'NewNote' | translate }}</h2>
+            </div>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">{{'Title' | translate }}: </span>
+                <input type="text" ng-model="postBar.title">
+            </label>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">{{'Content' | translate }}: </span>
+                <textarea ng-keyup="autoExpand($event)" ng-model="postBar.content"></textarea>
+            </label>
+            <fancy-select
+                    header-text="Multiple"
+                    allow-empty='true'
+                    value="val.multiple"
+                    text="countries_text_multiple"
+                    items="countries"
+                    multi-select="true"
+                    >
+            </fancy-select>
+        </div>
+        <div class="padding">
+            <button class="button button-block button-calm activated" ng-click="saveNote()">{{ 'Submit' | translate }}</button>
+        </div>
+
+    </ion-content>
+
+</ion-view>

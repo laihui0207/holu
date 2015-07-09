@@ -1,0 +1,37 @@
+<ion-view view-title="{{ 'Notes' | translate }}">
+    <ion-content>
+        <div class="list card">
+            <div class="item">
+                <h2>{{'NoteDetail' | translate }}</h2>
+            </div>
+            <div class="item">
+<!--                <img src="avatar.jpg">-->
+                <h2>{{postbar.title}}</h2>
+                <p>{{postbar.createTime | date:'yyyy-MM-dd' }}</p>
+            </div>
+
+           <!-- <div class="item item-image">
+                <img src="{{ServerUrl}}{{news.thumbnailUrl}}">
+            </div>-->
+            <div class="item item-body">
+                <p ng-bind-html="postbar.content | image:this"></p>
+            </div>
+            <!--<a class="item item-icon-left assertive" href="#">
+                <i class="icon ion-music-note"></i>
+                Start listening
+            </a>-->
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" href="/#/tab/postbar/edit/{{postbar.id}}">
+                    <i class="icon ion-edit"></i>
+                    {{ 'Edit' | translate}}
+                </a>
+                <a class="tab-item" href="#">
+                    <i class="icon ion-share"></i>
+                    {{'Send' | translate }}
+                </a>
+            </div>
+        </div>
+
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,21 @@
+<ion-view view-title="{{ 'Posts' | translate }}">
+
+    <ion-content>
+
+        <ion-refresher
+                pulling-text="{{ 'PullToFresh' | translate }}"
+                on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list>
+            <ion-item  ng-repeat="item in postBarList" class="item item-button-right" href="#/tab/postbar/{{item.id}}"  >
+                <h2>{{ item.title }}</h2>
+                <p> {{item.createTime | date:'yyyy-MM-dd' }}</p>
+            </ion-item>
+
+        </ion-list>
+        <div class="row">
+            <a class="button  button-calm" href="#/tab/postbar/{{subjectId}}/new">{{ 'NewNote' | translate}} </a>
+        </div>
+
+    </ion-content>
+</ion-view>

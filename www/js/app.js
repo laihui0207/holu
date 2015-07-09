@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imageFilter','Holu.translate','textAngular'])
+angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imageFilter','Holu.translate','textAngular','Holu.SelectDirective'])
 
     .run(function ($ionicPlatform) {
         $ionicPlatform.ready(function () {
@@ -20,8 +20,8 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
             }
         });
     })
-/*    .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")*/
-    .constant("ServerUrl", "http://localhost:8087/holusystem")
+    .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")
+/*    .constant("ServerUrl", "http://localhost:8087/holusystem")*/
     .config(function ($stateProvider, $urlRouterProvider) {
 
         // Ionic uses AngularUI Router which uses the concept of states
@@ -121,6 +121,42 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
                     'tab-OA': {
                         templateUrl: 'templates/documentations/doclist.html',
                         controller: 'DocCtrl'
+                    }
+                }
+            })
+            .state('tab.postsubjects', {
+                url: '/postsubjects',
+                views: {
+                    'tab-posts': {
+                        templateUrl: 'templates/postbar/subjectlist.html',
+                        controller: 'PostSubjectCtrl'
+                    }
+                }
+            })
+            .state('tab.postbars', {
+                url: '/postbars/:subjectId',
+                views: {
+                    'tab-posts': {
+                        templateUrl: 'templates/postbar/postBarlist.html',
+                        controller: 'PostBarCtrl'
+                    }
+                }
+            })
+            .state('tab.postbar-detail', {
+                url: '/postbar/:postbarId',
+                views: {
+                    'tab-posts': {
+                        templateUrl: 'templates/postbar/postBarDetail.html',
+                        controller: 'PostBarDetailCtrl'
+                    }
+                }
+            })
+            .state('tab.postbar-new', {
+                url: '/postbar/:subjectId/new',
+                views: {
+                    'tab-posts': {
+                        templateUrl: 'templates/postbar/newPostBar.html',
+                        controller: 'PostBarNewCtrl'
                     }
                 }
             })

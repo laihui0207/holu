@@ -251,6 +251,52 @@ angular.module('Holu.services', [])
 
         }
     })
+    .factory('Projects',function($http,$q,ServerUrl){
+        return ({
+            projects: listMyProjects,
+            components: listComponentsOfProject,
+            processList: listProcessListOfComponents,
+            componentStyles: listComponentStyleOfCompanyAndStyle
+        })
+
+        function listMyProjects(userId){
+            return $http.get(ServerUrl+"/services/api/projects/user/"+userId+".json");
+        }
+        function listComponentsOfProject(projectId){
+            return $http.get(ServerUrl+"/services/api/components/project/"+projectId+".json");
+        }
+        function listProcessListOfComponents(styleName,companyId){
+            return $http.get(ServerUrl+"/services/api/company/"+companyId+"/style/"+styleName+".json")
+        }
+        function listComponentStyleOfCompanyAndStyle(){
+
+        }
+    })
+    .factory('PostBars',function($http,$q,ServerUrl){
+       return({
+           postSubjects: listPostSubjects,
+           postBars: listPostBarOfSubject,
+           viewPost: getPostBarById,
+           save: savePostBar,
+           replyPost: replyPostBar
+       })
+
+        function listPostSubjects(){
+            return $http.get(ServerUrl+"/services/api/postSubjects.json");
+        }
+        function listPostBarOfSubject(subjectId){
+            return $http.get(ServerUrl+"/services/api/postbars/subject/"+subjectId+".json")
+        }
+        function getPostBarById(postbarId){
+            return $http.get(ServerUrl+"/services/api/postbars/"+postbarId+".json")
+        }
+        function replyPostBar(content,postBarId,userId){
+
+        }
+        function savePostBar(content,subjectId,userId){
+
+        }
+    })
     .factory('Notes',function($http,$q,ServerUrl){
         return({
             all: listNote,
