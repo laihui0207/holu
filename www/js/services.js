@@ -141,40 +141,8 @@ angular.module('Holu.services', [])
             }
         };
     })
-    .factory('News', function ($http, ServerUrl) {
-        return ({
-            all: listNews,
-            viewNews: getNews,
-            newsTypes: getNewsTypes,
-            newsListByType: getNewsListByNewsType
-        })
-        function listNews() {
-            //return news;
-            return $http.get(ServerUrl + "/services/api/news.json")
-        }
 
-        function getNews(id) {
-            return $http.get(ServerUrl + "/services/api/news/" + id + ".json")
-        }
-        function getNewsTypes(){
-            return $http.get(ServerUrl+"/services/api/newstypes.json")
-        }
-        function getNewsListByNewsType(typeId){
-            return $http.get(ServerUrl+"/services/api/news/newstype/"+typeId+".json");
-        }
-    })
-    .factory('Documentations',function($http,ServerUrl){
-        return ({
-            all: listDoc,
-            download: downloadDoc
-        })
-        function listDoc(){
-            return $http.get(ServerUrl+"/services/api/Documentations.json")
-        }
-        function downloadDoc(){
-            return
-        }
-    })
+
     .factory('Messages',function($http,$rootScope,$q,ServerUrl){
         return({
             list: listMyMessage,
@@ -229,20 +197,20 @@ angular.module('Holu.services', [])
     })
     .factory('UserService',function($http,ServerUrl){
         return ({
-            list: listUser
+            listSlv: listUser
         })
         function listUser(){
-            return $http.get(ServerUrl+"/services/api/users.json")
+            return $http.get(ServerUrl+"/services/api/users/slv.json")
         }
     })
-    .factory('UserGroup',function($http,$q,ServerUlr){
+    .factory('UserGroup',function($http,$q,ServerUrl){
         return({
-            list: listUserGroups,
+            listSlv: listUserGroups,
             save: saveUserGroup,
             delete: deleteUserGroup
         })
         function listUserGroups(){
-            return $http.get(ServerUrl+"/services/api/usergroups.json")
+            return $http.get(ServerUrl+"/services/api/usergroups/slv.json")
         }
         function saveUserGroup(){
 

@@ -11,12 +11,13 @@ angular.module('Holu.SelectDirective', [])
                 restrict : 'E',
 
                 /* Our template */
-                templateUrl: 'fancy-select.html',
+                templateUrl: 'templates/fancy-select.html',
 
                 /* Attributes to set */
                 scope: {
                     'items'        : '=', /* Items list is mandatory */
                     'text'         : '=', /* Displayed text is mandatory */
+                    'label'        : '=',
                     'value'        : '=', /* Selected value binding is mandatory */
                     'callback'     : '&'
                 },
@@ -29,7 +30,7 @@ angular.module('Holu.SelectDirective', [])
 
                     /* Header used in ion-header-bar */
                     scope.headerText    = attrs.headerText || '';
-
+                    scope.label = scope.label || '';
                     /* Text displayed on label */
                     // scope.text          = attrs.text || '';
                     scope.defaultText   = scope.text || '';
@@ -63,7 +64,7 @@ angular.module('Holu.SelectDirective', [])
                      *
                      */
                     $ionicModal.fromTemplateUrl(
-                        'fancy-select-items.html',
+                        'templates/fancy-select-items.html',
                         {'scope': scope}
                     ).then(function(modal) {
                             scope.modal = modal;

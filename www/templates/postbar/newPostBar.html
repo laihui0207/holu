@@ -1,10 +1,10 @@
-<ion-view view-title="{{ 'Notes' | translate }}">
-    <ion-content class="padding OA-content">
+<ion-view view-title="{{ 'Posts' | translate }}">
+    <ion-content class="padding">
 <!--        <div text-angular ng-model="htmlContent" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>-->
 
         <div class="list card padding">
             <div class="item">
-                <h2>{{'NewNote' | translate }}</h2>
+                <h2>{{'NewPostBar' | translate }}</h2>
             </div>
             <label class="item item-input item-stacked-label">
                 <span class="input-label">{{'Title' | translate }}: </span>
@@ -12,17 +12,31 @@
             </label>
             <label class="item item-input item-stacked-label">
                 <span class="input-label">{{'Content' | translate }}: </span>
-                <textarea ng-keyup="autoExpand($event)" ng-model="postBar.content"></textarea>
+                <p>
+                    <textarea ng-keyup="autoExpand($event)" ng-model="postBar.content"></textarea>
+                </p>
             </label>
-            <fancy-select
-                    header-text="Multiple"
-                    allow-empty='true'
-                    value="val.multiple"
-                    text="countries_text_multiple"
-                    items="countries"
-                    multi-select="true"
-                    >
-            </fancy-select>
+
+                    <fancy-select class="item item-input"
+                                  header-text="{{'ChooseUserGroup' | translate }}"
+                                  allow-empty='true'
+                                  label="ChooseUserGroup"
+                                  value="postBar.groups"
+                                  text="NoChooseUserGroup"
+                                  items="userGroupList"
+                                  multi-select="true" >
+                    </fancy-select>
+
+
+                <fancy-select class="item item-input"
+                        header-text="{{'ChooseUser' | translate }}"
+                        allow-empty='true'
+                        value="postBar.users"
+                        label="ChooseUser"
+                        text="NoChooseUser"
+                        items="userList"
+                        multi-select="true" >
+                </fancy-select>
         </div>
         <div class="padding">
             <button class="button button-block button-calm activated" ng-click="saveNote()">{{ 'Submit' | translate }}</button>

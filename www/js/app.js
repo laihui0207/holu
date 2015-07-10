@@ -20,8 +20,8 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
             }
         });
     })
-    .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")
-/*    .constant("ServerUrl", "http://localhost:8087/holusystem")*/
+/*    .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")*/
+    .constant("ServerUrl", "http://localhost:8087/holusystem")
     .config(function ($stateProvider, $urlRouterProvider) {
 
         // Ionic uses AngularUI Router which uses the concept of states

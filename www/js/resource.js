@@ -21,7 +21,12 @@ var translations = {
         NewMessage: 'New Message',
         MessageDetail: 'Message Detail',
         EditMessage: 'Edit Message',
-        Edit: 'Edit'
+        Edit: 'Edit',
+        NewPostBar: 'New Post',
+        ChooseUser: 'Select User',
+        NoChooseUser: 'No Select User',
+        ChooseUserGroup: 'Select User Group',
+        NoChooseUserGroup: 'No Select User Group'
 
     },
     "zh": {
@@ -60,7 +65,12 @@ var translations = {
         MessageDetail: '消息明细',
         EditMessage: '编辑消息',
         Edit: '编辑',
-        Send: '发送'
+        Send: '发送',
+        NewPostBar: '发贴',
+        ChooseUser: '选择用户',
+        NoChooseUser: '没有选择用户',
+        ChooseUserGroup: '选择用户组',
+        NoChooseUserGroup: '没有选择用户组'
 
     }
 }
