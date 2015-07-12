@@ -22,6 +22,37 @@ angular.module('Holu')
         })
 
     })
+    .controller('NoteSendCtrl',function($scope, Notes,UserService,UserGroup,$rootScope,$stateParams,$translate,$state,$ionicPopup){
+        $scope.sendUsers="";
+        $scope.sendGroups="";
+        Notes.view($stateParams.noteId).then(function (response) {
+            $scope.note = response.data;
+        })
+        UserService.listSlv().then(function(response){
+            $scope.userList=response.data
+        })
+        UserGroup.listSlv().then(function(response){
+            $scope.groupList=response.data
+        })
+        $translate(['ChooseUser', 'ChooseUserGroup','NoChooseUser','NoChooseUserGroup']).then(function (translations) {
+            $scope.ChooseUser = translations.ChooseUser;
+            $scope.NoChooseUser = translations.NoChooseUser;
+            $scope.NoChooseUserGroup= translations.NoChooseUserGroup;
+            $scope.ChooseUserGroup = translations.ChooseUserGroup;
+        });
+        $scope.send=function(){
+            Notes.send($scope.note.id,$scope.sendUsers,$scope.sendGroups,$rootScope.currentUser.id)
+                .success(function(data){
+                    $state.go("tab.note-detail",{noteId:$scope.note.id})
+                })
+                .error(function(){
+                    var alertPopup = $ionicPopup.alert({
+                        title: $scope.SaveFailedHeader,
+                        template: $scope.SaveFailed
+                    });
+                })
+        }
+    })
     .controller('NoteDetailCtrl', function ($scope, Notes, $stateParams,ServerUrl) {
         Notes.view($stateParams.noteId).then(function (response) {
             $scope.note = response.data;

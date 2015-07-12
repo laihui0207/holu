@@ -1,33 +1,58 @@
-<ion-view view-title="{{ 'Notes' | translate }}">
+<ion-view view-title="{{ 'Posts' | translate }}">
+    <ion-refresher
+            pulling-text="{{ 'PullToFresh' | translate }}"
+            on-refresh="doRefresh()">
+    </ion-refresher>
     <ion-content>
-        <div class="list card">
+        <div class="list">
+            <!--<div class="item">
+                <h2>{{'PostBarDetail' | translate }}</h2>
+            </div>-->
             <div class="item">
-                <h2>{{'NoteDetail' | translate }}</h2>
-            </div>
-            <div class="item">
-<!--                <img src="avatar.jpg">-->
-                <h2>{{postbar.title}}</h2>
-                <p>{{postbar.createTime | date:'yyyy-MM-dd' }}</p>
+                <!--                <img src="avatar.jpg">-->
+                <h2>{{postBar.title}}</h2>
+
+                <p>{{postBar.createTime | date:'yyyy-MM-dd' }}</p>
             </div>
 
-           <!-- <div class="item item-image">
-                <img src="{{ServerUrl}}{{news.thumbnailUrl}}">
-            </div>-->
+            <!-- <div class="item item-image">
+                 <img src="{{ServerUrl}}{{news.thumbnailUrl}}">
+             </div>-->
             <div class="item item-body">
-                <p ng-bind-html="postbar.content | image:this"></p>
+                <p ng-bind-html="postBar.content | image:this"></p>
             </div>
             <!--<a class="item item-icon-left assertive" href="#">
                 <i class="icon ion-music-note"></i>
                 Start listening
             </a>-->
+
+            <!-- Reply List -->
+            <div class="item item-divider">
+                Reply List
+            </div>
+            <div class="item item-body" ng-repeat="reply in replyList">
+                {{reply.content}}
+                <span>{{reply.replyTime | date:'yyyy-MM-dd' }}</span>
+                <span class="item-note">{{reply.replier.fullName}}</span>
+            </div>
+            <div class="item item-divider">
+                Reply
+            </div>
+            <div class="item item-input">
+                <label>
+                    <span class="input-label">{{'Reply' | translate }}: </span>
+                    <input type="text" ng-model="postBar.reply.content" placeholder="{{'ReplyContent' | translate }}">
+                </label>
+            </div>
             <div class="item tabs tabs-secondary tabs-icon-left">
-                <a class="tab-item" href="/#/tab/postbar/edit/{{postbar.id}}">
+                <a class="tab-item" ng-if="postBar.creater.id==currentUser.id"
+                   href="/#/tab/postbar/{{postBar.postSubject.id}}/edit/{{postBar.id}}">
                     <i class="icon ion-edit"></i>
                     {{ 'Edit' | translate}}
                 </a>
-                <a class="tab-item" href="#">
+                <a class="tab-item" href="#" ng-click="reply()">
                     <i class="icon ion-share"></i>
-                    {{'Send' | translate }}
+                    {{'Reply' | translate }}
                 </a>
             </div>
         </div>

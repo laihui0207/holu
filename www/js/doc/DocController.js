@@ -15,7 +15,8 @@ angular.module('Holu')
             })
         }
         $scope.download = function() {
-            $ionicLoading.show({
+            window.open('http://ionicframework.com/img/ionic-logo-blog.png', '_system', 'location=yes');
+           /* $ionicLoading.show({
                 template: 'Loading...'
             });
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
@@ -61,6 +62,6 @@ angular.module('Holu')
                 function() {
                     $ionicLoading.hide();
                     console.log("Request for filesystem failed");
-                });
+                });*/
         }
     })

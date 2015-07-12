@@ -1,0 +1,14 @@
+<ion-view view-title="{{ 'Project' | translate }}">
+    <ion-content>
+        <ion-refresher
+                pulling-text="{{ 'PullToFresh' | translate }}"
+                on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list>
+            <ion-item ng-repeat="item in projectList" class="item" href="#/tab/projects/{{project.id}}">
+                <h2>{{ item.projectFullName }}</h2>
+            </ion-item>
+
+        </ion-list>
+    </ion-content>
+</ion-view>

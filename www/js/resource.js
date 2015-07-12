@@ -23,10 +23,19 @@ var translations = {
         EditMessage: 'Edit Message',
         Edit: 'Edit',
         NewPostBar: 'New Post',
-        ChooseUser: 'Select User',
+        PostBarDetail: 'Post Detail',
+        ChooseViewUser: 'Select View User',
+        ChooseReplyUser: 'Select Reply User',
         NoChooseUser: 'No Select User',
-        ChooseUserGroup: 'Select User Group',
-        NoChooseUserGroup: 'No Select User Group'
+        ChooseViewUserGroup: 'Select View User Group',
+        ChooseReplyUserGroup: 'Select Reply User Group',
+        NoChooseUserGroup: 'No Select User Group',
+        Reply: 'Reply',
+        ReplyContent: 'Reply content',
+        ViewLimit: 'View Limit',
+        ReplyLimit: 'Reply Limit',
+        ChooseUser: 'Select User',
+        ChooseUserGroup: 'Select User Group'
 
     },
     "zh": {
@@ -67,10 +76,19 @@ var translations = {
         Edit: '编辑',
         Send: '发送',
         NewPostBar: '发贴',
-        ChooseUser: '选择用户',
+        PostBarDetail: '发贴明细',
+        ChooseViewUser: '选择可浏览用户',
+        ChooseReplyUser: '选择可回复用户',
         NoChooseUser: '没有选择用户',
-        ChooseUserGroup: '选择用户组',
-        NoChooseUserGroup: '没有选择用户组'
+        ChooseViewUserGroup: '选择可浏览用户组',
+        ChooseReplyUserGroup: '选择可回复用户组',
+        NoChooseUserGroup: '没有选择用户组',
+        Reply: '回复',
+        ReplyContent: '回复内容',
+        ViewLimit: '浏览限制',
+        ReplyLimit: '回复限制',
+        ChooseUser: '选择用户',
+        ChooseUserGroup: '选择用户组'
 
     }
 }

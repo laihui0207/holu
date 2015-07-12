@@ -17,10 +17,6 @@
                     <textarea ng-keyup="autoExpand($event)" ng-model="postBar.content"></textarea>
                 </p>
             </label>
-           <!-- <label class="toggle">
-                <span class="checkbox">{{'Title' | translate }}: </span>
-                <input type="checkbox" ng-model="limitView">
-            </label>-->
             <div class="item">
                 <span class="checkbox">{{'ViewLimit' | translate }}: </span>
                 <label class="toggle">
@@ -78,10 +74,13 @@
 
 
 
+
         </div>
         <div class="padding">
             <button class="button button-block button-calm activated" ng-click="save()">{{ 'Submit' | translate }}
             </button>
+            <button class="button button-block button-assertive" ng-click="delete()">{{ 'Delete' | translate }}</button>
+
         </div>
 
     </ion-content>

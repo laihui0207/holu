@@ -97,6 +97,15 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
                     }
                 }
             })
+            .state('tab.message-send', {
+                url: '/message/send/:messageId',
+                views: {
+                    'tab-OA': {
+                        templateUrl: 'templates/message/send.html',
+                        controller: 'MessageSendCtrl'
+                    }
+                }
+            })
             .state('tab.news', {
                 url: '/news',
                 views: {
@@ -143,7 +152,7 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
                 }
             })
             .state('tab.postbar-detail', {
-                url: '/postbar/:postbarId',
+                url: '/postbar/:postBarId',
                 views: {
                     'tab-posts': {
                         templateUrl: 'templates/postbar/postBarDetail.html',
@@ -156,6 +165,15 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
                 views: {
                     'tab-posts': {
                         templateUrl: 'templates/postbar/newPostBar.html',
+                        controller: 'PostBarNewCtrl'
+                    }
+                }
+            })
+            .state('tab.postbar-edit', {
+                url: '/postbar/:subjectId/edit/:postBarId',
+                views: {
+                    'tab-posts': {
+                        templateUrl: 'templates/postbar/editPostBar.html',
                         controller: 'PostBarNewCtrl'
                     }
                 }
@@ -243,11 +261,11 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
                 }
             })*/
             .state('tab.project', {
-                url: '/account',
+                url: '/projects',
                 views: {
                     'tab-project': {
-                        templateUrl: 'templates/tab-account.html',
-                        controller: 'AccountCtrl'
+                        templateUrl: 'templates/project/projectlist.html',
+                        controller: 'ProjectCtrl'
                     }
                 }
             })

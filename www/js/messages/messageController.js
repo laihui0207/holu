@@ -32,6 +32,37 @@ angular.module('Holu')
             $scope.message=response.data
         })
     })
+    .controller('MessageSendCtrl',function($scope, Messages,UserService,UserGroup,$rootScope,$stateParams,$translate,$state,$ionicPopup){
+        $scope.sendUsers="";
+        $scope.sendGroups="";
+        Messages.view($stateParams.messageId).then(function(response){
+            $scope.message=response.data
+        })
+        UserService.listSlv().then(function(response){
+            $scope.userList=response.data
+        })
+        UserGroup.listSlv().then(function(response){
+            $scope.groupList=response.data
+        })
+        $translate(['ChooseUser', 'ChooseUserGroup','NoChooseUser','NoChooseUserGroup']).then(function (translations) {
+            $scope.ChooseUser = translations.ChooseUser;
+            $scope.NoChooseUser = translations.NoChooseUser;
+            $scope.NoChooseUserGroup= translations.NoChooseUserGroup;
+            $scope.ChooseUserGroup = translations.ChooseUserGroup;
+        });
+        $scope.send=function(){
+            Messages.send($scope.message.id,$scope.sendUsers,$scope.sendGroups,$rootScope.currentUser.id)
+                .success(function(data){
+                    $state.go("tab.message-detail",{messageId:$scope.message.id})
+                })
+                .error(function(){
+                    var alertPopup = $ionicPopup.alert({
+                        title: $scope.SaveFailedHeader,
+                        template: $scope.SaveFailed
+                    });
+                })
+        }
+    })
     .controller('MessageNewCtrl',function($scope,Messages,$translate,$rootScope,$state,$ionicPopup){
         $scope.autoExpand = function(e) {
             var element = typeof e === 'object' ? e.target : document.getElementById(e);

@@ -113,7 +113,26 @@ angular.module('Holu.SelectDirective', [])
                             scope.callback (scope.value);
                         }
                     }
+                    scope.init =function(){
+                        if (scope.multiSelect == true) {
 
+                            // Clear values
+                            scope.value = '';
+                            scope.text = '';
+
+                            // Loop on items
+                            jQuery.each(scope.items, function (index, item) {
+                                if (item.checked) {
+                                    scope.value = scope.value + item.id+';';
+                                    scope.text = scope.text + item.text+', ';
+                                }
+                            });
+
+                            // Remove trailing comma
+                            scope.value = scope.value.substr(0,scope.value.length - 1);
+                            scope.text = scope.text.substr(0,scope.text.length - 2);
+                        }
+                    }
                     /* Show list */
                     scope.showItems = function (event) {
                         event.preventDefault();
