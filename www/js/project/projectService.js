@@ -16,8 +16,8 @@ angular.module('Holu')
         function listComponentsOfProject(projectId){
             return $http.get(ServerUrl+"/services/api/components/project/"+projectId+".json");
         }
-        function listProcessListOfComponents(styleName,companyId){
-            return $http.get(ServerUrl+"/services/api/company/"+companyId+"/style/"+styleName+".json")
+        function listProcessListOfComponents(styleName,companyId,userId){
+            return $http.get(ServerUrl+"/services/api/componentStyles/company/"+companyId+"/style/"+styleName+"/user/"+userId+".json")
         }
         function listComponentStyleOfCompanyAndStyle(){
 

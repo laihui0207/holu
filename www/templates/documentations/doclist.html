@@ -28,7 +28,7 @@
                     <i class="icon ion-ios-download"></i>
                 </button>
             </ion-item>
-
+            <ion-item ng-show="!(DocList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>
 
     </ion-content>

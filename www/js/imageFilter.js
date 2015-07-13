@@ -10,7 +10,14 @@ angular.module('Holu.imageFilter', [])
             var newContent = input.replace(
                 new RegExp("(<img.*?(?: |\t|\r|\n)?src=['\"]?)(.+?)(['\"]?(?:(?: |\t|\r|\n)+.*?)?>)", 'gi'),
                 function ($0, $1, $2, $3) {
-                    return $1 + scope.ServerUrl + $2 + $3;
+                    var url=$2;
+                    if(!url.startsWith('http')){
+                        return $1 + scope.ServerUrl + $2 + $3;
+                    }
+                    else {
+                        return $0;
+                    }
+
                 });
             console.log(newContent);
             return newContent;

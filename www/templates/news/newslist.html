@@ -29,7 +29,7 @@
 
                 <p>{{'NewsType' | translate}}:{{item.newsType.name}} {{item.createTime | date:'yyyy-MM-dd' }}</p>
             </ion-item>
-
+            <ion-item ng-hide="(newsList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>
 
     </ion-content>

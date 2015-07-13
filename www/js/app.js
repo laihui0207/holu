@@ -20,8 +20,8 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
             }
         });
     })
-/*    .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")*/
-    .constant("ServerUrl", "http://localhost:8087/holusystem")
+    .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")
+/*    .constant("ServerUrl", "http://localhost:8087/holusystem")*/
     .config(function ($stateProvider, $urlRouterProvider) {
 
         // Ionic uses AngularUI Router which uses the concept of states
@@ -269,6 +269,25 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
                     }
                 }
             })
+            .state('tab.component', {
+                url: '/components/:projectId',
+                views: {
+                    'tab-project': {
+                        templateUrl: 'templates/project/componentlist.html',
+                        controller: 'ComponentCtrl'
+                    }
+                }
+            })
+            .state('tab.styles', {
+                url: '/componentStyle/:styleName/:companyId',
+                views: {
+                    'tab-project': {
+                        templateUrl: 'templates/project/componentstylelist.html',
+                        controller: 'ProcessCtrl'
+                    }
+                }
+            })
+
 
         ;
 

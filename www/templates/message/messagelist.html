@@ -24,7 +24,7 @@
 
                 <p> {{ message.createTime | date:'yyyy-MM-dd' }}</p>
             </ion-item>
-
+            <ion-item ng-show="!(messageList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>
         <div class="row">
             <a class="button  button-calm" href="#/tab/message/new">{{ 'NewMessage' | translate}} </a>

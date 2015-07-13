@@ -35,7 +35,8 @@ var translations = {
         ViewLimit: 'View Limit',
         ReplyLimit: 'Reply Limit',
         ChooseUser: 'Select User',
-        ChooseUserGroup: 'Select User Group'
+        ChooseUserGroup: 'Select User Group',
+        EmptyContent: 'No Content Find'
 
     },
     "zh": {
@@ -88,7 +89,8 @@ var translations = {
         ViewLimit: '浏览限制',
         ReplyLimit: '回复限制',
         ChooseUser: '选择用户',
-        ChooseUserGroup: '选择用户组'
+        ChooseUserGroup: '选择用户组',
+        EmptyContent: '没有内容'
 
     }
 }

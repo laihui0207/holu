@@ -5,10 +5,11 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item ng-repeat="item in projectList" class="item" href="#/tab/components/{{item.id}}">
-                <h2>{{ item.projectFullName }}</h2>
+            <ion-item ng-repeat="item in componentStyleList" class="item" href="#/tab/projects/{{project.id}}">
+                <h2>{{ item.styleName}} - {{item.processName}}</h2>
+                <button class="button button-clear" ng-if="item.operationer">Confirm</button>
             </ion-item>
-            <ion-item ng-show="!(projectList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
+
         </ion-list>
     </ion-content>
 </ion-view>
