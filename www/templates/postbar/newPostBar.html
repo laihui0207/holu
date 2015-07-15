@@ -13,10 +13,11 @@
             <label class="item item-input item-stacked-label">
                 <span class="input-label">{{'Content' | translate }}: </span>
 
-                <p>
+                <!--<p>
                     <textarea ng-keyup="autoExpand($event)" ng-model="postBar.content"></textarea>
-                </p>
+                </p>-->
             </label>
+            <div text-angular ng-model="postBar.content" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>
            <!-- <label class="toggle">
                 <span class="checkbox">{{'Title' | translate }}: </span>
                 <input type="checkbox" ng-model="limitView">

@@ -11,10 +11,10 @@ angular.module('textAngularSetup', [])
 // Here we set up the global display defaults, to set your own use a angular $provider#decorator.
 .value('taOptions',  {
 	toolbar: [
-		['h1', 'h2', 'h3', 'h4', 'h5', 'h6'/*, 'p', 'pre', 'quote'*/],
-		['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],
-		['justifyLeft','justifyCenter','justifyRight','indent','outdent']/*,
-		['html', 'insertImage', 'insertLink', /!*'insertVideo', 'wordcount', 'charcount'*!/]*/
+		['h1', 'h2', 'h3', 'h4',/* 'h5', 'h6',*/ 'p'/*, 'pre', 'quote'*/],
+		['bold', /*'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo',*/ 'undo', 'clear'],
+		['justifyLeft','justifyCenter','justifyRight','indent','outdent'],
+		['html', 'insertImage'/*, 'insertLink', 'insertVideo', 'wordcount', 'charcount'*/]
 	],
 	classes: {
 		focussed: "focussed",

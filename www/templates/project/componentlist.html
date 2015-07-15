@@ -5,11 +5,12 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item class="item-divider">Project Information</ion-item>
-            <ion-item>
-                Project
+            <ion-item class="item-divider">{{'ProjectInformation' | translate }}</ion-item>
+            <ion-item class="item-body">
+                <span>{{project.company.companyFullName}}</span>
+                <span>{{project.projectFullName}}</span>
             </ion-item>
-            <ion-item class="item-divider">Comonent List</ion-item>
+            <ion-item class="item-divider">{{'ComponentList' | translate }}</ion-item>
             <ion-item ng-repeat="item in componentList" class="item" href="#/tab/componentStyle/{{item.styleName}}/{{item.project.company.id}}">
                 <h2>{{ item.componentName}}</h2>
             </ion-item>

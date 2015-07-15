@@ -64,11 +64,14 @@ angular.module('Holu.SelectDirective', [])
                      *
                      */
                     $ionicModal.fromTemplateUrl(
-                        'templates/fancy-select-items.html',
-                        {'scope': scope}
-                    ).then(function(modal) {
+                        'templates/fancy-select-items.html', function(modal){
                             scope.modal = modal;
-                        });
+                        },
+                        {   scope: scope,
+                            animation: 'slide-in-up'
+                        }
+                    )
+
 
                     /* Validate selection from header bar */
                     scope.validate = function (event) {
@@ -135,7 +138,7 @@ angular.module('Holu.SelectDirective', [])
                     }
                     /* Show list */
                     scope.showItems = function (event) {
-                        event.preventDefault();
+                        //event.preventDefault();
                         scope.modal.show();
                     }
 

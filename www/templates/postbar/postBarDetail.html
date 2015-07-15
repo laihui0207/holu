@@ -28,7 +28,7 @@
 
             <!-- Reply List -->
             <div class="item item-divider">
-                Reply List
+                {{'ReplyList' | translate }}
             </div>
             <div class="item item-body" ng-repeat="reply in replyList">
                 {{reply.content}}
@@ -36,7 +36,7 @@
                 <span class="item-note">{{reply.replier.fullName}}</span>
             </div>
             <div class="item item-divider">
-                Reply
+                {{'Reply' | translate }}
             </div>
             <div class="item item-input">
                 <label>
@@ -46,7 +46,7 @@
             </div>
             <div class="item tabs tabs-secondary tabs-icon-left">
                 <a class="tab-item" ng-if="postBar.creater.id==currentUser.id"
-                   href="/#/tab/postbar/{{postBar.postSubject.id}}/edit/{{postBar.id}}">
+                   href="#/tab/postbar/{{postBar.postSubject.id}}/edit/{{postBar.id}}">
                     <i class="icon ion-edit"></i>
                     {{ 'Edit' | translate}}
                 </a>

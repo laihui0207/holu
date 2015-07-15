@@ -36,7 +36,11 @@ var translations = {
         ReplyLimit: 'Reply Limit',
         ChooseUser: 'Select User',
         ChooseUserGroup: 'Select User Group',
-        EmptyContent: 'No Content Find'
+        EmptyContent: 'No Content Find',
+        ReplyList: 'Reply List',
+        ProjectInformation: 'Project Information',
+        ComponentList: 'Component List'
+
 
     },
     "zh": {
@@ -90,7 +94,10 @@ var translations = {
         ReplyLimit: '回复限制',
         ChooseUser: '选择用户',
         ChooseUserGroup: '选择用户组',
-        EmptyContent: '没有内容'
+        EmptyContent: '没有内容',
+        ReplyList: '回复列表',
+        ProjectInformation: '项目信息',
+        ComponentList: '构件列表'
 
     }
 }

@@ -5,11 +5,14 @@ angular.module('Holu')
     .factory('Projects',function($http,$q,ServerUrl){
         return ({
             projects: listMyProjects,
+            viewProject: getProject,
             components: listComponentsOfProject,
             processList: listProcessListOfComponents,
             componentStyles: listComponentStyleOfCompanyAndStyle
         })
-
+        function getProject(id){
+            return $http.get(ServerUrl+"/services/api/projects/"+id+".json")
+        }
         function listMyProjects(userId){
             return $http.get(ServerUrl+"/services/api/projects/user/"+userId+".json");
         }

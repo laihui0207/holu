@@ -12,7 +12,10 @@ angular.module('Holu.imageFilter', [])
                 function ($0, $1, $2, $3) {
                     var url=$2;
                     if(!url.startsWith('http')){
-                        return $1 + scope.ServerUrl + $2 + $3;
+                        if(url.indexOf("/attached")>0){
+                            url=url.substring(url.indexOf("/attached"))
+                        }
+                        return $1 + scope.ServerUrl + url + $3;
                     }
                     else {
                         return $0;

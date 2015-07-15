@@ -7,7 +7,7 @@
         <ion-list>
             <ion-item ng-repeat="item in componentStyleList" class="item" href="#/tab/projects/{{project.id}}">
                 <h2>{{ item.styleName}} - {{item.processName}}</h2>
-                <button class="button button-clear" ng-if="item.operationer">Confirm</button>
+                <button class="button button-clear item-note" ng-if="item.operationer" ng-click="">Confirm</button>
             </ion-item>
 
         </ion-list>

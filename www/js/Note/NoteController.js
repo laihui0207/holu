@@ -3,7 +3,7 @@
  */
 
 angular.module('Holu')
-    .controller('NoteCtrl',function($scope,Notes,$rootScope){
+    .controller('NoteCtrl',function($scope,Notes,$rootScope,ServerUrl){
         Notes.all().then(function(response){
             $scope.noteList=response.data
         })
@@ -14,6 +14,7 @@ angular.module('Holu')
                 $scope.$broadcast('scroll.refreshComplete');
             })
         }
+        $scope.ServerUrl = ServerUrl;
         $rootScope.$on('NoteUpdate',function(){
             console.log("Get event:NoteUpdate")
             Notes.all().then(function(response){
@@ -22,12 +23,13 @@ angular.module('Holu')
         })
 
     })
-    .controller('NoteSendCtrl',function($scope, Notes,UserService,UserGroup,$rootScope,$stateParams,$translate,$state,$ionicPopup){
+    .controller('NoteSendCtrl',function($scope, Notes,UserService,UserGroup,$rootScope,$stateParams,$translate,$state,$ionicPopup,ServerUrl){
         $scope.sendUsers="";
         $scope.sendGroups="";
         Notes.view($stateParams.noteId).then(function (response) {
             $scope.note = response.data;
         })
+        $scope.ServerUrl = ServerUrl;
         UserService.listSlv().then(function(response){
             $scope.userList=response.data
         })
@@ -99,12 +101,13 @@ angular.module('Holu')
                 })
         }
     })
-    .controller('NoteEditCtrl',function($scope, Notes, $stateParams,$translate,$rootScope,$state,$ionicPopup){
+    .controller('NoteEditCtrl',function($scope, Notes, $stateParams,$translate,$rootScope,$state,$ionicPopup,ServerUrl){
         $scope.autoExpand = function(e) {
             var element = typeof e === 'object' ? e.target : document.getElementById(e);
             var scrollHeight = element.scrollHeight - 5; // replace 60 by the sum of padding-top and padding-bottom
             element.style.height =  scrollHeight + "px";
         };
+        $scope.ServerUrl = ServerUrl;
         $translate(['SaveFailed', 'SaveFailedHeader','APICallFailed']).then(function (translations) {
             $scope.SaveFailed = translations.LoginFailHeader;
             $scope.SaveFailedHeader = translations.SaveFailedHeader;
@@ -113,6 +116,23 @@ angular.module('Holu')
         Notes.view($stateParams.noteId).then(function (response) {
             $scope.note = response.data;
         })
+        /*$scope.$watch('note.content',function(){
+            $scope.note.content.replace(
+                new RegExp("(<img.*?(?: |\t|\r|\n)?src=['\"]?)(.+?)(['\"]?(?:(?: |\t|\r|\n)+.*?)?>)", 'gi'),
+                function ($0, $1, $2, $3) {
+                    var url=$2;
+                    if(!url.startsWith('http')){
+                        if(url.indexOf("/attached")>0){
+                            url=url.substring(url.indexOf("/attached"))
+                        }
+                        return $1 + ServerUrl + url + $3;
+                    }
+                    else {
+                        return $0;
+                    }
+
+                });
+        })*/
         $scope.deleteNote=function(){
             Notes.delete($scope.note.id).success(function(data){
                 $rootScope.$broadcast('NoteUpdate');

@@ -28,6 +28,7 @@
                 <span class="input-label">{{'Content' | translate }}: </span>
                 <textarea ng-keyup="autoExpand($event)" ng-model="note.content" readonly="readonly"></textarea>
             </label>
+             <div text-angular ng-model="note.content" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>
             <fancy-select class="item item-input"
                           header-text="{{'ChooseUser' | translate }}"
                           allow-empty='true'

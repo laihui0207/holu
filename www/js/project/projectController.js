@@ -20,6 +20,10 @@ angular.module('Holu')
         }
     })
     .controller('ComponentCtrl',function($scope,Projects,$rootScope,$stateParams){
+        Projects.viewProject($stateParams.projectId).then(function(response){
+            $scope.project=response.data
+        })
+
         Projects.components($stateParams.projectId).then(function(response){
             $scope.componentList=response.data
         })
@@ -41,5 +45,8 @@ angular.module('Holu')
             }).then(function(){
                 $scope.$broadcast('scroll.refreshComplete');
             })
+        }
+        $scope.confirmProcess=function(){
+
         }
     })
