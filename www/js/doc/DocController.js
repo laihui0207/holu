@@ -2,7 +2,7 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .controller('DocCtrl',function($scope,Documentations,$ionicLoading,ServerUrl){
+    .controller('DocCtrl',function($scope,$ionicPlatform,Documentations,$ionicLoading,ServerUrl){
         Documentations.all().then(function(response){
             $scope.DocList=response.data;
         })
@@ -14,9 +14,10 @@ angular.module('Holu')
                 $scope.$broadcast('scroll.refreshComplete');
             })
         }
-        $scope.download = function() {
-            window.open('http://ionicframework.com/img/ionic-logo-blog.png', '_system', 'location=yes');
-           /* $ionicLoading.show({
+
+        $scope.download = function(fileName,docId) {
+/*            window.open('http://ionicframework.com/img/ionic-logo-blog.png', '_system', 'location=yes');*/
+            $ionicLoading.show({
                 template: 'Loading...'
             });
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
@@ -27,7 +28,7 @@ angular.module('Holu')
                         },
                         function(dirEntry) {
                             dirEntry.getFile(
-                                "test.png",
+                                fileName,
                                 {
                                     create: true,
                                     exclusive: false
@@ -37,7 +38,7 @@ angular.module('Holu')
                                     fe.remove();
                                     ft = new FileTransfer();
                                     ft.download(
-                                        encodeURI("http://ionicframework.com/img/ionic-logo-blog.png"),
+                                        encodeURI(ServerUrl+"/services/api/Documentations/"+docId+"/download.json"),
                                         p,
                                         function(entry) {
                                             $ionicLoading.hide();
@@ -62,6 +63,6 @@ angular.module('Holu')
                 function() {
                     $ionicLoading.hide();
                     console.log("Request for filesystem failed");
-                });*/
+                });
         }
     })

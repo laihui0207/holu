@@ -22,14 +22,17 @@
         <ion-list>
             <ion-item  ng-repeat="doc in DocList" class="item item-button-right" >
                 <h2>{{ doc.name }}</h2>
-                <p> {{doc.createTime | date:'yyyy-MM-dd' }}</p>
-                <p>{{doc.introduction }}</p>
-                <button class="button button-positive" ng-click="download()" >
+                <p>{{'FileName'| translate}}: {{doc.fileName}}</p>
+                <p>{{'Owner' | translate }}:{{doc.creater.fullName}}
+                 {{doc.createTime | date:'yyyy-MM-dd' }}</p>
+                <p>{{imgFile}}</p>
+                <p ng-bind-html="doc.introduction | image:this"></p>
+                <button class="button button-positive" ng-click="download(doc.fileName,doc.id)" >
                     <i class="icon ion-ios-download"></i>
                 </button>
             </ion-item>
             <ion-item ng-show="!(DocList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>
-
+		<button class="button" ng-click="download()"> Download</button>
     </ion-content>
 </ion-view>

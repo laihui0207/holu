@@ -12,11 +12,15 @@ angular.module('Holu')
         $scope.ServerUrl = ServerUrl;
 
         $scope.doRefresh = function () {
+            News.newsTypes().then(function(response){
+                $scope.newsTypeList=response.data;
+            })
             News.all().then(function (response) {
                 $scope.newsList = response.data;
             }).then(function(){
                 $scope.$broadcast('scroll.refreshComplete');
             })
+
         }
         $scope.newsListByType=function(typeId){
             News.newsListByType(typeId).then(function(response){

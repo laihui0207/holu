@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imageFilter','Holu.translate','textAngular','Holu.SelectDirective'])
+angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services', 'Holu.imageFilter','Holu.translate','textAngular','Holu.SelectDirective'])
 
     .run(function ($ionicPlatform) {
         $ionicPlatform.ready(function () {
@@ -20,8 +20,9 @@ angular.module('Holu', ['ionic', 'Holu.controllers', 'Holu.services', 'Holu.imag
             }
         });
     })
-/*   .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")*/
-    .constant("ServerUrl", "http://localhost:8087/holusystem")
+  .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")
+/*   .constant("ServerUrl", "http://localhost:8087/holusystem")*/
+/*    .constant("ServerUrl", "http://192.168.199.162:8087/holusystem")*/
     .config(function ($stateProvider, $urlRouterProvider) {
 
         // Ionic uses AngularUI Router which uses the concept of states
