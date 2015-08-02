@@ -5,8 +5,13 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item ng-repeat="item in projectList" class="item" href="#/tab/components/{{item.id}}">
-                <h2>{{ item.projectFullName }}</h2>
+            <ion-item ng-repeat="item in projectList" class="item" href="#/tab/components/{{item.projectID}}">
+                <h2>{{ item.projectName }}</h2>
+                <p class="summary">
+                    <span>{{item.company.companyFullName}}</span>
+                    <span class="item-note ago" am-time-ago="item.startDate"/>
+<!--                    <span>{{item.childProjects.size}}</span>-->
+                </p>
             </ion-item>
             <ion-item ng-show="!(projectList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>

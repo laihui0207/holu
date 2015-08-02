@@ -2,17 +2,19 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .controller('ProjectCtrl', function ($scope,Projects,$rootScope) {
-        if($rootScope.currentUser==undefined){
+    .controller('ProjectCtrl', function ($scope,Projects,$rootScope,AuthService,$state) {
+        var user=AuthService.currentUser();
+        console.log("Project user:"+user);
+        if(user == undefined){
             $rootScope.backurl="tab.project"
             $state.go("login")
             return
         }
-        Projects.projects($rootScope.currentUser.id).then(function(response){
+        Projects.projects($rootScope.currentUser.userID).then(function(response){
             $scope.projectList=response.data
         })
         $scope.doRefresh = function () {
-            Projects.projects($rootScope.currentUser.id).then(function(response){
+            Projects.projects($rootScope.currentUser.userID).then(function(response){
                 $scope.projectList=response.data
             }).then(function(){
                 $scope.$broadcast('scroll.refreshComplete');

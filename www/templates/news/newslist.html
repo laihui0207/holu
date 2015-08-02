@@ -27,7 +27,10 @@
 
                 <h2>{{ item.title }}</h2>
 
-                <p>{{'NewsType' | translate}}:{{item.newsType.name}} {{item.createTime | date:'yyyy-MM-dd' }}</p>
+                <p class="summary">
+                    <span><!--{{'NewsType' | translate}}:-->{{item.newsType.name}} <!--{{item.createTime | date:'yyyy-MM-dd' }}--></span>
+                    <span class="item-note ago" am-time-ago="item.createTime"/>
+                </p>
             </ion-item>
             <ion-item ng-hide="(newsList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>

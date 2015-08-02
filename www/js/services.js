@@ -1,26 +1,50 @@
 angular.module('Holu.services', [])
-    .factory('AuthService', function ($http, ServerUrl, $q,$rootScope,menuItemService) {
+    .factory('Storage', function() {
+        "use strict";
+        return {
+            set: function(key, data) {
+                return window.localStorage.setItem(key, window.JSON.stringify(data));
+            },
+            get: function(key) {
+
+                return window.JSON.parse(window.localStorage.getItem(key));
+            },
+            remove: function(key) {
+                return window.localStorage.removeItem(key);
+            }
+        };
+    })
+    .factory('AuthService', function ($http, ENV, $q,$rootScope,menuItemService,Storage) {
         return ({
             login: doLogin,
             setCred: saveCred,
-            clearCred: ClearCredentials
+            clearCred: ClearCredentials,
+            logged: isLogged,
+            logout: doLogout,
+            currentUser: getCurrentUser
         })
+        var storageKey = 'holu.user';
+        var credentailKey="holu.cred";
+        var user = Storage.get(storageKey) || {};
         function doLogin(userName, pw) {
             var deferred = $q.defer();
             var promise = deferred.promise;
             // verify username and password
             $http({
                 method: 'POST',
-                url: ServerUrl + "/services/api/users/userLogin.json",
+                url: ENV.ServerUrl + "/services/api/users/userLogin.json",
                 data: "username="+userName+"&password="+pw,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
-                console.log("loo" + data);
+                console.log("login" + data);
                 if(data==""){
                     deferred.reject('Wrong credentials.');
                 }
                 else {
                     $rootScope.currentUser=data;
+                    Storage.set(storageKey, data);
+                    user=data;
+                    //saveCred(userName,pw);
                     $rootScope.menuItems=menuItemService.menuList(true);
                     deferred.resolve('Welcome ' + userName + '!');
                 }
@@ -39,7 +63,17 @@ angular.module('Holu.services', [])
             }
             return promise;
         }
-
+        function isLogged(){
+           return user == {}
+        }
+        function doLogout(){
+            user = {};
+            Storage.remove(storageKey);
+            //ClearCredentials()
+        }
+        function getCurrentUser(){
+            return user;
+        }
         function saveCred(userName, password) {
             var authdata = Base64.encode(userName + ':' + password);
             $rootScope.globals = {
@@ -48,7 +82,7 @@ angular.module('Holu.services', [])
                     authdata: authdata
                 }
             };
-
+            Storage.set(credentailKey,$rootScope.globals);
             $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
             $cookieStore.put('globals', $rootScope.globals);
         }
@@ -56,6 +90,7 @@ angular.module('Holu.services', [])
         function ClearCredentials() {
             $rootScope.globals = {};
             $cookieStore.remove('globals');
+            Storage.remove(credentailKey);
             $http.defaults.headers.common.Authorization = 'Basic ';
         }
 
@@ -142,22 +177,22 @@ angular.module('Holu.services', [])
         };
     })
 
-    .factory('UserService',function($http,ServerUrl){
+    .factory('UserService',function($http,ENV){
         return ({
             listSlv: listUser
         })
         function listUser(){
-            return $http.get(ServerUrl+"/services/api/users/slv.json")
+            return $http.get(ENV.ServerUrl+"/services/api/users/slv.json")
         }
     })
-    .factory('UserGroup',function($http,$q,ServerUrl){
+    .factory('UserGroup',function($http,$q,ENV){
         return({
             listSlv: listUserGroups,
             save: saveUserGroup,
             delete: deleteUserGroup
         })
         function listUserGroups(){
-            return $http.get(ServerUrl+"/services/api/usergroups/slv.json")
+            return $http.get(ENV.ServerUrl+"/services/api/usergroups/slv.json")
         }
         function saveUserGroup(){
 

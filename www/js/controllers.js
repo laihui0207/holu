@@ -9,6 +9,7 @@ angular.module('Holu.controllers', ['ngSanitize'])
         $scope.login=function(){
             AuthService.login($scope.data.userName,$scope.data.password).success(function(data){
                 $scope.data={};
+                $rootScope.$broadcast('holu.logged');
                 if($rootScope.backurl != undefined){
                     backurl=$rootScope.backurl;
                     $rootScope.backurl=undefined;
@@ -30,7 +31,16 @@ angular.module('Holu.controllers', ['ngSanitize'])
             $translate.use(langKey);
         };
     })
-    .controller('NavCtrl', function ($scope,$rootScope, $ionicSideMenuDelegate,$state,menuItemService) {
+    .controller('NavCtrl', function ($scope,$rootScope, $ionicSideMenuDelegate,$state,menuItemService,AuthService,$translate) {
+         var currentUser=AuthService.currentUser();
+        if(currentUser!= undefined){
+            $scope.userName=currentUser.username || null;
+        }
+        $translate(['mainMenu', 'rightMenu','mainMenuHeader']).then(function (translations) {
+            $scope.mainMenu = translations.mainMenu;
+            $scope.rightMenu = translations.rightMenu;
+            $scope.mainMenuHeader = translations.mainMenuHeader;
+        });
         $scope.showMenu = function () {
             $ionicSideMenuDelegate.toggleLeft();
         };
@@ -38,10 +48,22 @@ angular.module('Holu.controllers', ['ngSanitize'])
             $ionicSideMenuDelegate.toggleRight();
         };
         $scope.logout=function(){
-            $rootScope.currentUser="";
-            $rootScope.menuItems=menuItemService.menuList(false);
+            $rootScope.$broadcast('holu.logout');
             $state.go('login')
         }
+        $rootScope.$on('holu.logged',function(){
+            console.log("Get event:Logged")
+            var currentUser=AuthService.currentUser();
+            if(currentUser!= undefined){
+                $scope.userName=currentUser.username || null;
+            }
+            $scope.menuItems=menuItemService.menuList(true);
+        })
+        $rootScope.$on('holu.logout',function(){
+            console.log("Get event:Logout")
+            $scope.userName=null;
+            $scope.menuItems=menuItemService.menuList(false);
+        })
     })
     .controller('AccountCtrl', function ($scope,$state, $ionicModal ) {
 

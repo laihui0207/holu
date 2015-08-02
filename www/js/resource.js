@@ -39,7 +39,10 @@ var translations = {
         EmptyContent: 'No Content Find',
         ReplyList: 'Reply List',
         ProjectInformation: 'Project Information',
-        ComponentList: 'Component List'
+        ComponentList: 'Component List',
+        mainMenu: 'Main Menu',
+        mainMenuHeader: 'Menu',
+        rightMenu: 'Right Menu'
 
 
     },
@@ -97,7 +100,10 @@ var translations = {
         EmptyContent: '没有内容',
         ReplyList: '回复列表',
         ProjectInformation: '项目信息',
-        ComponentList: '构件列表'
+        ComponentList: '构件列表',
+        mainMenu: '主菜单',
+        mainMenuHeader: '菜单',
+        rightMenu: '设置'
 
     }
 }

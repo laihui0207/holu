@@ -8,7 +8,7 @@
             <ion-item class="item-divider">{{'ProjectInformation' | translate }}</ion-item>
             <ion-item class="item-body">
                 <span>{{project.company.companyFullName}}</span>
-                <span>{{project.projectFullName}}</span>
+                <span>{{project.projectName}}</span>
             </ion-item>
             <ion-item class="item-divider">{{'ComponentList' | translate }}</ion-item>
             <ion-item ng-repeat="item in componentList" class="item" href="#/tab/componentStyle/{{item.styleName}}/{{item.project.company.id}}">
