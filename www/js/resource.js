@@ -42,7 +42,10 @@ var translations = {
         ComponentList: 'Component List',
         mainMenu: 'Main Menu',
         mainMenuHeader: 'Menu',
-        rightMenu: 'Right Menu'
+        rightMenu: 'Right Menu',
+        childProject: 'Child Project',
+        component: 'Component',
+        ComponentList: 'Sub component'
 
 
     },
@@ -103,7 +106,10 @@ var translations = {
         ComponentList: '构件列表',
         mainMenu: '主菜单',
         mainMenuHeader: '菜单',
-        rightMenu: '设置'
+        rightMenu: '设置',
+        childProject: '子项目',
+        component: '构件',
+        subComponent: '子构件'
 
     }
 }

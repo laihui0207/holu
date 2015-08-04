@@ -271,6 +271,15 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                     }
                 }
             })
+            .state('tab.subProject', {
+                url: '/projects/:projectID',
+                views: {
+                    'tab-project': {
+                        templateUrl: 'templates/project/projectlist.html',
+                        controller: 'ProjectCtrl'
+                    }
+                }
+            })
             .state('tab.component', {
                 url: '/components/:projectId',
                 views: {
@@ -280,8 +289,17 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                     }
                 }
             })
+            .state('tab.subComponent', {
+                url: '/subComponent/:componentID',
+                views: {
+                    'tab-project': {
+                        templateUrl: 'templates/project/subcomponentlist.html',
+                        controller: 'SubComponentCtrl'
+                    }
+                }
+            })
             .state('tab.styles', {
-                url: '/componentStyle/:styleName/:companyId',
+                url: '/componentStyle/:styleID',
                 views: {
                     'tab-project': {
                         templateUrl: 'templates/project/componentstylelist.html',

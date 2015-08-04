@@ -5,28 +5,36 @@ angular.module('Holu')
     .factory('Projects',function($http,$q,ENV){
         return ({
             projects: listMyProjects,
-            subProjects: listSubProject,
             viewProject: getProject,
             components: listComponentsOfProject,
+            subComponents: listSubComponents,
+            viewComponent: getComponent,
             processList: listProcessListOfComponents,
             componentStyles: listComponentStyleOfCompanyAndStyle
         })
         function getProject(id){
             return $http.get(ENV.ServerUrl+"/services/api/projects/"+id+".json")
         }
-        function listMyProjects(userId){
-            return $http.get(ENV.ServerUrl+"/services/api/projects/user/"+userId+".json");
+        function listMyProjects(userId,parentID){
+            var serivceURL=ENV.ServerUrl+"/services/api/projects/user/"+userId+".json";
+            if(parentID!=undefined){
+                serivceURL+="?parentID="+parentID;
+            }
+            return $http.get(serivceURL);
         }
-        function listSubProject(userID,parentID){
-            return $http.get(ENV.ServerUrl+"/services/api/projects/user/"+userID+"/"+parentID+".json");
+        function listSubComponents(componentID,userID){
+            return $http.get(ENV.ServerUrl+"/services/api/subComponents/"+componentID+"/"+userID+".json");
         }
-        function listComponentsOfProject(projectId){
-            return $http.get(ENV.ServerUrl+"/services/api/components/project/"+projectId+".json");
+        function getComponent(componentID,userID){
+            return $http.get(ENV.ServerUrl+"/services/api/components/"+componentID+"/"+userID+".json");
         }
-        function listProcessListOfComponents(styleName,companyId,userId){
-            return $http.get(ENV.ServerUrl+"/services/api/componentStyles/company/"+companyId+"/style/"+styleName+"/user/"+userId+".json")
+        function listComponentsOfProject(projectId,userID){
+            return $http.get(ENV.ServerUrl+"/services/api/components/project/"+projectId+"/u/"+userID+".json");
         }
-        function listComponentStyleOfCompanyAndStyle(){
-
+        function listProcessListOfComponents(styleID,companyId,userId){
+            return $http.get(ENV.ServerUrl+"/services/api/componentStyles/processList/"+companyId+"/"+styleID+"/"+userId+".json")
+        }
+        function listComponentStyleOfCompanyAndStyle(companyID,styleID,userID){
+            return $http.get(ENV.ServerUrl+"/services/api/componentStyles/processList/"+companyID+"/"+styleID+"/"+userID+".json")
         }
     })
