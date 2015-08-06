@@ -2,7 +2,7 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .factory('Messages',function($http,$rootScope,$q,ServerUrl){
+    .factory('Messages',function($http,$rootScope,$q,ENV){
         return({
             list: listMyMessage,
             view: getMessage,
@@ -11,7 +11,7 @@ angular.module('Holu')
             delete: deleteMessage
         })
         function listMyMessage(userId){
-            return $http.get(ServerUrl+"/services/api/msgs/user/"+userId+".json")
+            return $http.get(ENV.ServerUrl+"/services/api/msgs/user/"+userId+".json")
         }
         function saveMessage(title,content,userId,messageId){
             var deferred = $q.defer();
@@ -19,7 +19,7 @@ angular.module('Holu')
             // verify username and password
             $http({
                 method: 'POST',
-                url: ServerUrl + "/services/api/msgs.json",
+                url: ENV.ServerUrl + "/services/api/msgs.json",
                 data: "title="+title+"&content="+content+"&userId="+userId+"&messageId="+messageId,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
@@ -45,7 +45,7 @@ angular.module('Holu')
             return promise;
         }
         function getMessage(id){
-            return $http.get(ServerUrl+"/services/api/msgs/"+id+".json")
+            return $http.get(ENV.ServerUrl+"/services/api/msgs/"+id+".json")
         }
         function sendMessage(messageId,users,groups,userId){
             var deferred = $q.defer();
@@ -53,7 +53,7 @@ angular.module('Holu')
             // verify username and password
             $http({
                 method: 'POST',
-                url: ServerUrl + "/services/api/msgs/Send.json",
+                url: ENV.ServerUrl + "/services/api/msgs/Send.json",
                 data: "users=" + users + "&groups=" + groups + "&userId=" + userId + "&messageId=" + messageId,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
@@ -78,6 +78,6 @@ angular.module('Holu')
             return promise;
         }
         function deleteMessage(messageId){
-            return $http.get(ServerUrl+"/services/api/msgs/"+messageId+"/delete.json")
+            return $http.get(ENV.ServerUrl+"/services/api/msgs/"+messageId+"/delete.json")
         }
     })

@@ -2,11 +2,11 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .controller('DocCtrl',function($scope,$ionicPlatform,Documentations,$ionicLoading,ServerUrl){
+    .controller('DocCtrl',function($scope,$ionicPlatform,Documentations,$ionicLoading,ENV){
         Documentations.all().then(function(response){
             $scope.DocList=response.data;
         })
-        $scope.ServerUrl=ServerUrl;
+        $scope.ServerUrl=ENV.ServerUrl;
         $scope.doRefresh = function () {
             Documentations.all().then(function(response){
                 $scope.DocList=response.data;
@@ -38,7 +38,7 @@ angular.module('Holu')
                                     fe.remove();
                                     ft = new FileTransfer();
                                     ft.download(
-                                        encodeURI(ServerUrl+"/services/api/Documentations/"+docId+"/download.json"),
+                                        encodeURI(ENV.ServerUrl+"/services/api/Documentations/"+docId+"/download.json"),
                                         p,
                                         function(entry) {
                                             $ionicLoading.hide();

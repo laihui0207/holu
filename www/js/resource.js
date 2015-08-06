@@ -15,6 +15,8 @@ var translations = {
         APICallFailed: 'API Call Failed, please check Network',
         SaveFailedHeader: 'Failed',
         SaveFailed: 'Save Failed, please try latter',
+        SaveSuccessHeader: 'Save Success',
+        SaveSuccess: 'Success',
         NewNote: 'New Note',
         EditNote: 'Edit Note',
         NoteDetail: 'Note Detail',
@@ -45,7 +47,15 @@ var translations = {
         rightMenu: 'Right Menu',
         childProject: 'Child Project',
         component: 'Component',
-        ComponentList: 'Sub component'
+        ComponentList: 'Sub component',
+        componentStyleList: 'Process List',
+        processConfirm: 'Confirm Process',
+        Done: 'Done',
+        cancel: 'Cancel',
+        startDate: 'Start Date',
+        endDate: 'End Date',
+        position: 'Position confirm',
+        note: 'Note'
 
 
     },
@@ -75,6 +85,8 @@ var translations = {
         APICallFailed: '网络请求失败，请检查网络连接',
         SaveFailed: '保存失败，请稍候再试',
         SaveFailedHeader: '保存失败',
+        SaveSuccessHeader: '保存成功',
+        SaveSuccess: '保存成功',
         All: '全部',
         NewNote: '新建日志',
         EditNote: '编辑日志',
@@ -109,7 +121,15 @@ var translations = {
         rightMenu: '设置',
         childProject: '子项目',
         component: '构件',
-        subComponent: '子构件'
+        subComponent: '子构件',
+        componentStyleList: '工艺列表',
+        processConfirm: '工艺确认',
+        Done: '确定',
+        cancel: '取消',
+        startDate: '开始时间',
+        endDate: '结束时间',
+        position: '位置确认',
+        note: '备注'
 
     }
 }

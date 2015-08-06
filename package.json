@@ -16,8 +16,12 @@
   },
   "cordovaPlugins": [
     "com.ionic.keyboard",
-	"org.apache.cordova.file-transfer",
-	"cordova-plugin-file-transfer"
+    "org.apache.cordova.file-transfer",
+    "cordova-plugin-file-transfer",
+    {
+      "locator": "https://github.com/VitaliiBlagodir/cordova-plugin-datepicker",
+      "id": "cordova-plugin-datepicker"
+    }
   ],
   "cordovaPlatforms": [
     "ios",

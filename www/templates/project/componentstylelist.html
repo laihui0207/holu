@@ -5,9 +5,20 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item ng-repeat="item in componentStyleList" class="item" href="#/tab/projects/{{project.id}}">
+            <ion-item class="item-divider">{{'component' | translate }}</ion-item>
+            <ion-item class="item-body">
+                <h2 ng-show="component">{{component.componentName}}</h2>
+                <h2 ng-show="subComponent">{{subComponent.subComponentName}}</h2>
+                <p>
+                    {{currentUser.company.companyFullName}}
+                </p>
+            </ion-item>
+            <ion-item class="item-divider">{{'componentStyleList' | translate }}</ion-item>
+            <ion-item ng-repeat="item in componentStyleList" class="item item-button-right">
                 <h2>{{ item.styleName}} - {{item.processName}}</h2>
-                <button class="button button-clear item-note" ng-if="item.operationer" ng-click="">Confirm</button>
+                <a class="button button-clear item-note" ng-if="item.operationer" href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}">
+                    <i class="ion-arrow-right-a"></i>
+                </a>
             </ion-item>
 
         </ion-list>

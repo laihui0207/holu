@@ -1,4 +1,4 @@
-<ion-view view-title="{{ 'Project' | translate }}">
+<ion-view view-title="{{ 'ComponentList' | translate }}">
     <ion-content>
         <ion-refresher
                 pulling-text="{{ 'PullToFresh' | translate }}"
@@ -17,7 +17,7 @@
 <!--                    {{'childComponent' | translate}}-->
                     <i class="ion-more"></i>
                 </a>
-                <a class="button icon-right  button-clear" ng-show="!item.subComponentListSet.length" href="#/tab/componentStyle/{{item.styleID}}" >
+                <a class="button icon-right  button-clear" ng-show="!item.subComponentListSet.length" href="#/tab/componentStyle/{{item.styleID}}/{{item.componentID}}/parent" >
 <!--                    {{ 'styleList' | translate }}-->
                     <i class="ion-arrow-right-a"></i>
                 </a>

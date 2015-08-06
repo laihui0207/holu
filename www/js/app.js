@@ -299,11 +299,20 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                 }
             })
             .state('tab.styles', {
-                url: '/componentStyle/:styleID',
+                url: '/componentStyle/:styleID/:componentID/:type',
                 views: {
                     'tab-project': {
                         templateUrl: 'templates/project/componentstylelist.html',
                         controller: 'ProcessCtrl'
+                    }
+                }
+            })
+            .state('tab.process', {
+                url: '/processconfirm/:projectID/:componentID/:styleProcessID',
+                views: {
+                    'tab-project': {
+                        templateUrl: 'templates/project/processconfirm.html',
+                        controller: 'ProcessConfirmCtrl'
                     }
                 }
             })

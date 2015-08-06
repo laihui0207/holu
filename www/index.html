@@ -30,6 +30,9 @@
     <script src="lib/textAngular/textAngular.js"></script>
     <script src="lib/moment/min/moment-with-locales.min.js"></script>
     <script src="lib/angular-moment/angular-moment.min.js"></script>
+    <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+<!--    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ny5VTu66aPa0xQK5lzl5Dw4f"></script>-->
+<!--    <script type="text/javascript" src="http://api.map.baidu.com/api?type=quick&ak=ny5VTu66aPa0xQK5lzl5Dw4f&v=1.0"></script>-->
     <!--    <script src="lib/textAngular/textAngular.min.js"></script>-->
 <!--    <script src="lib/textAngular/textAngular.min.js"></script>-->
 
@@ -64,18 +67,18 @@
 
     <ion-side-menu-content ng-controller="NavCtrl">
         <ion-nav-bar class="bar-calm">
-            <ion-nav-back-button class="button-icon ion-arrow-left-c">
+            <ion-nav-back-button ><!--class="button-icon ion-arrow-left-c"-->
             </ion-nav-back-button>
 
             <ion-nav-buttons side="left">
-                <button class="button button-icon button-clear" ng-click="showMenu()" ng-disabled="userName == null"> <!--  ion-ionic ng-click="showMenu()"-->
+                <button class="button button-icon button-clear" > <!--  ion-ionic ng-click="showMenu()"-->
                     <img class="title-image" src="img/ionic.png" width="38" height="38" /></h1>
                     <!--{{'mainMenuHeader' | translate}}-->
                 </button>
             </ion-nav-buttons>
 
             <ion-nav-buttons side="right">
-                <button class="button button-icon button-clear ion-navicon" ng-click="showRightMenu()">
+                <button class="button button-icon button-clear ion-navicon" ng-disabled="userName == null" ng-click="showRightMenu()">
                 </button>
             </ion-nav-buttons>
         </ion-nav-bar>
@@ -110,6 +113,18 @@
         </ion-header-bar>
         <ion-content>
             <ul class="list">
+                <li>
+                    <a class="item" menu-close nav-clear href="#/tab/news">{{'News' | translate }}</a>
+                </li>
+                <li>
+                    <a class="item" menu-close href="#/tab/postsubjects">{{ 'Posts' | translate }}</a>
+                </li>
+                <li>
+                    <a class="item" menu-close href="#/tab/notes">{{ 'OA' | translate }}</a>
+                </li>
+                <li>
+                    <a class="item" menu-close href="#/tab/projects">{{ 'Project' | translate }}</a>
+                </li>
                 <li ng-repeat="menu in menuItems" >
                     <a class="item" menu-close nav-clear href="{{menu.action}}" ng-click="{{menu.click}}">{{menu.label | translate}}</a>
                 </li>

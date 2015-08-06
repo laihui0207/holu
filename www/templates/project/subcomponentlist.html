@@ -1,4 +1,4 @@
-<ion-view view-title="{{ 'Project' | translate }}">
+<ion-view view-title="{{ 'subComponent' | translate }}">
     <ion-content>
         <ion-refresher
                 pulling-text="{{ 'PullToFresh' | translate }}"
@@ -13,7 +13,7 @@
             <ion-item class="item-divider">{{'subComponent' | translate }}</ion-item>
             <ion-item ng-repeat="item in component.subComponentListSet" collection-item-width="'100%'" class="item item-button-right">
                 <h2>{{ item.subComponentName}}</h2>
-                <a class="button icon-right  button-clear" href="#/tab/componentStyle/{{component.styleID}}" >
+                <a class="button icon-right  button-clear" href="#/tab/componentStyle/{{component.styleID}}/{{item.subComponentID}}/sub" >
 <!--                    {{ 'styleList' | translate }}-->
                     <i class="ion-arrow-right-a"></i>
                 </a>

@@ -14,9 +14,9 @@ angular.module('Holu')
             })
         }
     })
-    .controller('PostBarCtrl',function($scope,PostBars,$stateParams,$rootScope,ServerUrl){
+    .controller('PostBarCtrl',function($scope,PostBars,$stateParams,$rootScope,ENV){
         $scope.subjectId=$stateParams.subjectId;
-        $scope.ServerUrl = ServerUrl;
+        $scope.ServerUrl = ENV.ServerUrl;
         PostBars.postBars($stateParams.subjectId).then(function(response){
             $scope.postBarList=response.data
         })
@@ -35,11 +35,11 @@ angular.module('Holu')
             })
         })
     })
-    .controller('PostBarDetailCtrl',function($scope,PostBars,$stateParams,$rootScope,$ionicPopup,ServerUrl){
+    .controller('PostBarDetailCtrl',function($scope,PostBars,$stateParams,$rootScope,$ionicPopup,ENV){
         PostBars.viewPost($stateParams.postBarId).then(function(response){
             $scope.postBar=response.data
         })
-        $scope.ServerUrl = ServerUrl;
+        $scope.ServerUrl = ENV.ServerUrl;
         PostBars.replies($stateParams.postBarId).then(function(response){
             $scope.replyList=response.data
         })

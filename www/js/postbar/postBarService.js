@@ -3,7 +3,7 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .factory('PostBars', function ($http, $q, ServerUrl) {
+    .factory('PostBars', function ($http, $q, ENV) {
         return ({
             postSubjects: listPostSubjects,
             postBars: listPostBarOfSubject,
@@ -18,32 +18,32 @@ angular.module('Holu')
             listReplyGroups: listPostBarReplyGroups
         })
         function listPostBarViewUsers(postBarId){
-            return $http.get(ServerUrl + "/services/api/postbars/" + postBarId + "/viewUser/slv.json")
+            return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postBarId + "/viewUser/slv.json")
         }
         function listPostBarReplyUsers(postBarId){
-            return $http.get(ServerUrl + "/services/api/postbars/" + postBarId + "/replyUser/slv.json")
+            return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postBarId + "/replyUser/slv.json")
         }
         function listPostBarViewGroups(postBarId){
-            return $http.get(ServerUrl + "/services/api/postbars/" + postBarId + "/viewGroup/slv.json")
+            return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postBarId + "/viewGroup/slv.json")
         }
         function listPostBarReplyGroups(postBarId){
-            return $http.get(ServerUrl + "/services/api/postbars/" + postBarId + "/replyGroup/slv.json")
+            return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postBarId + "/replyGroup/slv.json")
         }
         function listPostSubjects() {
-            return $http.get(ServerUrl + "/services/api/postSubjects.json");
+            return $http.get(ENV.ServerUrl + "/services/api/postSubjects.json");
         }
 
         function listPostBarOfSubject(subjectId) {
-            return $http.get(ServerUrl + "/services/api/postbars/subject/" + subjectId + ".json")
+            return $http.get(ENV.ServerUrl + "/services/api/postbars/subject/" + subjectId + ".json")
         }
 
         function getPostBarById(postbarId) {
-            return $http.get(ServerUrl + "/services/api/postbars/" + postbarId + ".json")
+            return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postbarId + ".json")
         }
         function deletePostBar(id){
             var deferred = $q.defer();
             var promise = deferred.promise;
-            $http.get(ServerUrl + "/services/api/postbars/" + id + "/delete.json").success(function () {
+            $http.get(ENV.ServerUrl + "/services/api/postbars/" + id + "/delete.json").success(function () {
                 deferred.resolve("OK")
             }).error(function () {
                 deferred.reject("Failed")
@@ -65,7 +65,7 @@ angular.module('Holu')
             // verify username and password
             $http({
                 method: 'POST',
-                url: ServerUrl + "/services/api/replies.json",
+                url: ENV.ServerUrl + "/services/api/replies.json",
                 data: "content=" + content + "&userId=" + userId + "&postBarId=" + postBarId,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
@@ -90,7 +90,7 @@ angular.module('Holu')
             return promise;
         }
         function listReplies(postBarId){
-            return $http.get(ServerUrl+"/services/api/replies/postbar/"+postBarId+".json")
+            return $http.get(ENV.ServerUrl+"/services/api/replies/postbar/"+postBarId+".json")
         }
         function savePostBar(title,content, subjectId, userId,viewUsers,viewGroups,replyUsers,replyGroups,postBarId) {
             var deferred = $q.defer();
@@ -98,7 +98,7 @@ angular.module('Holu')
             // verify username and password
             $http({
                 method: 'POST',
-                url: ServerUrl + "/services/api/postbars.json",
+                url: ENV.ServerUrl + "/services/api/postbars.json",
                 data: "title=" + title + "&content=" + content + "&userId=" + userId + "&postBarId=" + postBarId+
                 "&subjectId="+subjectId+"&viewUsers="+viewUsers+"&viewGroups="+viewGroups+"&replyUsers="+replyUsers+
                 "&replyGroups="+replyGroups,

@@ -2,7 +2,7 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .factory('Notes', function ($http, $q, ServerUrl) {
+    .factory('Notes', function ($http, $q, ENV) {
         return ({
             all: listNote,
             view: viewNote,
@@ -11,11 +11,11 @@ angular.module('Holu')
             send: sendNote
         })
         function listNote() {
-            return $http.get(ServerUrl + "/services/api/notes.json")
+            return $http.get(ENV.ServerUrl + "/services/api/notes.json")
         }
 
         function viewNote(id) {
-            return $http.get(ServerUrl + "/services/api/notes/" + id + ".json")
+            return $http.get(ENV.ServerUrl + "/services/api/notes/" + id + ".json")
         }
         function sendNote(noteId,users,groups,userId){
             var deferred = $q.defer();
@@ -23,7 +23,7 @@ angular.module('Holu')
             // verify username and password
             $http({
                 method: 'POST',
-                url: ServerUrl + "/services/api/notes/Send.json",
+                url: ENV.ServerUrl + "/services/api/notes/Send.json",
                 data: "users=" + users + "&groups=" + groups + "&userId=" + userId + "&noteId=" + noteId,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
@@ -53,7 +53,7 @@ angular.module('Holu')
             // verify username and password
             $http({
                 method: 'POST',
-                url: ServerUrl + "/services/api/notes.json",
+                url: ENV.ServerUrl + "/services/api/notes.json",
                 data: "title=" + title + "&content=" + content + "&userId=" + userId + "&noteId=" + noteId,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
@@ -82,7 +82,7 @@ angular.module('Holu')
         function deleteNote(noteId) {
             var deferred = $q.defer();
             var promise = deferred.promise;
-            $http.get(ServerUrl + "/services/api/notes/" + noteId + "/delete.json").success(function () {
+            $http.get(ENV.ServerUrl + "/services/api/notes/" + noteId + "/delete.json").success(function () {
                 deferred.resolve("OK")
             }).error(function () {
                 deferred.reject("Failed")

@@ -2,14 +2,14 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .controller("NewsCtrl", function ($scope, News, ServerUrl) {
+    .controller("NewsCtrl", function ($scope, News, ENV) {
         News.newsTypes().then(function(response){
             $scope.newsTypeList=response.data;
         })
         News.all().then(function (response) {
             $scope.newsList = response.data;
         })
-        $scope.ServerUrl = ServerUrl;
+        $scope.ServerUrl = ENV.ServerUrl;
 
         $scope.doRefresh = function () {
             News.newsTypes().then(function(response){
@@ -28,9 +28,9 @@ angular.module('Holu')
             })
         }
     })
-    .controller('NewsDetailCtrl', function ($scope, News, $stateParams, ServerUrl) {
+    .controller('NewsDetailCtrl', function ($scope, News, $stateParams, ENV) {
         News.viewNews($stateParams.newsId).then(function (response) {
             $scope.news = response.data;
         })
-        $scope.ServerUrl = ServerUrl;
+        $scope.ServerUrl = ENV.ServerUrl;
     })
