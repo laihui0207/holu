@@ -1,12 +1,44 @@
 angular.module('Holu.controllers', ['ngSanitize'])
-    .controller('LoginCtrl',function($scope,AuthService,$ionicPopup,$rootScope, $state,$translate,menuItemService){
-        $scope.data={};
+    .controller('LoginCtrl',function($scope,AuthService,$ionicPopup,$rootScope, $state,Storage,
+                                     $translate,menuItemService){
+        $scope.data={
+            remeberMe: false,
+            language: 'zh'
+        };
+        $scope.data.userName=Storage.get("userName");
+        var remeberMe=Storage.get("remeberMe");
+        if(remeberMe!=undefined){
+            $scope.data.remeberMe=remeberMe;
+        }
+        var language=Storage.get("language");
+        if(language!= undefined && language!="undefined"){
+            $scope.data.language=language;
+        }
+        $translate.use($scope.data.language);
         $translate(['LoginFailHeader', 'LoginFailMessage']).then(function (translations) {
             $scope.loginFailHeader = translations.LoginFailHeader;
             $scope.LoginFailMessage = translations.LoginFailMessage;
         });
         $rootScope.menuItems=menuItemService.menuList(false);
+        $scope.changeLanguage=function(){
+            if($scope.data.language=='en')
+            {
+                $translate.use('en');
+            }
+            else {
+                $translate.use('zh');
+            }
+        }
         $scope.login=function(){
+            if($scope.data.remeberMe){
+                Storage.set("remeberMe",$scope.data.remeberMe);
+                Storage.set("userName",$scope.data.userName);
+            }
+            else {
+                Storage.remove("remeberMe");
+                Storage.remove("userName");
+            }
+            Storage.set("language",$scope.data.language);
             AuthService.login($scope.data.userName,$scope.data.password).success(function(data){
                 $scope.data={};
                 $rootScope.$broadcast('holu.logged');
@@ -16,7 +48,7 @@ angular.module('Holu.controllers', ['ngSanitize'])
                     $state.go(backurl)
                 }
                 else {
-                    $state.go('tab.news')
+                    $state.go('tab.home')
                 }
             }).error(function(data){
                 var alertPopup = $ionicPopup.alert({
@@ -25,6 +57,20 @@ angular.module('Holu.controllers', ['ngSanitize'])
                 });
             })
         }
+    })
+    .controller("HomeCtrl",function($scope,AuthService,Messages){
+        var user=AuthService.currentUser();
+        Messages.refreshNewMessagecount(user.id)
+        //$scope.newMessageCount=Messages.getNewMessageCount();
+        $scope.doRefresh=function(){
+            Messages.refreshNewMessagecount(user.id);
+            $scope.$broadcast('scroll.refreshComplete');
+        }
+        $scope.$on("holu.messageCountUpdate",function(){
+            Messages.refreshNewMessagecount(user.id);
+            $scope.$broadcast('scroll.refreshComplete');
+        })
+
     })
     .controller('TranslateController', function ($translate, $scope) {
         $scope.changeLanguage = function (langKey) {
@@ -50,6 +96,9 @@ angular.module('Holu.controllers', ['ngSanitize'])
         $scope.logout=function(){
             $rootScope.$broadcast('holu.logout');
             $state.go('login')
+        }
+        $scope.goHome=function(){
+            $state.go('tab.home')
         }
         $rootScope.$on('holu.logged',function(){
             console.log("Get event:Logged")

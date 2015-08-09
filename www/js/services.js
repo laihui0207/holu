@@ -5,9 +5,13 @@ angular.module('Holu.services', [])
             set: function(key, data) {
                 return window.localStorage.setItem(key, window.JSON.stringify(data));
             },
-            get: function(key) {
+            get: function (key) {
+                var data = window.localStorage.getItem(key);
+                if (data != "undefined" && data!=null && data!="null") {
+                    return window.JSON.parse(data)
+                }
 
-                return window.JSON.parse(window.localStorage.getItem(key));
+                return undefined;
             },
             remove: function(key) {
                 return window.localStorage.removeItem(key);
@@ -258,10 +262,10 @@ angular.module('Holu.services', [])
                 var items=[];
                 if(Logined){
                     items=[
-                        {
+                       /* {
                             label: 'Setting',
                             action: '/#/tab/setting'
-                        },
+                        },*/
                         {
                             label: 'Logout',
                             action: '#',

@@ -2,12 +2,33 @@
     <ion-content class="padding">
         <div class="list list-inset">
             <label class="item item-input">
-                <input type="text" placeholder="{{ 'UserName' | translate }}" ng-model="data.userName" required>
+                <span class="input-label">{{'UserName' | translate}}</span>
+                <input type="text"  ng-model="data.userName" required>
             </label>
             <label class="item item-input">
-                <input type="password" placeholder="{{ 'Password' | translate }}" ng-model="data.password" required>
+                <span class="input-label">{{ 'Password' | translate }}</span>
+                <input type="password"  ng-model="data.password" required>
             </label>
+
         </div>
+        <label class="item item-toggle">
+            {{'RemeberMe' | translate }}
+            <label class="toggle">
+                <input type="checkbox" ng-model="data.remeberMe">
+                <div class="track">
+                    <div class="handle"></div>
+                </div>
+            </label>
+        </label>
+        <label class="item item-input item-select">
+            <div class="input-label">
+                {{'Language' | translate }}
+            </div>
+            <select ng-model="data.language" ng-change="changeLanguage()">
+                <option value="zh" selected="data.language=='zh'">{{ 'BUTTON_TEXT_ZH' | translate }}</option>
+                <option value="en" selected="data.language=='en'" >{{'BUTTON_TEXT_EN'| translate }}</option>
+            </select>
+        </label>
         <button class="button button-block button-calm" ng-click="login()">{{ 'Login' | translate }}</button>
     </ion-content>
 </ion-view>

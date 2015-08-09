@@ -52,6 +52,15 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                     }
                 }*/
             })
+            .state('tab.home', {
+                url: '/home',
+                views: {
+                    'tab-home': {
+                        templateUrl: 'templates/home.html',
+                        controller: 'HomeCtrl'
+                    }
+                }
+            })
             // Each tab has its own nav history stack:
 
             /*.state('tab.dash', {

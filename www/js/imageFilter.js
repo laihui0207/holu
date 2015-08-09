@@ -7,11 +7,9 @@ angular.module('Holu.imageFilter', [])
         return function (input, scope) {
             //console.log(input)
             if(input==undefined) return
-            console.log("imageFilter: input=="+input)
             var newContent = input.replace(
                 new RegExp("(<img.*?(?: |\t|\r|\n)?src=['\"]?)(.+?)(['\"]?(?:(?: |\t|\r|\n)+.*?)?>)", 'gi'),
                 function ($0, $1, $2, $3) {
-                    console.log("ImageFilter: $0=="+$0)
                     var url=$2;
                     if(url.substring(0,4) != "http"){
                         if(url.indexOf("/attached")>0){
@@ -24,7 +22,6 @@ angular.module('Holu.imageFilter', [])
                     }
 
                 });
-            //console.log(newContent);
             return newContent;
         };
     })

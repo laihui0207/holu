@@ -7,8 +7,9 @@
             <a class="tab-item" ui-sref="tab.docs">
                 <p>{{ 'Documents' | translate }}</p>
             </a>
-            <a class="tab-item tab-item-active" ui-sref="tab.messages">
+            <a class="tab-item tab-item-active has-badge" ui-sref="tab.messages">
                 <p>{{ 'Messages' | translate }}</p>
+                <span class="badge badge-assertive" ng-hide="newMessageCount==0">{{newMessageCount}}</span>
             </a>
         </div>
 
@@ -20,14 +21,15 @@
         </ion-refresher>
         <ion-list>
             <ion-item ng-repeat="message in messageList" class="item" href="#/tab/messages/{{message.id}}">
-                <h2>{{ message.title }}</h2>
+                <h2><i class="ion-star" ng-show="message.status==2"></i> {{ message.title }}</h2>
 
                 <p> {{ message.createTime | date:'yyyy-MM-dd' }}</p>
             </ion-item>
             <ion-item ng-show="!(messageList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
+            <div class="item">
+                <a class="button  button-calm" href="#/tab/message/new">{{ 'NewMessage' | translate}} </a>
+            </div>
         </ion-list>
-        <div class="row">
-            <a class="button  button-calm" href="#/tab/message/new">{{ 'NewMessage' | translate}} </a>
-        </div>
+
     </ion-content>
 </ion-view>

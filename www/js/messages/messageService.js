@@ -3,13 +3,36 @@
  */
 angular.module('Holu')
     .factory('Messages',function($http,$rootScope,$q,ENV){
+        var messages={};
+        var currentPage=0;
+        var unReadMessagesCount=0;
         return({
             list: listMyMessage,
             view: getMessage,
             save: saveMessage,
             send: sendMessage,
-            delete: deleteMessage
+            delete: deleteMessage,
+            readed: updateMessageStatus,
+            refreshNewMessagecount: getNewMessageCount,
+            getNewMessageCount: getCountDate
         })
+        function getNewMessageCount(userId){
+            $http.get(ENV.ServerUrl+"/services/api/msgs/user/"+userId+"/count.json")
+                .then(function(response){
+                    unReadMessagesCount=response.data;
+                    $rootScope.newMessageCount=unReadMessagesCount;
+                    //$rootScope.$broadcast("holu.messageCountUpdate");
+                });
+        }
+        function getCountDate(){
+            return unReadMessagesCount;
+        }
+        function updateMessageStatus(messageId){
+            $http.get(ENV.ServerUrl+"/services/api/msgs/"+messageId+"/read.json").then(function(resposne){
+                $rootScope.$broadcast('MessageUpdate');
+                $rootScope.$broadcast('holu.messageCountUpdate');
+            })
+        }
         function listMyMessage(userId){
             return $http.get(ENV.ServerUrl+"/services/api/msgs/user/"+userId+".json")
         }

@@ -15,28 +15,26 @@
                 <h2 ng-show="component">{{component.componentName}}</h2>
                 <h2 ng-show="subComponent">{{subComponent.subComponentName}}</h2>
             </ion-item>
+            <ion-item class="item-divider">{{'processConfirm' | translate }}</ion-item>
             <label class="item item-input item-stacked-label">
                 <span class="input-label">{{'note' | translate }}: </span>
                 <input type="text" ng-model="processMid.processNote">
             </label>
-            <ion-item class="item-divider">{{'processConfirm' | translate }}</ion-item>
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">{{'startDate' | translate }}: </span>
-                <input type="text" ng-model="processMid.startDate | amDateFormat:'YYYY-MM-DD'" ng-click="showDatePicker('start')" >
+           <!-- <label class="item item-input item-stacked-label">
+                <span class="input-label">{{'startDate' | translate }}: </span>&lt;!&ndash;| amDateFormat:'YYYY-MM-DD' &ndash;&gt;
+                <input type="text" ng-model="processMid.startDate | amDateFormat:'YYYY-MM-DD' " ng-click="showDatePicker('start')" >
             </label>
             <label class="item item-input item-stacked-label">
                 <span class="input-label">{{'endDate' | translate }}: </span>
                 <input type="text" ng-model="processMid.endDate | amDateFormat:'YYYY-MM-DD'" ng-click="showDatePicker('end')">
-            </label>
+            </label>-->
             <label class="item item-input item-stacked-label">
-                <span class="input-label">{{'Title' | translate }}: </span>
+                <span class="input-label">{{'position' | translate }}: </span>
                 <input type="text" ng-model="processMid.positionGPS">
             </label>
-            <ion-item class="item">
-<!--                <map center="{latitude: 31.821637, longitude: 117.226739 }"></map>-->
-                <!--<a class="button" ng-click="getPosition()">Get Position</a>-->
-
-            </ion-item>
+          <!--  <ion-item class="item">
+                &lt;!&ndash;<a class="button" ng-click="getPosition()">Get Position</a>&ndash;&gt;
+            </ion-item>-->
         </ion-list>
         <div class="padding">
             <button class="button button-block button-calm activated" ng-click="save()">{{ 'Submit' | translate }}</button>

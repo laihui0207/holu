@@ -148,7 +148,6 @@ angular.module('Holu')
         $scope.save = function () {
             Projects.confirm($scope.processMid, user.userID)
                 .success(function (data) {
-                    console.log("save note Controller:" + data)
                     if (data.styelProcessID == $scope.processMid.styelProcessID) {
                         $rootScope.$broadcast('ProcessUpdate', data);
                         var alertPopup = $ionicPopup.alert({
@@ -158,7 +157,6 @@ angular.module('Holu')
                         //$state.go("tab.notes")
                     }
                     else {
-                        console.log("save note Controller:" + data)
                         var alertPopup = $ionicPopup.alert({
                             title: $scope.SaveFailedHeader,
                             template: $scope.SaveFailed
@@ -166,7 +164,6 @@ angular.module('Holu')
                     }
                 })
                 .error(function (data) {
-                    console.log("save note Controller:" + data)
                     var alertPopup = $ionicPopup.alert({
                         title: $scope.SaveFailedHeader,
                         template: $scope.APICallFailed
@@ -189,10 +186,10 @@ angular.module('Holu')
 
             $cordovaDatePicker.show(options).then(function (date) {
                 if(inputElement=='start'){
-                    $scope.processMid.startDate=moment(date, "MM-DD-YYYY");
+                    $scope.processMid.startDate=date;
                 }
                 else if(inputElement=='end'){
-                    $scope.processMid.endDate=moment(date, "MM-DD-YYYY");
+                    $scope.processMid.endDate=date;
                 }
             });
         };

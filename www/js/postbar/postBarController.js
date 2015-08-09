@@ -2,9 +2,11 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .controller('PostSubjectCtrl',function($scope,PostBars,$state,$rootScope){
+    .controller('PostSubjectCtrl',function($scope,PostBars,$state,$rootScope,$ionicLoading){
+        $ionicLoading.show();
         PostBars.postSubjects().then(function(response){
             $scope.subjectList=response.data
+            $ionicLoading.hide();
         })
         $scope.doRefresh = function () {
             PostBars.postSubjects().then(function(response){
@@ -14,11 +16,13 @@ angular.module('Holu')
             })
         }
     })
-    .controller('PostBarCtrl',function($scope,PostBars,$stateParams,$rootScope,ENV){
+    .controller('PostBarCtrl',function($scope,PostBars,$stateParams,$rootScope,ENV,$ionicLoading){
         $scope.subjectId=$stateParams.subjectId;
         $scope.ServerUrl = ENV.ServerUrl;
+        $ionicLoading.show();
         PostBars.postBars($stateParams.subjectId).then(function(response){
             $scope.postBarList=response.data
+            $ionicLoading.hide();
         })
         $scope.doRefresh = function () {
             PostBars.postBars($stateParams.subjectId).then(function(response){
@@ -35,13 +39,15 @@ angular.module('Holu')
             })
         })
     })
-    .controller('PostBarDetailCtrl',function($scope,PostBars,$stateParams,$rootScope,$ionicPopup,ENV){
+    .controller('PostBarDetailCtrl',function($scope,PostBars,$stateParams,$rootScope,$ionicPopup,ENV,$ionicLoading){
+        $ionicLoading.show();
         PostBars.viewPost($stateParams.postBarId).then(function(response){
             $scope.postBar=response.data
         })
         $scope.ServerUrl = ENV.ServerUrl;
         PostBars.replies($stateParams.postBarId).then(function(response){
             $scope.replyList=response.data
+            $ionicLoading.hide();
         })
         $scope.doRefresh = function () {
             PostBars.replies($stateParams.postBarId).then(function(response){
@@ -51,13 +57,16 @@ angular.module('Holu')
             })
         }
         $scope.reply=function(){
+            $ionicLoading.show();
             PostBars.replyPost($scope.postBar.reply.content,$scope.postBar.id,$rootScope.currentUser.id)
                 .success(function(dtata){
                     PostBars.replies($stateParams.postBarId).then(function(response){
                         $scope.replyList=response.data
+                        $ionicLoading.hide();
                     })
                 })
                 .error(function(data){
+                    $ionicLoading.hide();
                     var alertPopup = $ionicPopup.alert({
                         title: $scope.SaveFailedHeader,
                         template: $scope.APICallFailed
@@ -66,7 +75,7 @@ angular.module('Holu')
         }
 
     })
-    .controller('PostBarNewCtrl',function($scope,PostBars,$translate,$state,$stateParams,$rootScope,$ionicPopup){
+    .controller('PostBarNewCtrl',function($scope,PostBars,$translate,$state,$stateParams,$rootScope,$ionicPopup,$ionicLoading){
         if($stateParams.postBarId!=undefined){
             PostBars.viewPost($stateParams.postBarId).then(function(response){
                 $scope.postBar=response.data
@@ -104,16 +113,19 @@ angular.module('Holu')
             element.style.height =  scrollHeight + "px";
         };
         $scope.save=function(){
+            $ionicLoading.show();
             PostBars.save($scope.postBar.title,$scope.postBar.content,$scope.postBar.subjectId,$rootScope.currentUser.id,
             $scope.postBar.viewUsers,$scope.postBar.viewGroups,$scope.postBar.replyUsers,$scope.postBar.replyGroups,$scope.postBar.id)
                 .success(function(data){
                     console.log("save postBar Controller:"+data)
                     if(data.title==$scope.postBar.title){
                         $rootScope.$broadcast('PostBarUpdate',{data:{subjectId:$scope.postBar.subjectId}});
+                        $ionicLoading.hide();
                         $state.go("tab.postbars",{subjectId:$scope.postBar.subjectId})
                     }
                     else {
                         console.log("save postBar Controller:"+data)
+                        $ionicLoading.hide();
                         var alertPopup = $ionicPopup.alert({
                             title: $scope.SaveFailedHeader,
                             template: $scope.SaveFailed
@@ -122,6 +134,7 @@ angular.module('Holu')
                 })
                 .error(function(data){
                     console.log("save postBar Controller:"+data)
+                    $ionicLoading.hide();
                     var alertPopup = $ionicPopup.alert({
                         title: $scope.SaveFailedHeader,
                         template: $scope.APICallFailed
@@ -129,10 +142,13 @@ angular.module('Holu')
                 })
         }
         $scope.delete=function(){
+            $ionicLoading.show();
             PostBars.delete($scope.postBar.id).success(function(data){
                 $rootScope.$broadcast('PostBarUpdate',{data:{subjectId:$scope.postBar.subjectId}});
+                $ionicLoading.hide();
                 $state.go("tab.postbars",{subjectId:$scope.postBar.subjectId})
             }).error(function(data){
+                $ionicLoading.hide();
                 var alertPopup = $ionicPopup.alert({
                     title: $scope.SaveFailedHeader,
                     template: $scope.SaveFailed

@@ -7,8 +7,9 @@
             <a class="tab-item" ui-sref="tab.docs">
                 <p>{{ 'Documents' | translate }}</p>
             </a>
-            <a class="tab-item" ui-sref="tab.messages">
+            <a class="tab-item has-badge" ui-sref="tab.messages">
                 <p>{{ 'Messages' | translate }}</p>
+                <span class="badge badge-assertive" ng-hide="newMessageCount==0">{{newMessageCount}}</span>
             </a>
         </div>
 

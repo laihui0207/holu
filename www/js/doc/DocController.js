@@ -3,8 +3,10 @@
  */
 angular.module('Holu')
     .controller('DocCtrl',function($scope,$ionicPlatform,Documentations,$ionicLoading,ENV){
+        $ionicLoading.show()
         Documentations.all().then(function(response){
             $scope.DocList=response.data;
+            $ionicLoading.hide();
         })
         $scope.ServerUrl=ENV.ServerUrl;
         $scope.doRefresh = function () {

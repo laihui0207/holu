@@ -6,7 +6,8 @@ var translations = {
     "en": {
         HEADLINE : 'Hello there, This is my awesome app!',
         INTRO_TEXT : 'And it has i18n support!',
-        BUTTON_TEXT_EN: 'english',
+        Language: 'Language',
+        BUTTON_TEXT_EN: 'English',
         BUTTON_TEXT_ZH: '中文',
         PROJECT_TEXT: 'Project',
         PullToFresh: 'Pull to Fresh ....',
@@ -55,14 +56,19 @@ var translations = {
         startDate: 'Start Date',
         endDate: 'End Date',
         position: 'Position confirm',
-        note: 'Note'
+        note: 'Note',
+        FileName: 'File Name',
+        Owner: 'Owner',
+        Home: 'Home',
+        RemeberMe: 'Remeber account'
 
 
     },
     "zh": {
         HEADLINE : '这是我们的节日哦',
         INTRO_TEXT : 'And it has i18n support!',
-        BUTTON_TEXT_EN: 'english',
+        Language:'语言',
+        BUTTON_TEXT_EN: 'English',
         BUTTON_TEXT_ZH: '中文',
         Project: '项目管理',
         News: '资讯',
@@ -129,7 +135,11 @@ var translations = {
         startDate: '开始时间',
         endDate: '结束时间',
         position: '位置确认',
-        note: '备注'
+        note: '备注',
+        FileName: '文件名',
+        Owner: '所有者',
+        Home: '主页',
+        RemeberMe: '记住账号'
 
     }
 }

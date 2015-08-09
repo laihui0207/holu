@@ -1,0 +1,24 @@
+<ion-view view-title="{{ 'Home' | translate }}">
+    <ion-content>
+        <ion-refresher
+                pulling-text="{{ 'PullToFresh' | translate }}"
+                on-refresh="doRefresh()">
+        </ion-refresher>
+        <ul class="list list-inset">
+            <li>
+                <a class="item" nav-clear href="#/tab/news">{{'News' | translate }}</a>
+            </li>
+            <li>
+                <a class="item" href="#/tab/postsubjects">{{ 'Posts' | translate }}</a>
+            </li>
+            <li>
+                <a class="item"  href="#/tab/notes">{{ 'OA' | translate }}
+                    <span class="badge badge-assertive" ng-hide="newMessageCount==0">{{newMessageCount}}</span>
+                </a>
+            </li>
+            <li>
+                <a class="item"  href="#/tab/projects">{{ 'Project' | translate }}</a>
+            </li>
+        </ul>
+    </ion-content>
+</ion-view>
