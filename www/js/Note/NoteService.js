@@ -2,18 +2,68 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .factory('Notes', function ($http, $q, ENV) {
+    .factory('Notes', function ($http, $q, ENV,$rootScope) {
+        var NoteData={};
+        var pageSize=10;
+
         return ({
             all: listNote,
+            notes: getNoteData,
+            more: loadMore,
+            hasMore: canLoadMore,
             view: viewNote,
             save: saveNote,
             delete: deleteNote,
             send: sendNote
         })
-        function listNote() {
-            return $http.get(ENV.ServerUrl + "/services/api/notes.json")
+        function listNote(userId) {
+            var hasNextPage = true;
+            var currentPage = 0;
+            $http.get(ENV.ServerUrl + "/services/api/notes/user/" + userId + ".json?page=" + currentPage + "&pageSize=" + pageSize)
+                .then(function (response) {
+                    if (response.data.length < pageSize) {
+                        hasNextPage = false;
+                    }
+                    NoteData = {
+                        hasNextPage: hasNextPage,
+                        pageIndex: currentPage,
+                        data: response.data,
+                        userId: userId
+                    };
+                    $rootScope.$broadcast("NoteRefreshed");
+                })
         }
-
+        function loadMore(){
+           var currentPage=NoteData.pageIndex;
+            currentPage++;
+            var currentData=NoteData.data;
+            var userId=NoteData.userId;
+            console.log("load more useid:"+userId)
+            var hasNextPage=true;
+            $http.get(ENV.ServerUrl + "/services/api/notes/user/" + userId + ".json?page=" + currentPage + "&pageSize=" + pageSize)
+                .then(function (response) {
+                    if (response.data.length < pageSize) {
+                        hasNextPage = false;
+                    }
+                    currentData=currentData.concat(response.data);
+                    NoteData = {
+                        hasNextPage: hasNextPage,
+                        pageIndex: currentPage,
+                        data: currentData,
+                        userId: userId
+                    };
+                    $rootScope.$broadcast("NoteRefreshed");
+                })
+        }
+        function canLoadMore(){
+            return NoteData.hasNextPage
+        }
+        function getNoteData(userId){
+            if(NoteData.data==undefined){
+                return ;
+            }
+            return NoteData.data;
+        }
         function viewNote(id) {
             return $http.get(ENV.ServerUrl + "/services/api/notes/" + id + ".json")
         }

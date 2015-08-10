@@ -5,14 +5,18 @@ angular.module('Holu')
     .factory('Messages',function($http,$rootScope,$q,ENV){
         var messages={};
         var currentPage=0;
+        var pageSize=10;
         var unReadMessagesCount=0;
         return({
             list: listMyMessage,
+            messages: getMessageData,
             view: getMessage,
             save: saveMessage,
             send: sendMessage,
             delete: deleteMessage,
             readed: updateMessageStatus,
+            more: loadMore,
+            hasMore: canLoadMore,
             refreshNewMessagecount: getNewMessageCount,
             getNewMessageCount: getCountDate
         })
@@ -33,8 +37,46 @@ angular.module('Holu')
                 $rootScope.$broadcast('holu.messageCountUpdate');
             })
         }
+        function getMessageData(){
+            return messages.data;
+        }
         function listMyMessage(userId){
-            return $http.get(ENV.ServerUrl+"/services/api/msgs/user/"+userId+".json")
+            var hasNextPage=true;
+            var currentPage=0;
+            $http.get(ENV.ServerUrl+"/services/api/msgs/user/"+userId+".json?page="+currentPage+"&pageSize="+pageSize).then(function(response){
+                if(response.data.length < pageSize){
+                    hasNextPage=false;
+                }
+                messages={
+                    hasNextPage: hasNextPage,
+                    pageIndex: currentPage,
+                    data: response.data,
+                    userId: userId
+                }
+                $rootScope.$broadcast('MessageFlushed');
+            })
+        }
+        function loadMore(){
+            var userId=messages.userId;
+            var currentData=messages.data;
+            var currentPage=messages.pageIndex;
+            currentPage++;
+            $http.get(ENV.ServerUrl+"/services/api/msgs/user/"+userId+".json?page="+currentPage+"&pageSize="+pageSize).then(function(response){
+                if(response.data.length < pageSize){
+                    hasNextPage=false;
+                }
+                currentData=currentData.concat(response.data);
+                messages={
+                    hasNextPage: hasNextPage,
+                    pageIndex: currentPage,
+                    data: currentData,
+                    userId: userId
+                }
+                $rootScope.$broadcast('MessageFlushed');
+            })
+        }
+        function canLoadMore(){
+            return messages.hasNextPage;
         }
         function saveMessage(title,content,userId,messageId){
             var deferred = $q.defer();

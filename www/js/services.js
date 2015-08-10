@@ -73,6 +73,7 @@ angular.module('Holu.services', [])
         function doLogout(){
             user = {};
             Storage.remove(storageKey);
+            console.log(Storage.get(storageKey));
             //ClearCredentials()
         }
         function getCurrentUser(){

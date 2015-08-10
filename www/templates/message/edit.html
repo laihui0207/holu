@@ -15,7 +15,7 @@
 
     </ion-header-bar>
     <ion-content class="padding OA-content">
-        <div text-angular ng-model="htmlContent" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>
+<!--        <div text-angular ng-model="htmlContent" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>-->
 
         <div class="list card padding">
             <div class="item">
@@ -29,7 +29,7 @@
                 <span class="input-label">{{'Content' | translate }}: </span>
 <!--                <textarea ng-keyup="autoExpand($event)" ng-model="message.content"></textarea>-->
             </label>
-<!--            <div text-angular ng-model="message.content" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>-->
+            <div text-angular ng-model="message.content" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>
         </div>
         <div class="padding">
             <button class="button button-block button-calm activated" ng-click="save()">{{ 'Submit' | translate }}</button>

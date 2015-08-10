@@ -21,9 +21,32 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
             }
         });
     })
+    .run(function($rootScope, $ionicLoading) {
+        $rootScope.$on('loading:show', function() {
+            $ionicLoading.show()
+        })
+
+        $rootScope.$on('loading:hide', function() {
+            $ionicLoading.hide()
+        })
+    })
 /*  .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")*/
    .constant("ServerUrl", "http://localhost:8087/holusystem")
 /*    .constant("ServerUrl", "http://192.168.199.162:8087/holusystem")*/
+    .config(function($httpProvider) {
+        $httpProvider.interceptors.push(function($rootScope) {
+            return {
+                request: function(config) {
+                    $rootScope.$broadcast('loading:show')
+                    return config
+                },
+                response: function(response) {
+                    $rootScope.$broadcast('loading:hide')
+                    return response
+                }
+            }
+        })
+    })
     .config(function ($stateProvider, $urlRouterProvider) {
 
         // Ionic uses AngularUI Router which uses the concept of states

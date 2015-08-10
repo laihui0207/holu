@@ -32,9 +32,9 @@
                     <span class="item-note ago" am-time-ago="item.createTime"/>
                 </p>
             </ion-item>
-            <ion-item ng-hide="(newsList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
+            <ion-item ng-show="!(newsList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>
         <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>
-        <ion-spinner class="ng-hide" ng-show="!newsList" icon="spiral"></ion-spinner>
+<!--        <ion-spinner class="ng-hide" ng-show="!newsList" icon="spiral"></ion-spinner>-->
     </ion-content>
 </ion-view>

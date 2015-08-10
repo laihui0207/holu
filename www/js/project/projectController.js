@@ -4,50 +4,66 @@
 angular.module('Holu')
     .controller('ProjectCtrl', function ($scope, Projects, $rootScope, AuthService, $state, $stateParams,$ionicLoading) {
         var user = AuthService.currentUser();
+        var needReload=true;
         if (user == undefined) {
             $rootScope.backurl = "tab.project"
             $state.go("login")
             return
         }
-        $ionicLoading.show();
-        Projects.projects(user.userID,$stateParams.projectID).then(function (response) {
+        /*Projects.projects(user.userID,$stateParams.projectID).then(function (response) {
             $scope.projectList = response.data
-            $ionicLoading.hide();
+        })*/
+        $scope.$on("ProjectRefreshed",function(){
+            $scope.projectList=Projects.projectData();
+            needReload=false;
+            $scope.$broadcast('scroll.refreshComplete');
         })
-
         $scope.doRefresh = function () {
-            Projects.projects(user.userID,$stateParams.projectID).then(function (response) {
-                $scope.projectList = response.data
-            }).then(function () {
-                $scope.$broadcast('scroll.refreshComplete');
-            })
+            Projects.projects(user.userID,$stateParams.projectID)
         }
-        $rootScope.$on('holu.logged', function () {
-            user = AuthService.currentUser();
+        $scope.loadMore = function () {
+            Projects.moreProject();
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+        };
+        $scope.canLoadMore = function () {
+            return Projects.canMoreProject();
+        }
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            user=AuthService.currentUser();
+            if(needReload){
+                Projects.projects(user.userID,$stateParams.projectID)
+            }
+        })
+        $scope.$on("holu.logout",function(){
+            needReload=true;
         })
     })
     .controller('ComponentCtrl', function ($scope, Projects,$state, $rootScope, $stateParams,AuthService,$ionicLoading) {
         var user=AuthService.currentUser();
+        var needReload=true;
         if (user == undefined) {
             $rootScope.backurl = "tab.project"
             $state.go("login")
             return
         }
-        $ionicLoading.show();
         Projects.viewProject($stateParams.projectId).then(function (response) {
             $scope.project = response.data
         })
-
-        Projects.components($stateParams.projectId,user.userID).then(function (response) {
-            $scope.componentList = response.data
-            $ionicLoading.hide()
+        $scope.$on("ComponentRefreshed",function(){
+            $scope.componentList=Projects.componentData();
+            needReload=false;
+            $scope.$broadcast('scroll.refreshComplete');
         })
+        Projects.components($stateParams.projectId,user.userID);
         $scope.doRefresh = function () {
-            Projects.components($stateParams.projectId,user.userID).then(function (response) {
-                $scope.componentList = response.data
-            }).then(function () {
-                $scope.$broadcast('scroll.refreshComplete');
-            })
+            Projects.components($stateParams.projectId,user.userID)
+        }
+        $scope.loadMore = function () {
+            Projects.moreComponent();
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+        };
+        $scope.canLoadMore = function () {
+            return Projects.canMoreComponent();
         }
     })
     .controller('SubComponentCtrl',function($scope, Projects,$state, $rootScope, $stateParams,AuthService,$ionicLoading){
@@ -57,10 +73,8 @@ angular.module('Holu')
             $state.go("login")
             return
         }
-        $ionicLoading.show();
         Projects.viewComponent($stateParams.componentID,user.userID).then(function(response){
             $scope.component=response.data;
-            $ionicLoading.hide();
         })
        /* Projects.subComponents($stateParams.componentID,user.userID).then(function(response){
             $scope.subCompoentList=response.data;
@@ -81,7 +95,6 @@ angular.module('Holu')
             return
         }
         $scope.currentUser=user;
-        $ionicLoading.show();
         var componentType=$stateParams.type;
         $scope.componentID=$stateParams.componentID;
         if(componentType=='parent'){
@@ -97,12 +110,11 @@ angular.module('Holu')
                 $scope.component=response.data;
             })
         }
-        Projects.processList($stateParams.styleID, user.company.companyId,user.userID).then(function (response) {
+        Projects.processList($stateParams.styleID, user.company.companyId,user.userID,$stateParams.componentID).then(function (response) {
             $scope.componentStyleList = response.data
-            $ionicLoading.hide();
         })
         $scope.doRefresh = function () {
-            Projects.processList($stateParams.styleName, user.company.companyId,user.userID).then(function (response) {
+            Projects.processList($stateParams.styleName, user.company.companyId,user.userID,$stateParams.componentID).then(function (response) {
                 $scope.componentStyleList = response.data
             }).then(function () {
                 $scope.$broadcast('scroll.refreshComplete');
@@ -143,7 +155,6 @@ angular.module('Holu')
         })
         Projects.viewComponent($stateParams.componentID,user.userID).then(function(response){
             $scope.component=response.data;
-            $ionicLoading.hide();
         })
         $scope.save = function () {
             Projects.confirm($scope.processMid, user.userID)

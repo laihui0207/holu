@@ -3,25 +3,42 @@
  */
 
 angular.module('Holu')
-    .controller('NoteCtrl',function($scope,Notes,$rootScope,$ionicLoading,ENV){
-        $ionicLoading.show();
-        Notes.all().then(function(response){
-            $scope.noteList=response.data
-            $ionicLoading.hide();
-        })
-        $scope.doRefresh = function () {
-            Notes.all().then(function (response) {
-                $scope.noteList = response.data;
-            }).then(function(){
-                $scope.$broadcast('scroll.refreshComplete');
-            })
+    .controller('NoteCtrl',function($scope,Notes,$rootScope,ENV,AuthService,$state,$ionicHistory){
+        var user=AuthService.currentUser();
+        var needReload=true;
+        if(user == undefined){
+            $rootScope.backurl="tab.notes"
+            $state.go("login")
+            return
         }
         $scope.ServerUrl = ENV.ServerUrl;
-        $rootScope.$on('NoteUpdate',function(){
-            console.log("Get event:NoteUpdate")
-            Notes.all().then(function(response){
-                $scope.noteList=response.data
-            })
+        $scope.doRefresh = function () {
+            Notes.all(user.id)
+            $scope.$broadcast('scroll.refreshComplete');
+        };
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            user=AuthService.currentUser();
+            if(needReload){
+                Notes.all(user.id)
+            }
+        })
+        $scope.$on('NoteUpdate',function(){
+            Notes.all(user.id);
+        });
+        $scope.$on("NoteRefreshed",function(){
+            $scope.noteList=Notes.notes(user.id);
+            needReload=false;
+            $scope.$broadcast("scroll.refreshComplete");
+        });
+        $scope.loadMore = function () {
+            Notes.more();
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+        };
+        $scope.canLoadMore = function () {
+            return Notes.hasMore();
+        }
+        $scope.$on("holu.logout",function(){
+            needReload=true;
         })
 
     })
@@ -29,7 +46,6 @@ angular.module('Holu')
                                         $ionicPopup,$ionicLoading,ENV){
         $scope.sendUsers="";
         $scope.sendGroups="";
-        $ionicLoading.show();
         Notes.view($stateParams.noteId).then(function (response) {
             $scope.note = response.data;
         })
@@ -39,7 +55,6 @@ angular.module('Holu')
         })
         UserGroup.listSlv().then(function(response){
             $scope.groupList=response.data
-            $ionicLoading.hide();
         })
         $translate(['ChooseUser', 'ChooseUserGroup','NoChooseUser','NoChooseUserGroup']).then(function (translations) {
             $scope.ChooseUser = translations.ChooseUser;
@@ -48,14 +63,11 @@ angular.module('Holu')
             $scope.ChooseUserGroup = translations.ChooseUserGroup;
         });
         $scope.send=function(){
-            $ionicLoading.show();
             Notes.send($scope.note.id,$scope.sendUsers,$scope.sendGroups,$rootScope.currentUser.id)
                 .success(function(data){
-                    $ionicLoading.hide();
                     $state.go("tab.note-detail",{noteId:$scope.note.id})
                 })
                 .error(function(){
-                    $ionicLoading.hide();
                     var alertPopup = $ionicPopup.alert({
                         title: $scope.SaveFailedHeader,
                         template: $scope.SaveFailed
@@ -64,10 +76,8 @@ angular.module('Holu')
         }
     })
     .controller('NoteDetailCtrl', function ($scope, Notes, $stateParams,$ionicLoading,ENV) {
-        $ionicLoading.show();
         Notes.view($stateParams.noteId).then(function (response) {
             $scope.note = response.data;
-            $ionicLoading.hide();
         })
         $scope.ServerUrl = ENV.ServerUrl;
     })
@@ -87,18 +97,15 @@ angular.module('Holu')
             if($scope.note.title=="" || $scope.note.content==""){
                 // to do block save process
             }
-            $ionicLoading.show();
             Notes.save($scope.note.title,$scope.note.content,$rootScope.currentUser.id)
                 .success(function(data){
                     console.log("save note Controller:"+data)
                     if(data.title==$scope.note.title){
                         $rootScope.$broadcast('NoteUpdate',data);
-                        $ionicLoading.hide();
                         $state.go("tab.notes")
                     }
                     else {
                         console.log("save note Controller:"+data)
-                        $ionicLoading.hide();
                         var alertPopup = $ionicPopup.alert({
                             title: $scope.SaveFailedHeader,
                             template: $scope.SaveFailed
@@ -107,7 +114,6 @@ angular.module('Holu')
                 })
                 .error(function(data){
                     console.log("save note Controller:"+data)
-                    $ionicLoading.hide();
                     var alertPopup = $ionicPopup.alert({
                         title: $scope.SaveFailedHeader,
                         template: $scope.APICallFailed
@@ -128,10 +134,8 @@ angular.module('Holu')
             $scope.SaveFailedHeader = translations.SaveFailedHeader;
             $scope.APICallFailed = translations.LoginFailMessage;
         });
-        $ionicLoading.show();
         Notes.view($stateParams.noteId).then(function (response) {
             $scope.note = response.data;
-            $ionicLoading.hide();
         })
         /*$scope.$watch('note.content',function(){
             $scope.note.content.replace(
@@ -151,13 +155,10 @@ angular.module('Holu')
                 });
         })*/
         $scope.deleteNote=function(){
-            $ionicLoading.show();
             Notes.delete($scope.note.id).success(function(data){
                 $rootScope.$broadcast('NoteUpdate');
-                $ionicLoading.hide();
                 $state.go("tab.notes")
             }).error(function(data){
-                $ionicLoading.hide();
                 var alertPopup = $ionicPopup.alert({
                     title: $scope.SaveFailedHeader,
                     template: $scope.SaveFailed
@@ -168,18 +169,15 @@ angular.module('Holu')
             if($scope.note.title=="" || $scope.note.content==""){
                 // to do block save process
             }
-            $ionicLoading.show();
             Notes.save($scope.note.title,$scope.note.content,$rootScope.currentUser.id,$scope.note.id)
                 .success(function(data){
                     console.log("save note Controller:"+data)
                     if(data.title==$scope.note.title){
                         $rootScope.$broadcast('NoteUpdate',data);
-                        $ionicLoading.hide();
                         $state.go("tab.notes")
                     }
                     else {
                         console.log("save note Controller:"+data)
-                        $ionicLoading.hide();
                         var alertPopup = $ionicPopup.alert({
                             title: $scope.SaveFailedHeader,
                             template: $scope.SaveFailed
@@ -188,7 +186,6 @@ angular.module('Holu')
                 })
                 .error(function(data){
                     console.log("save note Controller:"+data)
-                    $ionicLoading.hide();
                     var alertPopup = $ionicPopup.alert({
                         title: $scope.SaveFailedHeader,
                         template: $scope.APICallFailed

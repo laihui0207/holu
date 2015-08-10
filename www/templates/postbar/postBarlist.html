@@ -12,10 +12,9 @@
                 <p> {{item.createTime | date:'yyyy-MM-dd' }}</p>
             </ion-item>
             <ion-item ng-show="!(postBarList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
+            <div class="item">
+                <a class="button  button-calm" href="#/tab/postbar/{{subjectId}}/new">{{ 'NewPostBar' | translate}} </a>
+            </div>
         </ion-list>
-        <div class="row">
-            <a class="button  button-calm" href="#/tab/postbar/{{subjectId}}/new">{{ 'NewPostBar' | translate}} </a>
-        </div>
-
     </ion-content>
 </ion-view>

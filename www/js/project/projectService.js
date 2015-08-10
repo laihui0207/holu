@@ -2,14 +2,27 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .factory('Projects',function($http,$q,ENV){
+    .factory('Projects',function($http,$q,ENV,$rootScope){
+        var ProjectsData={};
+        var pageSize=5;
+
+        var componentsData={};
+
         return ({
             projects: listMyProjects,
+            moreProject: loadMoreProject,
+            canMoreProject: isProjectHasNextPage,
+            projectData: getProjectData,
             viewProject: getProject,
+            //===========================
             components: listComponentsOfProject,
+            moreComponent: loadMoreComponent,
+            canMoreComponent: isComponentHasNextPage,
+            componentData: getComponentData,
             subComponents: listSubComponents,
             viewComponent: getComponent,
             viewSubComponent: getSubComponent,
+            //====================================
             processList: listProcessListOfComponents,
             componentStyles: listComponentStyleOfCompanyAndStyle,
             confirm: confirmProcess
@@ -18,11 +31,65 @@ angular.module('Holu')
             return $http.get(ENV.ServerUrl+"/services/api/projects/"+id+".json")
         }
         function listMyProjects(userId,parentID){
-            var serivceURL=ENV.ServerUrl+"/services/api/projects/user/"+userId+".json";
+            var currentPage=0;
+            var hasNextPage=true;
+            var serviceURL=ENV.ServerUrl+"/services/api/projects/user/"+userId+".json?page="+currentPage+"&pageSize="+pageSize;
             if(parentID!=undefined){
-                serivceURL+="?parentID="+parentID;
+                serviceURL+="&parentID="+parentID;
             }
-            return $http.get(serivceURL);
+            $http.get(serviceURL).then(function(response){
+                if(response.data.length < pageSize){
+                    hasNextPage=false;
+                }
+                ProjectsData={
+                    hasNextPage: hasNextPage,
+                    pageIndex: currentPage,
+                    data: response.data,
+                    userId: userId
+                }
+                if(parentID!=undefined){
+                    ProjectsData.parentId=parentID;
+                }
+                $rootScope.$broadcast("ProjectRefreshed");
+            })
+        }
+        function loadMoreProject(){
+            console.log("load more")
+            var currentPage=ProjectsData.pageIndex;
+            currentPage++;
+            var hasNextPage=true;
+            var currentData=ProjectsData.data;
+            var userId=ProjectsData.userId;
+            var parentID=ProjectsData.parentId;
+            var serviceURL=ENV.ServerUrl+"/services/api/projects/user/"+userId+".json?page="+currentPage+"&pageSize="+pageSize;
+            if(parentID!=undefined){
+                serviceURL+="&parentID="+parentID;
+            }
+            $http.get(serviceURL).then(function(response){
+                if(response.data.length < pageSize){
+                    hasNextPage=false;
+                }
+                currentData=currentData.concat(response.data);
+                ProjectsData={
+                    hasNextPage: hasNextPage,
+                    pageIndex: currentPage,
+                    data: currentData,
+                    userId: userId
+                }
+                if(parentID!=undefined){
+                    ProjectsData.parentId=parentID;
+                }
+                $rootScope.$broadcast("ProjectRefreshed");
+            })
+        }
+        function isProjectHasNextPage(){
+            return ProjectsData.hasNextPage;
+        }
+        function getProjectData(){
+            if(ProjectsData.data==undefined){
+                return ;
+            }
+            return ProjectsData.data;
         }
         function listSubComponents(componentID,userID){
             return $http.get(ENV.ServerUrl+"/services/api/subComponents/list/"+componentID+"/"+userID+".json");
@@ -34,10 +101,59 @@ angular.module('Holu')
             return $http.get(ENV.ServerUrl+"/services/api/subComponents/"+componentID+"/"+userID+".json");
         }
         function listComponentsOfProject(projectId,userID){
-            return $http.get(ENV.ServerUrl+"/services/api/components/project/"+projectId+"/u/"+userID+".json");
+            var currentPage=0;
+            var hasNextPage=true;
+            $http.get(ENV.ServerUrl+"/services/api/components/project/"+projectId+"/u/"+userID+".json?page="+currentPage+"&pageSize="+pageSize)
+                .then(function(response){
+                    if(response.data.length < pageSize){
+                        hasNextPage=false;
+                    }
+                    componentsData={
+                        hasNextPage: hasNextPage,
+                        pageIndex: currentPage,
+                        data: response.data,
+                        userId: userID,
+                        projectId: projectId
+                    }
+                    $rootScope.$broadcast("ComponentRefreshed");
+                })
         }
-        function listProcessListOfComponents(styleID,companyId,userId){
-            return $http.get(ENV.ServerUrl+"/services/api/componentStyles/processList/"+companyId+"/"+styleID+"/"+userId+".json")
+        function loadMoreComponent(){
+            var currentPage=componentsData.pageIndex;
+            currentPage++;
+            var currentData=componentsData.data;
+            var userID=componentsData.userId;
+            var projectId=componentsData.projectId;
+            var hasNextPage=true;
+
+            $http.get(ENV.ServerUrl+"/services/api/components/project/"+projectId+"/u/"+userID+".json?page="+currentPage+"&pageSize="+pageSize)
+                .then(function(response){
+                    if(response.data.length < pageSize){
+                        hasNextPage=false;
+                    }
+                    currentData=currentData.concat(response.data);
+                    componentsData={
+                        hasNextPage: hasNextPage,
+                        pageIndex: currentPage,
+                        data: currentData,
+                        userId: userID,
+                        projectId: projectId
+                    }
+                    $rootScope.$broadcast("ComponentRefreshed");
+                })
+
+        }
+        function isComponentHasNextPage(){
+            return componentsData.hasNextPage;
+        }
+        function getComponentData(){
+            if(componentsData.data==undefined){
+                return
+            }
+            return componentsData.data;
+        }
+        function listProcessListOfComponents(styleID,companyId,userId,componentID){
+            return $http.get(ENV.ServerUrl+"/services/api/componentStyles/processList/"+companyId+"/"+styleID+"/"+userId+"/"+componentID+".json")
         }
         function listComponentStyleOfCompanyAndStyle(companyID,styleID,userID){
             return $http.get(ENV.ServerUrl+"/services/api/componentStyles/processList/"+companyID+"/"+styleID+"/"+userID+".json")

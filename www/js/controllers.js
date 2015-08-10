@@ -45,9 +45,11 @@ angular.module('Holu.controllers', ['ngSanitize'])
                 if($rootScope.backurl != undefined){
                     backurl=$rootScope.backurl;
                     $rootScope.backurl=undefined;
+                    $scope.data={};
                     $state.go(backurl)
                 }
                 else {
+                    $scope.data={};
                     $state.go('tab.home')
                 }
             }).error(function(data){
@@ -95,6 +97,7 @@ angular.module('Holu.controllers', ['ngSanitize'])
         };
         $scope.logout=function(){
             $rootScope.$broadcast('holu.logout');
+            AuthService.logout();
             $state.go('login')
         }
         $scope.goHome=function(){
