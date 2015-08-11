@@ -76,15 +76,21 @@ angular.module('Holu')
         Projects.viewComponent($stateParams.componentID,user.userID).then(function(response){
             $scope.component=response.data;
         })
-       /* Projects.subComponents($stateParams.componentID,user.userID).then(function(response){
-            $scope.subCompoentList=response.data;
-        })*/
+        $scope.$on("SubComponentRefreshed",function(){
+            $scope.subComponentList=Projects.subComponentData();
+            needReload=false;
+            $scope.$broadcast('scroll.refreshComplete');
+        })
+        Projects.subComponents($stateParams.componentID,user.userID)
         $scope.doRefresh = function () {
-            Projects.viewComponent($stateParams.componentID,user.userID).then(function(response){
-                $scope.component=response.data;
-            }).then(function () {
-                $scope.$broadcast('scroll.refreshComplete');
-            })
+            Projects.subComponents($stateParams.componentID,user.userID)
+        }
+        $scope.loadMore = function () {
+            Projects.moreSubComponent();
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+        };
+        $scope.canLoadMore = function () {
+            return Projects.canMoreSubComponent();
         }
     })
     .controller('ProcessCtrl', function ($scope, Projects, $rootScope,AuthService, $stateParams,$ionicLoading) {

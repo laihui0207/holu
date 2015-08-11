@@ -3,32 +3,47 @@
  */
 angular.module('Holu')
     .controller('PostSubjectCtrl',function($scope,PostBars,$state,$rootScope,$ionicLoading){
-        PostBars.postSubjects().then(function(response){
-            $scope.subjectList=response.data
-        })
+        var needReload=true;
+        PostBars.postSubjects()
         $scope.doRefresh = function () {
-            PostBars.postSubjects().then(function(response){
-                $scope.subjectList=response.data
-            }).then(function(){
+            PostBars.postSubjects()
                 $scope.$broadcast('scroll.refreshComplete');
-            })
+        }
+        $scope.$on("SubjectRefreshed",function(){
+            $scope.subjectList=PostBars.subjectData();
+            needReload=false;
+            $scope.$broadcast("scroll.refreshComplete");
+        });
+        $scope.loadMore = function () {
+            PostBars.moreSubject();
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+        };
+        $scope.canLoadMore = function () {
+            return PostBars.canMoreSubject();
         }
         $scope.$on("holu.logout",function(){
-
+            needReload=true;
         })
     })
     .controller('PostBarCtrl',function($scope,PostBars,$stateParams,$rootScope,ENV,$ionicLoading){
         $scope.subjectId=$stateParams.subjectId;
+        var needReload=true;
         $scope.ServerUrl = ENV.ServerUrl;
-        PostBars.postBars($stateParams.subjectId).then(function(response){
-            $scope.postBarList=response.data
-        })
+        PostBars.postBars($stateParams.subjectId)
         $scope.doRefresh = function () {
-            PostBars.postBars($stateParams.subjectId).then(function(response){
-                $scope.postBarList=response.data
-            }).then(function(){
-                $scope.$broadcast('scroll.refreshComplete');
-            })
+            PostBars.postBars($stateParams.subjectId);
+        }
+        $scope.$on("PostBarRefreshed",function(){
+            $scope.postBarList=PostBars.postBarData();
+            needReload=false;
+            $scope.$broadcast("scroll.refreshComplete");
+        });
+        $scope.loadMore = function () {
+            PostBars.morePostBar();
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+        };
+        $scope.canLoadMore = function () {
+            return PostBars.canMorePostBar();
         }
         $rootScope.$on('PostBarUpdate',function(event, args){
             console.log("Get event:NoteUpdate")

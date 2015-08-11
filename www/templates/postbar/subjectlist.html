@@ -14,48 +14,6 @@
             </ion-item>
             <ion-item ng-show="!(subjectList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>
-
-       <!-- <tab-slide-box>
-            <div class="tsb-icons">
-                <div class="tsb-ic-wrp">
-                    <ion-scroll direction="x" class="tsb-hscroll">
-                        <a href="javascript:;" class="{{tab.icon}}" ng-repeat="tab in tabs" on-finish-render="test()">{{tab.text}}</a>
-                    </ion-scroll>
-                </div>
-            </div>-->
-           <!-- <ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
-                <ion-slide>
-                    <h3>Home content</h3>
-                </ion-slide>
-                <ion-slide>
-                    <h3>Games content</h3>
-                </ion-slide>
-                <ion-slide>
-                    <h3>Mail content</h3>
-                </ion-slide>
-                <ion-slide>
-                    <h3>Car content</h3>
-                </ion-slide>
-                <ion-slide>
-                    <h3>Profile content</h3>
-                </ion-slide>
-                <ion-slide>
-                    <h3>Favourites content</h3>
-                </ion-slide>
-                <ion-slide>
-                    <h3>Chats content</h3>
-                </ion-slide>
-                <ion-slide>
-                    <h3>Settings content</h3>
-                </ion-slide>
-                <ion-slide>
-                    <h3>Photos content</h3>
-                </ion-slide>
-                <ion-slide>
-                    <h3>Pets content</h3>
-                </ion-slide>
-            </ion-slide-box>-->
-       <!-- </tab-slide-box>-->
-
+        <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>
     </ion-content>
 </ion-view>

@@ -11,7 +11,7 @@
                 <span>{{project.company.companyFullName}}</span>
             </ion-item>
             <ion-item class="item-divider">{{'subComponent' | translate }}</ion-item>
-            <ion-item ng-repeat="item in component.subComponentListSet" collection-item-width="'100%'" class="item item-button-right">
+            <ion-item ng-repeat="item in subComponentList" collection-item-width="'100%'" class="item item-button-right">
                 <h2>{{ item.subComponentName}}</h2>
                 <a class="button icon-right  button-clear" href="#/tab/componentStyle/{{component.styleID}}/{{item.subComponentID}}/sub" >
 <!--                    {{ 'styleList' | translate }}-->
@@ -20,5 +20,6 @@
             </ion-item>
 
         </ion-list>
+        <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>
     </ion-content>
 </ion-view>

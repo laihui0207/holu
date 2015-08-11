@@ -5,21 +5,24 @@ angular.module('Holu.controllers', ['ngSanitize'])
             remeberMe: false,
             language: 'zh'
         };
-        $scope.data.userName=Storage.get("userName");
-        var remeberMe=Storage.get("remeberMe");
-        if(remeberMe!=undefined){
-            $scope.data.remeberMe=remeberMe;
-        }
-        var language=Storage.get("language");
-        if(language!= undefined && language!="undefined"){
-            $scope.data.language=language;
-        }
-        $translate.use($scope.data.language);
+
         $translate(['LoginFailHeader', 'LoginFailMessage']).then(function (translations) {
             $scope.loginFailHeader = translations.LoginFailHeader;
             $scope.LoginFailMessage = translations.LoginFailMessage;
         });
-        $rootScope.menuItems=menuItemService.menuList(false);
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            $scope.data.userName=Storage.get("userName");
+            var remeberMe=Storage.get("remeberMe");
+            if(remeberMe!=undefined){
+                $scope.data.remeberMe=remeberMe;
+            }
+            var language=Storage.get("language");
+            if(language!= undefined && language!="undefined"){
+                $scope.data.language=language;
+            }
+            $translate.use($scope.data.language);
+            $rootScope.menuItems=menuItemService.menuList(false);
+        })
         $scope.changeLanguage=function(){
             if($scope.data.language=='en')
             {

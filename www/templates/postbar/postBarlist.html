@@ -16,5 +16,6 @@
                 <a class="button  button-calm" href="#/tab/postbar/{{subjectId}}/new">{{ 'NewPostBar' | translate}} </a>
             </div>
         </ion-list>
+        <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>
     </ion-content>
 </ion-view>

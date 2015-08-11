@@ -5,8 +5,11 @@ angular.module('Holu')
     .factory('Projects',function($http,$q,ENV,$rootScope){
         var ProjectsData={};
         var pageSize=5;
-
+        var currentProject="";
+        var currentComponent="";
+        var currentSubComponent="";
         var componentsData={};
+        var subComponentData={};
 
         return ({
             projects: listMyProjects,
@@ -16,10 +19,14 @@ angular.module('Holu')
             viewProject: getProject,
             //===========================
             components: listComponentsOfProject,
+            currentProject: setCurrentProject,
             moreComponent: loadMoreComponent,
             canMoreComponent: isComponentHasNextPage,
             componentData: getComponentData,
             subComponents: listSubComponents,
+            moreSubComponent: loadMoreSubComponent,
+            canMoreSubComponent: isSubcomponentHasNextPage,
+            subComponentData: getSubComponentData,
             viewComponent: getComponent,
             viewSubComponent: getSubComponent,
             //====================================
@@ -91,9 +98,7 @@ angular.module('Holu')
             }
             return ProjectsData.data;
         }
-        function listSubComponents(componentID,userID){
-            return $http.get(ENV.ServerUrl+"/services/api/subComponents/list/"+componentID+"/"+userID+".json");
-        }
+
         function getComponent(componentID,userID){
             return $http.get(ENV.ServerUrl+"/services/api/components/"+componentID+"/"+userID+".json");
         }
@@ -103,12 +108,13 @@ angular.module('Holu')
         function listComponentsOfProject(projectId,userID){
             var currentPage=0;
             var hasNextPage=true;
+            currentProject=projectId;
             $http.get(ENV.ServerUrl+"/services/api/components/project/"+projectId+"/u/"+userID+".json?page="+currentPage+"&pageSize="+pageSize)
                 .then(function(response){
                     if(response.data.length < pageSize){
                         hasNextPage=false;
                     }
-                    componentsData={
+                    componentsData[currentProject]={
                         hasNextPage: hasNextPage,
                         pageIndex: currentPage,
                         data: response.data,
@@ -119,11 +125,11 @@ angular.module('Holu')
                 })
         }
         function loadMoreComponent(){
-            var currentPage=componentsData.pageIndex;
+            var currentPage=componentsData[currentProject].pageIndex;
             currentPage++;
-            var currentData=componentsData.data;
-            var userID=componentsData.userId;
-            var projectId=componentsData.projectId;
+            var currentData=componentsData[currentProject].data;
+            var userID=componentsData[currentProject].userId;
+            var projectId=componentsData[currentProject].projectId;
             var hasNextPage=true;
 
             $http.get(ENV.ServerUrl+"/services/api/components/project/"+projectId+"/u/"+userID+".json?page="+currentPage+"&pageSize="+pageSize)
@@ -132,7 +138,7 @@ angular.module('Holu')
                         hasNextPage=false;
                     }
                     currentData=currentData.concat(response.data);
-                    componentsData={
+                    componentsData[currentProject]={
                         hasNextPage: hasNextPage,
                         pageIndex: currentPage,
                         data: currentData,
@@ -143,14 +149,73 @@ angular.module('Holu')
                 })
 
         }
+        function setCurrentProject(projectID){
+            currentProject=projectID;
+        }
         function isComponentHasNextPage(){
-            return componentsData.hasNextPage;
+            if(componentsData[currentProject]==undefined){
+                return false;
+            }
+
+            return componentsData[currentProject].hasNextPage;
         }
         function getComponentData(){
-            if(componentsData.data==undefined){
+            if(componentsData[currentProject].data==undefined){
                 return
             }
-            return componentsData.data;
+            return componentsData[currentProject].data;
+        }
+        function listSubComponents(componentID,userID){
+            var currentPage=0;
+            var hasNextPage=true;
+            currentComponent=componentID;
+            $http.get(ENV.ServerUrl+"/services/api/subComponents/list/"+componentID+"/"+userID+".json?page="+currentPage+"&pageSize="+pageSize)
+                .then(function(response){
+                    if(response.data.length < pageSize){
+                        hasNextPage=false;
+                    }
+
+                    subComponentData[currentComponent]={
+                        hasNextPage: hasNextPage,
+                        pageIndex: currentPage,
+                        data: response.data,
+                        componentId: componentID,
+                        userId: userID
+                    }
+                    $rootScope.$broadcast("SubComponentRefreshed");
+                })
+        }
+        function loadMoreSubComponent(){
+            var currentPage=subComponentData[currentComponent].pageIndex;
+            currentPage++;
+            var hasNextPage=true;
+            var currentData=subComponentData[currentComponent].data;
+            var componentID=subComponentData[currentComponent].componentId;
+            var userID=subComponentData[currentComponent].userId;
+            $http.get(ENV.ServerUrl+"/services/api/subComponents/list/"+componentID+"/"+userID+".json?page="+currentPage+"&pageSize="+pageSize)
+                .then(function(response){
+                    if(response.data.length < pageSize){
+                        hasNextPage=false;
+                    }
+                    currentData=currentData.concat(response.data)
+                    subComponentData[currentComponent]={
+                        hasNextPage: hasNextPage,
+                        pageIndex: currentPage,
+                        data: currentData,
+                        componentId: componentID,
+                        userId: userID
+                    }
+                    $rootScope.$broadcast("SubComponentRefreshed");
+                })
+        }
+        function getSubComponentData(){
+            return subComponentData[currentComponent].data;
+        }
+        function isSubcomponentHasNextPage(){
+            if(subComponentData[currentComponent]==undefined){
+                return false;
+            }
+            return subComponentData[currentComponent].hasNextPage;
         }
         function listProcessListOfComponents(styleID,companyId,userId,componentID){
             return $http.get(ENV.ServerUrl+"/services/api/componentStyles/processList/"+companyId+"/"+styleID+"/"+userId+"/"+componentID+".json")

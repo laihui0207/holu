@@ -3,10 +3,21 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .factory('PostBars', function ($http, $q, ENV) {
+    .factory('PostBars', function ($http, $q, ENV,$rootScope) {
+        var subjectData={};
+        var currentSubject="";
+        var postBarData={};
+        var pageSize=10;
         return ({
             postSubjects: listPostSubjects,
+            subjectData: getSubjectData,
+            moreSubject: loadMoreSubject,
+            canMoreSubject: isSubjectHasNextPage,
+            //================================
             postBars: listPostBarOfSubject,
+            postBarData: getPostBarData,
+            morePostBar: loadMorePostBar,
+            canMorePostBar: isPostBarHasNextPage,
             viewPost: getPostBarById,
             save: savePostBar,
             delete: deletePostBar,
@@ -17,6 +28,47 @@ angular.module('Holu')
             listViewGroups: listPostBarViewGroups,
             listReplyGroups: listPostBarReplyGroups
         })
+        function listPostSubjects() {
+            var currentPage=0;
+            var hasNextPage=true;
+            $http.get(ENV.ServerUrl + "/services/api/postSubjects.json?page="+currentPage+"&pageSize="+pageSize)
+                .then(function(response){
+                    if(response.data.length < pageSize){
+                        hasNextPage=false;
+                    }
+                    subjectData={
+                        hasNextPage: hasNextPage,
+                        pageIndex: currentPage,
+                        data: response.data
+                    }
+                    $rootScope.$broadcast("SubjectRefreshed");
+                })
+        }
+        function loadMoreSubject(){
+            var currentPage=subjectData.pageIndex;
+            var hasNextPage=true;
+            var currentData=subjectData.data;
+            $http.get(ENV.ServerUrl + "/services/api/postSubjects.json?page="+currentPage+"&pageSize="+pageSize)
+                .then(function(response){
+                    if(response.data.length < pageSize){
+                        hasNextPage=false;
+                    }
+                    currentData=currentData.concat(response.data);
+                    subjectData={
+                        hasNextPage: hasNextPage,
+                        pageIndex: currentPage,
+                        data: currentData
+                    }
+                    $rootScope.$broadcast("SubjectRefreshed");
+                })
+
+        }
+        function getSubjectData(){
+            return subjectData.data;
+        }
+        function isSubjectHasNextPage(){
+            return subjectData.hasNextPage;
+        }
         function listPostBarViewUsers(postBarId){
             return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postBarId + "/viewUser/slv.json")
         }
@@ -29,14 +81,60 @@ angular.module('Holu')
         function listPostBarReplyGroups(postBarId){
             return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postBarId + "/replyGroup/slv.json")
         }
-        function listPostSubjects() {
-            return $http.get(ENV.ServerUrl + "/services/api/postSubjects.json");
-        }
+
 
         function listPostBarOfSubject(subjectId) {
-            return $http.get(ENV.ServerUrl + "/services/api/postbars/subject/" + subjectId + ".json")
+            var currentPage=0;
+            var hasNextPage=true;
+            currentSubject=subjectId;
+            $http.get(ENV.ServerUrl + "/services/api/postbars/subject/" + subjectId + ".json?page="+currentPage+"&pageSize="+pageSize)
+                .then(function(response){
+                    if(response.data.length < pageSize){
+                        hasNextPage=false;
+                    }
+                    postBarData[currentSubject]={
+                        hasNextPage: hasNextPage,
+                        pageIndex: currentPage,
+                        data: response.data,
+                        subjectId: subjectId
+                    }
+                    $rootScope.$broadcast("PostBarRefreshed");
+                })
         }
+        function loadMorePostBar(){
+            var currentPage=postBarData[currentSubject].pageIndex;
+            currentPage++;
+            var currentData=postBarData[currentSubject].data;
+            var subjectId=postBarData[currentSubject].subjectId;
+            var hasNextPage=true;
+            $http.get(ENV.ServerUrl + "/services/api/postbars/subject/" + subjectId + ".json?page="+currentPage+"&pageSize="+pageSize)
+                .then(function(response){
+                    if(response.data.length < pageSize){
+                        hasNextPage=false;
+                    }
+                    currentData=currentData.concat(response.data);
+                    postBarData[currentSubject]={
+                        hasNextPage: hasNextPage,
+                        pageIndex: currentPage,
+                        data: currentData,
+                        subjectId: subjectId
+                    }
+                    $rootScope.$broadcast("PostBarRefreshed");
+                })
 
+        }
+        function getPostBarData(){
+            if(postBarData[currentSubject]==undefined){
+                return;
+            }
+            return postBarData[currentSubject].data;
+        }
+        function isPostBarHasNextPage(){
+            if(postBarData[currentSubject]==undefined){
+                return false;
+            }
+            return postBarData[currentSubject].hasNextPage;
+        }
         function getPostBarById(postbarId) {
             return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postbarId + ".json")
         }
