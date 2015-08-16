@@ -60,7 +60,13 @@ var translations = {
         FileName: 'File Name',
         Owner: 'Owner',
         Home: 'Home',
-        RemeberMe: 'Remeber account'
+        RemeberMe: 'Remeber account',
+        SignUpSuccessHeader: 'SignUp Success',
+        SignUpFailedHeader: 'SignUp Failed',
+        SignUpSuccessMessage: 'Success, please wait administrator confirm your request',
+        SignUpFailedMessage: 'Failed, please check your input information',
+        SignUp: 'Sign Up',
+        loginCode: 'Login Code'
 
 
     },
@@ -139,7 +145,14 @@ var translations = {
         FileName: '文件名',
         Owner: '所有者',
         Home: '主页',
-        RemeberMe: '记住账号'
+        RemeberMe: '记住账号',
+        SignUpSuccessHeader: '注册成功',
+        SignUpFailedHeader: '注册失败',
+        SignUpSuccessMessage: '注册成功，请等待管理员审核',
+        SignUpFailedMessage: '注册失败，请检查您的输入是否正确',
+        SignUp: '注册',
+        loginCode: '登录名',
+        company: '公司'
 
     }
 }

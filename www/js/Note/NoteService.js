@@ -74,7 +74,8 @@ angular.module('Holu')
             $http({
                 method: 'POST',
                 url: ENV.ServerUrl + "/services/api/notes/Send.json",
-                data: "users=" + users + "&groups=" + groups + "&userId=" + userId + "&noteId=" + noteId,
+/*                data: "users=" + users + "&groups=" + groups + "&userId=" + userId + "&noteId=" + noteId,*/
+                data: {users:users ,groups:groups,userId:userId ,noteId:noteId},
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
                 if (data == "") {
@@ -104,7 +105,8 @@ angular.module('Holu')
             $http({
                 method: 'POST',
                 url: ENV.ServerUrl + "/services/api/notes.json",
-                data: "title=" + title + "&content=" + content + "&userId=" + userId + "&noteId=" + noteId,
+/*                data: "title=" + title + "&content=" + content + "&userId=" + userId + "&noteId=" + noteId,*/
+                data: {title:title,content: content,userId:userId,noteId:noteId},
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
                 console.log("Note save:" + data)

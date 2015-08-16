@@ -15,8 +15,8 @@ angular.module('Holu')
         $scope.doRefresh = function () {
             Messages.list($rootScope.currentUser.id)
         }
-        $scope.$on('MessageUpdate',function(){
-            console.log("Get event:NoteUpdate")
+        $rootScope.$on('MessageUpdate',function(){
+            console.log("Get event:MessageUpdate")
             Messages.list($rootScope.currentUser.id)
         })
         $scope.$on("$ionicView.enter", function(scopes, states){
@@ -45,16 +45,18 @@ angular.module('Holu')
         })
     })
     .controller('MessageDetailCtrl',function($scope,Messages,$stateParams,$ionicLoading){
-
-        Messages.readed($stateParams.messageId);
-        Messages.view($stateParams.messageId).then(function(response){
-            $scope.message=response.data
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            Messages.view($stateParams.messageId).then(function (response) {
+                $scope.message = response.data;
+            })
         })
+        Messages.readed($stateParams.messageId);
+        /*Messages.view($stateParams.messageId).then(function(response){
+            $scope.message=response.data
+        })*/
     })
     .controller('MessageSendCtrl',function($scope, Messages,UserService,UserGroup,$rootScope,AuthService,
                                            $stateParams,$translate,$state,$ionicPopup,$ionicLoading){
-        $scope.sendUsers="";
-        $scope.sendGroups="";
         var user=AuthService.currentUser();
         if(user == undefined){
             $rootScope.backurl="tab.messages"
@@ -77,8 +79,9 @@ angular.module('Holu')
             $scope.ChooseUserGroup = translations.ChooseUserGroup;
         });
         $scope.send=function(){
-            Messages.send($scope.message.id,$scope.sendUsers,$scope.sendGroups,user.id)
+            Messages.send($scope.message.id,$scope.message.sendUsers,$scope.message.sendGroups,user.id)
                 .success(function(data){
+                    $rootScope.$broadcast('MessageUpdate');
                     $state.go("tab.message-detail",{messageId:$scope.message.id})
                 })
                 .error(function(){
@@ -92,7 +95,7 @@ angular.module('Holu')
     .controller('MessageNewCtrl',function($scope,Messages,$translate,$rootScope,$state,$ionicPopup,$ionicLoading,AuthService){
         $scope.autoExpand = function(e) {
             var element = typeof e === 'object' ? e.target : document.getElementById(e);
-            var scrollHeight = element.scrollHeight - 5; // replace 60 by the sum of padding-top and padding-bottom
+            var scrollHeight = element.scrollHeight - 1; // replace 60 by the sum of padding-top and padding-bottom
             element.style.height =  scrollHeight + "px";
         };
         $translate(['SaveFailed', 'SaveFailedHeader','APICallFailed']).then(function (translations) {
@@ -115,7 +118,7 @@ angular.module('Holu')
                 .success(function(data){
                     console.log("save message Controller:"+data)
                     if(data.title==$scope.message.title){
-                        $rootScope.$broadcast('MessageUpdate',data);
+                        $rootScope.$broadcast('MessageUpdate');
                         $state.go("tab.messages")
                     }
                     else {
@@ -153,9 +156,12 @@ angular.module('Holu')
             $state.go("login")
             return
         }
-        Messages.view($stateParams.messageId).then(function (response) {
-            $scope.message = response.data;
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            Messages.view($stateParams.messageId).then(function (response) {
+                $scope.message = response.data;
+            })
         })
+
         $scope.delete=function(){
             Messages.delete($scope.message.id).success(function(data){
                 $rootScope.$broadcast('MessageUpdate');
@@ -173,10 +179,8 @@ angular.module('Holu')
             }
             Messages.save($scope.message.title,$scope.message.content,user.id,$scope.message.id)
                 .success(function(data){
-                    console.log("save message Controller:"+data)
                     if(data.title==$scope.message.title){
-                        $rootScope.$broadcast('MessageUpdate',data);
-
+                        $rootScope.$broadcast('MessageUpdate');
                         $state.go("tab.messages")
                     }
                     else {

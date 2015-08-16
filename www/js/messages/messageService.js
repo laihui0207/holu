@@ -85,7 +85,8 @@ angular.module('Holu')
             $http({
                 method: 'POST',
                 url: ENV.ServerUrl + "/services/api/msgs.json",
-                data: "title="+title+"&content="+content+"&userId="+userId+"&messageId="+messageId,
+/*                data: "title="+title+"&content="+content+"&userId="+userId+"&messageId="+messageId,*/
+                data: {title:title,content:content,userId:userId,messageId:messageId},
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
                 console.log("Message save:"+data)
@@ -119,7 +120,8 @@ angular.module('Holu')
             $http({
                 method: 'POST',
                 url: ENV.ServerUrl + "/services/api/msgs/Send.json",
-                data: "users=" + users + "&groups=" + groups + "&userId=" + userId + "&messageId=" + messageId,
+/*                data: "users=" + users + "&groups=" + groups + "&userId=" + userId + "&messageId=" + messageId,*/
+                data: {user:users ,groups:groups ,userId:userId,messageId:messageId},
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
                 if (data == "") {

@@ -29,21 +29,22 @@
                 <span class="input-label">{{'Content' | translate }}: </span>
                 <textarea ng-keyup="autoExpand($event)" ng-model="note.content" readonly="readonly"></textarea>
             </label>
-             <div text-angular ng-model="note.content" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>
+<!--             <div text-angular ng-model="note.content" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>-->
             <fancy-select class="item item-input"
                           header-text="{{'ChooseUser' | translate }}"
                           allow-empty='true'
-                          value="sendUsers"
+                          value="note.sendUsers"
                           label="ChooseUser"
                           text="NoChooseUser"
                           items="userList"
-                          multi-select="true">
+                          multi-select="true"
+                          >
             </fancy-select>
             <fancy-select class="item item-input"
                           header-text="{{'ChooseUserGroup' | translate }}"
                           allow-empty='true'
                           label="ChooseUserGroup"
-                          value="sendGroups"
+                          value="note.sendGroups"
                           text="NoChooseUserGroup"
                           items="groupList"
                           multi-select="true">

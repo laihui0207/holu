@@ -27,9 +27,12 @@
             </label>
             <label class="item item-input item-stacked-label">
                 <span class="input-label">{{'Content' | translate }}: </span>
-<!--                <textarea ng-keyup="autoExpand($event)" ng-model="message.content"></textarea>-->
+                <textarea ng-keyup="autoExpand($event)" ng-model="message.content"></textarea>
             </label>
-            <div text-angular ng-model="message.content" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>
+<!--            <div text-angular ng-model="message.content" ></div>-->
+<!--            <text-angular name="htmlcontent" ng-model="message.content" ta-text-editor-class="form-content" ta-html-editor-class="form-content" ta-focussed-class="focussed"></text-angular>-->
+
+            <!--            <text-angular ng-model="message.content"></text-angular>-->
         </div>
         <div class="padding">
             <button class="button button-block button-calm activated" ng-click="save()">{{ 'Submit' | translate }}</button>

@@ -34,18 +34,76 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
    .constant("ServerUrl", "http://localhost:8087/holusystem")
 /*    .constant("ServerUrl", "http://192.168.199.162:8087/holusystem")*/
     .config(function($httpProvider) {
-        $httpProvider.interceptors.push(function($rootScope) {
+        $httpProvider.interceptors.push(function($rootScope,Storage) {
             return {
                 request: function(config) {
+                    var currentUser = Storage.get("user");
+                    var  access_token = currentUser ? currentUser.access_token : null;
+                    //console.log("interceptor: "+currentUser)
+                    if (access_token) {
+                        config.headers.authorization = access_token;
+                    }
+                    else {
+                        config.headers.authorization="login";
+                    }
                     $rootScope.$broadcast('loading:show')
                     return config
                 },
                 response: function(response) {
                     $rootScope.$broadcast('loading:hide')
+                    if (response.status === 401) {
+                        $rootScope.$broadcast("holu.logout");
+                    }
                     return response
                 }
             }
         })
+        $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
+        $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+        // Override $http service's default transformRequest
+        $httpProvider.defaults.transformRequest = [function(data) {
+            /**
+             * The workhorse; converts an object to x-www-form-urlencoded serialization.
+             * @param {Object} obj
+             * @return {String}
+             */
+            var param = function(obj) {
+                var query = '';
+                var name, value, fullSubName, subName, subValue, innerObj, i;
+
+                for (name in obj) {
+                    value = obj[name];
+
+                    if (value instanceof Array) {
+                        for (i = 0; i < value.length; ++i) {
+                            subValue = value[i];
+                            fullSubName = name + '[' + i + ']';
+                            innerObj = {};
+                            innerObj[fullSubName] = subValue;
+                            query += param(innerObj) + '&';
+                        }
+                    } else if (value instanceof Object) {
+                        for (subName in value) {
+                            subValue = value[subName];
+                            fullSubName = name + '[' + subName + ']';
+                            innerObj = {};
+                            innerObj[fullSubName] = subValue;
+                            query += param(innerObj) + '&';
+                        }
+                    } else if (value !== undefined && value !== null) {
+                        query += encodeURIComponent(name) + '='
+                            + encodeURIComponent(value) + '&';
+                    }
+                }
+
+                return query.length ? query.substr(0, query.length - 1) : query;
+            };
+
+            return angular.isObject(data) && String(data) !== '[object File]'
+                ? param(data)
+                : data;
+        }];
     })
     .config(function ($stateProvider, $urlRouterProvider) {
 
@@ -64,16 +122,13 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
             })
             .state('login', {
                 url: '/login',
-                /*views:{
-                    'login-view':{*/
                         templateUrl: 'templates/user/login.html',
                         controller: 'LoginCtrl'
-                   /* },
-                    'menulist':{
-                        templateUrl: 'templates/menus/logoutmenu.html',
-                        controller: 'NavCtrl'
-                    }
-                }*/
+            })
+            .state('signup', {
+                url: '/signup',
+                        templateUrl: 'templates/user/signup.html',
+                        controller: 'LoginCtrl'
             })
             .state('tab.home', {
                 url: '/home',

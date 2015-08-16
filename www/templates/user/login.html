@@ -9,7 +9,6 @@
                 <span class="input-label">{{ 'Password' | translate }}</span>
                 <input type="password"  ng-model="data.password" required>
             </label>
-
         </div>
         <label class="item item-toggle">
             {{'RemeberMe' | translate }}
@@ -29,6 +28,9 @@
                 <option value="en" selected="data.language=='en'" >{{'BUTTON_TEXT_EN'| translate }}</option>
             </select>
         </label>
-        <button class="button button-block button-calm" ng-click="login()">{{ 'Login' | translate }}</button>
+        <p class="padding">
+            <button class="button button-calm" ng-click="login()">{{ 'Login' | translate }}</button>
+            <a class="button button-clear" href="#/signup">{{ 'SignUp' | translate }}</a>
+        </p>
     </ion-content>
 </ion-view>

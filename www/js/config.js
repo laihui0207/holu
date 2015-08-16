@@ -6,6 +6,7 @@ angular.module("Holu.config", [])
         "accessToken": '',
         ServerUrl: "http://220.178.1.10:8089/holusystem",
 /*        ServerUrl: "http://localhost:8087/holusystem",*/
+/*        ServerUrl: "http://192.168.199.162:8087/holusystem",*/
         "debug": false,
         'version':'1.0.0'
     })

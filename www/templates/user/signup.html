@@ -1,0 +1,38 @@
+<ion-view view-title="{{ 'SignUp' | translate}}" name="login-view">
+    <ion-content class="padding">
+        <div class="list list-inset">
+            <label class="item item-input">
+                <span class="input-label">{{'loginCode' | translate}}</span>
+                <input type="text" ng-model="newUser.loginCode" required>
+            </label>
+            <label class="item item-input">
+                <span class="input-label">{{ 'Password' | translate }}</span>
+                <input type="password" ng-model="newUser.password" required>
+            </label>
+            <label class="item item-input">
+                <span class="input-label">{{'UserName' | translate}}</span>
+                <input type="text" ng-model="newUser.userName" required>
+            </label>
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    {{'company' | translate }}
+                </div>
+                <select ng-model="newUser.companyId">
+                    <option ng-repeat="company in companies" value="{{company.companyId}}">
+                        {{company.companyFullName}}
+                    </option>
+                </select>
+            </label>
+        </div>
+        <label class="item item-input item-select">
+            <div class="input-label">
+                {{'Language' | translate }}
+            </div>
+            <select ng-model="data.language" ng-change="changeLanguage()">
+                <option value="zh" selected="data.language=='zh'">{{ 'BUTTON_TEXT_ZH' | translate }}</option>
+                <option value="en" selected="data.language=='en'">{{'BUTTON_TEXT_EN'| translate }}</option>
+            </select>
+        </label>
+        <button class="button button-block button-calm" ng-click="signup()">{{ 'SignUp' | translate }}</button>
+    </ion-content>
+</ion-view>

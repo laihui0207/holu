@@ -27,13 +27,13 @@
             </label>
             <label class="item item-input item-stacked-label">
                 <span class="input-label">{{'Content' | translate }}: </span>
-<!--                <textarea ng-keyup="autoExpand($event)" ng-model="message.content" readonly="readonly"></textarea>-->
+                <textarea ng-keyup="autoExpand($event)" ng-model="message.content" readonly="readonly"></textarea>
             </label>
-            <div text-angular ng-model="message.content" ta-disabled='false' name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>
+<!--            <div text-angular ng-model="message.content" ta-disabled='false' name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>-->
             <fancy-select class="item item-input"
                           header-text="{{'ChooseUser' | translate }}"
                           allow-empty='true'
-                          value="sendUsers"
+                          value="message.sendUsers"
                           label="ChooseUser"
                           text="NoChooseUser"
                           items="userList"
@@ -43,7 +43,7 @@
                           header-text="{{'ChooseUserGroup' | translate }}"
                           allow-empty='true'
                           label="ChooseUserGroup"
-                          value="sendGroups"
+                          value="message.sendGroups"
                           text="NoChooseUserGroup"
                           items="groupList"
                           multi-select="true">

@@ -5,10 +5,18 @@ angular.module('Holu.controllers', ['ngSanitize'])
             remeberMe: false,
             language: 'zh'
         };
-
-        $translate(['LoginFailHeader', 'LoginFailMessage']).then(function (translations) {
+        $scope.newUser={};
+        AuthService.companies().then(function(response){
+            $scope.companies=response.data;
+        })
+        $translate(['LoginFailHeader', 'LoginFailMessage','SignUpSuccessHeader','SignUpFailedHeader','SignUpSuccessMessage',
+        'SignUpFailedMessage']).then(function (translations) {
             $scope.loginFailHeader = translations.LoginFailHeader;
             $scope.LoginFailMessage = translations.LoginFailMessage;
+            $scope.SignUpSuccessHeader = translations.SignUpSuccessHeader;
+            $scope.SignUpFailedHeader = translations.SignUpFailedHeader;
+            $scope.SignUpSuccessMessage = translations.SignUpSuccessMessage;
+            $scope.SignUpFailedMessage = translations.SignUpFailedMessage;
         });
         $scope.$on("$ionicView.enter", function(scopes, states){
             $scope.data.userName=Storage.get("userName");
@@ -31,6 +39,29 @@ angular.module('Holu.controllers', ['ngSanitize'])
             else {
                 $translate.use('zh');
             }
+        }
+        $scope.signup=function(){
+            AuthService.signup($scope.newUser).success(function(data){
+                if(data!="" && data.loginCode==$scope.newUser.loginCode){
+                    $scope.newUser={};
+                    var alertPopup = $ionicPopup.alert({
+                        title: $scope.SignUpSuccessHeader,
+                        template: $scope.SignUpSuccessMessage
+                    });
+                    $state.go('login')
+                }
+                else {
+                    var alertPopup = $ionicPopup.alert({
+                        title: $scope.SignUpFailedHeader,
+                        template: $scope.SignUpFailedMessage
+                    });
+                }
+            }).error(function(data){
+                var alertPopup = $ionicPopup.alert({
+                    title: $scope.SignUpFailedHeader,
+                    template: $scope.SignUpFailedMessage
+                });
+            })
         }
         $scope.login=function(){
             if($scope.data.remeberMe){
@@ -100,8 +131,7 @@ angular.module('Holu.controllers', ['ngSanitize'])
         };
         $scope.logout=function(){
             $rootScope.$broadcast('holu.logout');
-            AuthService.logout();
-            $state.go('login')
+
         }
         $scope.goHome=function(){
             $state.go('tab.home')
@@ -118,6 +148,8 @@ angular.module('Holu.controllers', ['ngSanitize'])
             console.log("Get event:Logout")
             $scope.userName=null;
             $scope.menuItems=menuItemService.menuList(false);
+            AuthService.logout();
+            $state.go('login')
         })
     })
     .controller('AccountCtrl', function ($scope,$state, $ionicModal ) {

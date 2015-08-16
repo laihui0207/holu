@@ -22,7 +22,7 @@ angular.module('Holu')
                 Notes.all(user.id)
             }
         })
-        $scope.$on('NoteUpdate',function(){
+        $rootScope.$on("NoteUpdate",function(){
             Notes.all(user.id);
         });
         $scope.$on("NoteRefreshed",function(){
@@ -44,8 +44,6 @@ angular.module('Holu')
     })
     .controller('NoteSendCtrl',function($scope, Notes,UserService,UserGroup,$rootScope,$stateParams,$translate,$state,
                                         $ionicPopup,$ionicLoading,ENV){
-        $scope.sendUsers="";
-        $scope.sendGroups="";
         Notes.view($stateParams.noteId).then(function (response) {
             $scope.note = response.data;
         })
@@ -63,7 +61,7 @@ angular.module('Holu')
             $scope.ChooseUserGroup = translations.ChooseUserGroup;
         });
         $scope.send=function(){
-            Notes.send($scope.note.id,$scope.sendUsers,$scope.sendGroups,$rootScope.currentUser.id)
+            Notes.send($scope.note.id,$scope.note.sendUsers,$scope.note.sendGroups,$rootScope.currentUser.id)
                 .success(function(data){
                     $state.go("tab.note-detail",{noteId:$scope.note.id})
                 })
@@ -76,8 +74,10 @@ angular.module('Holu')
         }
     })
     .controller('NoteDetailCtrl', function ($scope, Notes, $stateParams,$ionicLoading,ENV) {
-        Notes.view($stateParams.noteId).then(function (response) {
-            $scope.note = response.data;
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            Notes.view($stateParams.noteId).then(function (response) {
+                $scope.note = response.data;
+            })
         })
         $scope.ServerUrl = ENV.ServerUrl;
     })
@@ -101,7 +101,7 @@ angular.module('Holu')
                 .success(function(data){
                     console.log("save note Controller:"+data)
                     if(data.title==$scope.note.title){
-                        $rootScope.$broadcast('NoteUpdate',data);
+                        $rootScope.$broadcast("NoteUpdate");
                         $state.go("tab.notes")
                     }
                     else {
@@ -134,9 +134,14 @@ angular.module('Holu')
             $scope.SaveFailedHeader = translations.SaveFailedHeader;
             $scope.APICallFailed = translations.LoginFailMessage;
         });
-        Notes.view($stateParams.noteId).then(function (response) {
-            $scope.note = response.data;
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            Notes.view($stateParams.noteId).then(function (response) {
+                $scope.note = response.data;
+            })
         })
+        /*Notes.view($stateParams.noteId).then(function (response) {
+            $scope.note = response.data;
+        })*/
         /*$scope.$watch('note.content',function(){
             $scope.note.content.replace(
                 new RegExp("(<img.*?(?: |\t|\r|\n)?src=['\"]?)(.+?)(['\"]?(?:(?: |\t|\r|\n)+.*?)?>)", 'gi'),
@@ -156,7 +161,7 @@ angular.module('Holu')
         })*/
         $scope.deleteNote=function(){
             Notes.delete($scope.note.id).success(function(data){
-                $rootScope.$broadcast('NoteUpdate');
+                $rootScope.$broadcast("NoteUpdate");
                 $state.go("tab.notes")
             }).error(function(data){
                 var alertPopup = $ionicPopup.alert({
@@ -173,7 +178,7 @@ angular.module('Holu')
                 .success(function(data){
                     console.log("save note Controller:"+data)
                     if(data.title==$scope.note.title){
-                        $rootScope.$broadcast('NoteUpdate',data);
+                        $rootScope.$broadcast("NoteUpdate");
                         $state.go("tab.notes")
                     }
                     else {

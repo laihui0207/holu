@@ -1,6 +1,5 @@
 angular.module('Holu.services', [])
     .factory('Storage', function() {
-        "use strict";
         return {
             set: function(key, data) {
                 return window.localStorage.setItem(key, window.JSON.stringify(data));
@@ -25,11 +24,13 @@ angular.module('Holu.services', [])
             clearCred: ClearCredentials,
             logged: isLogged,
             logout: doLogout,
-            currentUser: getCurrentUser
+            currentUser: getCurrentUser,
+            signup: createUser,
+            companies: getCompany
         })
-        var storageKey = 'holu.user';
         var credentailKey="holu.cred";
-        var user = Storage.get(storageKey) || {};
+        var user = Storage.get("user") || {};
+
         function doLogin(userName, pw) {
             var deferred = $q.defer();
             var promise = deferred.promise;
@@ -45,8 +46,9 @@ angular.module('Holu.services', [])
                     deferred.reject('Wrong credentials.');
                 }
                 else {
+                    //data.access_token="AAABBBB";
                     $rootScope.currentUser=data;
-                    Storage.set(storageKey, data);
+                    Storage.set("user", data);
                     user=data;
                     //saveCred(userName,pw);
                     $rootScope.menuItems=menuItemService.menuList(true);
@@ -67,17 +69,52 @@ angular.module('Holu.services', [])
             }
             return promise;
         }
+        function createUser(newUser){
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            // verify username and password
+            $http({
+                method: 'POST',
+                url: ENV.ServerUrl + "/services/api/users/signup.json",
+/*                data: "userName="+newUser.userName+"&password="+newUser.password+"&loginCode="+newUser.loginCode+"&userId="+
+                newUser.userId+"&companyId="+newUser.companyId,*/
+                data: {userName:newUser.userName,password:newUser.password,loginCode:newUser.loginCode,companyId:newUser.companyId},
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (data) {
+                if(data==""){
+                    deferred.reject('Sign up Failed');
+                }
+                else {
+                    deferred.resolve(data);
+                }
+            }).error(function (data) {
+                deferred.reject('Wrong credentials.');
+            })
+
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
+        }
         function isLogged(){
            return user == {}
         }
         function doLogout(){
             user = {};
-            Storage.remove(storageKey);
-            console.log(Storage.get(storageKey));
+            Storage.remove("user");
+            console.log(Storage.get("user"));
             //ClearCredentials()
         }
         function getCurrentUser(){
             return user;
+        }
+        function getCompany(){
+            return $http.get(ENV.ServerUrl + "/services/api/companies/signup/company.json")
         }
         function saveCred(userName, password) {
             var authdata = Base64.encode(userName + ':' + password);
@@ -206,8 +243,27 @@ angular.module('Holu.services', [])
 
         }
     })
+    /*.service('APIInterceptor', function($rootScope, AuthService) {
+        var service = this;
 
+        service.request = function(config) {
+            var currentUser = AuthService.currentUser(),
+                access_token = currentUser ? currentUser.access_token : null;
 
+            if (access_token) {
+                config.headers.authorization = access_token;
+            }
+            return config;
+        };
+
+        service.responseError = function(response) {
+            if (response.status === 401) {
+                $rootScope.$broadcast('unauthorized');
+            }
+            return response;
+        };
+    })
+*/
 
     .factory('Chats', function ($http) {
         // Might use a resource here that returns a JSON array
