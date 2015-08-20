@@ -2,7 +2,11 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .controller("NewsCtrl", function ($scope, News, ENV) {
+    .controller("NewsCtrl", function ($scope, News, ENV,AuthService) {
+        var currentUser=AuthService.currentUser();
+        if(currentUser!=undefined){
+            $scope.companyName=currentUser.company.companyShortNameCN
+        }
         News.newsTypes().then(function (response) {
             $scope.newsTypeList = response.data;
         })

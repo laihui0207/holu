@@ -1,4 +1,15 @@
-<ion-view view-title="{{ 'Login' | translate}}" name="login-view">
+<ion-view view-title="ICMS 2015" name="login-view">
+    <ion-nav-bar class="bar-calm">
+        <ion-nav-back-button ><!--class="button-icon ion-arrow-left-c"-->
+        </ion-nav-back-button>
+
+        <ion-nav-buttons side="left">
+           <!-- <button class="button button-icon button-clear">   ion-ionic ng-click="showMenu()"-->
+                <img class="title-image" src="img/ionic.png" width="38" height="38" /></h1>
+                <!--{{'mainMenuHeader' | translate}}-->
+           <!-- </button>-->
+        </ion-nav-buttons>
+    </ion-nav-bar>
     <ion-content class="padding">
         <div class="list list-inset">
             <label class="item item-input">
@@ -19,7 +30,23 @@
                 </div>
             </label>
         </label>
-        <label class="item item-input item-select">
+        <!--<label class="item item-input item-select">
+            <div class="input-label">
+                {{'Language' | translate }}
+            </div>
+            <select ng-model="data.language" ng-change="changeLanguage()">
+                <option value="zh" selected="data.language=='zh'">{{ 'BUTTON_TEXT_ZH' | translate }}</option>
+                <option value="en" selected="data.language=='en'" >{{'BUTTON_TEXT_EN'| translate }}</option>
+            </select>
+        </label>-->
+        <!--<p class="padding">-->
+            <button class="button button-block button-calm" ng-click="login()">{{ 'Login' | translate }}</button>
+            <a class="button button-block" href="#/signup">{{ 'SignUp' | translate }}</a>
+        <!--</p>-->
+    </ion-content>
+    <div class="bar bar-footer bar-light item-input-inset">
+<!--        <button class="button button-clear hide">Left</button>-->
+        <label class=" item-input item-select">
             <div class="input-label">
                 {{'Language' | translate }}
             </div>
@@ -28,9 +55,7 @@
                 <option value="en" selected="data.language=='en'" >{{'BUTTON_TEXT_EN'| translate }}</option>
             </select>
         </label>
-        <p class="padding">
-            <button class="button button-calm" ng-click="login()">{{ 'Login' | translate }}</button>
-            <a class="button button-clear" href="#/signup">{{ 'SignUp' | translate }}</a>
-        </p>
-    </ion-content>
+
+      <!--  <button class="button button-clear">Right</button>-->
+    </div>
 </ion-view>

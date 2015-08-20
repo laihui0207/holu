@@ -7,6 +7,7 @@ angular.module('Holu.imageFilter', [])
         return function (input, scope) {
             //console.log(input)
             if(input==undefined) return
+            if(input.indexOf("<img") < 0) return input;
             var newContent = input.replace(
                 new RegExp("(<img.*?(?: |\t|\r|\n)?src=['\"]?)(.+?)(['\"]?(?:(?: |\t|\r|\n)+.*?)?>)", 'gi'),
                 function ($0, $1, $2, $3) {
@@ -26,7 +27,8 @@ angular.module('Holu.imageFilter', [])
         };
     })
     .filter('imagePath', function () {
-        return function (input, scope) {
+        return function (input,scope) {
             return scope.ServerUrl + input;
+/*            return "http://220.178.1.10:8089/holusystem"+ input;*/
         }
     })

@@ -1,4 +1,4 @@
-<ion-view view-title="{{ 'News' | translate }}">
+<ion-view view-title="{{ companyName }}">
     <ion-header-bar class="bar bar-subheader buttons-right custom-subheader">
         <div class="tabs" tab-slide-box>
             <a class="tab-item" ng-click="newsListByType('all')">
@@ -22,14 +22,14 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item class="item item-thumbnail-left" ng-repeat="item in newsList" href="#/tab/news/{{item.id}}">
-                <img src="{{item.thumbnailUrl | imagePath:this}}">
+            <ion-item class="item item-thumbnail-right" ng-repeat="item in newsList" href="#/tab/news/{{item.id}}">
+                <img ng-src="{{item.thumbnailUrl | imagePath:this }}"> <!--| imagePath:this -->
 
                 <h2>{{ item.title }}</h2>
 
                 <p class="summary">
                     <span><!--{{'NewsType' | translate}}:-->{{item.newsType.name}} <!--{{item.createTime | date:'yyyy-MM-dd' }}--></span>
-                    <span class="item-note ago" am-time-ago="item.createTime"/>
+                    <span class="ago" am-time-ago="item.createTime"/>
                 </p>
             </ion-item>
             <ion-item ng-show="!(newsList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>

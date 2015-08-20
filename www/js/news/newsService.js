@@ -7,6 +7,7 @@ angular.module('Holu')
         var pageSize=10;
         var newsType="all"
         return ({
+            lastedNews: listLastNews,
             fleshNews: listNews,
             newsList: getData,
             setCurrentNewsType: setNewsType,
@@ -16,6 +17,9 @@ angular.module('Holu')
             newsTypes: getNewsTypes,
             newsListByType: getNewsListByNewsType
         })
+        function listLastNews(){
+           return $http.get(ENV.ServerUrl + "/services/api/news.json?pageSize=3&page=0&type=all");
+        }
         function listNews() {
             //return news;
             var hasNextPage=true;

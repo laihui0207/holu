@@ -6,9 +6,9 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services', 'Holu.imageFilter',
-    'Holu.config','Holu.translate','textAngular','Holu.SelectDirective','angularMoment'])
+    'Holu.config','Holu.translate','textAngular','Holu.SelectDirective','angularMoment','angular-carousel'])
 
-    .run(function ($ionicPlatform) {
+    .run(function ($ionicPlatform, $rootScope, $state, $timeout, $ionicHistory, $cordovaToast,amMoment) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -19,16 +19,33 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                 // org.apache.cordova.statusbar required
                 StatusBar.styleLightContent();
             }
+            amMoment.changeLocale('zh-cn');
         });
-    })
-    .run(function($rootScope, $ionicLoading) {
-        $rootScope.$on('loading:show', function() {
-            $ionicLoading.show()
-        })
-
-        $rootScope.$on('loading:hide', function() {
-            $ionicLoading.hide()
-        })
+        $ionicPlatform.registerBackButtonAction(function (e) {
+            //判断处于哪个页面时双击退出
+            if ($state.current.name == "tab.home") {
+                if ($rootScope.backButtonPressedOnceToExit) {
+                    ionic.Platform.exitApp();
+                } else {
+                    $rootScope.backButtonPressedOnceToExit = true;
+                    $cordovaToast.showShortTop('再按一次退出系统');
+                    setTimeout(function () {
+                        $rootScope.backButtonPressedOnceToExit = false;
+                    }, 2000);
+                }
+            }
+            else if ($ionicHistory.backView()) {
+                $ionicHistory.goBack();
+            } else {
+                $rootScope.backButtonPressedOnceToExit = true;
+                $cordovaToast.showShortTop('再按一次退出系统');
+                setTimeout(function () {
+                    $rootScope.backButtonPressedOnceToExit = false;
+                }, 2000);
+            }
+            e.preventDefault();
+            return false;
+        }, 101);
     })
 /*  .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")*/
    .constant("ServerUrl", "http://localhost:8087/holusystem")
@@ -104,6 +121,7 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                 ? param(data)
                 : data;
         }];
+
     })
     .config(function ($stateProvider, $urlRouterProvider) {
 

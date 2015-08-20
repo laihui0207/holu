@@ -66,7 +66,12 @@ var translations = {
         SignUpSuccessMessage: 'Success, please wait administrator confirm your request',
         SignUpFailedMessage: 'Failed, please check your input information',
         SignUp: 'Sign Up',
-        loginCode: 'Login Code'
+        loginCode: 'Login Code',
+        ProjectSummary: 'Project Summary',
+        ProjectOverview: 'Project Overview',
+        MyProject: 'My Project',
+        MyTask: 'My Task',
+        ImportNews: 'Important News'
 
 
     },
@@ -78,6 +83,7 @@ var translations = {
         BUTTON_TEXT_ZH: '中文',
         Project: '项目管理',
         News: '资讯',
+        ImportNews: '重要资讯',
         Posts: '贴吧',
         Notes: '日志',
         Documents: '文档',
@@ -152,7 +158,11 @@ var translations = {
         SignUpFailedMessage: '注册失败，请检查您的输入是否正确',
         SignUp: '注册',
         loginCode: '登录名',
-        company: '公司'
+        company: '公司',
+        ProjectSummary: '项目汇总',
+        ProjectOverview: '项目概况',
+        MyProject: '我的项目',
+        MyTask: '我的任务'
 
     }
 }

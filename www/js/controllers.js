@@ -1,6 +1,6 @@
 angular.module('Holu.controllers', ['ngSanitize'])
     .controller('LoginCtrl',function($scope,AuthService,$ionicPopup,$rootScope, $state,Storage,
-                                     $translate,menuItemService){
+                                     $translate,menuItemService,amMoment){
         $scope.data={
             remeberMe: false,
             language: 'zh'
@@ -35,9 +35,11 @@ angular.module('Holu.controllers', ['ngSanitize'])
             if($scope.data.language=='en')
             {
                 $translate.use('en');
+                amMoment.changeLocale('en');
             }
             else {
                 $translate.use('zh');
+                amMoment.changeLocale('zh-cn');
             }
         }
         $scope.signup=function(){
@@ -94,18 +96,32 @@ angular.module('Holu.controllers', ['ngSanitize'])
             })
         }
     })
-    .controller("HomeCtrl",function($scope,AuthService,Messages){
+    .controller("HomeCtrl",function($scope,AuthService,Messages,News, $ionicSlideBoxDelegate,ENV){
         var user=AuthService.currentUser();
+        if(user!=undefined){
+            $scope.companyName=user.company.companyShortNameCN
+        }
+        $scope.ServerUrl = ENV.ServerUrl; // use to image filter
         Messages.refreshNewMessagecount(user.id)
+        News.lastedNews().then(function(response){
+            $scope.newsList=response.data;
+        })
+/*        backcallFactory.backcallfun();*/
         //$scope.newMessageCount=Messages.getNewMessageCount();
         $scope.doRefresh=function(){
             Messages.refreshNewMessagecount(user.id);
+            News.lastedNews().then(function(response){
+                $scope.newsList=response.data;
+            })
             $scope.$broadcast('scroll.refreshComplete');
         }
         $scope.$on("holu.messageCountUpdate",function(){
             Messages.refreshNewMessagecount(user.id);
             $scope.$broadcast('scroll.refreshComplete');
         })
+        $scope.navSlide = function(index) {
+            $ionicSlideBoxDelegate.slide(index, 500);
+        }
 
     })
     .controller('TranslateController', function ($translate, $scope) {
