@@ -42,7 +42,7 @@ angular.module('Holu')
         })
 
     })
-    .controller('NoteSendCtrl',function($scope, Notes,UserService,UserGroup,$rootScope,$stateParams,$translate,$state,
+    .controller('NoteSendCtrl',function($scope, Notes,UserService,UserGroup,Department,$rootScope,$stateParams,$translate,$state,
                                         $ionicPopup,$ionicLoading,ENV){
         Notes.view($stateParams.noteId).then(function (response) {
             $scope.note = response.data;
@@ -54,14 +54,19 @@ angular.module('Holu')
         UserGroup.listSlv().then(function(response){
             $scope.groupList=response.data
         })
-        $translate(['ChooseUser', 'ChooseUserGroup','NoChooseUser','NoChooseUserGroup']).then(function (translations) {
+        Department.listSlv().then(function(response){
+            $scope.departmentList=response.data;
+        })
+        $translate(['ChooseUser', 'ChooseUserGroup','NoChooseUser','NoChooseUserGroup','ChooseDepartment','NoChooseDepartment']).then(function (translations) {
             $scope.ChooseUser = translations.ChooseUser;
             $scope.NoChooseUser = translations.NoChooseUser;
             $scope.NoChooseUserGroup= translations.NoChooseUserGroup;
             $scope.ChooseUserGroup = translations.ChooseUserGroup;
+            $scope.NoChooseDepartment= translations.NoChooseDepartment;
+            $scope.ChooseDepartment = translations.ChooseDepartment;
         });
         $scope.send=function(){
-            Notes.send($scope.note.id,$scope.note.sendUsers,$scope.note.sendGroups,$rootScope.currentUser.id)
+            Notes.send($scope.note.id,$scope.note.sendUsers,$scope.note.sendGroups,note.departments,$rootScope.currentUser.id)
                 .success(function(data){
                     $state.go("tab.note-detail",{noteId:$scope.note.id})
                 })

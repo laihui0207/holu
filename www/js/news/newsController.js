@@ -40,3 +40,32 @@ angular.module('Holu')
         })
         $scope.ServerUrl = ENV.ServerUrl;
     })
+    .controller("ImportantNewsCtrl", function ($scope, News, ENV,AuthService) {
+        var currentUser=AuthService.currentUser();
+        if(currentUser!=undefined){
+            $scope.companyName=currentUser.company.companyShortNameCN
+        }
+      /*  News.newsTypes().then(function (response) {
+            $scope.newsTypeList = response.data;
+        })*/
+        News.fleshImportantNews();
+        $scope.ServerUrl = ENV.ServerUrl; // use to image filter
+        $scope.$on("ImportantNews.updated", function () {
+            $scope.newsList = News.importantNewsList();
+            $scope.$broadcast('scroll.refreshComplete');
+        })
+        $scope.doRefresh = function () {
+          /*  News.newsTypes().then(function (response) {
+                $scope.newsTypeList = response.data;
+            })*/
+            News.fleshImportantNews();
+
+        }
+        $scope.loadMore = function () {
+            News.moreImportant();
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+        }
+        $scope.canLoadMore = function () {
+            return News.hasMoreImportant();
+        }
+    })

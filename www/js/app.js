@@ -8,7 +8,7 @@
 angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services', 'Holu.imageFilter',
     'Holu.config','Holu.translate','textAngular','Holu.SelectDirective','angularMoment','angular-carousel'])
 
-    .run(function ($ionicPlatform, $rootScope, $state, $timeout, $ionicHistory, $cordovaToast,amMoment) {
+    .run(function ($ionicPlatform, $rootScope, $state, $timeout, $ionicHistory, $cordovaToast,amMoment,$cordovaSplashscreen) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -19,6 +19,9 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                 // org.apache.cordova.statusbar required
                 StatusBar.styleLightContent();
             }
+            setTimeout(function() {
+                $cordovaSplashscreen.hide();
+            }, 500);
             amMoment.changeLocale('zh-cn');
         });
         $ionicPlatform.registerBackButtonAction(function (e) {
@@ -219,6 +222,15 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                     'tab-news': {
                         templateUrl: 'templates/news/newslist.html',
                         controller: 'NewsCtrl'
+                    }
+                }
+            })
+            .state('tab.importantNews', {
+                url: '/importantNews',
+                views: {
+                    'tab-news': {
+                        templateUrl: 'templates/news/importantnewslist.html',
+                        controller: 'ImportantNewsCtrl'
                     }
                 }
             })

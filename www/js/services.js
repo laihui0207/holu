@@ -227,6 +227,14 @@ angular.module('Holu.services', [])
             return $http.get(ENV.ServerUrl+"/services/api/users/slv.json")
         }
     })
+    .factory('Department',function($http,ENV){
+        return ({
+            listSlv: listDepartment
+        })
+        function listDepartment(){
+            return $http.get(ENV.ServerUrl+"/services/api/departments/slv.json")
+        }
+    })
     .factory('UserGroup',function($http,$q,ENV){
         return({
             listSlv: listUserGroups,
@@ -234,7 +242,7 @@ angular.module('Holu.services', [])
             delete: deleteUserGroup
         })
         function listUserGroups(){
-            return $http.get(ENV.ServerUrl+"/services/api/usergroups/slv.json")
+            return $http.get(ENV.ServerUrl+"/services/api/groups/slv.json")
         }
         function saveUserGroup(){
 

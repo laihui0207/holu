@@ -4,18 +4,23 @@
 angular.module('Holu')
     .factory('News', function ($http, ENV,$rootScope) {
         var datas={};
+        var importantDatas={};
         var pageSize=10;
         var newsType="all"
         return ({
             lastedNews: listLastNews,
             fleshNews: listNews,
             newsList: getData,
-            setCurrentNewsType: setNewsType,
             more: loadMoreNews,
             hasMore: canLoadMore,
+            setCurrentNewsType: setNewsType,
             viewNews: getNews,
             newsTypes: getNewsTypes,
-            newsListByType: getNewsListByNewsType
+            newsListByType: getNewsListByNewsType,
+            fleshImportantNews: listImportantNews,
+            importantNewsList: getImportantData,
+            moreImportant: loadMoreImportantNews,
+            hasMoreImportant: canLoadMoreImportant,
         })
         function listLastNews(){
            return $http.get(ENV.ServerUrl + "/services/api/news.json?pageSize=3&page=0&type=all");
@@ -79,5 +84,52 @@ angular.module('Holu')
         }
         function getNewsListByNewsType(typeId){
             return $http.get(ENV.ServerUrl+"/services/api/news/newstype/"+typeId+".json");
+        }
+        function listImportantNews() {
+            //return news;
+            var hasNextPage=true;
+            var currentPage=0;
+            $http.get(ENV.ServerUrl + "/services/api/news/important.json?pageSize="+pageSize+"&page="+currentPage).then(function(response){
+                if(response.data.length<pageSize){
+                    hasNextPage=false;
+                }
+
+                importantDatas = {
+                    hasNextPage: hasNextPage,
+                    pageIndex: currentPage,
+                    data: response.data
+                }
+                $rootScope.$broadcast("ImportantNews.updated");
+            })
+        }
+        function loadMoreImportantNews(){
+            var currentPage=importantDatas.pageIndex;
+            var hasNextPage=true;
+            currentPage++;
+            var currentData=importantDatas.data;
+            $http.get(ENV.ServerUrl + "/services/api/news/important.json?pageSize="+pageSize+"&&page="+currentPage).then(function(response){
+                if(response.data.length<pageSize){
+                    hasNextPage=false;
+                }
+                currentData=currentData.concat(response.data);
+                importantDatas = {
+                    hasNextPage: hasNextPage,
+                    pageIndex: currentPage,
+                    data: currentData
+                }
+                $rootScope.$broadcast("ImportantNews.updated");
+            })
+        }
+        function getImportantData(){
+            if(importantDatas==undefined){
+                return;
+            }
+            return importantDatas.data;
+        }
+        function canLoadMoreImportant(){
+            if(importantDatas==undefined){
+                return false;
+            }
+            return importantDatas.hasNextPage;
         }
     })

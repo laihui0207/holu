@@ -27,7 +27,7 @@
                     </div>
                 </label>
             </div>
-            <fancy-select class="item item-input" ng-show="limitView"
+            <fancy-select class="item" ng-show="limitView"
                           header-text="{{'ChooseViewUser' | translate }}"
                           allow-empty='true'
                           value="postBar.viewUsers"
@@ -36,7 +36,7 @@
                           items="viewUserList"
                           multi-select="true">
             </fancy-select>
-            <fancy-select class="item item-input" ng-show="limitView"
+            <fancy-select class="item" ng-show="limitView"
                           header-text="{{'ChooseViewUserGroup' | translate }}"
                           allow-empty='true'
                           label="ChooseViewUserGroup"
@@ -54,7 +54,7 @@
                     </div>
                 </label>
             </div>
-            <fancy-select class="item item-input" ng-show="limitReply"
+            <fancy-select class="item" ng-show="limitReply"
                           header-text="{{'ChooseReplyUser' | translate }}"
                           allow-empty='true'
                           value="postBar.replyUsers"
@@ -63,7 +63,7 @@
                           items="replyUserList"
                           multi-select="true">
             </fancy-select>
-            <fancy-select class="item item-input" ng-show="limitReply"
+            <fancy-select class="item" ng-show="limitReply"
                           header-text="{{'ChooseReplyUserGroup' | translate }}"
                           allow-empty='true'
                           label="ChooseReplyUserGroup"
@@ -80,7 +80,7 @@
         <div class="padding">
             <button class="button button-block button-calm activated" ng-click="save()">{{ 'Submit' | translate }}
             </button>
-            <button class="button button-block button-assertive" ng-click="delete()">{{ 'Delete' | translate }}</button>
+            <button class="button button-block button-assertive" ng-click="delete()">{{ 'Undo' | translate }}</button>
 
         </div>
 

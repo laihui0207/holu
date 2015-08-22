@@ -1,5 +1,5 @@
 <ion-view view-title="{{ 'Messages' | translate }}">
-    <ion-header-bar class="bar bar-subheader buttons-right custom-subheader">
+   <!-- <ion-header-bar class="bar bar-subheader buttons-right custom-subheader">
         <div class="tabs">
             <a class="tab-item" ui-sref="tab.notes">
                 <p>{{ 'Notes' | translate }}</p>
@@ -13,8 +13,8 @@
             </a>
         </div>
 
-    </ion-header-bar>
-    <ion-content class="padding OA-content">
+    </ion-header-bar>-->
+    <ion-content class="padding ">
 <!--        <div text-angular ng-model="htmlContent" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>-->
 
         <div class="list card padding">
@@ -29,8 +29,9 @@
                 <span class="input-label">{{'Content' | translate }}: </span>
                 <textarea ng-keyup="autoExpand($event)" ng-model="message.content" readonly="readonly"></textarea>
             </label>
+            <!--class="item item-input"-->
 <!--            <div text-angular ng-model="message.content" ta-disabled='false' name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>-->
-            <fancy-select class="item item-input"
+            <fancy-select class="item"
                           header-text="{{'ChooseUser' | translate }}"
                           allow-empty='true'
                           value="message.sendUsers"
@@ -39,13 +40,22 @@
                           items="userList"
                           multi-select="true">
             </fancy-select>
-            <fancy-select class="item item-input"
+            <fancy-select class="item"
                           header-text="{{'ChooseUserGroup' | translate }}"
                           allow-empty='true'
                           label="ChooseUserGroup"
                           value="message.sendGroups"
                           text="NoChooseUserGroup"
                           items="groupList"
+                          multi-select="true">
+            </fancy-select>
+            <fancy-select class="item"
+                          header-text="{{'ChooseDepartment' | translate }}"
+                          allow-empty='true'
+                          label="ChooseDepartment"
+                          value="message.sendDepartments"
+                          text="NoChooseDepartment"
+                          items="departmentList"
                           multi-select="true">
             </fancy-select>
         </div>

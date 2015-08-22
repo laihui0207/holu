@@ -67,7 +67,7 @@ angular.module('Holu')
         function viewNote(id) {
             return $http.get(ENV.ServerUrl + "/services/api/notes/" + id + ".json")
         }
-        function sendNote(noteId,users,groups,userId){
+        function sendNote(noteId,users,groups,departments,userId){
             var deferred = $q.defer();
             var promise = deferred.promise;
             // verify username and password
@@ -75,7 +75,7 @@ angular.module('Holu')
                 method: 'POST',
                 url: ENV.ServerUrl + "/services/api/notes/Send.json",
 /*                data: "users=" + users + "&groups=" + groups + "&userId=" + userId + "&noteId=" + noteId,*/
-                data: {users:users ,groups:groups,userId:userId ,noteId:noteId},
+                data: {users:users ,groups:groups,userId:userId ,departments:departments,noteId:noteId},
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
                 if (data == "") {

@@ -33,12 +33,14 @@ var translations = {
         ChooseViewUserGroup: 'Select View User Group',
         ChooseReplyUserGroup: 'Select Reply User Group',
         NoChooseUserGroup: 'No Select User Group',
+        NoChooseDepartment: 'No Select Department',
         Reply: 'Reply',
         ReplyContent: 'Reply content',
         ViewLimit: 'View Limit',
         ReplyLimit: 'Reply Limit',
         ChooseUser: 'Select User',
         ChooseUserGroup: 'Select User Group',
+        ChooseDepartment: 'Select Department',
         EmptyContent: 'No Content Find',
         ReplyList: 'Reply List',
         ProjectInformation: 'Project Information',
@@ -71,7 +73,8 @@ var translations = {
         ProjectOverview: 'Project Overview',
         MyProject: 'My Project',
         MyTask: 'My Task',
-        ImportNews: 'Important News'
+        ImportNews: 'Important News',
+        Undo: 'Undo'
 
 
     },
@@ -124,12 +127,14 @@ var translations = {
         ChooseViewUserGroup: '选择可浏览用户组',
         ChooseReplyUserGroup: '选择可回复用户组',
         NoChooseUserGroup: '没有选择用户组',
+        NoChooseDepartment: '没有选择部门',
         Reply: '回复',
         ReplyContent: '回复内容',
         ViewLimit: '浏览限制',
         ReplyLimit: '回复限制',
         ChooseUser: '选择用户',
         ChooseUserGroup: '选择用户组',
+        ChooseDepartment: '选择部门',
         EmptyContent: '没有内容',
         ReplyList: '回复列表',
         ProjectInformation: '项目信息',
@@ -162,7 +167,8 @@ var translations = {
         ProjectSummary: '项目汇总',
         ProjectOverview: '项目概况',
         MyProject: '我的项目',
-        MyTask: '我的任务'
+        MyTask: '我的任务',
+        Undo: '撤消'
 
     }
 }

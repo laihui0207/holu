@@ -56,7 +56,7 @@ angular.module('Holu')
         })*/
     })
     .controller('MessageSendCtrl',function($scope, Messages,UserService,UserGroup,$rootScope,AuthService,
-                                           $stateParams,$translate,$state,$ionicPopup,$ionicLoading){
+                                           $stateParams,$translate,$state,$ionicPopup,Department,$ionicLoading){
         var user=AuthService.currentUser();
         if(user == undefined){
             $rootScope.backurl="tab.messages"
@@ -72,11 +72,16 @@ angular.module('Holu')
         UserGroup.listSlv().then(function(response){
             $scope.groupList=response.data
         })
-        $translate(['ChooseUser', 'ChooseUserGroup','NoChooseUser','NoChooseUserGroup']).then(function (translations) {
+        Department.listSlv().then(function(response){
+            $scope.departmentList=response.data;
+        })
+        $translate(['ChooseUser', 'ChooseUserGroup','NoChooseUser','NoChooseUserGroup','ChooseDepartment','NoChooseDepartment']).then(function (translations) {
             $scope.ChooseUser = translations.ChooseUser;
             $scope.NoChooseUser = translations.NoChooseUser;
             $scope.NoChooseUserGroup= translations.NoChooseUserGroup;
             $scope.ChooseUserGroup = translations.ChooseUserGroup;
+            $scope.NoChooseDepartment= translations.NoChooseDepartment;
+            $scope.ChooseDepartment = translations.ChooseDepartment;
         });
         $scope.send=function(){
             Messages.send($scope.message.id,$scope.message.sendUsers,$scope.message.sendGroups,user.id)

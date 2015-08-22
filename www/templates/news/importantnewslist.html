@@ -1,5 +1,5 @@
-<ion-view view-title="{{ companyName }}">
-    <ion-header-bar class="bar bar-subheader button-right custom-subheader">
+<ion-view view-title="{{'ImportNews' | translate }}">
+  <!--  <ion-header-bar class="bar bar-subheader buttons-right custom-subheader">
         <div class="tabs" tab-slide-box>
             <a class="tab-item" ng-click="newsListByType('all')">
                 <p> {{'All' | translate }} </p>
@@ -7,11 +7,10 @@
             <a class="tab-item" ng-repeat="newstype in newsTypeList" ng-click="newsListByType({{newstype.id}})">
                 <p>{{newstype.name}}</p>
             </a>
-        </div>
-<!--        <a class="button button-clear pull-right">Button</a>-->
-    </ion-header-bar>
+        </div> class="OA-content"
+    </ion-header-bar>-->
 
-    <ion-content class="OA-content">
+    <ion-content >
         <ion-refresher
                 pulling-text="{{ 'PullToFresh' | translate }}"
                 on-refresh="doRefresh()">

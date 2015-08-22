@@ -1,5 +1,5 @@
 <ion-view view-title="{{ 'Notes' | translate }}">
-    <ion-header-bar class="bar bar-subheader buttons-right custom-subheader">
+ <!--   <ion-header-bar class="bar bar-subheader buttons-right custom-subheader">
         <div class="tabs">
             <a class="tab-item tab-item-active" ui-sref="tab.notes">
                 <p>{{ 'Notes' | translate }}</p>
@@ -13,8 +13,8 @@
             </a>
         </div>
 
-    </ion-header-bar>
-    <ion-content class="padding OA-content">
+    </ion-header-bar>-->
+    <ion-content class="padding ">
 <!--        <div text-angular ng-model="htmlContent" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>-->
 
         <div class="list card padding">
@@ -30,7 +30,7 @@
                 <textarea ng-keyup="autoExpand($event)" ng-model="note.content" readonly="readonly"></textarea>
             </label>
 <!--             <div text-angular ng-model="note.content" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>-->
-            <fancy-select class="item item-input"
+            <fancy-select class="item"
                           header-text="{{'ChooseUser' | translate }}"
                           allow-empty='true'
                           value="note.sendUsers"
@@ -40,13 +40,22 @@
                           multi-select="true"
                           >
             </fancy-select>
-            <fancy-select class="item item-input"
+            <fancy-select class="item"
                           header-text="{{'ChooseUserGroup' | translate }}"
                           allow-empty='true'
                           label="ChooseUserGroup"
                           value="note.sendGroups"
                           text="NoChooseUserGroup"
                           items="groupList"
+                          multi-select="true">
+            </fancy-select>
+            <fancy-select class="item"
+                          header-text="{{'ChooseDepartment' | translate }}"
+                          allow-empty='true'
+                          label="ChooseDepartment"
+                          value="note.sendDepartments"
+                          text="NoChooseDepartment"
+                          items="departmentList"
                           multi-select="true">
             </fancy-select>
         </div>
