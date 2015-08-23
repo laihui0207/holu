@@ -16,43 +16,59 @@
                 <span ng-repeat="news in newsList" ng-class="{active: $index==$parent.carouselIndex2}" ng-click="$parent.carouselIndex2 = $index"> {{$index+1}} </span>
             </div>
         </div>
-        <div class="padding list-inset">
+        <div class="padding">
             <div class="row mainNav">
                 <div class="col">
-                    <a class="button  button-calm" href="#/tab/news">{{'ProjectSummary' | translate }}</a>
+                    <a class="button button-light" href="#/tab/news">
+                        <img src="img/projectSummary.png" style="width: 100%;height:100%;"/>
+                        {{'ProjectSummary' | translate }}</a>
                 </div>
                 <div class="col">
-                    <a class="button  button-calm" href="#/tab/news">{{'ProjectOverview' | translate }}</a>
+                    <a class="button  button-light" href="#/tab/news">
+                        <img src="img/projectoverview.png" style="width: 100%;height:100%;"/>
+                        {{'ProjectOverview' | translate }}</a>
                 </div>
                 <div class="col">
-                    <a class="button  button-calm" href="#/tab/news">{{'MyProject' | translate }}</a>
+                    <a class="button  button-light" href="#/tab/projects">
+                        <img src="img/myproject.png" style="width: 100%;height:100%;"/>
+                        {{'MyProject' | translate }}</a>
                 </div>
                 <div class="col">
-                    <a class="button  button-calm" href="#/tab/news">{{'MyTask' | translate }}</a>
+                    <a class="button  button-light" href="#/tab/news">
+                        <img src="img/mytask.png" style="width: 100%;height:100%;"/>
+                        {{'MyTask' | translate }}</a>
                 </div>
             </div>
             <div class="row mainNav">
                 <div class="col">
-                    <a class="button  button-calm" href="#/tab/news">{{'News' | translate }}</a>
+                    <a class="button  button-light" href="#/tab/news">
+                        <img src="img/news.png" style="width: 100%;height:100%;"/>
+                        {{'News' | translate }}</a>
+                </div>
+                <div class="col ">
+                    <a class="button  button-light" href="#/tab/importantNews">
+                        <img src="img/importantNews.png" style="width: 100%;height:100%;"/>{{'ImportNews' | translate }}</a>
                 </div>
                 <div class="col">
-                    <a class="button  button-calm" href="#/tab/messages">{{ 'OA' | translate }}
+                    <a class="button  button-light" href="#/tab/messages">
+                        <img src="img/OA.png" style="width: 100%;height:100%;"/>{{ 'OA' | translate }}
                         <span class="badge badge-assertive" ng-hide="newMessageCount==0">{{newMessageCount}}</span>
                     </a>
                 </div>
                 <div class="col">
-                    <a class="button  button-calm" href="#/tab/postsubjects">{{ 'Posts' | translate }}</a>
+                    <a class="button  button-light" href="#/tab/postsubjects">
+                        <img src="img/postbar.png" style="width: 100%;height:100%;"/>{{ 'Posts' | translate }}</a>
                 </div>
-                <div class="col ">
-                    <a class="button  button-calm" href="#/tab/importantNews">{{'ImportNews' | translate }}</a>
-                </div>
+
             </div>
             <div class="row mainNav">
                 <div class="col">
-                    <a class="button  button-calm" href="#/tab/docs">{{ 'Documents' | translate }}</a>
+                    <a class="button  button-light" href="#/tab/docs">
+                        <img src="img/doc.png" style="width: 100%;height:100%;"/>{{ 'Documents' | translate }}</a>
                 </div>
                 <div class="col">
-                    <a class="button  button-calm" href="#/tab/notes">{{ 'Notes' | translate }}</a>
+                    <a class="button  button-light" href="#/tab/notes">
+                        <img src="img/note.png" style="width: 100%;height:100%;"/>{{ 'Notes' | translate }}</a>
                 </div>
                 <div class="col"></div>
                 <div class="col"></div>

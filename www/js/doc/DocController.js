@@ -2,19 +2,34 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .controller('DocCtrl',function($scope,$ionicPlatform,Documentations,$ionicLoading,ENV){
-        Documentations.all().then(function(response){
-            $scope.DocList=response.data;
-        })
+    .controller('DocCtrl',function($scope,$ionicPlatform,Documentations,$ionicLoading,ENV,AuthService){
+        var currentUser=AuthService.currentUser();
+        Documentations.fleshDoc()
         $scope.ServerUrl=ENV.ServerUrl;
-        $scope.doRefresh = function () {
-            Documentations.all().then(function(response){
-                $scope.DocList=response.data;
-            }).then(function(){
-                $scope.$broadcast('scroll.refreshComplete');
-            })
-        }
 
+        Documentations.docTypes().then(function(response){
+            $scope.docTypeList=response.data;
+        })
+        $scope.$on("Doc.updated", function () {
+            $scope.docList = Documentations.docList();
+            $scope.$broadcast('scroll.refreshComplete');
+        })
+        $scope.doRefresh = function () {
+            Documentations.docTypes().then(function(response){
+                $scope.docTypeList=response.data;
+            })
+            Documentations.fleshDoc()
+        }
+        $scope.loadMore = function () {
+            Documentations.more();
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+        }
+        $scope.canLoadMore = function () {
+            return Documentations.hasMore();
+        }
+        $scope.docListByType = function (typeId) {
+            Documentations.setCurrentDocType(typeId);
+        }
         $scope.download = function(fileName,docId) {
 /*            window.open('http://ionicframework.com/img/ionic-logo-blog.png', '_system', 'location=yes');*/
             $ionicLoading.show({
@@ -38,7 +53,7 @@ angular.module('Holu')
                                     fe.remove();
                                     ft = new FileTransfer();
                                     ft.download(
-                                        encodeURI(ENV.ServerUrl+"/services/api/Documentations/"+docId+"/download.json"),
+                                        encodeURI(ENV.ServerUrl+"/services/api/Documentations/"+docId+"/download/"+currentUser.userId+".json"),
                                         p,
                                         function(entry) {
                                             $ionicLoading.hide();

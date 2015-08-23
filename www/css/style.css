@@ -66,13 +66,37 @@ ul[rn-carousel] {
     display:inline-block;
     text-align: center;
 }
+.mainNav {
+    margin-left: 0px;
+    padding: 0px;
+}
 .mainNav .col {
     padding: 5px;
     margin: 5px;
 }
+.mainNav .col .button {
+    font-size: smaller;
+    border-color: #fff;
+    background-color: transparent;
+    display:block;
+    padding: 0;
+    margin: 0px;
+    margin: 0px;
+
+}
+.mainNav .col .button img {
+    display: block;
+    padding: 0;
+    margin: 0;
+}
 .textLeft {
     text-align: left;
 }
+.newsMidimage {
+    display: block;
+    margin-left: 15px;
+}
+
 /*.custom-indicator span {
     text-align: right;
 }

@@ -14,6 +14,17 @@
 
         </div>
     </ion-header-bar>-->
+    <ion-header-bar class="bar bar-subheader button-right custom-subheader">
+        <div class="tabs" tab-slide-box>
+            <a class="tab-item" ng-click="docListByType('all')">
+                <p> {{'All' | translate }} </p>
+            </a>
+            <a class="tab-item" ng-repeat="doctype in docTypeList" ng-click="docListByType({{newstype.id}})">
+                <p>{{doctype.name}}</p>
+            </a>
+        </div>
+        <!--        <a class="button button-clear pull-right">Button</a>-->
+    </ion-header-bar>
     <ion-content >
 
         <ion-refresher
@@ -35,6 +46,7 @@
             </ion-item>
             <ion-item ng-show="!(DocList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>
+        <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>
 		<!--<button class="button" ng-click="download()"> Download</button>-->
     </ion-content>
 </ion-view>
