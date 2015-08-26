@@ -2,7 +2,7 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .factory('Documentations',function($http,ENV){
+    .factory('Documentations',function($http,ENV,$rootScope){
         var datas={};
         var pageSize=10;
         var docType="all";

@@ -96,7 +96,7 @@ angular.module('Holu.controllers', ['ngSanitize'])
             })
         }
     })
-    .controller("HomeCtrl",function($scope,AuthService,Messages,News, $ionicSlideBoxDelegate,ENV){
+    .controller("HomeCtrl",function($scope,AuthService,Messages,News, $ionicSlideBoxDelegate,ENV,$state,$cordovaSplashscreen){
         var user=AuthService.currentUser();
         if(user!=undefined){
             $scope.companyName=user.company.companyShortNameCN
@@ -122,7 +122,15 @@ angular.module('Holu.controllers', ['ngSanitize'])
         $scope.navSlide = function(index) {
             $ionicSlideBoxDelegate.slide(index, 500);
         }
-
+        $scope.gotoNews = function(index){
+            $state.go("tab.news-detail",{newsId:index});
+        }
+        $scope.showSplashScreen =function(){
+            $cordovaSplashscreen.show();
+            setTimeout(function() {
+                $cordovaSplashscreen.hide();
+            }, 5000);
+        }
     })
     .controller('TranslateController', function ($translate, $scope) {
         $scope.changeLanguage = function (langKey) {

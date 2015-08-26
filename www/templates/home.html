@@ -6,14 +6,15 @@
         </ion-refresher>
         <div class="carouselDiv" >
             <ul rn-carousel rn-carousel-index="carouselIndex2" rn-carousel-auto-slide rn-carousel-pause-on-hover rn-carousel-buffered class="row">
-                <li ng-repeat="news in newsList track by news.id">
-                    <div style="background-image: url('{{news.midImageUrl | imagePath:this }}')" href="#/tab/news/{{news.id}}" class="bgimage">
-                        #{{ news.title }}
+                <li ng-repeat="news in newsList track by news.id" >
+                    <div style="background-image: url('{{news.midImageUrl | imagePath:this }}')" class="bgimage" ng-click="gotoNews(news.id)">
+                       <span class="maintitle">#{{ news.title }}</span>
                     </div>
                 </li>
             </ul>
             <div class="rn-carousel-indicator custom-indicator pull-right">
-                <span ng-repeat="news in newsList" ng-class="{active: $index==$parent.carouselIndex2}" ng-click="$parent.carouselIndex2 = $index"> {{$index+1}} </span>
+                <span ng-repeat="news in newsList" ng-class="{active: $index==$parent.carouselIndex2}" ng-click="$parent.carouselIndex2 = $index">
+                    {{$index+1}} </span>
             </div>
         </div>
         <div class="padding">
@@ -70,7 +71,10 @@
                     <a class="button  button-light" href="#/tab/notes">
                         <img src="img/note.png" style="width: 100%;height:100%;"/>{{ 'Notes' | translate }}</a>
                 </div>
-                <div class="col"></div>
+                <div class="col">
+                    <a class="button  button-light" href="#" ng-click="showSplashScreen()">
+                        <img src="img/note.png" style="width: 100%;height:100%;"/>{{ 'Notes' | translate }}</a>
+                </div>
                 <div class="col"></div>
             </div>
         </div>

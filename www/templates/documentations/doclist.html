@@ -19,7 +19,7 @@
             <a class="tab-item" ng-click="docListByType('all')">
                 <p> {{'All' | translate }} </p>
             </a>
-            <a class="tab-item" ng-repeat="doctype in docTypeList" ng-click="docListByType({{newstype.id}})">
+            <a class="tab-item" ng-repeat="doctype in docTypeList" ng-click="docListByType({{doctype.id}})">
                 <p>{{doctype.name}}</p>
             </a>
         </div>
@@ -35,7 +35,7 @@
             <ion-item  ng-repeat="doc in DocList" class="item item-button-right" >
                 <h2>{{ doc.name }}</h2>
                 <p>{{'FileName'| translate}}: {{doc.fileName}}</p>
-                <p>{{'Owner' | translate }}:{{doc.creater.fullName}}
+                <p><!--{{'Owner' | translate }}:{{doc.creater.fullName}}-->
                  {{doc.createTime | date:'yyyy-MM-dd' }}</p>
 <!--                <span class="item-note ago" am-time-ago="doc.createTime"/>-->
                 <p>{{imgFile}}</p>

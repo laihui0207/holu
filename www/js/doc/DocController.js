@@ -2,7 +2,7 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .controller('DocCtrl',function($scope,$ionicPlatform,Documentations,$ionicLoading,ENV,AuthService){
+    .controller('DocCtrl',function($scope,$rootScope,$ionicPlatform,Documentations,$ionicLoading,ENV,AuthService){
         var currentUser=AuthService.currentUser();
         Documentations.fleshDoc()
         $scope.ServerUrl=ENV.ServerUrl;
@@ -10,8 +10,8 @@ angular.module('Holu')
         Documentations.docTypes().then(function(response){
             $scope.docTypeList=response.data;
         })
-        $scope.$on("Doc.updated", function () {
-            $scope.docList = Documentations.docList();
+        $rootScope.$on("Doc.updated", function () {
+            $scope.DocList = Documentations.docList();
             $scope.$broadcast('scroll.refreshComplete');
         })
         $scope.doRefresh = function () {

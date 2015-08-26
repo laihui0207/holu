@@ -47,11 +47,20 @@ textarea {
     width: 100%;
 }
 .bgimage {
-    text-align:right;
+    text-align:left;
+    position: relative;
     color:white;
     background-size:100% 100%;
     height: 100%;
     background-position: center center;
+}
+.maintitle {
+    position:absolute;
+    bottom: 2px;
+    left: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .carouselDiv {
     padding: 10px;
