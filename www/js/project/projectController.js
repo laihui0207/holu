@@ -37,6 +37,9 @@ angular.module('Holu')
         $scope.$on("holu.logout",function(){
             needReload=true;
         })
+        $scope.myTask=function(){
+            Projects.myTasks(user.userID);
+        }
     })
     .controller('ComponentCtrl', function ($scope, Projects,$state, $rootScope, $stateParams,AuthService,$ionicLoading) {
         var user=AuthService.currentUser();

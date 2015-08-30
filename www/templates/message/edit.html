@@ -33,7 +33,7 @@
         </div>
         <div class="padding">
             <button class="button button-block button-calm activated" ng-click="save()">{{ 'Submit' | translate }}</button>
-            <button class="button button-block button-assertive" ng-click="delete()">{{ 'Delete' | translate }}</button>
+            <button class="button button-block button-assertive" ng-show="message.replyList.length==0" ng-click="delete()">{{ 'Undo' | translate }}</button>
         </div>
 
     </ion-content>

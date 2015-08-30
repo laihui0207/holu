@@ -44,7 +44,13 @@ angular.module('Holu')
             needReload=true;
         })
     })
-    .controller('MessageDetailCtrl',function($scope,Messages,$stateParams,$ionicLoading){
+    .controller('MessageDetailCtrl',function($scope,Messages,AuthService,$state,$stateParams,$ionicLoading,$ionicPopup){
+        var user=AuthService.currentUser();
+        if(user == undefined){
+            $rootScope.backurl="tab.messages"
+            $state.go("login")
+            return
+        }
         $scope.$on("$ionicView.enter", function(scopes, states){
             Messages.view($stateParams.messageId).then(function (response) {
                 $scope.message = response.data;
@@ -54,6 +60,18 @@ angular.module('Holu')
         /*Messages.view($stateParams.messageId).then(function(response){
             $scope.message=response.data
         })*/
+        $scope.reply=function(){
+            Messages.reply($scope.message.id,user.id,$scope.message.reply.content)
+                .success(function(data){
+                    $scope.message=data;
+                })
+                .error(function(){
+                    var alertPopup = $ionicPopup.alert({
+                        title: $scope.SaveFailedHeader,
+                        template: $scope.APICallFailed
+                    });
+                })
+        }
     })
     .controller('MessageSendCtrl',function($scope, Messages,UserService,UserGroup,$rootScope,AuthService,
                                            $stateParams,$translate,$state,$ionicPopup,Department,$ionicLoading){

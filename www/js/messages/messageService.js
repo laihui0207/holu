@@ -18,7 +18,8 @@ angular.module('Holu')
             more: loadMore,
             hasMore: canLoadMore,
             refreshNewMessagecount: getNewMessageCount,
-            getNewMessageCount: getCountDate
+            getNewMessageCount: getCountDate,
+            reply: replyMessage
         })
         function getNewMessageCount(userId){
             $http.get(ENV.ServerUrl+"/services/api/msgs/user/"+userId+"/count.json")
@@ -122,6 +123,36 @@ angular.module('Holu')
                 url: ENV.ServerUrl + "/services/api/msgs/Send.json",
 /*                data: "users=" + users + "&groups=" + groups + "&userId=" + userId + "&messageId=" + messageId,*/
                 data: {user:users ,groups:groups ,userId:userId,messageId:messageId},
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (data) {
+                if (data == "") {
+                    deferred.reject('Failed');
+                }
+                else {
+                    deferred.resolve(data);
+                }
+            }).error(function (data) {
+                deferred.reject('Call Failed');
+            })
+
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
+        }
+        function replyMessage(messageId,userId,content){
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            // verify username and password
+            $http({
+                method: 'POST',
+                url: ENV.ServerUrl + "/services/api/messageReply.json",
+                data: {userId:userId,messageId:messageId,content:content},
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
                 if (data == "") {

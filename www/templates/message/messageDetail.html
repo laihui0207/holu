@@ -29,6 +29,25 @@
             <div class="item item-body">
                 <p ng-bind-html="message.content"></p>
             </div>
+            <div class="item item-divider">
+                {{'ReplyList' | translate }}
+            </div>
+            <div class="item item-body" ng-repeat="reply in message.replyList">
+                {{reply.content}}
+                <p>
+                    <span>{{reply.createTime | date:'yyyy-MM-dd' }}</span>
+                    <span class="item-note">{{reply.replyUser.fullName}}</span>
+                </p>
+            </div>
+            <div class="item item-divider">
+                {{'Reply' | translate }}
+            </div>
+            <div class="item item-input">
+                <label>
+                    <span class="input-label">{{'Reply' | translate }}: </span>
+                    <input type="text" ng-model="message.reply.content" placeholder="{{'ReplyContent' | translate }}">
+                </label>
+            </div>
             <!--<a class="item item-icon-left assertive" href="#">
                 <i class="icon ion-music-note"></i>
                 Start listening
@@ -37,6 +56,10 @@
                 <a class="tab-item" href="#/tab/message/edit/{{message.id}}">
                     <i class="icon ion-edit"></i>
                     {{ 'Edit' | translate}}
+                </a>
+                <a class="tab-item" href="#" ng-click="reply()">
+                    <i class="icon ion-share"></i>
+                    {{'Reply' | translate }}
                 </a>
                 <a class="tab-item" href="#/tab/message/send/{{message.id}}">
                     <i class="icon ion-share"></i>

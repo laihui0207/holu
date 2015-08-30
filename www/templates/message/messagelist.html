@@ -20,10 +20,10 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item ng-repeat="message in messageList" class="item" href="#/tab/messages/{{message.id}}">
-                <h2><i class="ion-star" ng-show="message.status==2"></i> {{ message.title }}</h2>
+            <ion-item ng-repeat="m in messageList" class="item" href="#/tab/messages/{{m.message.id}}">
+                <h2><i class="ion-star" ng-show="m.message.status==0"></i> {{ m.message.title }}</h2>
 
-                <p> {{ message.createTime | date:'yyyy-MM-dd' }}</p>
+                <p> {{ m.message.createTime | date:'yyyy-MM-dd' }}</p>
             </ion-item>
             <ion-item ng-show="!(messageList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
             <div class="item">

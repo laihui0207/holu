@@ -12,6 +12,7 @@ angular.module('Holu')
         var subComponentData={};
 
         return ({
+            myTasks: getMyTask,
             projects: listMyProjects,
             moreProject: loadMoreProject,
             canMoreProject: isProjectHasNextPage,
@@ -34,6 +35,9 @@ angular.module('Holu')
             componentStyles: listComponentStyleOfCompanyAndStyle,
             confirm: confirmProcess
         })
+        function getMyTask(userId){
+            return $http.get(ENV.ServerUrl+"/services/api/componentStyles/"+userId+"/Task.json");
+        }
         function getProject(id){
             return $http.get(ENV.ServerUrl+"/services/api/projects/"+id+".json")
         }
