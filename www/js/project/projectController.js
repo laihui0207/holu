@@ -41,6 +41,24 @@ angular.module('Holu')
             Projects.myTasks(user.userID);
         }
     })
+    .controller('TaskCtrl',function($scope, Projects,$state, $rootScope, $stateParams,AuthService,$ionicLoading){
+        var user = AuthService.currentUser();
+        var needReload=true;
+        if (user == undefined) {
+            $rootScope.backurl = "tab.tasks"
+            $state.go("login")
+            return
+        }
+        Projects.myTasks(user.userID).then(function(response){
+            $scope.taskList=response.data;
+        })
+        $scope.doRefresh = function () {
+            Projects.myTasks(user.userID).then(function(response){
+                $scope.taskList=response.data;
+            })
+        }
+
+    })
     .controller('ComponentCtrl', function ($scope, Projects,$state, $rootScope, $stateParams,AuthService,$ionicLoading) {
         var user=AuthService.currentUser();
         var needReload=true;

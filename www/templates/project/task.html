@@ -1,0 +1,20 @@
+<ion-view view-title="{{ 'MyTask' | translate }}">
+    <ion-content>
+        <ion-refresher
+                pulling-text="{{ 'PullToFresh' | translate }}"
+                on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list class="card list">
+            <ion-item ng-repeat="item in taskList" class="item item-button-right"><!-- href="#/tab/components/{{item.projectID}} -->
+                <p >{{'projectName' | translate }}:{{ item.component.project.projectName }}</p>
+                <p >{{'component' | translate }}:{{item.component.componentName}}</p>
+                <p ng-show="item.subCompoent">{{item.subComponent.subComponentName}}</p>
+                <p>{{'componentStyle'| translate }}:{{ item.componentStyle.styleName}} - {{item.componentStyle.processName}}</p>
+                <a class="button button-balanced" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>
+                <a class="button button-balanced" ng-show="item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>
+            </ion-item>
+            <ion-item ng-show="!(taskList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
+        </ion-list>
+<!--        <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>-->
+    </ion-content>
+</ion-view>

@@ -7,13 +7,14 @@ angular.module('Holu')
     .controller('MessageCtrl',function($scope,Messages,$state,$rootScope,AuthService,$ionicLoading){
         var user=AuthService.currentUser();
         var needReload=true;
+        $scope.messageType="all";
         if(user == undefined){
             $rootScope.backurl="tab.messages"
             $state.go("login")
             return
         }
         $scope.doRefresh = function () {
-            Messages.list($rootScope.currentUser.id)
+            Messages.list(user.id)
         }
         $rootScope.$on('MessageUpdate',function(){
             console.log("Get event:MessageUpdate")
@@ -43,6 +44,10 @@ angular.module('Holu')
         $scope.$on("holu.logout",function(){
             needReload=true;
         })
+        $scope.changeMessgeType=function(type){
+            $scope.messageType=type;
+            Messages.messageType(type,user.id);
+        }
     })
     .controller('MessageDetailCtrl',function($scope,Messages,AuthService,$state,$stateParams,$ionicLoading,$ionicPopup){
         var user=AuthService.currentUser();
@@ -56,7 +61,7 @@ angular.module('Holu')
                 $scope.message = response.data;
             })
         })
-        Messages.readed($stateParams.messageId);
+        Messages.readed($stateParams.messageId,user.id);
         /*Messages.view($stateParams.messageId).then(function(response){
             $scope.message=response.data
         })*/
@@ -102,7 +107,7 @@ angular.module('Holu')
             $scope.ChooseDepartment = translations.ChooseDepartment;
         });
         $scope.send=function(){
-            Messages.send($scope.message.id,$scope.message.sendUsers,$scope.message.sendGroups,user.id)
+            Messages.send($scope.message.id,$scope.message.sendUsers,$scope.message.sendGroups,$scope.message.sendDepartments,user.id)
                 .success(function(data){
                     $rootScope.$broadcast('MessageUpdate');
                     $state.go("tab.message-detail",{messageId:$scope.message.id})
@@ -115,12 +120,29 @@ angular.module('Holu')
                 })
         }
     })
-    .controller('MessageNewCtrl',function($scope,Messages,$translate,$rootScope,$state,$ionicPopup,$ionicLoading,AuthService){
+    .controller('MessageNewCtrl',function($scope,Messages,UserService,UserGroup,Department,$translate,$rootScope,$state,$ionicPopup,$ionicLoading,AuthService){
         $scope.autoExpand = function(e) {
             var element = typeof e === 'object' ? e.target : document.getElementById(e);
             var scrollHeight = element.scrollHeight - 1; // replace 60 by the sum of padding-top and padding-bottom
             element.style.height =  scrollHeight + "px";
         };
+        UserService.listSlv().then(function(response){
+            $scope.userList=response.data
+        })
+        UserGroup.listSlv().then(function(response){
+            $scope.groupList=response.data
+        })
+        Department.listSlv().then(function(response){
+            $scope.departmentList=response.data;
+        })
+        $translate(['ChooseUser', 'ChooseUserGroup','NoChooseUser','NoChooseUserGroup','ChooseDepartment','NoChooseDepartment']).then(function (translations) {
+            $scope.ChooseUser = translations.ChooseUser;
+            $scope.NoChooseUser = translations.NoChooseUser;
+            $scope.NoChooseUserGroup= translations.NoChooseUserGroup;
+            $scope.ChooseUserGroup = translations.ChooseUserGroup;
+            $scope.NoChooseDepartment= translations.NoChooseDepartment;
+            $scope.ChooseDepartment = translations.ChooseDepartment;
+        });
         $translate(['SaveFailed', 'SaveFailedHeader','APICallFailed']).then(function (translations) {
             $scope.SaveFailed = translations.SaveFailed;
             $scope.SaveFailedHeader = translations.SaveFailedHeader;
@@ -160,6 +182,34 @@ angular.module('Holu')
                     });
                 })
         }
+        $scope.saveAndSend=function(){
+            if($scope.message.title=="" || $scope.message.content==""){
+                // to do block save process
+            }
+            Messages.save($scope.message.title,$scope.message.content,user.id)
+                .success(function(data){
+                    Messages.send(data.id,$scope.message.sendUsers,$scope.message.sendGroups,$scope.message.sendDepartments,user.id)
+                        .success(function(data){
+                            $rootScope.$broadcast('MessageUpdate');
+                            $state.go("tab.messages")
+/*                            $state.go("tab.message-detail",{messageId:$scope.message.id})*/
+                        })
+                        .error(function(){
+                            var alertPopup = $ionicPopup.alert({
+                                title: $scope.SaveFailedHeader,
+                                template: $scope.SaveFailed
+                            });
+                        })
+                })
+                .error(function(data){
+                    console.log("save note Controller:"+data)
+                    var alertPopup = $ionicPopup.alert({
+                        title: $scope.SaveFailedHeader,
+                        template: $scope.APICallFailed
+                    });
+                })
+        }
+
     })
     .controller('MessageEditCtrl',function($scope, Messages, $stateParams,$translate,$rootScope,
                                            $ionicLoading,$state,$ionicPopup,AuthService){

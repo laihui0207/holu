@@ -1,19 +1,36 @@
 <ion-view view-title="{{ 'Messages' | translate }}">
-  <!--  <ion-header-bar class="bar bar-subheader buttons-right custom-subheader">
+    <ion-header-bar class="bar bar-subheader buttons-right custom-subheader">
         <div class="tabs">
-            <a class="tab-item" ui-sref="tab.notes">
-                <p>{{ 'Notes' | translate }}</p>
+            <a ng-class="{'tab-item tab-item-active': messageType=='all','tab-item': messagetTpye !='all' }" ng-click="changeMessgeType('all')" >
+                <p>{{ 'All' | translate }}</p>
             </a>
-            <a class="tab-item" ui-sref="tab.docs">
-                <p>{{ 'Documents' | translate }}</p>
-            </a>
-            <a class="tab-item tab-item-active has-badge" ui-sref="tab.messages">
-                <p>{{ 'Messages' | translate }}</p>
+            <a ng-class="{'tab-item has-badge tab-item-active': messageType=='UnRead','tab-item has-badge': messagetTpye !='UnRead' }" ng-click="changeMessgeType('UnRead')" >
+                <p>{{ 'UnRead' | translate }}</p>
                 <span class="badge badge-assertive" ng-hide="newMessageCount==0">{{newMessageCount}}</span>
+            </a>
+            <a ng-class="{'tab-item tab-item-active': messageType=='My','tab-item': messagetTpye !='My' }" ng-click="changeMessgeType('My')">
+                <p>{{ 'MyMessage' | translate }}</p>
+
             </a>
         </div>
 
-    </ion-header-bar>-->
+    </ion-header-bar>
+    <ion-nav-bar class="bar-calm">
+        <ion-nav-back-button ><!--class="button-icon ion-arrow-left-c"-->
+        </ion-nav-back-button>
+
+        <ion-nav-buttons side="left">
+            <button class="button button-icon button-clear" ng-disabled="userName == null" ng-click="goHome()" > <!--  ion-ionic ng-click="showMenu()"-->
+                <img class="title-image" src="img/ionic.png" width="38" height="38" /></h1>
+            </button>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+            <a ng-if="messageType=='My'" class="button button-icon ion-plus-circled" ng-disabled="userName == null" href="#/tab/message/new">
+            </a>
+            <button class="button button-icon button-clear ion-navicon" ng-disabled="userName == null" ng-click="showRightMenu()">
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
     <ion-content >
         <ion-refresher
                 pulling-text="{{ 'PullToFresh' | translate }}"
@@ -21,14 +38,16 @@
         </ion-refresher>
         <ion-list>
             <ion-item ng-repeat="m in messageList" class="item" href="#/tab/messages/{{m.message.id}}">
-                <h2><i class="ion-star" ng-show="m.message.status==0"></i> {{ m.message.title }}</h2>
-
-                <p> {{ m.message.createTime | date:'yyyy-MM-dd' }}</p>
+                <h2><i class="ion-star" ng-show="m.status==0"></i> {{ m.message.title }}</h2>
+                <p>
+                    <span> {{m.message.owner.username}} ~ {{ m.message.createTime | date:'yyyy-MM-dd' }}</span>
+                    <span class="item-note">({{m.message.replyList.length}})</span>
+                </p>
             </ion-item>
             <ion-item ng-show="!(messageList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
-            <div class="item">
+            <!--<div class="item" ng-if="messageType=='My'">
                 <a class="button  button-calm" href="#/tab/message/new">{{ 'NewMessage' | translate}} </a>
-            </div>
+            </div>-->
         </ion-list>
         <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>
     </ion-content>

@@ -33,9 +33,37 @@
 <!--            <text-angular name="htmlcontent" ng-model="message.content" ta-text-editor-class="form-content" ta-html-editor-class="form-content" ta-focussed-class="focussed"></text-angular>-->
 
             <!--            <text-angular ng-model="message.content"></text-angular>-->
+            <fancy-select class="item"
+                          header-text="{{'ChooseUser' | translate }}"
+                          allow-empty='true'
+                          value="message.sendUsers"
+                          label="ChooseUser"
+                          text="NoChooseUser"
+                          items="userList"
+                          multi-select="true">
+            </fancy-select>
+            <fancy-select class="item"
+                          header-text="{{'ChooseUserGroup' | translate }}"
+                          allow-empty='true'
+                          label="ChooseUserGroup"
+                          value="message.sendGroups"
+                          text="NoChooseUserGroup"
+                          items="groupList"
+                          multi-select="true">
+            </fancy-select>
+            <fancy-select class="item"
+                          header-text="{{'ChooseDepartment' | translate }}"
+                          allow-empty='true'
+                          label="ChooseDepartment"
+                          value="message.sendDepartments"
+                          text="NoChooseDepartment"
+                          items="departmentList"
+                          multi-select="true">
+            </fancy-select>
         </div>
         <div class="padding">
-            <button class="button button-block button-calm activated" ng-click="save()">{{ 'Submit' | translate }}</button>
+<!--            <button class="button button-block button-calm activated" ng-click="save()">{{ 'Submit' | translate }}</button>-->
+            <button class="button button-block button-calm activated" ng-click="saveAndSend()">{{ 'SubmitAndSend' | translate }}</button>
         </div>
 
     </ion-content>

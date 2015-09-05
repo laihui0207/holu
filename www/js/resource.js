@@ -74,7 +74,13 @@ var translations = {
         MyProject: 'My Project',
         MyTask: 'My Task',
         ImportNews: 'Important News',
-        Undo: 'Undo'
+        Undo: 'Undo',
+        projectName: 'Project Name',
+        componentStyle: 'Component Style',
+        SubmitAndSend: 'Save and Send',
+        UnRead: 'UnRead',
+        MyMessage: 'My Message'
+
 
 
     },
@@ -168,7 +174,12 @@ var translations = {
         ProjectOverview: '项目概况',
         MyProject: '我的项目',
         MyTask: '我的任务',
-        Undo: '撤消'
+        Undo: '撤消',
+        projectName: '项目名称',
+        componentStyle: '工艺',
+        SubmitAndSend: '保存并发送',
+        UnRead: '未读信息',
+        MyMessage: '我的信息'
 
     }
 }

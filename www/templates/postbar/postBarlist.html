@@ -1,5 +1,20 @@
 <ion-view view-title="{{ 'Posts' | translate }}">
+    <ion-nav-bar class="bar-calm">
+        <ion-nav-back-button ><!--class="button-icon ion-arrow-left-c"-->
+        </ion-nav-back-button>
 
+        <ion-nav-buttons side="left">
+            <button class="button button-icon button-clear" ng-disabled="userName == null" ng-click="goHome()" > <!--  ion-ionic ng-click="showMenu()"-->
+                <img class="title-image" src="img/ionic.png" width="38" height="38" /></h1>
+            </button>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+            <a  class="button button-icon ion-plus-circled" ng-disabled="userName == null" href="#/tab/postbar/{{subjectId}}/new">
+            </a>
+            <button class="button button-icon button-clear ion-navicon" ng-disabled="userName == null" ng-click="showRightMenu()">
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
     <ion-content>
 
         <ion-refresher
@@ -12,9 +27,9 @@
                 <p> {{item.createTime | date:'yyyy-MM-dd' }}</p>
             </ion-item>
             <ion-item ng-show="!(postBarList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
-            <div class="item">
+           <!-- <div class="item">
                 <a class="button  button-calm" href="#/tab/postbar/{{subjectId}}/new">{{ 'NewPostBar' | translate}} </a>
-            </div>
+            </div>-->
         </ion-list>
         <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>
     </ion-content>

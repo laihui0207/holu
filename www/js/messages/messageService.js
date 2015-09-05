@@ -7,16 +7,18 @@ angular.module('Holu')
         var currentPage=0;
         var pageSize=10;
         var unReadMessagesCount=0;
+        var messageType="all";
         return({
             list: listMyMessage,
             messages: getMessageData,
+            more: loadMore,
+            hasMore: canLoadMore,
+            messageType: setMessageType,
             view: getMessage,
             save: saveMessage,
             send: sendMessage,
             delete: deleteMessage,
             readed: updateMessageStatus,
-            more: loadMore,
-            hasMore: canLoadMore,
             refreshNewMessagecount: getNewMessageCount,
             getNewMessageCount: getCountDate,
             reply: replyMessage
@@ -32,23 +34,26 @@ angular.module('Holu')
         function getCountDate(){
             return unReadMessagesCount;
         }
-        function updateMessageStatus(messageId){
-            $http.get(ENV.ServerUrl+"/services/api/msgs/"+messageId+"/read.json").then(function(resposne){
+        function updateMessageStatus(messageId,userId){
+            $http.get(ENV.ServerUrl+"/services/api/msgs/"+messageId+"/"+userId+"/read.json").then(function(resposne){
                 $rootScope.$broadcast('MessageUpdate');
                 $rootScope.$broadcast('holu.messageCountUpdate');
             })
         }
         function getMessageData(){
-            return messages.data;
+            if(messages[messageType]==undefined){
+                return;
+            }
+            return messages[messageType].data;
         }
         function listMyMessage(userId){
             var hasNextPage=true;
             var currentPage=0;
-            $http.get(ENV.ServerUrl+"/services/api/msgs/user/"+userId+".json?page="+currentPage+"&pageSize="+pageSize).then(function(response){
+            $http.get(ENV.ServerUrl+"/services/api/msgs/user/"+userId+".json?type="+messageType+"&page="+currentPage+"&pageSize="+pageSize).then(function(response){
                 if(response.data.length < pageSize){
                     hasNextPage=false;
                 }
-                messages={
+                messages[messageType]={
                     hasNextPage: hasNextPage,
                     pageIndex: currentPage,
                     data: response.data,
@@ -57,17 +62,21 @@ angular.module('Holu')
                 $rootScope.$broadcast('MessageFlushed');
             })
         }
+        function setMessageType(type,userId){
+            messageType=type;
+            listMyMessage(userId)
+        }
         function loadMore(){
-            var userId=messages.userId;
-            var currentData=messages.data;
-            var currentPage=messages.pageIndex;
+            var userId=messages[messageType].userId;
+            var currentData=messages[messageType].data;
+            var currentPage=messages[messageType].pageIndex;
             currentPage++;
-            $http.get(ENV.ServerUrl+"/services/api/msgs/user/"+userId+".json?page="+currentPage+"&pageSize="+pageSize).then(function(response){
+            $http.get(ENV.ServerUrl+"/services/api/msgs/user/"+userId+".json?type="+messageType+"&page="+currentPage+"&pageSize="+pageSize).then(function(response){
                 if(response.data.length < pageSize){
                     hasNextPage=false;
                 }
                 currentData=currentData.concat(response.data);
-                messages={
+                messages[messageType]={
                     hasNextPage: hasNextPage,
                     pageIndex: currentPage,
                     data: currentData,
@@ -77,7 +86,10 @@ angular.module('Holu')
             })
         }
         function canLoadMore(){
-            return messages.hasNextPage;
+            if(messages[messageType]==undefined){
+                return false;
+            }
+            return messages[messageType].hasNextPage;
         }
         function saveMessage(title,content,userId,messageId){
             var deferred = $q.defer();
@@ -114,7 +126,7 @@ angular.module('Holu')
         function getMessage(id){
             return $http.get(ENV.ServerUrl+"/services/api/msgs/"+id+".json")
         }
-        function sendMessage(messageId,users,groups,userId){
+        function sendMessage(messageId,users,groups,departments,userId){
             var deferred = $q.defer();
             var promise = deferred.promise;
             // verify username and password
@@ -122,7 +134,7 @@ angular.module('Holu')
                 method: 'POST',
                 url: ENV.ServerUrl + "/services/api/msgs/Send.json",
 /*                data: "users=" + users + "&groups=" + groups + "&userId=" + userId + "&messageId=" + messageId,*/
-                data: {user:users ,groups:groups ,userId:userId,messageId:messageId},
+                data: {users:users ,groups:groups ,departments:departments,userId:userId,messageId:messageId},
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
                 if (data == "") {

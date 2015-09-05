@@ -101,9 +101,13 @@ ul[rn-carousel] {
 .textLeft {
     text-align: left;
 }
+.midImg .item-content {
+    padding: 5px 5px;
+}
 .newsMidimage {
     display: block;
-    margin-left: 15px;
+/*    margin-left: 15px;*/
+    height: 200px;
 }
 
 /*.custom-indicator span {

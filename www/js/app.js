@@ -26,7 +26,7 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
         });
         $ionicPlatform.registerBackButtonAction(function (e) {
             //判断处于哪个页面时双击退出
-            if ($state.current.name == "tab.home") {
+            if ($state.current.name == "tab.home" || $state.current.name=="login") {
                 if ($rootScope.backButtonPressedOnceToExit) {
                     ionic.Platform.exitApp();
                 } else {
@@ -50,9 +50,18 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
             return false;
         }, 101);
     })
+    .run(function($rootScope, $ionicLoading) {
+        $rootScope.$on('loading:show', function() {
+            $ionicLoading.show()
+        })
+
+        $rootScope.$on('loading:hide', function() {
+            $ionicLoading.hide()
+        })
+    })
 /*  .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")*/
-   .constant("ServerUrl", "http://localhost:8087/holusystem")
-/*    .constant("ServerUrl", "http://192.168.199.162:8087/holusystem")*/
+/*   .constant("ServerUrl", "http://localhost:8087/holusystem")*/
+    .constant("ServerUrl", "http://192.168.199.162:8087/holusystem")
     .config(function($httpProvider) {
         $httpProvider.interceptors.push(function($rootScope,Storage) {
             return {
@@ -379,6 +388,15 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                     }
                 }
             })*/
+            .state('tab.tasks', {
+                url: '/tasks',
+                views: {
+                    'tab-project': {
+                        templateUrl: 'templates/project/task.html',
+                        controller: 'TaskCtrl'
+                    }
+                }
+            })
             .state('tab.project', {
                 url: '/projects',
                 views: {
