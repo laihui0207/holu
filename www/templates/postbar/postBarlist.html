@@ -22,11 +22,11 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item  ng-repeat="item in postBarList" class="item item-button-right" href="#/tab/postbar/{{item.id}}"  >
+            <ion-item  ng-repeat="item in postBarList" class="item" href="#/tab/postbar/{{item.id}}"  >
                 <h2>{{ item.title }}</h2>
                 <p> {{item.createTime | date:'yyyy-MM-dd' }}</p>
             </ion-item>
-            <ion-item ng-show="!(postBarList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
+            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>
            <!-- <div class="item">
                 <a class="button  button-calm" href="#/tab/postbar/{{subjectId}}/new">{{ 'NewPostBar' | translate}} </a>
             </div>-->

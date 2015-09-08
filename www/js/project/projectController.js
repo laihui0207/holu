@@ -15,6 +15,12 @@ angular.module('Holu')
         })*/
         $scope.$on("ProjectRefreshed",function(){
             $scope.projectList=Projects.projectData();
+            if($scope.projectList==undefined || $scope.projectList.length==0){
+                $scope.noContent=true;
+            }
+            else {
+                $scope.noContent=false;
+            }
             needReload=false;
             $scope.$broadcast('scroll.refreshComplete');
         })
@@ -72,6 +78,12 @@ angular.module('Holu')
         })
         $scope.$on("ComponentRefreshed",function(){
             $scope.componentList=Projects.componentData();
+            if($scope.componentList==undefined || $scope.componentList.length==0){
+                $scope.noContent=true;
+            }
+            else {
+                $scope.noContent=false;
+            }
             needReload=false;
             $scope.$broadcast('scroll.refreshComplete');
         })
@@ -99,6 +111,12 @@ angular.module('Holu')
         })
         $scope.$on("SubComponentRefreshed",function(){
             $scope.subComponentList=Projects.subComponentData();
+            if($scope.subComponentList==undefined || $scope.subComponentList.length==0){
+                $scope.noContent=true;
+            }
+            else {
+                $scope.noContent=false;
+            }
             needReload=false;
             $scope.$broadcast('scroll.refreshComplete');
         })
@@ -151,7 +169,7 @@ angular.module('Holu')
 
         }
     })
-    .controller('ProcessConfirmCtrl', function ($scope, Projects,$state, $rootScope,AuthService,$cordovaGeolocation,
+    .controller('ProcessConfirmCtrl', function ($scope, Projects,$state, $rootScope,AuthService,$cordovaGeolocation,$cordovaToast,
                                                 $cordovaDatePicker,$stateParams,$ionicLoading,$translate,$ionicPopup) {
         var user=AuthService.currentUser();
         if (user == undefined) {
@@ -231,8 +249,9 @@ angular.module('Holu')
                 }
             });
         };
-        $translate(['Done','cancel']).then(function (translations) {
+        $translate(['Done','cancel','getPositionFailed']).then(function (translations) {
             $scope.Done = translations.Done;
+            $scope.getPositionFailed = translations.getPositionFailed;
             $scope.cancel = translations.cancel;
         });
         $scope.getPosition=function(){
@@ -252,8 +271,7 @@ angular.module('Holu')
 
 
                 }, function(err) {
-                    // error
-                    console.log("GPS failed")
+                    $cordovaToast.showShortCenter($scope.getPositionFailed)
                 });
 
         }

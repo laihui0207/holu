@@ -30,6 +30,12 @@ angular.module('Holu')
         $scope.$on('MessageFlushed',function(){
             console.log("Get event:MessageFlushed")
             $scope.messageList=Messages.messages();
+            if($scope.messageList==undefined || $scope.messageList.length==0){
+                $scope.noContent=true;
+            }
+            else {
+                $scope.noContent=false;
+            }
             needReload=false;
             $scope.$broadcast('scroll.refreshComplete');
         })

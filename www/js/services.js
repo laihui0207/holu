@@ -25,6 +25,7 @@ angular.module('Holu.services', [])
             logged: isLogged,
             logout: doLogout,
             currentUser: getCurrentUser,
+            setUser: setCurrentUser,
             signup: createUser,
             companies: getCompany
         })
@@ -46,13 +47,12 @@ angular.module('Holu.services', [])
                     deferred.reject('Wrong credentials.');
                 }
                 else {
-                    //data.access_token="AAABBBB";
                     $rootScope.currentUser=data;
                     Storage.set("user", data);
                     user=data;
                     //saveCred(userName,pw);
                     $rootScope.menuItems=menuItemService.menuList(true);
-                    deferred.resolve('Welcome ' + userName + '!');
+                    deferred.resolve(data);
                 }
             }).error(function (data) {
                 deferred.reject('Wrong credentials.');
@@ -112,6 +112,9 @@ angular.module('Holu.services', [])
         }
         function getCurrentUser(){
             return user;
+        }
+        function setCurrentUser(u){
+            user=u;
         }
         function getCompany(){
             return $http.get(ENV.ServerUrl + "/services/api/companies/signup/company.json")

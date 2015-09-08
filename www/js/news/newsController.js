@@ -7,6 +7,7 @@ angular.module('Holu')
         if(currentUser!=undefined){
             $scope.companyName=currentUser.company.companyShortNameCN
         }
+        $scope.currentType='all';
         News.newsTypes().then(function (response) {
             $scope.newsTypeList = response.data;
         })
@@ -14,6 +15,12 @@ angular.module('Holu')
         $scope.ServerUrl = ENV.ServerUrl; // use to image filter
         $scope.$on("News.updated", function () {
             $scope.newsList = News.newsList();
+            if($scope.newsList==undefined || $scope.newsList.length==0){
+                $scope.noContent=true;
+            }
+            else {
+                $scope.noContent=false;
+            }
             $scope.$broadcast('scroll.refreshComplete');
         })
         $scope.doRefresh = function () {
@@ -31,6 +38,7 @@ angular.module('Holu')
             return News.hasMore();
         }
         $scope.newsListByType = function (typeId) {
+            $scope.currentType=typeId;
             News.setCurrentNewsType(typeId);
         }
     })

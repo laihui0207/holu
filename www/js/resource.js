@@ -62,7 +62,7 @@ var translations = {
         FileName: 'File Name',
         Owner: 'Owner',
         Home: 'Home',
-        RemeberMe: 'Remeber account',
+        RemeberMe: 'Auto Login',
         SignUpSuccessHeader: 'SignUp Success',
         SignUpFailedHeader: 'SignUp Failed',
         SignUpSuccessMessage: 'Success, please wait administrator confirm your request',
@@ -79,7 +79,9 @@ var translations = {
         componentStyle: 'Component Style',
         SubmitAndSend: 'Save and Send',
         UnRead: 'UnRead',
-        MyMessage: 'My Message'
+        MyMessage: 'My Message',
+        Loading: 'Loading.......',
+        getPositionFailed: 'Get Position Failed, Please make sure enable GPS and Allow geolocation request'
 
 
 
@@ -162,7 +164,7 @@ var translations = {
         FileName: '文件名',
         Owner: '所有者',
         Home: '主页',
-        RemeberMe: '记住账号',
+        RemeberMe: '自动登录',
         SignUpSuccessHeader: '注册成功',
         SignUpFailedHeader: '注册失败',
         SignUpSuccessMessage: '注册成功，请等待管理员审核',
@@ -179,7 +181,9 @@ var translations = {
         componentStyle: '工艺',
         SubmitAndSend: '保存并发送',
         UnRead: '未读信息',
-        MyMessage: '我的信息'
+        MyMessage: '我的信息',
+        Loading: '加载中......',
+        getPositionFailed: '无法定位你的位置，请打开GPS并且允许定位请求'
 
     }
 }

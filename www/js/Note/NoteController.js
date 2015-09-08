@@ -27,6 +27,12 @@ angular.module('Holu')
         });
         $scope.$on("NoteRefreshed",function(){
             $scope.noteList=Notes.notes(user.id);
+            if($scope.noteList==undefined || $scope.noteList.length==0){
+                $scope.noContent=true;
+            }
+            else {
+                $scope.noContent=false;
+            }
             needReload=false;
             $scope.$broadcast("scroll.refreshComplete");
         });

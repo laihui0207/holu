@@ -1,10 +1,10 @@
 <ion-view view-title="{{ companyName }}">
     <ion-header-bar class="bar bar-subheader button-right custom-subheader">
         <div class="tabs" tab-slide-box>
-            <a class="tab-item" ng-click="newsListByType('all')">
+            <a ng-class="{'tab-item': currentType!='all','tab-item tab-item-active': currentType== 'all'} "  ng-click="newsListByType('all')">
                 <p> {{'All' | translate }} </p>
             </a>
-            <a class="tab-item" ng-repeat="newstype in newsTypeList" ng-click="newsListByType({{newstype.id}})">
+            <a ng-class="{'tab-item': currentType != newstype.id,'tab-item tab-item-active': currentType == newstype.id} " ng-repeat="newstype in newsTypeList" ng-click="newsListByType({{newstype.id}})">
                 <p>{{newstype.name}}</p>
             </a>
         </div>
@@ -32,7 +32,8 @@
                 </p>
                 <p ng-if="$index%5 !=0" class="summary">{{item.summary}}</p>
             </ion-item>
-            <ion-item ng-show="!(newsList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
+<!--            <ion-item ng-show="!(newsList | filter:nameText).length">{{'Loading' | translate}}</ion-item>-->
+            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>
         <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>
 <!--        <ion-spinner class="ng-hide" ng-show="!newsList" icon="spiral"></ion-spinner>-->

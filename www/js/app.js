@@ -8,12 +8,23 @@
 angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services', 'Holu.imageFilter',
     'Holu.config','Holu.translate','textAngular','Holu.SelectDirective','angularMoment','angular-carousel'])
 
-    .run(function ($ionicPlatform, $rootScope, $state, $timeout, $ionicHistory, $cordovaToast,amMoment,$cordovaSplashscreen) {
+    .run(function ($ionicPlatform, $rootScope, $state, $timeout, $ionicHistory, $cordovaToast,amMoment,$cordovaSplashscreen,$cordovaNetwork) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                var type = $cordovaNetwork.getNetwork();
+                if(type=="none"){
+                    $cordovaToast.showShortCenter("~ ~ 没有网络可用 ~ ~")
+                }
+                var isOnline = $cordovaNetwork.isOnline();
+                 if(!isOnline){
+                     $cordovaToast.showShortCenter("请确认网络是否在线！")
+                 }
+                 else {
+                 console.log("network online");
+                 }
             }
             if (window.StatusBar) {
                 // org.apache.cordova.statusbar required
@@ -21,8 +32,14 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
             }
             setTimeout(function() {
                 $cordovaSplashscreen.hide();
-            }, 500);
+            }, 3000);
             amMoment.changeLocale('zh-cn');
+            $ionicPlatform.on('resume',function(){
+                $cordovaSplashscreen.show();
+                setTimeout(function() {
+                    $cordovaSplashscreen.hide();
+                }, 3000);
+            })
         });
         $ionicPlatform.registerBackButtonAction(function (e) {
             //判断处于哪个页面时双击退出
@@ -31,7 +48,7 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                     ionic.Platform.exitApp();
                 } else {
                     $rootScope.backButtonPressedOnceToExit = true;
-                    $cordovaToast.showShortTop('再按一次退出系统');
+                    $cordovaToast.showShortCenter('再按一次退出系统');
                     setTimeout(function () {
                         $rootScope.backButtonPressedOnceToExit = false;
                     }, 2000);
@@ -41,7 +58,7 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                 $ionicHistory.goBack();
             } else {
                 $rootScope.backButtonPressedOnceToExit = true;
-                $cordovaToast.showShortTop('再按一次退出系统');
+                $cordovaToast.showShortCenter('再按一次退出系统');
                 setTimeout(function () {
                     $rootScope.backButtonPressedOnceToExit = false;
                 }, 2000);
@@ -63,7 +80,7 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
 /*   .constant("ServerUrl", "http://localhost:8087/holusystem")*/
     .constant("ServerUrl", "http://192.168.199.162:8087/holusystem")
     .config(function($httpProvider) {
-        $httpProvider.interceptors.push(function($rootScope,Storage) {
+        $httpProvider.interceptors.push(function($rootScope,Storage,$cordovaToast) {
             return {
                 request: function(config) {
                     var currentUser = Storage.get("user");
@@ -75,7 +92,12 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                     else {
                         config.headers.authorization="login";
                     }
-                    $rootScope.$broadcast('loading:show')
+                    if($rootScope.networkStatus){
+                        $rootScope.$broadcast('loading:show')
+                    }
+                    else {
+                        //$cordovaToast.showShortBottom("请确认网络是否在线！")
+                    }
                     return config
                 },
                 response: function(response) {
@@ -258,6 +280,15 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                     'tab-OA': {
                         templateUrl: 'templates/documentations/doclist.html',
                         controller: 'DocCtrl'
+                    }
+                }
+            })
+            .state('tab.doc-detail', {
+                url: '/docs/:docId',
+                views: {
+                    'tab-OA': {
+                        templateUrl: 'templates/documentations/DocDetail.html',
+                        controller: 'DocDetailCtrl'
                     }
                 }
             })

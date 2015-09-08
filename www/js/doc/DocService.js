@@ -13,7 +13,8 @@ angular.module('Holu')
             hasMore: canLoadMore,
             setCurrentDocType: setDocType,
             download: downloadDoc,
-            docTypes: listDocType
+            docTypes: listDocType,
+            loadDoc: getDoc
         })
         function listDoc(){
             var hasNextPage=true;
@@ -72,5 +73,8 @@ angular.module('Holu')
         }
         function listDocType(){
             return  $http.get(ENV.ServerUrl+"/services/api/doctypes.json")
+        }
+        function getDoc(docId,userId){
+            return $http.get(ENV.ServerUrl + "/services/api/Documentations/" + docId + "/view/" + userId + ".json");
         }
     })

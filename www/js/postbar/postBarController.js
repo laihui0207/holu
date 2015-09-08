@@ -11,6 +11,12 @@ angular.module('Holu')
         }
         $scope.$on("SubjectRefreshed",function(){
             $scope.subjectList=PostBars.subjectData();
+            if($scope.subjectList==undefined || $scope.subjectList.length==0){
+                $scope.noContent=true;
+            }
+            else {
+                $scope.noContent=false;
+            }
             needReload=false;
             $scope.$broadcast("scroll.refreshComplete");
         });
@@ -35,6 +41,12 @@ angular.module('Holu')
         }
         $scope.$on("PostBarRefreshed",function(){
             $scope.postBarList=PostBars.postBarData();
+            if($scope.postBarList==undefined || $scope.postBarList.length==0){
+                $scope.noContent=true;
+            }
+            else {
+                $scope.noContent=false;
+            }
             needReload=false;
             $scope.$broadcast("scroll.refreshComplete");
         });

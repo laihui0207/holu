@@ -6,7 +6,7 @@
         </ion-refresher>
         <ion-list class="card list">
             <ion-item ng-repeat="item in taskList" class="item item-button-right"><!-- href="#/tab/components/{{item.projectID}} -->
-                <p >{{'projectName' | translate }}:{{ item.component.project.projectName }}</p>
+                <p >{{'projectName' | translate }}:{{ item.component.project.projectPathName }}</p>
                 <p >{{'component' | translate }}:{{item.component.componentName}}</p>
                 <p ng-show="item.subCompoent">{{item.subComponent.subComponentName}}</p>
                 <p>{{'componentStyle'| translate }}:{{ item.componentStyle.styleName}} - {{item.componentStyle.processName}}</p>

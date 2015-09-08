@@ -1,6 +1,6 @@
 angular.module('Holu.controllers', ['ngSanitize'])
     .controller('LoginCtrl',function($scope,AuthService,$ionicPopup,$rootScope, $state,Storage,
-                                     $translate,menuItemService,amMoment){
+                                     $translate,menuItemService,amMoment,$cordovaNetwork){
         $scope.data={
             remeberMe: false,
             language: 'zh'
@@ -29,7 +29,19 @@ angular.module('Holu.controllers', ['ngSanitize'])
                 $scope.data.language=language;
             }
             $translate.use($scope.data.language);
-            $rootScope.menuItems=menuItemService.menuList(false);
+            if(remeberMe!=undefined){
+                var user=Storage.get("user");
+                if(user!=undefined){
+                    AuthService.setUser(user);
+                    console.log("user name:"+user.userID);
+                    $rootScope.menuItems=menuItemService.menuList(true);
+                    $rootScope.$broadcast('holu.logged');
+                    $state.go('tab.home')
+                }
+            }
+            else {
+                $rootScope.menuItems=menuItemService.menuList(false);
+            }
         })
         $scope.changeLanguage=function(){
             if($scope.data.language=='en')
@@ -95,6 +107,18 @@ angular.module('Holu.controllers', ['ngSanitize'])
                 });
             })
         }
+        $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
+            var onlineState = networkState;
+            console.log("mobile online");
+            $rootScope.networkStatus=true;
+        })
+
+        // listen for Offline event
+        $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
+            var offlineState = networkState;
+            console.log("mobile offline");
+            $rootScope.networkStatus=false;
+        })
     })
     .controller("HomeCtrl",function($scope,AuthService,Messages,News, $ionicSlideBoxDelegate,ENV,$state,$cordovaSplashscreen){
         var user=AuthService.currentUser();
@@ -131,6 +155,7 @@ angular.module('Holu.controllers', ['ngSanitize'])
                 $cordovaSplashscreen.hide();
             }, 5000);
         }
+
     })
     .controller('TranslateController', function ($translate, $scope) {
         $scope.changeLanguage = function (langKey) {
@@ -141,6 +166,7 @@ angular.module('Holu.controllers', ['ngSanitize'])
          var currentUser=AuthService.currentUser();
         if(currentUser!= undefined){
             $scope.userName=currentUser.username || null;
+            console.log($scope.userName);
         }
         $translate(['mainMenu', 'rightMenu','mainMenuHeader']).then(function (translations) {
             $scope.mainMenu = translations.mainMenu;
@@ -154,6 +180,7 @@ angular.module('Holu.controllers', ['ngSanitize'])
             $ionicSideMenuDelegate.toggleRight();
         };
         $scope.logout=function(){
+            AuthService.logout();
             $rootScope.$broadcast('holu.logout');
 
         }

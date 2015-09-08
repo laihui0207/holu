@@ -76,14 +76,14 @@
             </ion-nav-back-button>
 
             <ion-nav-buttons side="left">
-                <button class="button button-icon button-clear" ng-disabled="userName == null" ng-click="goHome()" > <!--  ion-ionic ng-click="showMenu()"-->
+                <button class="button button-icon button-clear" ng-disabled="!userName" ng-click="goHome()" > <!--  ion-ionic ng-click="showMenu()"-->
                     <img class="title-image" src="img/ionic.png" width="38" height="38" /></h1>
                     <!--{{'mainMenuHeader' | translate}}-->
                 </button>
             </ion-nav-buttons>
 
             <ion-nav-buttons side="right">
-                <button class="button button-icon button-clear ion-navicon" ng-disabled="userName == null" ng-click="showRightMenu()">
+                <button class="button button-icon button-clear ion-navicon" ng-disabled="!userName" ng-click="showRightMenu()">
                 </button>
             </ion-nav-buttons>
         </ion-nav-bar>
@@ -108,6 +108,7 @@
                 <li>
                     <a class="item" menu-close href="#/tab/projects">{{ 'Project' | translate }}</a>
                 </li>
+                <li class="item item-divider"></li>
                 <li ng-repeat="menu in menuItems" >
                     <a class="item" menu-close  href="{{menu.action}}" ng-click="{{menu.click}}">{{menu.label | translate}}</a>
                 </li>

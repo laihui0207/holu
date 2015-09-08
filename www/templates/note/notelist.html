@@ -42,7 +42,7 @@
 
                 <p> {{ note.createTime | date:'yyyy-MM-dd' }}</p>
             </ion-item>
-            <ion-item ng-show="!(noteList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
+            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>
            <!-- <div class="item">
                 <a class="button  button-calm" href="#/tab/note/new">{{ 'NewNote' | translate}} </a>
             </div>-->
