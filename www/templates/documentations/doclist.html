@@ -15,14 +15,23 @@
         </div>
     </ion-header-bar>-->
     <ion-header-bar class="bar bar-subheader button-right custom-subheader">
-        <div class="tabs" tab-slide-box>
+        <ion-scroll direction="x" class="wide-as-needed">
+
+            <a ng-class="{'button button-clear': currentType!='all','button button-calm': currentType== 'all'} "  ng-click="docListByType('all')">
+                {{'All' | translate }}
+            </a>
+            <a ng-class="{'button button-clear': currentType != doctype.id,'button button-calm': currentType == doctype.id} " ng-repeat="doctype in docTypeList" ng-click="docListByType({{doctype.id}})">
+                {{doctype.name}}
+            </a>
+        </ion-scroll>
+        <!--<div class="tabs" tab-slide-box>
             <a class="tab-item" ng-click="docListByType('all')">
                 <p> {{'All' | translate }} </p>
             </a>
             <a class="tab-item" ng-repeat="doctype in docTypeList" ng-click="docListByType({{doctype.id}})">
                 <p>{{doctype.name}}</p>
             </a>
-        </div>
+        </div>-->
         <!--        <a class="button button-clear pull-right">Button</a>-->
     </ion-header-bar>
     <ion-content >

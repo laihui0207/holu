@@ -9,6 +9,7 @@ angular.module('Holu')
             $state.go("login")
             return
         }
+        $scope.currentType="all";
         Documentations.fleshDoc()
         $scope.ServerUrl = ENV.ServerUrl;
 
@@ -39,6 +40,7 @@ angular.module('Holu')
             return Documentations.hasMore();
         }
         $scope.docListByType = function (typeId) {
+            $scope.currentType=typeId;
             Documentations.setCurrentDocType(typeId);
         }
         $scope.download = function (fileName, docId) {

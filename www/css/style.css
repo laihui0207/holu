@@ -18,6 +18,11 @@
     border-radius: 6px;
     vertical-align: text-bottom;
 }
+.title-image {
+    max-width: 38px;
+    max-height: 38px;
+
+}
 textarea {
     height:auto;
     /*color:#999;
@@ -29,7 +34,7 @@ textarea {
     border-radius:3px;
     line-height:2em;
     border:none;
-    box-shadow:0px 0px 5px 1px rgba(0,0,0,0.1);
+/*    box-shadow:0px 0px 5px 1px rgba(0,0,0,0.1);*/
     padding:10px;
     -webkit-transition: height 2s ease;
     -moz-transition: height 2s ease;

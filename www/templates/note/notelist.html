@@ -20,14 +20,15 @@
         </ion-nav-back-button>
 
         <ion-nav-buttons side="left">
-            <button class="button button-icon button-clear" ng-disabled="userName == null" ng-click="goHome()" > <!--  ion-ionic ng-click="showMenu()"-->
-                <img class="title-image" src="img/icon_b.png" width="38" height="38" /></h1>
-            </button>
+            <img class="title-image" ng-disabled="!userName" ng-click="goHome()" src="img/icon_b.png" />
         </ion-nav-buttons>
         <ion-nav-buttons side="right">
             <a class="button button-icon ion-plus-circled" ng-disabled="userName == null" href="#/tab/note/new">
             </a>
-            <button class="button button-icon button-clear ion-navicon" ng-disabled="userName == null" ng-click="showRightMenu()">
+           <!-- <button class="button button-icon button-clear ion-navicon" ng-disabled="userName == null" ng-click="showRightMenu()">
+            </button>-->
+            <button class="button button-icon button-clear " ng-show="userName" ng-click="logout()">
+                {{'Logout' | translate }}
             </button>
         </ion-nav-buttons>
     </ion-nav-bar>

@@ -79,21 +79,22 @@
             </ion-nav-back-button>
 
             <ion-nav-buttons side="left">
-                <button class="button button-icon button-clear" ng-disabled="!userName" ng-click="goHome()" > <!--  ion-ionic ng-click="showMenu()"-->
-                    <img class="title-image" src="img/icon_b.png" width="38" height="38" /></h1>
+<!--                <button class="button button-icon button-clear" ng-disabled="!userName" ng-click="goHome()" > -->
+                    <img class="title-image" ng-disabled="!userName" ng-click="goHome()" src="img/icon_b.png" />
                     <!--{{'mainMenuHeader' | translate}}-->
-                </button>
+<!--                </button>-->
             </ion-nav-buttons>
 
             <ion-nav-buttons side="right">
-                <button class="button button-icon button-clear ion-navicon" ng-disabled="!userName" ng-click="showRightMenu()">
+                <button class="button button-icon button-clear " ng-show="userName" ng-click="logout()">
+                    {{'Logout' | translate }}
                 </button>
             </ion-nav-buttons>
         </ion-nav-bar>
         <ion-nav-view animation="slide-left-right"></ion-nav-view>
     </ion-side-menu-content>
 
-    <ion-side-menu side="right" ng-controller="NavCtrl">
+   <!-- <ion-side-menu side="right" ng-controller="NavCtrl">
         <ion-header-bar class="bar bar-header bar-dark">
             <h1 class="title">{{userName}}</h1>
         </ion-header-bar>
@@ -117,7 +118,7 @@
                 </li>
             </ul>
         </ion-content>
-    </ion-side-menu>
+    </ion-side-menu>-->
 </ion-side-menus>
 <script id="image-modal.html" type="text/ng-template">
     <div class="modal image-modal transparent" ng-click="closeModal()">
