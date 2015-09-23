@@ -13,18 +13,22 @@
                 <span class="input-label">{{'UserName' | translate}}</span>
                 <input type="text" ng-model="newUser.userName" required>
             </label>
-            <label class="item item-input item-select">
+            <label class="item item-input">
+                <span class="input-label">{{'company' | translate}}</span>
+                <input type="text" ng-model="newUser.userNote" required placeholder="{{'CompanyNote' | translate}}">
+            </label>
+        <!--    <label class="item item-input">
                 <div class="input-label">
                     {{'company' | translate }}
                 </div>
-                <select ng-model="newUser.companyId">
+                &lt;!&ndash;<select ng-model="newUser.companyId">
                     <option ng-repeat="company in companies" value="{{company.companyId}}">
                         {{company.companyFullName}}
                     </option>
-                </select>
-            </label>
+                </select>&ndash;&gt;
+            </label>-->
         </div>
-        <label class="item item-input item-select">
+        <!--<label class="item item-input item-select">
             <div class="input-label">
                 {{'Language' | translate }}
             </div>
@@ -32,7 +36,21 @@
                 <option value="zh" selected="data.language=='zh'">{{ 'BUTTON_TEXT_ZH' | translate }}</option>
                 <option value="en" selected="data.language=='en'">{{'BUTTON_TEXT_EN'| translate }}</option>
             </select>
-        </label>
+        </label>-->
         <button class="button button-block button-calm" ng-click="signup()">{{ 'SignUp' | translate }}</button>
     </ion-content>
+    <div class="bar bar-footer bar-light item-input-inset">
+        <!--        <button class="button button-clear hide">Left</button>-->
+        <label class=" item-input item-select">
+            <div class="input-label">
+                {{'Language' | translate }}
+            </div>
+            <select ng-model="data.language" ng-change="changeLanguage()">
+                <option value="zh" selected="data.language=='zh'">{{ 'BUTTON_TEXT_ZH' | translate }}</option>
+                <option value="en" selected="data.language=='en'" >{{'BUTTON_TEXT_EN'| translate }}</option>
+            </select>
+        </label>
+
+        <!--  <button class="button button-clear">Right</button>-->
+    </div>
 </ion-view>

@@ -78,7 +78,7 @@ angular.module('Holu.services', [])
                 url: ENV.ServerUrl + "/services/api/users/signup.json",
 /*                data: "userName="+newUser.userName+"&password="+newUser.password+"&loginCode="+newUser.loginCode+"&userId="+
                 newUser.userId+"&companyId="+newUser.companyId,*/
-                data: {userName:newUser.userName,password:newUser.password,loginCode:newUser.loginCode,companyId:newUser.companyId},
+                data: {userName:newUser.userName,password:newUser.password,loginCode:newUser.loginCode,userNote:newUser.userNote},
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
                 if(data==""){
@@ -105,10 +105,12 @@ angular.module('Holu.services', [])
            return user == {}
         }
         function doLogout(){
+            if(user==undefined || user=={}) return;
+            $http.get(ENV.ServerUrl+"/services/api/users/userLogout/"+user.userID+".json").then(function(response){
+               var returnuser=response.data;
+            })
             user = {};
             Storage.remove("user");
-            console.log(Storage.get("user"));
-            //ClearCredentials()
         }
         function getCurrentUser(){
             return user;

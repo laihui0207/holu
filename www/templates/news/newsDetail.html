@@ -11,8 +11,8 @@
            <!-- <div class="item item-image">
                 <img src="{{ServerUrl}}{{news.thumbnailUrl}}">
             </div>-->
-            <div class="item item-body">
-                <p ng-bind-html="news.content | image:this"></p>
+            <div class="item item-body" id="newsDetail">
+                <p compile="news.content | image:this"></p>
             </div>
             <!--<a class="item item-icon-left assertive" href="#">
                 <i class="icon ion-music-note"></i>
@@ -20,6 +20,14 @@
             </a>-->
 
         </div>
+<!--        <button class="button" ng-click="showImage(3)">show image</button>-->
     </ion-content>
 
 </ion-view>
+<script>
+    $(document).ready(function() {
+        $("#newsDetail  img").on("click",function(event){
+            console.log('click image')
+        })
+    })
+</script>

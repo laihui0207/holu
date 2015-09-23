@@ -1,0 +1,35 @@
+<ion-view view-title="{{ 'MyTask' | translate }}">
+    <ion-header-bar class="bar bar-subheader button-right custom-subheader">
+        <div class="tabs" tab-slide-box>
+            <a class="tab-item " href="#/tab/tasks">
+                <p> {{'normalTask' | translate }} </p>
+            </a>
+            <a class="tab-item tab-item-active" href="#/tab/urgenttask">
+                <p> {{'urgentTask' | translate }} </p>
+            </a>
+        </div>
+        <!--        <a class="button button-clear pull-right">Button</a>-->
+    </ion-header-bar>
+    <ion-content>
+        <ion-refresher
+                pulling-text="{{ 'PullToFresh' | translate }}"
+                on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list>
+            <ion-item ng-if="task">
+                <h2>{{task.taskName}}</h2>
+                <p>{{task.taskStyle}}</p>
+            </ion-item>
+            <ion-item ng-repeat="item in taskList" class="item item-button-right"><!-- href="#/tab/components/{{item.projectID}} -->
+                <p >{{'projectName' | translate }}:{{ item.component.project.projectPathName }}</p>
+                <p >{{'component' | translate }}:{{item.component.componentName}}</p>
+                <p ng-show="item.subCompoent">{{item.subComponent.subComponentName}}</p>
+                <p>{{'componentStyle'| translate }}:{{ item.componentStyle.styleName}} - {{item.componentStyle.processName}}</p>
+                <a class="button button-balanced" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>
+                <a class="button button-balanced" ng-show="item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>
+            </ion-item>
+            <ion-item ng-show="!(taskList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
+        </ion-list>
+<!--        <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>-->
+    </ion-content>
+</ion-view>

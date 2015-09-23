@@ -16,10 +16,12 @@ angular.module('Holu.imageFilter', [])
                         if(url.indexOf("/attached")>0){
                             url=url.substring(url.indexOf("/attached"))
                         }
-                        return $1 + scope.ServerUrl + url + $3;
+                        var newContent=$1 + scope.ServerUrl + url +"\" ng-click=\"showImage('"+scope.ServerUrl+url+"')" + $3;
+                        return newContent;
                     }
                     else {
-                        return $0;
+                        var newContent=$1 +url +"\" ng-click=\"showImage('"+url+"')" + $3;
+                        return newContent;
                     }
 
                 });

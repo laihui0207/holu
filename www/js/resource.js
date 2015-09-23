@@ -81,7 +81,18 @@ var translations = {
         UnRead: 'UnRead',
         MyMessage: 'My Message',
         Loading: 'Loading.......',
-        getPositionFailed: 'Get Position Failed, Please make sure enable GPS and Allow geolocation request'
+        getPositionFailed: 'Get Position Failed, Please make sure enable GPS and Allow geolocation request',
+        CompanyNote: 'Company Identity',
+        normalTask: 'Normal',
+        urgentTask: 'Urgent',
+        todayProjectEnd:'Today project End',
+        todayFactoryEnd:'Today Factory End',
+        todayProjectStart: 'Today Project Start',
+        todayFactoryStart: 'Today Factory start',
+        yesterdayProjectEnd:'Yesterday Project End',
+        yesterdayFactoryEnd:'Yesterday Factory End',
+        yesterdayProjectStart:'Yesterday Project Start',
+        yesterdayFactoryStart:'Yesterday Factory Start'
 
 
 
@@ -98,7 +109,7 @@ var translations = {
         Posts: '贴吧',
         Notes: '日志',
         Documents: '文档',
-        Messages: '消息',
+        Messages: '工作消息',
         Status: '状态',
         PullToFresh: '下拉刷新 ....',
         NewsType: '新闻类型',
@@ -172,8 +183,8 @@ var translations = {
         SignUp: '注册',
         loginCode: '登录名',
         company: '公司',
-        ProjectSummary: '项目汇总',
-        ProjectOverview: '项目概况',
+        ProjectSummary: '项目统计',
+        ProjectOverview: '项目进度',
         MyProject: '我的项目',
         MyTask: '我的任务',
         Undo: '撤消',
@@ -183,7 +194,19 @@ var translations = {
         UnRead: '未读信息',
         MyMessage: '我的信息',
         Loading: '加载中......',
-        getPositionFailed: '无法定位你的位置，请打开GPS并且允许定位请求'
+        getPositionFailed: '无法定位你的位置，请打开GPS并且允许定位请求',
+        CompanyNote: '请输入公司标识，如果不知道 请咨询管理员',
+        normalTask: '正常任务',
+        urgentTask: '加急任务',
+        todaySummary: '当日汇总',
+        todayProjectEnd:'今日项目完工',
+        todayFactoryEnd:'今日工厂完工',
+        todayProjectStart: '今日项目开工',
+        todayFactoryStart: '今日工厂开工',
+        yesterdayProjectEnd:'昨日项目完工',
+        yesterdayFactoryEnd:'昨日工厂完工',
+        yesterdayProjectStart:'昨日项目开工',
+        yesterdayFactoryStart:'昨日工厂开工'
 
     }
 }

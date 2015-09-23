@@ -1,0 +1,83 @@
+<ion-view view-title="{{'ProjectSummary' | translate }}">
+    <ion-header-bar class="bar-subheader ">
+        <ion-scroll direction="x" class="wide-as-needed">
+
+            <a ng-class="{'button button-clear': currentType!='all','button button-calm': currentType== 'today_project_end'} "
+               ng-click="changeTab('today','project','end')">
+                {{'todayProjectEnd' | translate }}
+            </a>
+            <a ng-class="{'button button-clear': currentType!='all','button button-calm': currentType== 'today_factory_end'} "
+               ng-click="changeTab('today','factory','end')">
+                {{'todayFactoryEnd' | translate }}
+            </a>
+            <a ng-class="{'button button-clear': currentType!='all','button button-calm': currentType== 'today_project_start'} "
+               ng-click="changeTab('today','project','start')">
+                {{'todayProjectStart' | translate }}
+            </a>
+            <a ng-class="{'button button-clear': currentType!='all','button button-calm': currentType== 'today_factory_start'} "
+               ng-click="changeTab('today','factory','start')">
+                {{'todayFactoryStart' | translate }}
+            </a>
+            <a ng-class="{'button button-clear': currentType!='all','button button-calm': currentType== 'yesterday_project_end'} "
+               ng-click="changeTab('yesterday','project','end')">
+                {{'yesterdayProjectEnd' | translate }}
+            </a>
+            <a ng-class="{'button button-clear': currentType!='all','button button-calm': currentType== 'yesterday_factory_end'} "
+               ng-click="changeTab('yesterday','factory','end')">
+                {{'yesterdayFactoryEnd' | translate }}
+            </a>
+            <a ng-class="{'button button-clear': currentType!='all','button button-calm': currentType== 'yesterday_project_start'} "
+               ng-click="changeTab('yesterday','project','start')">
+                {{'yesterdayProjectStart' | translate }}
+            </a>
+            <a ng-class="{'button button-clear': currentType!='all','button button-calm': currentType== 'yesterday_factory_start'} "
+               ng-click="changeTab('yesterday','factory','start')">
+                {{'yesterdayFactoryStart' | translate }}
+            </a>
+        </ion-scroll>
+    </ion-header-bar>
+
+    <ion-content class="OA-content">
+        <ion-refresher
+                pulling-text="{{ 'PullToFresh' | translate }}"
+                on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list>
+            <ion-item class="item-divider">{{'todaySummary' | translate }} {{date | date:'yyyy-MM-dd'}}</ion-item>
+            <ion-item ng-repeat="item in totalSummary" class="item">
+                <div class="row">
+                    <div class="col">{{ item.itemName}}:</div>
+                    <div class="col">
+                        {{item.percent }}
+                    </div>
+                    <div class="col">
+                        {{item.actual | number:1 }}
+                    </div>
+                    <div class="col">
+                        {{item.plan | number:1}}</div>
+                    </div>
+
+            </ion-item>
+<!--            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>-->
+        </ion-list>
+        <ion-list>
+            <div ng-repeat="(name,items) in summaryItem" >
+                <ion-item class="item-divider">{{name}}</ion-item>
+                <ion-item ng-repeat="item in items" class="item" href="#/tab/summarydetail/{{item.itemID}}/{{searchDate}}/{{searchStyle}}/{{searchStatus}}">
+                    <div class="row">
+                        <div class="col">{{ item.itemName}}:</div>
+                        <div class="col">
+                            {{item.percent }}
+                        </div>
+                        <div class="col">
+                            {{item.actual | number:1 }}
+                        </div>
+                        <div class="col">
+                            {{item.plan | number:1}}</div>
+                    </div>
+<!--                    <p>{{ item.itemName}}: {{item.percent }}   {{item.actual | number:1 }}  {{item.plan | number:1}}</p>-->
+                </ion-item>
+            </div>
+        </ion-list>
+    </ion-content>
+</ion-view>

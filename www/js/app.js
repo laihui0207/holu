@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services', 'Holu.imageFilter',
-    'Holu.config','Holu.translate','textAngular','Holu.SelectDirective','angularMoment','angular-carousel'])
+    'Holu.config','Holu.translate','Holu.SelectDirective','angularMoment','angular-carousel'])
 
     .run(function ($ionicPlatform, $rootScope, $state, $timeout, $ionicHistory, $cordovaToast,amMoment,$cordovaSplashscreen,$cordovaNetwork) {
         $ionicPlatform.ready(function () {
@@ -48,7 +48,7 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                     ionic.Platform.exitApp();
                 } else {
                     $rootScope.backButtonPressedOnceToExit = true;
-                    $cordovaToast.showShortCenter('再按一次退出系统');
+                    $cordovaToast.showShortBottom('再按一次退出系统');
                     setTimeout(function () {
                         $rootScope.backButtonPressedOnceToExit = false;
                     }, 2000);
@@ -58,7 +58,7 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                 $ionicHistory.goBack();
             } else {
                 $rootScope.backButtonPressedOnceToExit = true;
-                $cordovaToast.showShortCenter('再按一次退出系统');
+                $cordovaToast.showShortBottom('再按一次退出系统');
                 setTimeout(function () {
                     $rootScope.backButtonPressedOnceToExit = false;
                 }, 2000);
@@ -482,7 +482,33 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                     }
                 }
             })
-
+            .state('tab.urgenttask', {
+                url: '/urgenttask',
+                views: {
+                    'tab-project': {
+                        templateUrl: 'templates/project/urgenttask.html',
+                        controller: 'UrgentTaskCtrl'
+                    }
+                }
+            })
+            .state('tab.summary', {
+                url: '/summary',
+                views: {
+                    'tab-summary': {
+                        templateUrl: 'templates/summary/summary.html',
+                        controller: 'TotalSummaryCtrl'
+                    }
+                }
+            })
+            .state('tab.summarydetail', {
+                url: '/summarydetail/:itemId/:sumDate/:style/:status',
+                views: {
+                    'tab-summary': {
+                        templateUrl: 'templates/summary/summaryDetail.html',
+                        controller: 'SummaryDetailCtrl'
+                    }
+                }
+            })
 
         ;
 

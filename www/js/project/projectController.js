@@ -47,24 +47,7 @@ angular.module('Holu')
             Projects.myTasks(user.userID);
         }
     })
-    .controller('TaskCtrl',function($scope, Projects,$state, $rootScope, $stateParams,AuthService,$ionicLoading){
-        var user = AuthService.currentUser();
-        var needReload=true;
-        if (user == undefined) {
-            $rootScope.backurl = "tab.tasks"
-            $state.go("login")
-            return
-        }
-        Projects.myTasks(user.userID).then(function(response){
-            $scope.taskList=response.data;
-        })
-        $scope.doRefresh = function () {
-            Projects.myTasks(user.userID).then(function(response){
-                $scope.taskList=response.data;
-            })
-        }
 
-    })
     .controller('ComponentCtrl', function ($scope, Projects,$state, $rootScope, $stateParams,AuthService,$ionicLoading) {
         var user=AuthService.currentUser();
         var needReload=true;
@@ -276,4 +259,40 @@ angular.module('Holu')
 
         }
         $scope.getPosition();
+    })
+    .controller('TaskCtrl',function($scope, Projects,$state, $rootScope,AuthService){
+        var user = AuthService.currentUser();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.tasks"
+            $state.go("login")
+            return
+        }
+        Projects.myTasks(user.userID).then(function(response){
+            $scope.taskList=response.data;
+        })
+        $scope.doRefresh = function () {
+            Projects.myTasks(user.userID).then(function(response){
+                $scope.taskList=response.data;
+                $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
+
+    })
+    .controller('UrgentTaskCtrl',function($scope, Projects,AuthService, $rootScope,$state){
+        var user=AuthService.currentUser();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.urgenttask"
+            $state.go("login")
+            return
+        }
+        Projects.urgentTask(user.userID).then(function(response){
+            $scope.tasks=response.data;
+        })
+        $scope.doRefresh = function () {
+            Projects.urgentTask(user.userID).then(function(response){
+                $scope.tasks=response.data;
+                $scope.$broadcast('scroll.refreshComplete');
+            })
+        }
+
     })

@@ -109,7 +109,13 @@ ul[rn-carousel] {
 /*    margin-left: 15px;*/
     height: 200px;
 }
-
+.wide-as-needed {
+/*    overflow: scroll;*/
+    white-space: nowrap;
+}
+.scroll {
+    min-width: 100%;
+}
 /*.custom-indicator span {
     text-align: right;
 }

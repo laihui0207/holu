@@ -42,11 +42,67 @@ angular.module('Holu')
             News.setCurrentNewsType(typeId);
         }
     })
-    .controller('NewsDetailCtrl', function ($scope, News, $stateParams, ENV, $ionicLoading) {
+    .controller('NewsDetailCtrl', function ($scope, News, $stateParams, ENV,$ionicModal, $ionicLoading) {
         News.viewNews($stateParams.newsId).then(function (response) {
             $scope.news = response.data;
         })
         $scope.ServerUrl = ENV.ServerUrl;
+        $ionicModal.fromTemplateUrl('image-modal.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.modal = modal;
+        });
+       /* $ionicModal.fromTemplateUrl(
+            'templates/fullImage.html', function (modal) {
+                scope.modal = modal;
+            },
+            {
+                scope: $scope,
+                animation: 'slide-in-up'
+            }
+        )*/
+        $scope.openModal = function() {
+            $scope.modal.show();
+        };
+
+        $scope.closeModal = function() {
+            $scope.modal.hide();
+        };
+
+        //Cleanup the modal when we're done with it!
+        $scope.$on('$destroy', function() {
+            $scope.modal.remove();
+        });
+        // Execute action on hide modal
+        $scope.$on('modal.hide', function() {
+            // Execute action
+        });
+        // Execute action on remove modal
+        $scope.$on('modal.removed', function() {
+            // Execute action
+        });
+        $scope.$on('modal.shown', function() {
+            console.log('Modal is shown!');
+        });
+
+        //$scope.imageSrc = 'http://ionicframework.com/img/ionic-logo-blog.png';
+
+        $scope.showImage = function(url) {
+            /*switch(index) {
+                case 1:
+                    $scope.imageSrc = 'http://ionicframework.com/img/ionic-logo-blog.png';
+                    break;
+                case 2:
+                    $scope.imageSrc  = 'http://ionicframework.com/img/ionic_logo.svg';
+                    break;
+                case 3:
+                    $scope.imageSrc  = 'http://ionicframework.com/img/homepage/phones-weather-demo@2x.png';
+                    break;
+            }*/
+            $scope.imageSrc=url;
+            $scope.openModal();
+        }
     })
     .controller("ImportantNewsCtrl", function ($scope, News, ENV,AuthService) {
         var currentUser=AuthService.currentUser();

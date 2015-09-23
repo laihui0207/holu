@@ -1,4 +1,15 @@
 <ion-view view-title="{{ 'MyTask' | translate }}">
+    <ion-header-bar class="bar bar-subheader button-right custom-subheader">
+        <div class="tabs" tab-slide-box>
+            <a class="tab-item tab-item-active" href="#/tab/tasks">
+                <p> {{'normalTask' | translate }} </p>
+            </a>
+            <a class="tab-item" href="#/tab/urgenttask">
+                <p> {{'urgentTask' | translate }} </p>
+            </a>
+        </div>
+        <!--        <a class="button button-clear pull-right">Button</a>-->
+    </ion-header-bar>
     <ion-content>
         <ion-refresher
                 pulling-text="{{ 'PullToFresh' | translate }}"

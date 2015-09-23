@@ -33,8 +33,12 @@ angular.module('Holu')
             //====================================
             processList: listProcessListOfComponents,
             componentStyles: listComponentStyleOfCompanyAndStyle,
-            confirm: confirmProcess
+            confirm: confirmProcess,
+            urgentTask: getUrgentTask
         })
+        function getUrgentTask(userId){
+            return $http.get(ENV.ServerUrl+"/services/api/tasks/"+userId+".json");
+        }
         function getMyTask(userId){
             return $http.get(ENV.ServerUrl+"/services/api/componentStyles/"+userId+"/Task.json");
         }
