@@ -127,3 +127,7 @@ ul[rn-carousel] {
 .custom-indicator span.active {
     color:#ba1820 !important;
 }*/
+.progressDelay {
+    color: red;
+    font-weight: bold;;
+}

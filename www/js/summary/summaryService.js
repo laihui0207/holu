@@ -6,7 +6,9 @@ angular.module('Holu')
         return {
             Summary: getSummaryData,
             SummaryDetail: getSummaryDetailData,
-            Detail: getDetailData
+            Detail: getDetailData,
+            Progress: getProgressData,
+            ProgressDetail: getProgressDetailData
         }
         function getSummaryData(userId,sumDate,itemStyle,status){
             return $http.get(ENV.ServerUrl+"/services/api/Summary/"+userId+".json?itemStyle="+itemStyle+"&startorend="+status+"&sumdate="+sumDate);
@@ -16,5 +18,11 @@ angular.module('Holu')
         }
         function getDetailData(userId,itemID,sumDate,itemStyle,status){
             return $http.get(ENV.ServerUrl+"/services/api/Summary/"+userId+"/Detail/"+itemID+".json?itemStyle="+itemStyle+"&startorend="+status+"&sumdate="+sumDate);
+        }
+        function getProgressData(userId,itemStyle){
+            return $http.get(ENV.ServerUrl+"/services/api/Summary/"+userId+"/"+itemStyle+"/progress.json");
+        }
+        function getProgressDetailData(userId,itemStyle,itemId){
+            return $http.get(ENV.ServerUrl+"/services/api/Summary/"+userId+"/"+itemStyle+"/progress/"+itemId+".json");
         }
     })

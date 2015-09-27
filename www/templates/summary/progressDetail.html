@@ -1,0 +1,53 @@
+<ion-view view-title="{{'ProjectOverview' | translate }}">
+   <!-- <ion-header-bar class="bar-subheader ">
+        <ion-scroll direction="x" class="wide-as-needed">
+
+            <a ng-class="{'button button-clear': currentType!='project','button button-calm': currentType== 'project'} "
+               ng-click="changeTab('project')">
+                {{'projectProgress' | translate }}
+            </a>
+            <a ng-class="{'button button-clear': currentType!='factory','button button-calm': currentType== 'factory'} "
+               ng-click="changeTab('factory')">
+                {{'factoryProgress' | translate }}
+            </a>
+
+        </ion-scroll>
+    </ion-header-bar>-->
+
+    <ion-content class="OA-content">
+        <ion-refresher
+                pulling-text="{{ 'PullToFresh' | translate }}"
+                on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list>
+            <div ng-repeat="(name,items) in progressList" class="item" href="#/tab/progressdetail/{{currentType}}/{{item.itemID}}">
+                <ion-item class="item-divider">{{name}} ({{'progressTo' | translate }} {{date | date:'yyyy-MM-dd'}})</ion-item>
+                <ion-item ng-repeat="item in items">
+                <h2>{{name}}_{{item.itemName}}</h2>
+                <p>
+                    {{'progressStatus' | translate}}:
+                    {{'progressCurrent' | translate}}
+                    <span ng-if="item.currentStatus > 0"> {{'progressInAdvance' | translate }} {{item.currentStatus}}</span>
+                    <span ng-if="item.currentStatus < 0" class="progressDelay"> {{'progressDelay' | translate }} {{item.currentStatus}}</span>
+                    {{'progressDays' | translate}}
+                    {{'progressPredict'| translate}}
+                    <span ng-if="item.predictStatus > 0 || item.predictStatus == 0"> {{'progressInAdvance' | translate }} {{item.predictStatus}}</span>
+                    <span ng-if="item.predictStatus < 0" class="progressDelay"> {{'progressDelay' | translate }} {{item.predictStatus}}</span>
+                    {{'progressDays' | translate}}
+                </p>
+                <p>
+                    {{'progressComplete' | translate}}: {{'progressPlan' | translate}} {{item.sumDate_plan_end | date:'yyyy-MM-dd'}}
+                    {{'progressPredict' | translate}} {{item.sumDate_predict_end | date:'yyyy-MM-dd'}}
+                </p>
+                <p>
+                    {{'progressDuration' | translate}}:
+                    {{'progressPlan' | translate}} {{item.planDuration}} {{'progressDays' | translate}}
+                    {{'progressUsed' | translate}} {{item.actualDuration}} {{'progressDays' | translate}}
+                    {{'progressPredict' | translate}} {{item.predictDuration}} {{'progressDays' | translate}}
+                </p>
+                </ion-item>
+            </div>
+<!--            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>-->
+        </ion-list>
+    </ion-content>
+</ion-view>

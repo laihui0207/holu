@@ -509,7 +509,24 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                     }
                 }
             })
-
+            .state('tab.progress', {
+                url: '/progress',
+                views: {
+                    'tab-summary': {
+                        templateUrl: 'templates/summary/progress.html',
+                        controller: 'ProgressCtrl'
+                    }
+                }
+            })
+            .state('tab.progressdetail', {
+                url: '/progressdetail/:style/:itemId',
+                views: {
+                    'tab-summary': {
+                        templateUrl: 'templates/summary/progressDetail.html',
+                        controller: 'ProgressDetailCtrl'
+                    }
+                }
+            })
         ;
 
         // if none of the above states are matched, use this as the fallback

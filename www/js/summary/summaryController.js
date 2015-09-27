@@ -67,3 +67,71 @@ angular.module('Holu')
                 $scope.details=response.data;
             })
     })
+    .controller('ProgressCtrl',function($scope, Summary, $rootScope, AuthService, $state,$translate){
+        var user = AuthService.currentUser();
+        $scope.date = new Date();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.summary";
+            $state.go("login");
+            return
+        }
+        $translate(['projectProgress', 'factoryProgress']).then(function (translations) {
+            $scope.projectProgress = translations.projectProgress;
+            $scope.factoryProgress = translations.factoryProgress;
+            $scope.progressName=$scope.projectProgress;
+        });
+        $scope.progressName=$scope.projectProgress;
+        $scope.date = new Date();
+        $scope.currentType="project";
+        Summary.Progress(user.userID,$scope.currentType).then(function(response){
+            $scope.progressList=response.data;
+        })
+
+        $scope.changeTab= function(itemStyle){
+            $scope.currentType=itemStyle;
+            if(itemStyle=='project'){
+                $scope.progressName=$scope.projectProgress;
+            }
+            else {
+                $scope.progressName=$scope.factoryProgress;
+            }
+            Summary.Progress(user.userID,$scope.currentType).then(function(response){
+                $scope.progressList=response.data;
+            })
+        }
+        $scope.doRefresh = function () {
+            Summary.Progress(user.userID,$scope.currentType).then(function(response){
+                $scope.progressList=response.data;
+            })
+            $scope.$broadcast('scroll.refreshComplete');
+        }
+
+    })
+    .controller('ProgressDetailCtrl',function($scope, Summary, $rootScope, AuthService, $state,$stateParams){
+        var user = AuthService.currentUser();
+        $scope.date = new Date();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.summary";
+            $state.go("login");
+            return
+        }
+        $scope.date = new Date();
+        $scope.currentType=$stateParams.style;
+        Summary.ProgressDetail(user.userID,$scope.currentType,$stateParams.itemId).then(function(response){
+            $scope.progressList=response.data;
+        })
+
+        $scope.changeTab= function(itemStyle){
+            $scope.currentType=itemStyle;
+            Summary.ProgressDetail(user.userID,$scope.currentType,$stateParams.itemId).then(function(response){
+                $scope.progressList=response.data;
+            })
+        }
+        $scope.doRefresh = function () {
+            Summary.ProgressDetail(user.userID,$scope.currentType,$stateParams.itemId).then(function(response){
+                $scope.progressList=response.data;
+            })
+            $scope.$broadcast('scroll.refreshComplete');
+        }
+
+    })

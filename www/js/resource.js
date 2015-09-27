@@ -92,10 +92,20 @@ var translations = {
         yesterdayProjectEnd:'Yesterday Project End',
         yesterdayFactoryEnd:'Yesterday Factory End',
         yesterdayProjectStart:'Yesterday Project Start',
-        yesterdayFactoryStart:'Yesterday Factory Start'
-
-
-
+        yesterdayFactoryStart:'Yesterday Factory Start',
+        projectProgress: 'Project Progress',
+        factoryProgress: 'Factory Progress',
+        progressStatus:'Status',
+        progressComplete: 'Complete',
+        progressDuration: 'Duration',
+        progressPlan: 'Plan',
+        progressPredict: 'Predict',
+        progressUsed: 'Used',
+        progressInAdvance: 'Advance',
+        progressDelay: 'Delay',
+        progressCurrent: 'current',
+        progressDays: 'Days',
+        progressTo: 'TO'
     },
     "zh": {
         HEADLINE : '这是我们的节日哦',
@@ -206,7 +216,20 @@ var translations = {
         yesterdayProjectEnd:'昨日项目完工',
         yesterdayFactoryEnd:'昨日工厂完工',
         yesterdayProjectStart:'昨日项目开工',
-        yesterdayFactoryStart:'昨日工厂开工'
+        yesterdayFactoryStart:'昨日工厂开工',
+        projectProgress: '项目进度',
+        factoryProgress: '工厂进度',
+        progressStatus:'状态',
+        progressComplete: '完工',
+        progressDuration: '工期',
+        progressPlan: '计划',
+        progressPredict: '预计',
+        progressUsed: '已用',
+        progressInAdvance: '提前',
+        progressDelay: '延期',
+        progressCurrent: '当前',
+        progressDays: '天',
+        progressTo: '截至'
 
     }
 }
