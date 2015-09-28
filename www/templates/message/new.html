@@ -33,7 +33,7 @@
 <!--            <text-angular name="htmlcontent" ng-model="message.content" ta-text-editor-class="form-content" ta-html-editor-class="form-content" ta-focussed-class="focussed"></text-angular>-->
 
             <!--            <text-angular ng-model="message.content"></text-angular>-->
-            <fancy-select class="item"
+            <fancy-select class="fancy-select item"
                           header-text="{{'ChooseUser' | translate }}"
                           allow-empty='true'
                           value="message.sendUsers"
@@ -42,7 +42,7 @@
                           items="userList"
                           multi-select="true">
             </fancy-select>
-            <fancy-select class="item"
+            <fancy-select class="fancy-select item"
                           header-text="{{'ChooseUserGroup' | translate }}"
                           allow-empty='true'
                           label="ChooseUserGroup"
@@ -51,7 +51,7 @@
                           items="groupList"
                           multi-select="true">
             </fancy-select>
-            <fancy-select class="item"
+            <fancy-select class="fancy-select item"
                           header-text="{{'ChooseDepartment' | translate }}"
                           allow-empty='true'
                           label="ChooseDepartment"

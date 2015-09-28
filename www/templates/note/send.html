@@ -25,12 +25,13 @@
                 <span class="input-label">{{'Title' | translate }}: </span>
                 <input type="text" ng-model="note.title" readonly="readonly">
             </label>
-            <label class="item item-input item-stacked-label">
+            <label class="item item-body item-stacked-label">
                 <span class="input-label">{{'Content' | translate }}: </span>
-                <textarea ng-keyup="autoExpand($event)" ng-model="note.content" readonly="readonly"></textarea>
+<!--                <textarea ng-keyup="autoExpand($event)" ng-model="note.content" readonly="readonly"></textarea>-->
+                <p ng-bind-html="note.content | image:this"></p>
             </label>
 <!--             <div text-angular ng-model="note.content" name="demo-editor" ta-text-editor-class="border-around padding" ta-html-editor-class="border-around"></div>-->
-            <fancy-select class="item"
+            <fancy-select class="fancy-select item"
                           header-text="{{'ChooseUser' | translate }}"
                           allow-empty='true'
                           value="note.sendUsers"
@@ -40,7 +41,7 @@
                           multi-select="true"
                           >
             </fancy-select>
-            <fancy-select class="item"
+            <fancy-select class="fancy-select item"
                           header-text="{{'ChooseUserGroup' | translate }}"
                           allow-empty='true'
                           label="ChooseUserGroup"
@@ -49,7 +50,7 @@
                           items="groupList"
                           multi-select="true">
             </fancy-select>
-            <fancy-select class="item"
+            <fancy-select class="fancy-select item"
                           header-text="{{'ChooseDepartment' | translate }}"
                           allow-empty='true'
                           label="ChooseDepartment"

@@ -1,6 +1,8 @@
 .fancy-select .list {
     margin: -1px 0; }
-
+.fancy-select {
+    padding: 0;
+}
 /* Items */
 /* line 13, ../scss/modules/_fancy-select.scss */
 .fancy-select-items {
