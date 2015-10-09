@@ -50,17 +50,23 @@ angular.module('Holu')
     })
     .controller('NoteSendCtrl',function($scope, Notes,UserService,UserGroup,Department,$rootScope,$stateParams,$translate,$state,
                                         $ionicPopup,$ionicLoading,ENV){
+        var user=AuthService.currentUser();
+        if(user == undefined){
+            $rootScope.backurl="tab.notes"
+            $state.go("login")
+            return
+        }
         Notes.view($stateParams.noteId).then(function (response) {
             $scope.note = response.data;
         })
         $scope.ServerUrl = ENV.ServerUrl;
-        UserService.listSlv().then(function(response){
+        UserService.listSlv(user.userID).then(function(response){
             $scope.userList=response.data
         })
-        UserGroup.listSlv().then(function(response){
+        UserGroup.listSlv(user.userID).then(function(response){
             $scope.groupList=response.data
         })
-        Department.listSlv().then(function(response){
+        Department.listSlv(user.userID).then(function(response){
             $scope.departmentList=response.data;
         })
         $translate(['ChooseUser', 'ChooseUserGroup','NoChooseUser','NoChooseUserGroup','ChooseDepartment','NoChooseDepartment']).then(function (translations) {

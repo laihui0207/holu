@@ -13,17 +13,14 @@ angular.module('Holu')
             return
         }
 /*        $scope.no_content=undefined;*/
-        $scope.searchDate="today";
-        $scope.searchStyle="project";
-        $scope.searchStatus="end";
-        $scope.currentType=$scope.searchDate+"_"+$scope.searchStyle+"_"+$scope.searchStatus;
+        $scope.currentType='projectSummary';
         Summary.Summary(user.userID,"today","project","end").then(function(response){
             $scope.totalSummary=response.data;
         });
         Summary.SummaryDetail(user.userID,"today","project","end").then(function(response){
             $scope.summaryItem=response.data;
         });
-        $scope.changeTab=function(sumDate,style,status){
+        /*$scope.changeTab=function(sumDate,style,status){
             $scope.searchDate=sumDate;
             $scope.searchStyle=style;
             $scope.searchStatus=status;
@@ -41,12 +38,12 @@ angular.module('Holu')
             Summary.SummaryDetail(user.userID,sumDate,style,status).then(function(response){
                 $scope.summaryItem=response.data;
             });
-        }
+        }*/
         $scope.doRefresh = function () {
-            Summary.Summary(user.userID,$scope.searchDate,$scope.searchStyle,$scope.searchStatus).then(function(response){
+            Summary.Summary(user.userID,"today","project","end").then(function(response){
                 $scope.totalSummary=response.data;
             });
-            Summary.SummaryDetail(user.userID,$scope.searchDate,$scope.searchStyle,$scope.searchStatus).then(function(response){
+            Summary.SummaryDetail(user.userID,"today","project","end").then(function(response){
                 $scope.summaryItem=response.data;
             });
             $scope.$broadcast('scroll.refreshComplete');
@@ -117,18 +114,22 @@ angular.module('Holu')
         }
         $scope.date = new Date();
         $scope.currentType=$stateParams.style;
-        Summary.ProgressDetail(user.userID,$scope.currentType,$stateParams.itemId).then(function(response){
+        if($scope.currentType=='factory') {
+            $scope.currentType='project'
+        }
+
+        Summary.ProgressDetail(user.userID,$stateParams.style,$stateParams.itemId).then(function(response){
             $scope.progressList=response.data;
         })
 
         $scope.changeTab= function(itemStyle){
             $scope.currentType=itemStyle;
-            Summary.ProgressDetail(user.userID,$scope.currentType,$stateParams.itemId).then(function(response){
+            Summary.ProgressDetail(user.userID,itemStyle,$stateParams.itemId).then(function(response){
                 $scope.progressList=response.data;
             })
         }
         $scope.doRefresh = function () {
-            Summary.ProgressDetail(user.userID,$scope.currentType,$stateParams.itemId).then(function(response){
+            Summary.ProgressDetail(user.userID,$stateParams.style,$stateParams.itemId).then(function(response){
                 $scope.progressList=response.data;
             })
             $scope.$broadcast('scroll.refreshComplete');

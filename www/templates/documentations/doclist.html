@@ -41,14 +41,14 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item  ng-repeat="doc in DocList" class="item item-button-right" > <!-- href="#/tab/docs/{{doc.id}}"  -->
+            <ion-item  ng-repeat="doc in DocList" class="item" href="#/tab/docs/{{doc.id}}"> <!-- href="#/tab/docs/{{doc.id}}"  -->
                 <h2>{{ doc.name }}</h2>
-                <p>{{'FileName'| translate}}: {{doc.fileName}}</p>
+                <p ng-show="doc.fileName">{{'FileName'| translate}}: {{doc.fileName}}
                  {{doc.createTime | date:'yyyy-MM-dd' }}</p>
                 <p ng-bind-html="doc.introduction | image:this"></p>
-                <button class="button button-positive" ng-if="doc.fileName" ng-click="download(doc.fileName,doc.id)" >
+                <!--<button class="button button-positive" ng-if="doc.fileName" ng-click="download(doc.fileName,doc.id)" >
                     <i class="icon ion-ios-download"></i>
-                </button>
+                </button>-->
             </ion-item>
             <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>

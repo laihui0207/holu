@@ -97,6 +97,12 @@ angular.module('Holu')
 
     })
     .controller('PostBarNewCtrl',function($scope,PostBars,$translate,$state,$stateParams,$rootScope,$ionicPopup,$ionicLoading){
+        var user=AuthService.currentUser();
+        if(user == undefined){
+            $rootScope.backurl="tab.postbars"
+            $state.go("login")
+            return
+        }
         if($stateParams.postBarId!=undefined){
             PostBars.viewPost($stateParams.postBarId).then(function(response){
                 $scope.postBar=response.data
@@ -106,16 +112,16 @@ angular.module('Holu')
         else {
             $scope.postBar={subjectId:$stateParams.subjectId};
         }
-        PostBars.listViewUsers($stateParams.postBarId).then(function(response){
+        PostBars.listViewUsers($stateParams.postBarId,user.userID).then(function(response){
             $scope.viewUserList=response.data
         })
-        PostBars.listReplyUsers($stateParams.postBarId).then(function(response){
+        PostBars.listReplyUsers($stateParams.postBarId,user.userID).then(function(response){
             $scope.replyUserList=response.data
         })
-        PostBars.listViewGroups($stateParams.postBarId).then(function(response){
+        PostBars.listViewGroups($stateParams.postBarId,user.userID).then(function(response){
             $scope.viewGroupList=response.data
         })
-        PostBars.listReplyGroups($stateParams.postBarId).then(function(response){
+        PostBars.listReplyGroups($stateParams.postBarId,user.userID).then(function(response){
             $scope.replyGroupList=response.data
         })
         $translate(['NoChooseUser','ChooseViewUser','ChooseReplyUser', 'NoChooseUserGroup','ChooseViewUserGroup','ChooseReplyUserGroup']).then(function (translations) {

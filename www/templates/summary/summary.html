@@ -1,39 +1,20 @@
 
 <ion-view view-title="{{'ProjectSummary' | translate }}">
     <ion-header-bar class="bar-subheader ">
+
         <ion-scroll direction="x" class="wide-as-needed">
 
-            <a ng-class="{'button button-clear': currentType!='today_project_end','button button-calm': currentType== 'today_project_end'} "
-               ng-click="changeTab('today','project','end')">
-                {{'todayProjectEnd' | translate }}
+            <a ng-class="{'button button-clear': currentType!='totalSearch','button button-calm': currentType== 'totalSearch'} "
+               href="#/tab/totalSearch">
+                {{'TotalSearch' | translate }}
             </a>
-            <a ng-class="{'button button-clear': currentType!='today_factory_end','button button-calm': currentType== 'today_factory_end'} "
-               ng-click="changeTab('today','factory','end')">
-                {{'todayFactoryEnd' | translate }}
+            <a ng-class="{'button button-clear': currentType!='factorySummary','button button-calm': currentType== 'factorySummary'} "
+               href="#/tab/factorySearch">
+                {{'factorySummary' | translate }}
             </a>
-            <a ng-class="{'button button-clear': currentType!='today_project_start','button button-calm': currentType== 'today_project_start'} "
-               ng-click="changeTab('today','project','start')">
-                {{'todayProjectStart' | translate }}
-            </a>
-            <a ng-class="{'button button-clear': currentType!='today_factory_start','button button-calm': currentType== 'today_factory_start'} "
-               ng-click="changeTab('today','factory','start')">
-                {{'todayFactoryStart' | translate }}
-            </a>
-            <a ng-class="{'button button-clear': currentType!='yesterday_project_end','button button-calm': currentType== 'yesterday_project_end'} "
-               ng-click="changeTab('yesterday','project','end')">
-                {{'yesterdayProjectEnd' | translate }}
-            </a>
-            <a ng-class="{'button button-clear': currentType!='yesterday_factory_end','button button-calm': currentType== 'yesterday_factory_end'} "
-               ng-click="changeTab('yesterday','factory','end')">
-                {{'yesterdayFactoryEnd' | translate }}
-            </a>
-            <a ng-class="{'button button-clear': currentType!='yesterday_project_start','button button-calm': currentType== 'yesterday_project_start'} "
-               ng-click="changeTab('yesterday','project','start')">
-                {{'yesterdayProjectStart' | translate }}
-            </a>
-            <a ng-class="{'button button-clear': currentType!='yesterday_factory_start','button button-calm': currentType== 'yesterday_factory_start'} "
-               ng-click="changeTab('yesterday','factory','start')">
-                {{'yesterdayFactoryStart' | translate }}
+            <a ng-class="{'button button-clear': currentType!='projectSummary','button button-calm': currentType== 'projectSummary'} "
+               href="#/tab/summary">
+                {{'ProjectSummary' | translate }}
             </a>
         </ion-scroll>
     </ion-header-bar>

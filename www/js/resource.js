@@ -105,7 +105,9 @@ var translations = {
         progressDelay: 'Delay',
         progressCurrent: 'current',
         progressDays: 'Days',
-        progressTo: 'TO'
+        progressTo: 'TO',
+        factorySummary: 'Factory Summary',
+        TotalSearch: 'Total Search'
     },
     "zh": {
         HEADLINE : '这是我们的节日哦',
@@ -193,7 +195,7 @@ var translations = {
         SignUp: '注册',
         loginCode: '登录名',
         company: '公司',
-        ProjectSummary: '项目统计',
+        ProjectSummary: '项目汇总',
         ProjectOverview: '项目进度',
         MyProject: '我的项目',
         MyTask: '我的任务',
@@ -229,7 +231,9 @@ var translations = {
         progressDelay: '延期',
         progressCurrent: '当前',
         progressDays: '天',
-        progressTo: '截至'
+        progressTo: '截至',
+        factorySummary: '工厂汇总',
+        TotalSearch: '总体查询'
 
     }
 }

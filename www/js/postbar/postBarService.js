@@ -69,17 +69,17 @@ angular.module('Holu')
         function isSubjectHasNextPage(){
             return subjectData.hasNextPage;
         }
-        function listPostBarViewUsers(postBarId){
-            return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postBarId + "/viewUser/slv.json")
+        function listPostBarViewUsers(postBarId,userID){
+            return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postBarId + "/viewUser/slv.json?userID="+userID)
         }
-        function listPostBarReplyUsers(postBarId){
-            return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postBarId + "/replyUser/slv.json")
+        function listPostBarReplyUsers(postBarId,userID){
+            return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postBarId + "/replyUser/slv.json?userID="+userID)
         }
-        function listPostBarViewGroups(postBarId){
-            return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postBarId + "/viewGroup/slv.json")
+        function listPostBarViewGroups(postBarId,userID){
+            return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postBarId + "/viewGroup/slv.json?userID="+userID)
         }
-        function listPostBarReplyGroups(postBarId){
-            return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postBarId + "/replyGroup/slv.json")
+        function listPostBarReplyGroups(postBarId,userID){
+            return $http.get(ENV.ServerUrl + "/services/api/postbars/" + postBarId + "/replyGroup/slv.json?userID="+userID)
         }
 
 

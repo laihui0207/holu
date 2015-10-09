@@ -95,13 +95,13 @@ angular.module('Holu')
         Messages.view($stateParams.messageId).then(function(response){
             $scope.message=response.data
         })
-        UserService.listSlv().then(function(response){
+        UserService.listSlv(user.userID).then(function(response){
             $scope.userList=response.data
         })
-        UserGroup.listSlv().then(function(response){
+        UserGroup.listSlv(user.userID).then(function(response){
             $scope.groupList=response.data
         })
-        Department.listSlv().then(function(response){
+        Department.listSlv(user.userID).then(function(response){
             $scope.departmentList=response.data;
         })
         $translate(['ChooseUser', 'ChooseUserGroup','NoChooseUser','NoChooseUserGroup','ChooseDepartment','NoChooseDepartment']).then(function (translations) {
@@ -132,13 +132,19 @@ angular.module('Holu')
             var scrollHeight = element.scrollHeight - 1; // replace 60 by the sum of padding-top and padding-bottom
             element.style.height =  scrollHeight + "px";
         };
-        UserService.listSlv().then(function(response){
+        var user=AuthService.currentUser();
+        if(user == undefined){
+            $rootScope.backurl="tab.messages"
+            $state.go("login")
+            return
+        }
+        UserService.listSlv(user.userID).then(function(response){
             $scope.userList=response.data
         })
-        UserGroup.listSlv().then(function(response){
+        UserGroup.listSlv(user.userID).then(function(response){
             $scope.groupList=response.data
         })
-        Department.listSlv().then(function(response){
+        Department.listSlv(user.userID).then(function(response){
             $scope.departmentList=response.data;
         })
         $translate(['ChooseUser', 'ChooseUserGroup','NoChooseUser','NoChooseUserGroup','ChooseDepartment','NoChooseDepartment']).then(function (translations) {

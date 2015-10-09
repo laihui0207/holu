@@ -228,16 +228,16 @@ angular.module('Holu.services', [])
         return ({
             listSlv: listUser
         })
-        function listUser(){
-            return $http.get(ENV.ServerUrl+"/services/api/users/slv.json")
+        function listUser(userID){
+            return $http.get(ENV.ServerUrl+"/services/api/users/slv.json?userID="+userID)
         }
     })
     .factory('Department',function($http,ENV){
         return ({
             listSlv: listDepartment
         })
-        function listDepartment(){
-            return $http.get(ENV.ServerUrl+"/services/api/departments/slv.json")
+        function listDepartment(userID){
+            return $http.get(ENV.ServerUrl+"/services/api/departments/slv.json?userID="+userID)
         }
     })
     .factory('UserGroup',function($http,$q,ENV){
@@ -246,8 +246,8 @@ angular.module('Holu.services', [])
             save: saveUserGroup,
             delete: deleteUserGroup
         })
-        function listUserGroups(){
-            return $http.get(ENV.ServerUrl+"/services/api/groups/slv.json")
+        function listUserGroups(userID){
+            return $http.get(ENV.ServerUrl+"/services/api/groups/slv.json?userID="+userID)
         }
         function saveUserGroup(){
 
