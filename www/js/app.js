@@ -5,10 +5,11 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services', 'Holu.imageFilter',
-    'Holu.config','Holu.translate','Holu.SelectDirective','angularMoment','angular-carousel'])
+angular.module('Holu', ['ionic','ngCordova' ,'Holu.config','Holu.services','Holu.controllers', 'Holu.imageFilter',
+    'Holu.translate','Holu.SelectDirective','angularMoment','angular-carousel'])
 
-    .run(function ($ionicPlatform, $rootScope, $state, $timeout, $ionicHistory, $cordovaToast,amMoment,$cordovaSplashscreen,$cordovaNetwork) {
+    .run(function ($ionicPlatform, $rootScope, $state, $timeout, $ionicHistory,
+                   $cordovaToast,amMoment,$cordovaSplashscreen,$cordovaNetwork,$cordovaAppVersion,Upgrade) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -30,6 +31,75 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                 // org.apache.cordova.statusbar required
                 StatusBar.styleLightContent();
             }
+/*            if(isOnline){*/
+/*                checkUpdate();*/
+            /*}*/
+            function checkUpdate() {
+
+                var serverAppVersion = "1.0.0"; //从服务端获取最新版本
+                Upgrade.lastVersion().then(function (response) {
+                    serverAppVersion = response.data;
+                    showUpdateConfirm();
+                    //获取版本
+                    $cordovaAppVersion.getAppVersion().then(function (version) {
+                        console.log("Current version: " + version+", Server version: "+serverAppVersion)
+                        //如果本地于服务端的APP版本不符合
+                        if (version != serverAppVersion) {
+                         showUpdateConfirm();
+                         }
+                    });
+                })
+
+            }
+// 显示是否更新对话框
+            function showUpdateConfirm() {
+                var confirmPopup = $ionicPopup.confirm({
+                    title: '版本升级',
+                    template: '有新版本', //从服务端获取更新的内容
+                    cancelText: '取消',
+                    okText: '升级'
+                });
+                confirmPopup.then(function (res) {
+                    if (res) {
+                        $ionicLoading.show({
+                            template: "已经下载：0%"
+                        });
+                        var url = Upgrade.downloadLink(); //可以从服务端获取更新APP的路径
+                        var targetPath = "file:///storage/sdcard0/Download/icms.apk"; //APP下载存放的路径，可以使用cordova file插件进行相关配置
+                        var trustHosts = true
+                        var options = {};
+                        $cordovaFileTransfer.download(url, targetPath, options, trustHosts).then(function (result) {
+                            // 打开下载下来的APP
+                            $cordovaFileOpener2.open(targetPath, 'application/vnd.android.package-archive'
+                            ).then(function () {
+                                    // 成功
+                                }, function (err) {
+                                    // 错误
+                                });
+                            $ionicLoading.hide();
+                        }, function (err) {
+                            alert('下载失败');
+                        }, function (progress) {
+                            //进度，这里使用文字显示下载百分比
+                            $timeout(function () {
+                                var downloadProgress = (progress.loaded / progress.total) * 100;
+                                $ionicLoading.show({
+                                    template: "已经下载：" + Math.floor(downloadProgress) + "%"
+                                });
+                                if (downloadProgress > 99) {
+                                    $ionicLoading.hide();
+                                }
+                            })
+                        });
+                    } else {
+                        // 取消更新
+                    }
+                });
+            }
+
+
+
+
             setTimeout(function() {
                 $cordovaSplashscreen.hide();
             }, 3000);
@@ -491,21 +561,48 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.controllers', 'Holu.services'
                     }
                 }
             })
-            .state('tab.summary', {
-                url: '/summary',
+            .state('tab.projectsummary', {
+                url: '/projectsummary',
                 views: {
                     'tab-summary': {
                         templateUrl: 'templates/summary/summary.html',
-                        controller: 'TotalSummaryCtrl'
+                        controller: 'ProjectSummaryCtrl'
                     }
                 }
             })
             .state('tab.summarydetail', {
-                url: '/summarydetail/:itemId/:sumDate/:style/:status',
+                url: '/summarydetail/:itemName',
                 views: {
                     'tab-summary': {
                         templateUrl: 'templates/summary/summaryDetail.html',
                         controller: 'SummaryDetailCtrl'
+                    }
+                }
+            })
+            .state('tab.totalsearch', {
+                url: '/totalsearch',
+                views: {
+                    'tab-summary': {
+                        templateUrl: 'templates/summary/totalsearch.html',
+                        controller: 'ProjectSearchCtrl'
+                    }
+                }
+            })
+            .state('tab.factorysearch', {
+                url: '/factorysearch',
+                views: {
+                    'tab-summary': {
+                        templateUrl: 'templates/summary/factorysearch.html',
+                        controller: 'FactorySearchCtrl'
+                    }
+                }
+            })
+            .state('tab.factorydetail', {
+                url: '/factorydetail/:itemName',
+                views: {
+                    'tab-summary': {
+                        templateUrl: 'templates/summary/summaryDetail.html',
+                        controller: 'FactorySearchDetailCtrl'
                     }
                 }
             })

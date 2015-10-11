@@ -54,7 +54,7 @@ angular.module('Holu.SelectDirective', [])
             );
         };
     }])
-    .directive('loading',   ['$http' ,function ($http)
+   /* .directive('loading',   ['$http' ,function ($http)
     {
         return {
             restrict: 'A',
@@ -75,8 +75,8 @@ angular.module('Holu.SelectDirective', [])
             }
         };
 
-    }])
-    .directive("appMap", function () {
+    }])*/
+   /* .directive("appMap", function () {
         return {
             restrict: "E",
             replace: true,
@@ -105,7 +105,7 @@ angular.module('Holu.SelectDirective', [])
                 });
             }
         };
-    })
+    })*/
     .directive('fancySelect',
     [
         '$ionicModal',

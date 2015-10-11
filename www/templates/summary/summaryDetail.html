@@ -1,43 +1,24 @@
 <ion-view view-title="{{'ProjectSummary' | translate }}">
-   <!-- <ion-header-bar class="bar-subheader ">
+    <ion-header-bar class="bar-subheader ">
+
         <ion-scroll direction="x" class="wide-as-needed">
 
-            <a ng-class="{'button button-clear': currentType!='today_project_end','button button-calm': currentType== 'today_project_end'} "
-               ng-click="changeTab('today','project','end')">
-                {{'todayProjectEnd' | translate }}
+            <a ng-class="{'button button-clear': currentType!='totalSearch','button button-calm': currentType== 'totalSearch'} "
+               href="#/tab/totalsearch">
+                {{'TotalSearch' | translate }}
             </a>
-            <a ng-class="{'button button-clear': currentType!='today_factory_end','button button-calm': currentType== 'today_factory_end'} "
-               ng-click="changeTab('today','factory','end')">
-                {{'todayFactoryEnd' | translate }}
+            <a ng-class="{'button button-clear': currentType!='factorySearch','button button-calm': currentType== 'factorySearch'} "
+               href="#/tab/factorysearch">
+                {{'factorySummary' | translate }}
             </a>
-            <a ng-class="{'button button-clear': currentType!='today_project_start','button button-calm': currentType== 'today_project_start'} "
-               ng-click="changeTab('today','project','start')">
-                {{'todayProjectStart' | translate }}
-            </a>
-            <a ng-class="{'button button-clear': currentType!='today_factory_start','button button-calm': currentType== 'today_factory_start'} "
-               ng-click="changeTab('today','factory','start')">
-                {{'todayFactoryStart' | translate }}
-            </a>
-            <a ng-class="{'button button-clear': currentType!='yesterday_project_end','button button-calm': currentType== 'yesterday_project_end'} "
-               ng-click="changeTab('yesterday','project','end')">
-                {{'yesterdayProjectEnd' | translate }}
-            </a>
-            <a ng-class="{'button button-clear': currentType!='yesterday_factory_end','button button-calm': currentType== 'yesterday_factory_end'} "
-               ng-click="changeTab('yesterday','factory','end')">
-                {{'yesterdayFactoryEnd' | translate }}
-            </a>
-            <a ng-class="{'button button-clear': currentType!='yesterday_project_start','button button-calm': currentType== 'yesterday_project_start'} "
-               ng-click="changeTab('yesterday','project','start')">
-                {{'yesterdayProjectStart' | translate }}
-            </a>
-            <a ng-class="{'button button-clear': currentType!='yesterday_factory_start','button button-calm': currentType== 'yesterday_factory_start'} "
-               ng-click="changeTab('yesterday','factory','start')">
-                {{'yesterdayFactoryStart' | translate }}
+            <a ng-class="{'button button-clear': currentType!='projectSummary','button button-calm': currentType== 'projectSummary'} "
+               href="#/tab/projectsummary">
+                {{'ProjectSummary' | translate }}
             </a>
         </ion-scroll>
-    </ion-header-bar>-->
+    </ion-header-bar>
 
-    <ion-content >
+    <ion-content class="OA-content">
         <ion-refresher
                 pulling-text="{{ 'PullToFresh' | translate }}"
                 on-refresh="doRefresh()">
@@ -45,7 +26,15 @@
 
         <ion-list>
             <div ng-repeat="(name,items) in details">
-                <ion-item class="item-divider">{{name}} {{date | date:'yyyy-MM-dd'}} </ion-item>
+                <ion-item class="item-divider">{{name}} （ {{'progressTo' | translate }}{{date | date:'yyyy-MM-dd'}} ) </ion-item>
+                <ion-item class="item-divider">
+                    <div class="row">
+                        <div class="col">{{ 'projectName' | translate }}</div>
+                        <div class="col">{{'completed' | translate }}</div>
+                        <div class="col">{{'actual' | translate }}</div>
+                        <div class="col">{{'percent' | translate }}</div>
+                    </div>
+                </ion-item>
                 <ion-item ng-repeat="item in items" class="item">
                     <div class="row">
                         <div class="col">{{ item.itemName}}:</div>

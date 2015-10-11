@@ -25,6 +25,21 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">{{'startDate' | translate }}: </span><!--| amDateFormat:'YYYY-MM-DD' -->
+                <input type="text" ng-model="searchDate.startDate | amDateFormat:'YYYY-MM-DD' "
+                       ng-click="showDatePicker('start')">
+            </label>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">{{'endDate' | translate }}: </span>
+                <input type="text" ng-model="searchDate.endDate | amDateFormat:'YYYY-MM-DD'"
+                       ng-click="showDatePicker('end')">
+            </label>
+        </ion-list>
+        <div class="padding">
+            <button class="button button-block button-calm activated" ng-click="search()">{{ 'search' | translate }}</button>
+        </div>
+        <ion-list>
             <ion-item class="item-divider">{{'todaySummary' | translate }} （ {{'progressTo' | translate }}{{date | date:'yyyy-MM-dd'}} )</ion-item>
             <ion-item ng-repeat="item in totalSummary" class="item">
                 <div class="row">

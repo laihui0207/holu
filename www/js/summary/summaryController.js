@@ -3,7 +3,7 @@
  */
 
 angular.module('Holu')
-    .controller('TotalSummaryCtrl',function($scope, Summary, $rootScope, AuthService, $state){
+    .controller('ProjectSummaryCtrl',function($scope, Summary, $rootScope, AuthService, $state){
         var user = AuthService.currentUser();
         var needReload=true;
         $scope.date = new Date();
@@ -14,36 +14,17 @@ angular.module('Holu')
         }
 /*        $scope.no_content=undefined;*/
         $scope.currentType='projectSummary';
-        Summary.Summary(user.userID,"today","project","end").then(function(response){
+        Summary.Summary(user.userID).then(function(response){
             $scope.totalSummary=response.data;
         });
-        Summary.SummaryDetail(user.userID,"today","project","end").then(function(response){
+        Summary.SummaryDetail(user.userID).then(function(response){
             $scope.summaryItem=response.data;
         });
-        /*$scope.changeTab=function(sumDate,style,status){
-            $scope.searchDate=sumDate;
-            $scope.searchStyle=style;
-            $scope.searchStatus=status;
-            $scope.currentType=$scope.searchDate+"_"+$scope.searchStyle+"_"+$scope.searchStatus;
-            if($scope.searchDate=='today'){
-                $scope.date=new Date();
-            }
-            else if($scope.searchDate=='yesterday'){
-                var date=new Date();
-                $scope.date=date.setDate(date.getDate()-1)
-            }
-            Summary.Summary(user.userID,sumDate,style,status).then(function(response){
-                $scope.totalSummary=response.data;
-            });
-            Summary.SummaryDetail(user.userID,sumDate,style,status).then(function(response){
-                $scope.summaryItem=response.data;
-            });
-        }*/
         $scope.doRefresh = function () {
-            Summary.Summary(user.userID,"today","project","end").then(function(response){
+            Summary.Summary(user.userID).then(function(response){
                 $scope.totalSummary=response.data;
             });
-            Summary.SummaryDetail(user.userID,"today","project","end").then(function(response){
+            Summary.SummaryDetail(user.userID).then(function(response){
                 $scope.summaryItem=response.data;
             });
             $scope.$broadcast('scroll.refreshComplete');
@@ -58,8 +39,106 @@ angular.module('Holu')
             $state.go("login")
             return
         }
+        $scope.currentType='projectSummary';
         $scope.date = new Date();
-        Summary.Detail(user.userID,$stateParams.itemId,$stateParams.sumDate,$stateParams.style,$stateParams.status)
+        Summary.Detail(user.userID,$stateParams.itemName)
+            .then(function(response){
+                $scope.details=response.data;
+            })
+    })
+    .controller('ProjectSearchCtrl',function($scope, Summary, $rootScope, AuthService, $state) {
+        var user = AuthService.currentUser();
+        $scope.date = new Date();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.summary"
+            $state.go("login")
+            return
+        }
+        $scope.currentType='totalSearch';
+        $scope.searchDate={};
+        $scope.search=function (){
+            if($scope.searchDate.startDate==undefined || $scope.searchDate.endDate==undefined){
+                return;
+            }
+
+        }
+
+        $scope.showDatePicker = function(inputElement) {
+            var options = {
+                date: new Date(),
+                mode: 'date', // or 'time'
+                allowOldDates: true,
+                allowFutureDates: true,
+                doneButtonLabel: $scope.Done,
+                doneButtonColor: '#000000',
+                cancelButtonLabel: $scope.cancel,
+                cancelButtonColor: '#000000',
+                locale: 'zh_cn'
+            };
+
+            $cordovaDatePicker.show(options).then(function (date) {
+                if(inputElement=='start'){
+                    $scope.searchDate.startDate=date;
+                }
+                else if(inputElement=='end'){
+                    $scope.searchDate.endDate=date;
+                }
+            });
+        };
+
+    })
+    .controller('FactorySearchCtrl',function($scope, Summary, $rootScope, AuthService, $state) {
+        var user = AuthService.currentUser();
+        $scope.date = new Date();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.summary"
+            $state.go("login")
+            return
+        }
+        $scope.currentType='factorySearch';
+        $scope.searchDate={};
+        $scope.search=function (){
+            if($scope.searchDate.startDate==undefined || $scope.searchDate.endDate==undefined){
+                return;
+            }
+
+        }
+
+        $scope.showDatePicker = function(inputElement) {
+            var options = {
+                date: new Date(),
+                mode: 'date', // or 'time'
+                allowOldDates: true,
+                allowFutureDates: true,
+                doneButtonLabel: $scope.Done,
+                doneButtonColor: '#000000',
+                cancelButtonLabel: $scope.cancel,
+                cancelButtonColor: '#000000',
+                locale: 'zh_cn'
+            };
+
+            $cordovaDatePicker.show(options).then(function (date) {
+                if(inputElement=='start'){
+                    $scope.searchDate.startDate=date;
+                }
+                else if(inputElement=='end'){
+                    $scope.searchDate.endDate=date;
+                }
+            });
+        };
+
+    })
+    .controller('FactorySearchDetailCtrl',function($scope, Summary, $rootScope, AuthService, $state,$stateParams){
+        var user = AuthService.currentUser();
+        $scope.date = new Date();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.summary"
+            $state.go("login")
+            return
+        }
+
+        $scope.date = new Date();
+        Summary.Detail(user.userID,$stateParams.itemName)
             .then(function(response){
                 $scope.details=response.data;
             })

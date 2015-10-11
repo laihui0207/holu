@@ -256,6 +256,18 @@ angular.module('Holu.services', [])
 
         }
     })
+    .factory('Upgrade',function($http, ENV, $q){
+        return {
+            lastVersion: getLastVersion,
+            downloadLink: getDownloadLink
+        }
+        function getLastVersion(){
+            return $http.get(ENV.ServerUrl+"/services/api/client/version.json")
+        }
+        function getDownloadLink(){
+            return ENV.ServerUrl+"/services/api/client/lasted/download.json";
+        }
+    })
     .factory('menuItemService',function(){
         return {
             menuList:function(Logined){
