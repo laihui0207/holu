@@ -239,7 +239,8 @@ var translations = {
         progressDays: '天',
         progressTo: '截至',
         factorySummary: '工厂汇总',
-        TotalSearch: '总体查询'
+        TotalSearch: '总体查询',
+        searchDate: '查询时间'
 
     }
 }

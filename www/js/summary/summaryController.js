@@ -46,7 +46,7 @@ angular.module('Holu')
                 $scope.details=response.data;
             })
     })
-    .controller('ProjectSearchCtrl',function($scope, Summary, $rootScope, AuthService, $state) {
+    .controller('ProjectSearchCtrl',function($scope, Summary, $rootScope, AuthService, $state,$cordovaDatePicker,moment) {
         var user = AuthService.currentUser();
         $scope.date = new Date();
         if (user == undefined) {
@@ -60,9 +60,16 @@ angular.module('Holu')
             if($scope.searchDate.startDate==undefined || $scope.searchDate.endDate==undefined){
                 return;
             }
-
+            Summary.searchByDate(user.userID,$scope.searchDate.startDate,$scope.searchDate.endDate,'project').then(function(response){
+                $scope.searchResult=response.data;
+            })
         }
-
+        $scope.doRefresh = function () {
+            Summary.searchByDate(user.userID,$scope.searchDate.startDate,$scope.searchDate.endDate,'project').then(function(response){
+                $scope.searchResult=response.data;
+            })
+            $scope.$broadcast('scroll.refreshComplete');
+        }
         $scope.showDatePicker = function(inputElement) {
             var options = {
                 date: new Date(),
@@ -78,16 +85,16 @@ angular.module('Holu')
 
             $cordovaDatePicker.show(options).then(function (date) {
                 if(inputElement=='start'){
-                    $scope.searchDate.startDate=date;
+                    $scope.searchDate.startDate=moment(date).format("YYYY-MM-DD");;
                 }
                 else if(inputElement=='end'){
-                    $scope.searchDate.endDate=date;
+                    $scope.searchDate.endDate=moment(date).format("YYYY-MM-DD");;
                 }
             });
         };
 
     })
-    .controller('FactorySearchCtrl',function($scope, Summary, $rootScope, AuthService, $state) {
+    .controller('FactorySearchCtrl',function($scope, Summary, $rootScope, AuthService, $state,$cordovaDatePicker,moment) {
         var user = AuthService.currentUser();
         $scope.date = new Date();
         if (user == undefined) {
@@ -101,7 +108,15 @@ angular.module('Holu')
             if($scope.searchDate.startDate==undefined || $scope.searchDate.endDate==undefined){
                 return;
             }
-
+            Summary.searchByDate(user.userID,$scope.searchDate.startDate,$scope.searchDate.endDate,'factory').then(function(response){
+                $scope.searchResult=response.data;
+            })
+        }
+        $scope.doRefresh = function () {
+            Summary.searchByDate(user.userID,$scope.searchDate.startDate,$scope.searchDate.endDate,'factory').then(function(response){
+                $scope.searchResult=response.data;
+            })
+            $scope.$broadcast('scroll.refreshComplete');
         }
 
         $scope.showDatePicker = function(inputElement) {
@@ -119,10 +134,10 @@ angular.module('Holu')
 
             $cordovaDatePicker.show(options).then(function (date) {
                 if(inputElement=='start'){
-                    $scope.searchDate.startDate=date;
+                    $scope.searchDate.startDate=moment(date).format("YYYY-MM-DD");
                 }
                 else if(inputElement=='end'){
-                    $scope.searchDate.endDate=date;
+                    $scope.searchDate.endDate=moment(date).format("YYYY-MM-DD");
                 }
             });
         };
@@ -136,12 +151,19 @@ angular.module('Holu')
             $state.go("login")
             return
         }
-
+        $scope.currentType='factorySearch';
         $scope.date = new Date();
-        Summary.Detail(user.userID,$stateParams.itemName)
+        Summary.searchFactoryItemByDate(user.userID,$stateParams.start,$stateParams.end,'factory',$stateParams.itemID)
             .then(function(response){
                 $scope.details=response.data;
             })
+        $scope.doRefresh = function () {
+            Summary.searchFactoryItemByDate(user.userID,$stateParams.start,$stateParams.end,'factory',$stateParams.itemID)
+                .then(function(response){
+                    $scope.details=response.data;
+                })
+            $scope.$broadcast('scroll.refreshComplete');
+        }
     })
     .controller('ProgressCtrl',function($scope, Summary, $rootScope, AuthService, $state,$translate){
         var user = AuthService.currentUser();

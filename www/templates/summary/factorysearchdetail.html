@@ -1,0 +1,53 @@
+<ion-view view-title="{{'ProjectSummary' | translate }}">
+    <ion-header-bar class="bar-subheader ">
+
+        <ion-scroll direction="x" class="wide-as-needed">
+
+            <a ng-class="{'button button-clear': currentType!='totalSearch','button button-calm': currentType== 'totalSearch'} "
+               href="#/tab/totalsearch">
+                {{'TotalSearch' | translate }}
+            </a>
+            <a ng-class="{'button button-clear': currentType!='factorySearch','button button-calm': currentType== 'factorySearch'} "
+               href="#/tab/factorysearch">
+                {{'factorySummary' | translate }}
+            </a>
+            <a ng-class="{'button button-clear': currentType!='projectSummary','button button-calm': currentType== 'projectSummary'} "
+               href="#/tab/projectsummary">
+                {{'ProjectSummary' | translate }}
+            </a>
+        </ion-scroll>
+    </ion-header-bar>
+
+    <ion-content class="OA-content">
+        <ion-refresher
+                pulling-text="{{ 'PullToFresh' | translate }}"
+                on-refresh="doRefresh()">
+        </ion-refresher>
+
+        <ion-list>
+                <ion-item class="item-divider">
+                    <div class="row">
+                        <div class="col">{{ 'projectName' | translate }}</div>
+                        <div class="col">{{'completed' | translate }}</div>
+                        <div class="col">{{'actual' | translate }}</div>
+                        <div class="col">{{'percent' | translate }}</div>
+                    </div>
+                </ion-item>
+                <ion-item ng-repeat="item in details" class="item">
+                    <div class="row">
+                        <div class="col">{{ item.itemName}}:</div>
+                        <div class="col">
+                            {{item.percent }}
+                        </div>
+                        <div class="col">
+                            {{item.actual | number:1 }}
+                        </div>
+                        <div class="col">
+                            {{item.plan | number:1}}</div>
+                    </div>
+<!--                    <p>{{ item.itemName}}: {{item.percent }}   {{item.actual | number:1 }}  {{item.plan | number:1}}</p>-->
+                </ion-item>
+<!--            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>-->
+        </ion-list>
+    </ion-content>
+</ion-view>

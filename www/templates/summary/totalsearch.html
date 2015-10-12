@@ -39,37 +39,20 @@
         <div class="padding">
             <button class="button button-block button-calm activated" ng-click="search()">{{ 'search' | translate }}</button>
         </div>
-        <ion-list>
-            <ion-item class="item-divider">{{'todaySummary' | translate }} （ {{'progressTo' | translate }}{{date | date:'yyyy-MM-dd'}} )</ion-item>
-            <ion-item ng-repeat="item in totalSummary" class="item">
-                <div class="row">
-                    <!--<div class="col">{{ item.itemName}}:</div>-->
-                    <div class="col">
-                        {{'completed' | translate }}: {{item.actual | number:1 }}{{'dun'| translate}}
-                    </div>
-                    <div class="col">
-                        {{'actual' | translate }}: {{item.plan | number:1}}{{'dun'| translate}}
-                    </div>
-                    <div class="col">
-                        {{'percent' | translate }}: {{item.percent }}
-                    </div>
-                </div>
-            </ion-item>
-<!--            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>-->
-        </ion-list>
+
         <ion-list>
             <ion-item class="item-divider">
                 <div class="row">
-                    <div class="col">{{ 'projectName' | translate }}</div>
+                    <div class="col">{{ 'searchDate' | translate }}</div>
                     <div class="col">{{'completed' | translate }}</div>
                     <div class="col">{{'actual' | translate }}</div>
                     <div class="col">{{'percent' | translate }}</div>
                 </div>
             </ion-item>
-            <div ng-repeat="(name,items) in summaryItem" >
-                <ion-item ng-repeat="item in items" class="item" href="#/tab/summarydetail/{{name}}" > <!-- href="#/tab/summarydetail/{{item.itemID}}/{{searchDate}}/{{searchStyle}}/{{searchStatus}}"-->
+<!--            <div ng-repeat="item in searchResult" >-->
+                <ion-item ng-repeat="item in searchResult" class="item"> <!-- href="#/tab/summarydetail/{{item.itemID}}/{{searchDate}}/{{searchStyle}}/{{searchStatus}}"-->
                     <div class="row">
-                        <div class="col">{{name }}:</div>
+                        <div class="col">{{item.itemName}}:</div>
                         <div class="col">
                             {{item.actual | number:1 }}
                         </div>
@@ -82,7 +65,7 @@
                     </div>
 <!--                    <p>{{ item.itemName}}: {{item.percent }}   {{item.actual | number:1 }}  {{item.plan | number:1}}</p>-->
                 </ion-item>
-            </div>
+<!--            </div>-->
         </ion-list>
     </ion-content>
 </ion-view>

@@ -597,11 +597,11 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.config','Holu.services','Holu
                     }
                 }
             })
-            .state('tab.factorydetail', {
-                url: '/factorydetail/:itemName',
+            .state('tab.factorysearchdetail', {
+                url: '/factorysearchdetail/:itemID/:start/:end',
                 views: {
                     'tab-summary': {
-                        templateUrl: 'templates/summary/summaryDetail.html',
+                        templateUrl: 'templates/summary/factorysearchdetail.html',
                         controller: 'FactorySearchDetailCtrl'
                     }
                 }
