@@ -25,17 +25,24 @@
         </ion-refresher>
 
         <ion-list>
-                <ion-item class="item-divider">
+            <ion-item class="item-divider">{{projectName}} （ {{'progressTo' | translate }}{{date | date:'yyyy-MM-dd'}} ) </ion-item>
+                <!--<ion-item class="item-divider">
                     <div class="row">
-                        <div class="col">{{ 'projectName' | translate }}</div>
+                        <div class="col col-33">{{ 'projectName' | translate }}</div>
                         <div class="col">{{'completed' | translate }}</div>
                         <div class="col">{{'actual' | translate }}</div>
                         <div class="col">{{'percent' | translate }}</div>
                     </div>
-                </ion-item>
+                </ion-item>-->
                 <ion-item ng-repeat="item in details" class="item">
-                    <div class="row">
-                        <div class="col">{{ item.itemName}}:</div>
+                    <h2>{{ 'projectName' | translate }}: {{item.itemName}}</h2>
+                    <p>{{'completed' | translate }}: {{item.actual | number:1 }}</p>
+                    <p>{{'plan' | translate }}: {{item.plan | number:1}}</p>
+                    <p>
+                        {{'percent' | translate }}: {{item.percent }}
+                    </p>
+                    <!--<div class="row">
+                        <div class="col col-33">{{ item.itemName}}</div>
                         <div class="col">
                             {{item.percent }}
                         </div>
@@ -44,7 +51,7 @@
                         </div>
                         <div class="col">
                             {{item.plan | number:1}}</div>
-                    </div>
+                    </div>-->
 <!--                    <p>{{ item.itemName}}: {{item.percent }}   {{item.actual | number:1 }}  {{item.plan | number:1}}</p>-->
                 </ion-item>
 <!--            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>-->

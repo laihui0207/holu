@@ -571,7 +571,7 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.config','Holu.services','Holu
                 }
             })
             .state('tab.summarydetail', {
-                url: '/summarydetail/:itemName',
+                url: '/summarydetail/:itemName/:projectName',
                 views: {
                     'tab-summary': {
                         templateUrl: 'templates/summary/summaryDetail.html',
@@ -598,7 +598,7 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.config','Holu.services','Holu
                 }
             })
             .state('tab.factorysearchdetail', {
-                url: '/factorysearchdetail/:itemID/:start/:end',
+                url: '/factorysearchdetail/:itemID/:start/:end/:projectName',
                 views: {
                     'tab-summary': {
                         templateUrl: 'templates/summary/factorysearchdetail.html',

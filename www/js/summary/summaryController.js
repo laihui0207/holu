@@ -41,6 +41,7 @@ angular.module('Holu')
         }
         $scope.currentType='projectSummary';
         $scope.date = new Date();
+        $scope.projectName=$stateParams.projectName;
         Summary.Detail(user.userID,$stateParams.itemName)
             .then(function(response){
                 $scope.details=response.data;
@@ -153,6 +154,7 @@ angular.module('Holu')
         }
         $scope.currentType='factorySearch';
         $scope.date = new Date();
+        $scope.projectName=$stateParams.projectName;
         Summary.searchFactoryItemByDate(user.userID,$stateParams.start,$stateParams.end,'factory',$stateParams.itemID)
             .then(function(response){
                 $scope.details=response.data;

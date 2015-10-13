@@ -212,7 +212,7 @@ var translations = {
         urgentTask: '加急任务',
         todaySummary: '全公司当月产量',
         completed:'完成入库',
-        actual:'计划入库',
+        plan:'计划入库',
         percent:'完成比例',
         dun: '吨',
         search: '查询',
