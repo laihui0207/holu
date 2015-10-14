@@ -5,22 +5,22 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item ng-repeat="item in projectList" class="item item-button-right" ><!-- href="#/tab/components/{{item.projectID}} -->
-                <h2>{{ item.projectName }}</h2>
+            <ion-item ng-repeat="item in projectList" class="item" ng-click="goto(item.childProjects.length,item.projectID)" ><!-- href="#/tab/components/{{item.projectID}} -->
+                <h2>{{ item.projectPathName }}</h2>
                 <p class="summary">
                     <span>{{item.company.companyFullName}}</span>
                 </p>
                 <!--<p>
                     <span>Plan Date: {{item.startDate}} ~ {{item.endDate}}</span>
                 </p>-->
-                <a class="button icon-right  button-clear button-small" ng-show="item.childProjects.length" href="#/tab/projects/{{item.projectID}}" >
-<!--                    {{'childProject' | translate}}-->
+               <!-- <a class="button icon-right  button-clear button-small" ng-show="item.childProjects.length" href="#/tab/projects/{{item.projectID}}" >
+&lt;!&ndash;                    {{'childProject' | translate}}&ndash;&gt;
                     <i class="ion-more"></i>
                 </a>
                 <a class="button icon-right  button-clear button-small" ng-show="!item.childProjects.length" href="#/tab/components/{{item.projectID}}" >
-<!--                    {{ 'component' | translate }}-->
+&lt;!&ndash;                    {{ 'component' | translate }}&ndash;&gt;
                     <i class="ion-arrow-right-a"></i>
-                </a>
+                </a>-->
 <!--                <a class="button icon-right ion-chevron-right button-clear">child</a>-->
             </ion-item>
             <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>

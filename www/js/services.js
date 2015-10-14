@@ -262,7 +262,7 @@ angular.module('Holu.services', [])
             downloadLink: getDownloadLink
         }
         function getLastVersion(){
-            return $http.get(ENV.ServerUrl+"/services/api/client/version.json")
+            return $http.get(ENV.ServerUrl+"/services/api/client/version.json");
         }
         function getDownloadLink(){
             return ENV.ServerUrl+"/services/api/client/lasted/download.json";

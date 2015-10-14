@@ -14,13 +14,13 @@
                 </p>
             </ion-item>
             <ion-item class="item-divider">{{'componentStyleList' | translate }}</ion-item>
-            <ion-item ng-repeat="item in componentStyleList" class="item item-button-right">
+            <ion-item ng-repeat="item in componentStyleList" class="item" href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}">
                 <h2>{{ item.styleName}} - {{item.processName}}</h2>
                 <span>{{item.confirmDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                 <span>{{item.confirmer.username}}</span>
-                <a class="button button-clear item-note" ng-if="item.operationer" href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}">
+                <!--<a class="button button-clear item-note" ng-if="item.operationer" href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}">
                     <i class="ion-arrow-right-a"></i>
-                </a>
+                </a>-->
             </ion-item>
             <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>
 

@@ -46,6 +46,15 @@ angular.module('Holu')
         $scope.myTask=function(){
             Projects.myTasks(user.userID);
         }
+        $scope.goto=function(length,projectID){
+            if(length==0){
+                $state.go("tab.component",{projectId:projectID})
+            }
+            else {
+                $state.go("tab.project",{projectId:projectID})
+            }
+        }
+
     })
 
     .controller('ComponentCtrl', function ($scope, Projects,$state, $rootScope, $stateParams,AuthService,$ionicLoading) {
@@ -80,6 +89,15 @@ angular.module('Holu')
         };
         $scope.canLoadMore = function () {
             return Projects.canMoreComponent();
+        }
+        $scope.goto=function(length,item){
+            if(length==0){
+                $state.go("tab.styles",{styleID:item.styleID,componentID:item.componentID,type:'parent'})
+            }
+            else {
+
+                $state.go("tab.subComponent",{componentID: item.componentID});
+            }
         }
     })
     .controller('SubComponentCtrl',function($scope, Projects,$state, $rootScope, $stateParams,AuthService,$ionicLoading){
@@ -286,11 +304,11 @@ angular.module('Holu')
             return
         }
         Projects.urgentTask(user.userID).then(function(response){
-            $scope.tasks=response.data;
+            $scope.taskList=response.data;
         })
         $scope.doRefresh = function () {
             Projects.urgentTask(user.userID).then(function(response){
-                $scope.tasks=response.data;
+                $scope.taskList=response.data;
                 $scope.$broadcast('scroll.refreshComplete');
             })
         }

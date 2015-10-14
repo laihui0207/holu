@@ -5,52 +5,52 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('Holu', ['ionic','ngCordova' ,'Holu.config','Holu.services','Holu.controllers', 'Holu.imageFilter',
-    'Holu.translate','Holu.SelectDirective','angularMoment','angular-carousel'])
+angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'Holu.controllers', 'Holu.imageFilter',
+    'Holu.translate', 'Holu.SelectDirective', 'angularMoment', 'angular-carousel'])
 
     .run(function ($ionicPlatform, $rootScope, $state, $timeout, $ionicHistory,
-                   $cordovaToast,amMoment,$cordovaSplashscreen,$cordovaNetwork,$cordovaAppVersion,Upgrade) {
+                   $cordovaToast, amMoment, $cordovaSplashscreen, $cordovaNetwork,
+                   $cordovaAppVersion,$ionicLoading, Upgrade,$ionicPopup,$cordovaFileTransfer, $cordovaFile, $cordovaFileOpener2) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 var type = $cordovaNetwork.getNetwork();
-                if(type=="none"){
+                if (type == "none") {
                     $cordovaToast.showShortCenter("~ ~ 没有网络可用 ~ ~")
                 }
                 var isOnline = $cordovaNetwork.isOnline();
-                 if(!isOnline){
-                     $cordovaToast.showShortCenter("请确认网络是否在线！")
-                 }
-                 else {
-                 console.log("network online");
-                 }
+                if (!isOnline) {
+                    $cordovaToast.showShortCenter("请确认网络是否在线！")
+                }
+                else {
+                   // console.log("network online");
+                }
             }
             if (window.StatusBar) {
                 // org.apache.cordova.statusbar required
                 StatusBar.styleLightContent();
             }
-/*            if(isOnline){*/
-/*                checkUpdate();*/
+            /*            if(isOnline){*/
+                            checkUpdate();
             /*}*/
             function checkUpdate() {
 
-                var serverAppVersion = "1.0.0"; //从服务端获取最新版本
                 Upgrade.lastVersion().then(function (response) {
-                    serverAppVersion = response.data;
-                    showUpdateConfirm();
+                    var serverAppVersion = response.data;
+                    //showUpdateConfirm();
                     //获取版本
                     $cordovaAppVersion.getAppVersion().then(function (version) {
-                        console.log("Current version: " + version+", Server version: "+serverAppVersion)
                         //如果本地于服务端的APP版本不符合
                         if (version != serverAppVersion) {
-                         showUpdateConfirm();
-                         }
+                            showUpdateConfirm();
+                        }
                     });
                 })
 
             }
+
 // 显示是否更新对话框
             function showUpdateConfirm() {
                 var confirmPopup = $ionicPopup.confirm({
@@ -65,7 +65,7 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.config','Holu.services','Holu
                             template: "已经下载：0%"
                         });
                         var url = Upgrade.downloadLink(); //可以从服务端获取更新APP的路径
-                        var targetPath = "file:///storage/sdcard0/Download/icms.apk"; //APP下载存放的路径，可以使用cordova file插件进行相关配置
+                        var targetPath = "file:///storage/sdcard0/Download/ICMS2015.apk"; //APP下载存放的路径，可以使用cordova file插件进行相关配置
                         var trustHosts = true
                         var options = {};
                         $cordovaFileTransfer.download(url, targetPath, options, trustHosts).then(function (result) {
@@ -96,24 +96,21 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.config','Holu.services','Holu
                     }
                 });
             }
-
-
-
-
-            setTimeout(function() {
+            setTimeout(function () {
                 $cordovaSplashscreen.hide();
             }, 3000);
+
             amMoment.changeLocale('zh-cn');
-            $ionicPlatform.on('resume',function(){
+            $ionicPlatform.on('resume', function () {
                 $cordovaSplashscreen.show();
-                setTimeout(function() {
+                setTimeout(function () {
                     $cordovaSplashscreen.hide();
                 }, 3000);
             })
         });
         $ionicPlatform.registerBackButtonAction(function (e) {
             //判断处于哪个页面时双击退出
-            if ($state.current.name == "tab.home" || $state.current.name=="login") {
+            if ($state.current.name == "tab.home" || $state.current.name == "login") {
                 if ($rootScope.backButtonPressedOnceToExit) {
                     ionic.Platform.exitApp();
                 } else {
@@ -137,32 +134,34 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.config','Holu.services','Holu
             return false;
         }, 101);
     })
-    .run(function($rootScope, $ionicLoading) {
-        $rootScope.$on('loading:show', function() {
+    .run(function ($rootScope, $ionicLoading) {
+        $rootScope.$on('loading:show', function () {
             $ionicLoading.show()
         })
 
-        $rootScope.$on('loading:hide', function() {
+        $rootScope.$on('loading:hide', function () {
             $ionicLoading.hide()
         })
     })
-/*  .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")*/
-/*   .constant("ServerUrl", "http://localhost:8087/holusystem")*/
-/*    .constant("ServerUrl", "http://192.168.199.162:8087/holusystem")*/
-    .config(function($httpProvider) {
-        $httpProvider.interceptors.push(function($rootScope,Storage,$cordovaToast) {
+    /*  .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")*/
+    /*   .constant("ServerUrl", "http://localhost:8087/holusystem")*/
+    /*    .constant("ServerUrl", "http://192.168.199.162:8087/holusystem")*/
+    .config(function ($httpProvider) {
+        $httpProvider.interceptors.push(function ($rootScope, Storage, $cordovaToast) {
             return {
-                request: function(config) {
+                request: function (config) {
                     var currentUser = Storage.get("user");
-                    var  access_token = currentUser ? currentUser.access_token : null;
-                    //console.log("interceptor: "+currentUser)
+                    var access_token =undefined;
+                    if(currentUser!=undefined){
+                        access_token=currentUser.access_token;
+                    }
                     if (access_token) {
                         config.headers.authorization = access_token;
                     }
                     else {
-                        config.headers.authorization="login";
+                        config.headers.authorization = "login";
                     }
-                    if($rootScope.networkStatus){
+                    if ($rootScope.networkStatus) {
                         $rootScope.$broadcast('loading:show')
                     }
                     else {
@@ -170,7 +169,7 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.config','Holu.services','Holu
                     }
                     return config
                 },
-                response: function(response) {
+                response: function (response) {
                     $rootScope.$broadcast('loading:hide')
                     if (response.status === 401) {
                         $rootScope.$broadcast("holu.logout");
@@ -181,15 +180,15 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.config','Holu.services','Holu
         })
         $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-
+        $httpProvider.defaults.timeout = 30000;
         // Override $http service's default transformRequest
-        $httpProvider.defaults.transformRequest = [function(data) {
+        $httpProvider.defaults.transformRequest = [function (data) {
             /**
              * The workhorse; converts an object to x-www-form-urlencoded serialization.
              * @param {Object} obj
              * @return {String}
              */
-            var param = function(obj) {
+            var param = function (obj) {
                 var query = '';
                 var name, value, fullSubName, subName, subValue, innerObj, i;
 
@@ -244,13 +243,13 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.config','Holu.services','Holu
             })
             .state('login', {
                 url: '/login',
-                        templateUrl: 'templates/user/login.html',
-                        controller: 'LoginCtrl'
+                templateUrl: 'templates/user/login.html',
+                controller: 'LoginCtrl'
             })
             .state('signup', {
                 url: '/signup',
-                        templateUrl: 'templates/user/signup.html',
-                        controller: 'LoginCtrl'
+                templateUrl: 'templates/user/signup.html',
+                controller: 'LoginCtrl'
             })
             .state('tab.home', {
                 url: '/home',
@@ -264,14 +263,14 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.config','Holu.services','Holu
             // Each tab has its own nav history stack:
 
             /*.state('tab.dash', {
-                url: '/dash',
-                views: {
-                    'tab-dash': {
-                        templateUrl: 'templates/tab-dash.html',
-                        controller: 'DashCtrl'
-                    }
-                }
-            })*/
+             url: '/dash',
+             views: {
+             'tab-dash': {
+             templateUrl: 'templates/tab-dash.html',
+             controller: 'DashCtrl'
+             }
+             }
+             })*/
             .state('tab.messages', {
                 url: '/messages',
                 views: {
@@ -480,15 +479,15 @@ angular.module('Holu', ['ionic','ngCordova' ,'Holu.config','Holu.services','Holu
                     }
                 }
             })
-           /* .state('tab.messages', {
-                url: '/chats',
-                views: {
-                    'tab-messages': {
-                        templateUrl: 'templates/tab-account.html',
-                        controller: 'AccountCtrl'
-                    }
-                }
-            })*/
+            /* .state('tab.messages', {
+             url: '/chats',
+             views: {
+             'tab-messages': {
+             templateUrl: 'templates/tab-account.html',
+             controller: 'AccountCtrl'
+             }
+             }
+             })*/
             .state('tab.tasks', {
                 url: '/tasks',
                 views: {

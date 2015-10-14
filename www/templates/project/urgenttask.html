@@ -16,17 +16,23 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item ng-if="task">
+           <!-- <ion-item ng-if="task">
                 <h2>{{task.taskName}}</h2>
                 <p>{{task.taskStyle}}</p>
-            </ion-item>
-            <ion-item ng-repeat="item in taskList" class="item item-button-right"><!-- href="#/tab/components/{{item.projectID}} -->
-                <p >{{'projectName' | translate }}:{{ item.component.project.projectPathName }}</p>
-                <p >{{'component' | translate }}:{{item.component.componentName}}</p>
-                <p ng-show="item.subCompoent">{{item.subComponent.subComponentName}}</p>
-                <p>{{'componentStyle'| translate }}:{{ item.componentStyle.styleName}} - {{item.componentStyle.processName}}</p>
-                <a class="button button-balanced" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>
-                <a class="button button-balanced" ng-show="item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>
+            </ion-item>-->
+            <ion-item ng-repeat="item in taskList" class="item "><!-- href="#/tab/components/{{item.projectID}} -->
+                <h2>{{'taskName' | translate }}: {{item.taskName}}</h2>
+                <p >{{'projectName' | translate }}: {{ item.project.projectPathName }}</p>
+                <p>{{'taskStyle' | translate}}: {{item.taskStyle}}</p>
+                <p>{{'taskDate' | translate}}: {{item.taskDate | date:'yyyy-MM-dd' }}</p>
+                <ion-item ng-repeat="sub in item.subComponents" class="item item-button-right">
+                    <p >{{'component' | translate }}:{{sub.subComponentName}}</p>
+<!--                    <a class="button button-balanced" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.project.projectID}}/{{sub.subComponentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
+                    <a class="button button-balanced"  href="#/tab/processconfirm/{{item.project.projectID}}/{{sub.subComponentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>
+                </ion-item>
+
+<!--                <p ng-show="item.subCompoent">{{item.subComponent.subComponentName}}</p>-->
+<!--                <p>{{'componentStyle'| translate }}:{{ item.componentStyle.styleName}} - {{item.componentStyle.processName}}</p>-->
             </ion-item>
             <ion-item ng-show="!(taskList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>
