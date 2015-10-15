@@ -15,24 +15,41 @@
                 pulling-text="{{ 'PullToFresh' | translate }}"
                 on-refresh="doRefresh()">
         </ion-refresher>
-        <ion-list>
-           <!-- <ion-item ng-if="task">
+       <!-- <ion-list>
+           &lt;!&ndash; <ion-item ng-if="task">
                 <h2>{{task.taskName}}</h2>
                 <p>{{task.taskStyle}}</p>
-            </ion-item>-->
-            <ion-item ng-repeat="item in taskList" class="item "><!-- href="#/tab/components/{{item.projectID}} -->
+            </ion-item>&ndash;&gt;
+            <ion-item ng-repeat="item in taskList" class="item ">&lt;!&ndash; href="#/tab/components/{{item.projectID}} &ndash;&gt;
                 <h2>{{'taskName' | translate }}: {{item.taskName}}</h2>
                 <p >{{'projectName' | translate }}: {{ item.project.projectPathName }}</p>
                 <p>{{'taskStyle' | translate}}: {{item.taskStyle}}</p>
                 <p>{{'taskDate' | translate}}: {{item.taskDate | date:'yyyy-MM-dd' }}</p>
                 <ion-item ng-repeat="sub in item.subComponents" class="item item-button-right">
                     <p >{{'component' | translate }}:{{sub.subComponentName}}</p>
-<!--                    <a class="button button-balanced" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.project.projectID}}/{{sub.subComponentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
+&lt;!&ndash;                    <a class="button button-balanced" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.project.projectID}}/{{sub.subComponentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>&ndash;&gt;
                     <a class="button button-balanced"  href="#/tab/processconfirm/{{item.project.projectID}}/{{sub.subComponentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>
                 </ion-item>
 
-<!--                <p ng-show="item.subCompoent">{{item.subComponent.subComponentName}}</p>-->
-<!--                <p>{{'componentStyle'| translate }}:{{ item.componentStyle.styleName}} - {{item.componentStyle.processName}}</p>-->
+&lt;!&ndash;                <p ng-show="item.subCompoent">{{item.subComponent.subComponentName}}</p>&ndash;&gt;
+&lt;!&ndash;                <p>{{'componentStyle'| translate }}:{{ item.componentStyle.styleName}} - {{item.componentStyle.processName}}</p>&ndash;&gt;
+            </ion-item>
+            <ion-item ng-show="!(taskList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
+        </ion-list>-->
+        <ion-list class="card list">
+            <ion-item ng-repeat="item in taskList" class="item "><!-- href="#/tab/components/{{item.projectID}} -->
+                <div ng-if="item.componentStyle" class="item-button-right">
+                    <p>{{'projectName' | translate }}:{{ item.component.project.projectPathName }}</p>
+                    <p>{{'component' | translate }}:{{item.component.componentName}}</p>
+                    <p ng-show="item.subCompoent">{{item.subComponent.subComponentName}}</p>
+                    <p>{{'componentStyle'| translate }}:{{ item.componentStyle.styleName}} - {{item.componentStyle.processName}}</p>
+                    <a class="button button-balanced" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>
+                    <a class="button button-balanced" ng-show="item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>
+                </div>
+                <div ng-if="!item.componentStyle">
+                    <p>{{'projectName' | translate }}:{{ item.component.project.projectPathName }}</p>
+                    <p>{{'component' | translate }}:{{item.component.componentName}}</p>
+                </div>
             </ion-item>
             <ion-item ng-show="!(taskList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>

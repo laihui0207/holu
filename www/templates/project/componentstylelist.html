@@ -7,17 +7,24 @@
         <ion-list>
             <ion-item class="item-divider">{{'component' | translate }}</ion-item>
             <ion-item class="item-body">
-                <h2 ng-show="component">{{component.componentName}}</h2>
-                <h2 ng-show="subComponent">{{subComponent.subComponentName}}</h2>
+                <h2 ng-show="component">{{'component' | translate }}: {{component.componentName}}</h2>
+                <h2 ng-show="subComponent">{{'subComponent' | translate }}: {{subComponent.subComponentName}}</h2>
                 <p>
-                    {{currentUser.company.companyFullName}}
+                 --   {{currentUser.company.companyFullName}}
                 </p>
             </ion-item>
             <ion-item class="item-divider">{{'componentStyleList' | translate }}</ion-item>
-            <ion-item ng-repeat="item in componentStyleList" class="item" href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}">
-                <h2>{{ item.styleName}} - {{item.processName}}</h2>
-                <span>{{item.confirmDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                <span>{{item.confirmer.username}}</span>
+            <ion-item ng-repeat="item in componentStyleList" class="item" ><!--href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}" -->
+                <div ng-if="item.operationer" ng-href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}">
+                    <h2>{{ item.styleName}} - {{item.processName}}</h2>
+                    <p>{{item.confirmDate | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+                    <p>{{item.confirmer.username}}</p>
+                </div>
+                <div ng-if="!item.operationer">
+                    <h2>{{ item.styleName}} - {{item.processName}}</h2>
+                    <p>{{item.confirmDate | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+                    <p>{{item.confirmer.username}}</p>
+                </div>
                 <!--<a class="button button-clear item-note" ng-if="item.operationer" href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}">
                     <i class="ion-arrow-right-a"></i>
                 </a>-->

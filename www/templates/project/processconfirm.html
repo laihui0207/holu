@@ -7,13 +7,13 @@
         <ion-list>
             <ion-item class="item-divider">{{'ProjectInformation' | translate }}</ion-item>
             <ion-item class="item-body">
-                <h2>{{project.projectName}}</h2>
+                <h2>{{project.projectPathName}}</h2>
                 <span>{{project.company.companyFullName}}</span>
             </ion-item>
             <ion-item class="item-divider">{{'component' | translate }}</ion-item>
             <ion-item class="item-body">
-                <h2 ng-show="component">{{component.componentName}}</h2>
-                <h2 ng-show="subComponent">{{subComponent.subComponentName}}</h2>
+                <h2 ng-show="component">{{'component' | translate }}: {{component.componentName}}</h2>
+                <h2 ng-show="subComponent">{{'subComponent' | translate }}: {{subComponent.subComponentName}}</h2>
             </ion-item>
             <ion-item class="item-divider">{{'processConfirm' | translate }}</ion-item>
             <label class="item item-input item-stacked-label">

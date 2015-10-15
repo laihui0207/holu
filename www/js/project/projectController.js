@@ -141,18 +141,18 @@ angular.module('Holu')
             return
         }
         $scope.currentUser=user;
-        var componentType=$stateParams.type;
+        $scope.componentType=$stateParams.type;
         $scope.componentID=$stateParams.componentID;
-        if(componentType=='parent'){
+        if($scope.componentType =='parent'){
             Projects.viewComponent($stateParams.componentID,user.userID).then(function(response){
                 $scope.component=response.data;
             })
         }
-        else if(componentType=='sub'){
+        else if($scope.componentType =='sub'){
             Projects.viewSubComponent($stateParams.componentID,user.userID).then(function(response){
                 $scope.subComponent=response.data;
             })
-            Projects.viewComponent($stateParams.componentID,user.userID).then(function(response){
+            Projects.parentComponent($stateParams.componentID,user.userID).then(function(response){
                 $scope.component=response.data;
             })
         }
@@ -160,7 +160,7 @@ angular.module('Holu')
             $scope.componentStyleList = response.data
         })
         $scope.doRefresh = function () {
-            Projects.processList($stateParams.styleName, user.company.companyId,user.userID,$stateParams.componentID).then(function (response) {
+            Projects.processList($stateParams.styleID, user.company.companyId,user.userID,$stateParams.componentID).then(function (response) {
                 $scope.componentStyleList = response.data
             }).then(function () {
                 $scope.$broadcast('scroll.refreshComplete');
@@ -199,8 +199,11 @@ angular.module('Holu')
             $scope.project = response.data
 
         })
-        Projects.viewComponent($stateParams.componentID,user.userID).then(function(response){
+        Projects.parentComponent($stateParams.componentID,user.userID).then(function(response){
             $scope.component=response.data;
+        })
+        Projects.viewSubComponent($stateParams.componentID,user.userID).then(function(response){
+            $scope.subComponent=response.data;
         })
         $scope.save = function () {
             Projects.confirm($scope.processMid, user.userID)

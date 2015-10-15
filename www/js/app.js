@@ -9,7 +9,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
     'Holu.translate', 'Holu.SelectDirective', 'angularMoment', 'angular-carousel'])
 
     .run(function ($ionicPlatform, $rootScope, $state, $timeout, $ionicHistory,
-                   $cordovaToast, amMoment, $cordovaSplashscreen, $cordovaNetwork,
+                   $cordovaToast, amMoment, $cordovaSplashscreen, $cordovaNetwork,$cordovaDevice,
                    $cordovaAppVersion,$ionicLoading, Upgrade,$ionicPopup,$cordovaFileTransfer, $cordovaFile, $cordovaFileOpener2) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -32,9 +32,10 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                 // org.apache.cordova.statusbar required
                 StatusBar.styleLightContent();
             }
-            /*            if(isOnline){*/
-                            checkUpdate();
-            /*}*/
+            var platform = $cordovaDevice.getPlatform();
+            if(isOnline && platform=='Android'){
+                checkUpdate();
+            }
             function checkUpdate() {
 
                 Upgrade.lastVersion().then(function (response) {
@@ -43,7 +44,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                     //获取版本
                     $cordovaAppVersion.getAppVersion().then(function (version) {
                         //如果本地于服务端的APP版本不符合
-                        if (version != serverAppVersion) {
+                        if (version != serverAppVersion.version) {
                             showUpdateConfirm();
                         }
                     });

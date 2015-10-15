@@ -29,6 +29,7 @@ angular.module('Holu')
             canMoreSubComponent: isSubcomponentHasNextPage,
             subComponentData: getSubComponentData,
             viewComponent: getComponent,
+            parentComponent: getParentComponent,
             viewSubComponent: getSubComponent,
             //====================================
             processList: listProcessListOfComponents,
@@ -109,6 +110,9 @@ angular.module('Holu')
 
         function getComponent(componentID,userID){
             return $http.get(ENV.ServerUrl+"/services/api/components/"+componentID+"/"+userID+".json");
+        }
+        function getParentComponent(componentID,userID){
+            return $http.get(ENV.ServerUrl+"/services/api/subComponents/"+componentID+"/"+userID+"/parent.json");
         }
         function getSubComponent(componentID,userID){
             return $http.get(ENV.ServerUrl+"/services/api/subComponents/"+componentID+"/"+userID+".json");
@@ -219,6 +223,7 @@ angular.module('Holu')
         function getSubComponentData(){
             return subComponentData[currentComponent].data;
         }
+
         function isSubcomponentHasNextPage(){
             if(subComponentData[currentComponent]==undefined){
                 return false;
