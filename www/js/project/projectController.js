@@ -263,6 +263,7 @@ angular.module('Holu')
             $cordovaGeolocation
                 .getCurrentPosition(posOptions)
                 .then(function (position) {
+                    $scope.processMid.positionGPS=position.coords.latitude+","+position.coords.longitude;
                     qq.maps.convertor.translate(new qq.maps.LatLng(position.coords.latitude, position.coords.longitude), 1, function (res) {
                         latlng = res[0];
                         geocoder = new qq.maps.Geocoder({

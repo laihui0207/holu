@@ -6,14 +6,15 @@ angular.module('Holu')
     .controller('ProjectSummaryCtrl',function($scope, Summary, $rootScope, AuthService, $state){
         var user = AuthService.currentUser();
         var needReload=true;
-        $scope.date = new Date();
+        $scope.date = moment();
+        $scope.startDate=moment().startOf('month');
         if (user == undefined) {
             $rootScope.backurl = "tab.summary"
             $state.go("login")
             return
         }
 /*        $scope.no_content=undefined;*/
-        $scope.currentType='projectSummary';
+        $scope.currentType='projectMonthSummary';
         Summary.Summary(user.userID).then(function(response){
             $scope.totalSummary=response.data;
         });
@@ -39,10 +40,54 @@ angular.module('Holu')
             $state.go("login")
             return
         }
-        $scope.currentType='projectSummary';
-        $scope.date = new Date();
+        $scope.currentType='projectMonthSummary';
+        $scope.date = moment();
+        $scope.startDate=moment().startOf('month');
         $scope.projectName=$stateParams.projectName;
         Summary.Detail(user.userID,$stateParams.itemName)
+            .then(function(response){
+                $scope.details=response.data;
+            })
+    })
+    .controller('ProjectTotalSummaryCtrl',function($scope, Summary, $rootScope, AuthService, $state){
+        var user = AuthService.currentUser();
+        $scope.startDate=moment().startOf('month');
+        if (user == undefined) {
+            $rootScope.backurl = "tab.summary"
+            $state.go("login")
+            return
+        }
+        $scope.currentType='ProjectTotalSummary';
+        $scope.date = moment();
+        Summary.Summary(user.userID,"all").then(function(response){
+            $scope.totalSummary=response.data;
+        });
+        Summary.SummaryDetail(user.userID,"all").then(function(response){
+            $scope.summaryItem=response.data;
+        });
+        $scope.doRefresh = function () {
+            Summary.Summary(user.userID,"all").then(function(response){
+                $scope.totalSummary=response.data;
+            });
+            Summary.SummaryDetail(user.userID,"all").then(function(response){
+                $scope.summaryItem=response.data;
+            });
+            $scope.$broadcast('scroll.refreshComplete');
+        }
+
+    })
+    .controller('TotalSummaryDetailCtrl',function($scope, Summary, $rootScope, AuthService, $state,$stateParams){
+        var user = AuthService.currentUser();
+        $scope.date = new Date();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.summary"
+            $state.go("login")
+            return
+        }
+        $scope.currentType='ProjectTotalSummary';
+        $scope.date = moment();
+        $scope.projectName=$stateParams.projectName;
+        Summary.Detail(user.userID,$stateParams.itemName,"all")
             .then(function(response){
                 $scope.details=response.data;
             })
@@ -56,7 +101,7 @@ angular.module('Holu')
             return
         }
         $scope.currentType='totalSearch';
-        $scope.searchDate={};
+        $scope.searchDate={startDate:moment().startOf('month'),endDate: new Date()};
         $scope.search=function (){
             if($scope.searchDate.startDate==undefined || $scope.searchDate.endDate==undefined){
                 return;
@@ -104,7 +149,7 @@ angular.module('Holu')
             return
         }
         $scope.currentType='factorySearch';
-        $scope.searchDate={};
+        $scope.searchDate={startDate:moment().startOf('month'),endDate: new Date()};
         $scope.search=function (){
             if($scope.searchDate.startDate==undefined || $scope.searchDate.endDate==undefined){
                 return;

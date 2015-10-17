@@ -13,13 +13,25 @@ angular.module('Holu')
             searchFactoryItemByDate: getFactoryItemBetweenDate
         }
         function getSummaryData(userId,sumDate,itemStyle,status){
-            return $http.get(ENV.ServerUrl+"/services/api/Summary/"+userId+".json");
+            var queryString=ENV.ServerUrl+"/services/api/Summary/"+userId+".json";
+            if(sumDate!=undefined){
+                queryString+="?sumDate="+sumDate;
+            }
+            return $http.get(queryString);
         }
         function getSummaryDetailData(userId,sumDate,itemStyle,status){
-            return $http.get(ENV.ServerUrl+"/services/api/Summary/"+userId+"/item.json");
+            var queryString=ENV.ServerUrl+"/services/api/Summary/"+userId+"/item.json";
+            if(sumDate!=undefined){
+                queryString+="?sumDate="+sumDate;
+            }
+            return $http.get(queryString);
         }
-        function getDetailData(userId,itemID){
-            return $http.get(ENV.ServerUrl+"/services/api/Summary/"+userId+"/Detail/"+itemID+".json");
+        function getDetailData(userId,itemID,sumDate){
+            var queryString=ENV.ServerUrl+"/services/api/Summary/"+userId+"/Detail/"+itemID+".json";
+            if(sumDate!=undefined){
+                queryString+="?sumDate="+sumDate;
+            }
+            return $http.get(queryString);
         }
         function getProgressData(userId,itemStyle){
             return $http.get(ENV.ServerUrl+"/services/api/Summary/"+userId+"/"+itemStyle+"/progress.json");

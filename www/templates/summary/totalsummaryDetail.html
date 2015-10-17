@@ -1,4 +1,3 @@
-
 <ion-view view-title="{{'ProjectSummary' | translate }}">
     <ion-header-bar class="bar-subheader ">
 
@@ -28,40 +27,28 @@
                 pulling-text="{{ 'PullToFresh' | translate }}"
                 on-refresh="doRefresh()">
         </ion-refresher>
+
         <ion-list>
-            <ion-item class="item-divider">{{'todaySummary' | translate }} （{{startDate | amDateFormat:'YYYY-MM-DD'}} ~ {{date | amDateFormat:'YYYY-MM-DD'}})</ion-item>
-            <ion-item ng-repeat="item in totalSummary" class="item">
-                <p>
-                    {{'completed' | translate }}: {{item.actual | number:1 }}{{'dun'| translate}}
-                </p>
-                    <p >
-                        {{'plan' | translate }}: {{item.plan | number:1}}{{'dun'| translate}}
-                    </p>
-                    <p >
-                        {{'percent' | translate }}: {{item.percent }}
-                    </p>
-            </ion-item>
-<!--            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>-->
-        </ion-list>
-        <ion-list>
-           <!-- <ion-item class="item-divider">
-                <div class="row">
-                    <div class="col">{{ 'projectName' | translate }}</div>
-                    <div class="col">{{'completed' | translate }}</div>
-                    <div class="col">{{'actual' | translate }}</div>
-                    <div class="col">{{'percent' | translate }}</div>
-                </div>
-            </ion-item>-->
-            <div ng-repeat="(name,items) in summaryItem" >
-                <ion-item class="item-divider">{{ 'projectName' | translate }}: {{name}} </ion-item>
-                <ion-item ng-repeat="item in items" class="item" href="#/tab/summarydetail/{{item.itemID}}/{{name}}" > <!-- href="#/tab/summarydetail/{{item.itemID}}/{{searchDate}}/{{searchStyle}}/{{searchStatus}}"-->
+            <div ng-repeat="(name,items) in details">
+                <ion-item class="item-divider">{{projectName}} （{{'progressTo' | translate }} {{date | amDateFormat:'YYYY-MM-DD'}}) </ion-item>
+               <!-- <ion-item class="item-divider">
+                    <div class="row">
+                        <div class="col col-33">{{ 'projectName' | translate }}</div>
+                        <div class="col">{{'completed' | translate }}</div>
+                        <div class="col">{{'actual' | translate }}</div>
+                        <div class="col">{{'percent' | translate }}</div>
+                    </div>
+                </ion-item>-->
+                <ion-item ng-repeat="item in items" class="item">
+                    <h2>{{ 'projectName' | translate }}: {{item.itemName}}</h2>
                     <p>{{'completed' | translate }}: {{item.actual | number:1 }}</p>
                     <p>{{'plan' | translate }}: {{item.plan | number:1}}</p>
                     <p>
                         {{'percent' | translate }}: {{item.percent }}
                     </p>
-                    <!--<div class="row">
-                        <div class="col">{{name }}:</div>
+                   <!-- <div class="row">
+                        <div class="col col-33">{{ item.itemName}}</div>
+
                         <div class="col">
                             {{item.actual | number:1 }}
                         </div>
@@ -75,6 +62,7 @@
 <!--                    <p>{{ item.itemName}}: {{item.percent }}   {{item.actual | number:1 }}  {{item.plan | number:1}}</p>-->
                 </ion-item>
             </div>
+<!--            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>-->
         </ion-list>
     </ion-content>
 </ion-view>

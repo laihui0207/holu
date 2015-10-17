@@ -11,9 +11,13 @@
                href="#/tab/factorysearch">
                 {{'factorySummary' | translate }}
             </a>
-            <a ng-class="{'button button-clear': currentType!='projectSummary','button button-calm': currentType== 'projectSummary'} "
+            <a ng-class="{'button button-clear': currentType!='projectMonthSummary','button button-calm': currentType== 'projectMonthSummary'} "
                href="#/tab/projectsummary">
-                {{'ProjectSummary' | translate }}
+                {{'projectMonthSummary' | translate }}
+            </a>
+            <a ng-class="{'button button-clear': currentType!='ProjectTotalSummary','button button-calm': currentType== 'ProjectTotalSummary'} "
+               href="#/tab/projecttotalsummary">
+                {{'ProjectTotalSummary' | translate }}
             </a>
         </ion-scroll>
     </ion-header-bar>

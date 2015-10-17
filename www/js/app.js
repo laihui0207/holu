@@ -579,6 +579,24 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                     }
                 }
             })
+            .state('tab.projecttotalsummary', {
+                url: '/projecttotalsummary',
+                views: {
+                    'tab-summary': {
+                        templateUrl: 'templates/summary/totalsummary.html',
+                        controller: 'ProjectTotalSummaryCtrl'
+                    }
+                }
+            })
+            .state('tab.totalsummarydetail', {
+                url: '/totalsummarydetail/:itemName/:projectName',
+                views: {
+                    'tab-summary': {
+                        templateUrl: 'templates/summary/totalsummaryDetail.html',
+                        controller: 'TotalSummaryDetailCtrl'
+                    }
+                }
+            })
             .state('tab.totalsearch', {
                 url: '/totalsearch',
                 views: {

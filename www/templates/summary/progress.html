@@ -34,15 +34,24 @@
                     <span ng-if="item.predictStatus < 0" class="progressDelay"> {{'progressDelay' | translate }} {{item.predictStatus}}</span>
                     {{'progressDays' | translate}}
                 </p>
-                <p>
-                    {{'progressComplete' | translate}}: {{'progressPlan' | translate}} {{item.sumDate_plan_end | date:'yyyy-MM-dd'}}
-                    {{'progressPredict' | translate}} {{item.sumDate_predict_end | date:'yyyy-MM-dd'}}
-                </p>
+
                 <p>
                     {{'progressDuration' | translate}}:
                     {{'progressPlan' | translate}} {{item.planDuration}} {{'progressDays' | translate}}
                     {{'progressUsed' | translate}} {{item.actualDuration}} {{'progressDays' | translate}}
                     {{'progressPredict' | translate}} {{item.predictDuration}} {{'progressDays' | translate}}
+                </p>
+                <p>
+                    {{'progressDate' | translate}}:
+                </p>
+                <p>
+                    {{'progressPlan' | translate}}: {{item.sumDate_plan_start | date:'yyyy-MM-dd'}} ~ {{item.sumDate_plan_end | date:'yyyy-MM-dd'}}
+                </p>
+                <p>
+                    {{'progressActual' | translate}}: {{item.sumDate_actual_start | date:'yyyy-MM-dd'}} ~ {{item.sumDate_actual_end | date:'yyyy-MM-dd'}}
+                </p>
+                <p>
+                    {{'progressPredict' | translate}}: {{item.sumDate_predict_start | date:'yyyy-MM-dd'}} {{item.sumDate_predict_end | date:'yyyy-MM-dd'}}
                 </p>
             </ion-item>
 <!--            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>-->
