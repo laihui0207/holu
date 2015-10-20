@@ -544,7 +544,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                 }
             })
             .state('tab.process', {
-                url: '/processconfirm/:projectID/:componentID/:styleProcessID',
+                url: '/processconfirm/:projectID/:componentID/:styleProcessID/:type',
                 views: {
                     'tab-project': {
                         templateUrl: 'templates/project/processconfirm.html',

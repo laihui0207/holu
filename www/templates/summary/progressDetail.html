@@ -22,7 +22,7 @@
         <ion-list>
             <div ng-repeat="(name,items) in progressList" class="item" >
                 <ion-item class="item-divider">{{name}} ({{'progressTo' | translate }} {{date | date:'yyyy-MM-dd'}})</ion-item>
-                <ion-item ng-repeat="item in items" href="#/tab/progressdetail/{{currentType}}/{{item.itemID}}">
+                    <ion-item ng-repeat="item in items" > <!-- href="#/tab/progressdetail/{{currentType}}/{{item.itemID}}"> -->
                 <h2>{{name}}_{{item.itemName}}</h2>
                 <p>
                     {{'progressStatus' | translate}}:

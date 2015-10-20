@@ -109,7 +109,11 @@ var translations = {
         progressDays: 'Days',
         progressTo: 'TO',
         factorySummary: 'Factory Summary',
-        TotalSearch: 'Total Search'
+        TotalSearch: 'Total Search',
+        taskType: 'Task Type',
+        confirmStart: 'Start',
+        confirmEnd: 'End',
+        confirmQuestion: 'Question'
     },
     "zh": {
         HEADLINE : '这是我们的节日哦',
@@ -249,7 +253,11 @@ var translations = {
         progressTo: '截至',
         factorySummary: '工厂汇总',
         TotalSearch: '总体查询',
-        searchDate: '查询时间'
+        searchDate: '查询时间',
+        taskType: '任务类型',
+        confirmStart: '开始',
+        confirmEnd: '结束',
+        confirmQuestion: '问题反馈'
 
     }
 }

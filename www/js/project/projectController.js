@@ -186,7 +186,6 @@ angular.module('Holu')
             $scope.APICallFailed = translations.LoginFailMessage;
         });
         $scope.user=user;
-/*        $scope.address="中国安徽省合肥市包河区常青路";*/
         $scope.processMid = {
             styleProcessID: $stateParams.styleProcessID,
             subComponentID: $stateParams.componentID,
@@ -205,8 +204,11 @@ angular.module('Holu')
         Projects.viewSubComponent($stateParams.componentID,user.userID).then(function(response){
             $scope.subComponent=response.data;
         })
+        Projects.processMid(user.userID,$stateParams.componentID,$stateParams.styleProcessID).then(function(response){
+            $scope.processMid=response.data;
+        })
         $scope.save = function () {
-            Projects.confirm($scope.processMid, user.userID)
+            Projects.confirm($scope.processMid,$stateParams.type, user.userID)
                 .success(function (data) {
                     if (data.styelProcessID == $scope.processMid.styelProcessID) {
                         $rootScope.$broadcast('ProcessUpdate', data);
@@ -268,7 +270,7 @@ angular.module('Holu')
                         latlng = res[0];
                         geocoder = new qq.maps.Geocoder({
                             complete: function (result) {
-                                $scope.processMid.positionGPS=result.detail.address;
+                                $scope.processMid.positionName=result.detail.address;
                             }
                         });
                         geocoder.getAddress(latlng);
@@ -291,10 +293,22 @@ angular.module('Holu')
         }
         Projects.myTasks(user.userID).then(function(response){
             $scope.taskList=response.data;
+            if($scope.taskList==undefined || $scope.taskList.length==0){
+                $scope.noContent=true;
+            }
+            else {
+                $scope.noContent=false;
+            }
         })
         $scope.doRefresh = function () {
             Projects.myTasks(user.userID).then(function(response){
                 $scope.taskList=response.data;
+                if($scope.taskList==undefined || $scope.taskList.length==0){
+                    $scope.noContent=true;
+                }
+                else {
+                    $scope.noContent=false;
+                }
                 $scope.$broadcast('scroll.refreshComplete');
             })
         }
@@ -309,10 +323,22 @@ angular.module('Holu')
         }
         Projects.urgentTask(user.userID).then(function(response){
             $scope.taskList=response.data;
+            if($scope.taskList==undefined || $scope.taskList.length==0){
+                $scope.noContent=true;
+            }
+            else {
+                $scope.noContent=false;
+            }
         })
         $scope.doRefresh = function () {
             Projects.urgentTask(user.userID).then(function(response){
                 $scope.taskList=response.data;
+                if($scope.taskList==undefined || $scope.taskList.length==0){
+                    $scope.noContent=true;
+                }
+                else {
+                    $scope.noContent=false;
+                }
                 $scope.$broadcast('scroll.refreshComplete');
             })
         }

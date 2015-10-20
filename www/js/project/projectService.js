@@ -35,6 +35,7 @@ angular.module('Holu')
             processList: listProcessListOfComponents,
             componentStyles: listComponentStyleOfCompanyAndStyle,
             confirm: confirmProcess,
+            processMid: getProcessMid,
             urgentTask: getUrgentTask
         })
         function getUrgentTask(userId){
@@ -45,6 +46,9 @@ angular.module('Holu')
         }
         function getProject(id){
             return $http.get(ENV.ServerUrl+"/services/api/projects/"+id+".json")
+        }
+        function getProcessMid(userId,componentID,styleProcessID){
+            return $http.get(ENV.ServerUrl+"/services/api/processMid/"+userId+"/"+componentID+"/"+styleProcessID+".json");
         }
         function listMyProjects(userId,parentID){
             var currentPage=0;
@@ -236,15 +240,23 @@ angular.module('Holu')
         function listComponentStyleOfCompanyAndStyle(companyID,styleID,userID){
             return $http.get(ENV.ServerUrl+"/services/api/componentStyles/processList/"+companyID+"/"+styleID+"/"+userID+".json")
         }
-        function confirmProcess(processMid,userID){
+        function confirmProcess(processMid,type,userID){
             var deferred = $q.defer();
             var promise = deferred.promise;
+            var confirmUrl=ENV.ServerUrl + "/services/api/processMid/confirm.json";
+            if(type=='start'){
+                confirmUrl=ENV.ServerUrl + "/services/api/processMid/startconfirm.json";
+            } else if(type == 'end'){
+                confirmUrl=ENV.ServerUrl + "/services/api/processMid/endconfirm.json";
+            } else if (type == 'note'){
+                confirmUrl=ENV.ServerUrl + "/services/api/processMid/confirmquestion.json";
+            }
             $http({
                 method: 'POST',
-                url: ENV.ServerUrl + "/services/api/processMid/confirm.json",
+                url: confirmUrl,
                 data: "subComponentID=" + processMid.subComponentID + "&styleProcessID=" + processMid.styleProcessID
                 + "&userID=" + userID + "&processNote=" + processMid.processNote+"&startDate="+processMid.startDate
-                + "&endDate="+processMid.endDate+"&positionGPS="+processMid.positionGPS,
+                + "&endDate="+processMid.endDate+"&positionGPS="+processMid.positionGPS+"&positionName="+processMid.positionName,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (data) {
                 console.log("processMid save:" + data)

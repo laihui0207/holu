@@ -23,6 +23,9 @@
     max-height: 38px;
 
 }
+.confirmButton{
+    margin-top: 10px;
+}
 textarea {
     height:auto;
     /*color:#999;
