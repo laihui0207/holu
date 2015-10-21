@@ -56,7 +56,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
             function showUpdateConfirm() {
                 var confirmPopup = $ionicPopup.confirm({
                     title: '版本升级',
-                    template: '有新版本', //从服务端获取更新的内容
+                    template: '检测到有新版本', //从服务端获取更新的内容
                     cancelText: '取消',
                     okText: '升级'
                 });
@@ -90,7 +90,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                                 if (downloadProgress > 99) {
                                     $ionicLoading.hide();
                                 }
-                            })
+                            },1000)
                         });
                     } else {
                         // 取消更新
@@ -162,12 +162,12 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                     else {
                         config.headers.authorization = "login";
                     }
-                    if ($rootScope.networkStatus) {
-                        $rootScope.$broadcast('loading:show')
-                    }
-                    else {
+/*                    if ($rootScope.networkStatus) {*/
+                        $rootScope.$broadcast('loading:show');
+/*                    }*/
+                   /* else {
                         //$cordovaToast.showShortBottom("请确认网络是否在线！")
-                    }
+                    }*/
                     return config
                 },
                 response: function (response) {

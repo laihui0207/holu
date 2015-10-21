@@ -101,7 +101,7 @@ angular.module('Holu')
             return
         }
         $scope.currentType='totalSearch';
-        $scope.searchDate={startDate:moment().startOf('month'),endDate: new Date()};
+        $scope.searchDate={startDate:moment().startOf('month').format("YYYY-MM-DD"),endDate: moment().format("YYYY-MM-DD")};
         $scope.search=function (){
             if($scope.searchDate.startDate==undefined || $scope.searchDate.endDate==undefined){
                 return;
@@ -149,7 +149,7 @@ angular.module('Holu')
             return
         }
         $scope.currentType='factorySearch';
-        $scope.searchDate={startDate:moment().startOf('month'),endDate: new Date()};
+        $scope.searchDate={startDate:moment().startOf('month').format("YYYY-MM-DD"),endDate: moment().format("YYYY-MM-DD")};
         $scope.search=function (){
             if($scope.searchDate.startDate==undefined || $scope.searchDate.endDate==undefined){
                 return;
