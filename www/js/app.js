@@ -45,7 +45,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                     $cordovaAppVersion.getAppVersion().then(function (version) {
                         //如果本地于服务端的APP版本不符合
                         if (version != serverAppVersion.version) {
-                            showUpdateConfirm();
+                            showUpdateConfirm(serverAppVersion.clientSize);
                         }
                     });
                 })
@@ -53,7 +53,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
             }
 
 // 显示是否更新对话框
-            function showUpdateConfirm() {
+            function showUpdateConfirm(totalSize) {
                 var confirmPopup = $ionicPopup.confirm({
                     title: '版本升级',
                     template: '检测到有新版本', //从服务端获取更新的内容
@@ -83,14 +83,15 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                         }, function (progress) {
                             //进度，这里使用文字显示下载百分比
                             $timeout(function () {
-                                var downloadProgress = (progress.loaded / progress.total) * 100;
+
+                                var downloadProgress = (progress.loaded / totalSize) * 100;
                                 $ionicLoading.show({
-                                    template: "已经下载：" + Math.floor(downloadProgress) + "%"
+                                    template: "已经下载：" + Math.floor(downloadProgress)+"%"
                                 });
                                 if (downloadProgress > 99) {
                                     $ionicLoading.hide();
                                 }
-                            },1000)
+                            })
                         });
                     } else {
                         // 取消更新
