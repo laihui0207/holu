@@ -1,4 +1,4 @@
-<ion-view view-title="{{ 'Project' | translate }}">
+<ion-view view-title="{{title | translate }}">
     <ion-content>
         <ion-refresher
                 pulling-text="{{ 'PullToFresh' | translate }}"
@@ -15,9 +15,10 @@
                 <h2 ng-show="component">{{'component' | translate }}: {{component.componentName}}</h2>
                 <h2 ng-show="subComponent">{{'subComponent' | translate }}: {{subComponent.subComponentName}}</h2>
             </ion-item>
-            <ion-item class="item-divider">{{'processConfirm' | translate }}</ion-item>
+            <ion-item ng-if="type!='note'" class="item-divider">{{'processConfirm' | translate }}</ion-item>
+            <ion-item ng-if="type=='note'" class="item-divider">{{'confirmQuestion' | translate }}</ion-item>
             <label class="item item-input item-stacked-label">
-                <span class="input-label">{{'note' | translate }}: </span>
+                <span ng-if="type!='note'" class="input-label">{{'note' | translate }}: </span>
                 <input type="text" ng-model="processMid.processNote">
             </label>
            <!-- <label class="item item-input item-stacked-label">

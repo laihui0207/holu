@@ -244,7 +244,7 @@ var translations = {
         progressDuration: '工期',
         progressPlan: '计划',
         progressPredict: '预计',
-        progressUsed: '已用',
+        progressUsed: '实际',
         progressActual: '实际',
         progressInAdvance: '提前',
         progressDelay: '延期',
@@ -255,8 +255,8 @@ var translations = {
         TotalSearch: '总体查询',
         searchDate: '查询时间',
         taskType: '任务类型',
-        confirmStart: '开始',
-        confirmEnd: '结束',
+        confirmStart: '开工确认',
+        confirmEnd: '完工确认',
         confirmQuestion: '问题反馈'
 
     }

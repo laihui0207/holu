@@ -178,12 +178,18 @@ angular.module('Holu')
             $state.go("login")
             return
         }
-        $translate(['SaveFailed', 'SaveFailedHeader','APICallFailed','SaveSuccess','SaveSuccessHeader']).then(function (translations) {
+        $translate(['SaveFailed', 'SaveFailedHeader','APICallFailed','SaveSuccess','SaveSuccessHeader',
+            'confirmQuestion','MyTask','urgentTask','processConfirm'])
+            .then(function (translations) {
             $scope.SaveFailed = translations.LoginFailHeader;
             $scope.SaveFailedHeader = translations.SaveFailedHeader;
             $scope.SaveSuccess = translations.SaveSuccess;
             $scope.SaveSuccessHeader = translations.SaveSuccessHeader;
             $scope.APICallFailed = translations.LoginFailMessage;
+                $scope.confirmQuestion = translations.confirmQuestion;
+                $scope.MyTask = translations.MyTask;
+                $scope.urgentTask = translations.urgentTask;
+                $scope.processConfirm = translations.processConfirm;
         });
         $scope.user=user;
         $scope.processMid = {
@@ -193,7 +199,17 @@ angular.module('Holu')
         }
         $scope.processMid.styleProcessID=$stateParams.styleProcessID;
         $scope.processMid.subComponentID=$stateParams.componentID;
-
+        $scope.from=$stateParams.from;
+        $scope.type=$stateParams.type;
+        if($stateParams.type == 'note'){
+            $scope.title='confirmQuestion';
+        }
+        else if ($stateParams.type == 'start'){
+            $scope.title='confirmStart';
+        }
+        else if ($stateParams.type == 'end'){
+            $scope.title='confirmEnd';
+        }
         Projects.viewProject($stateParams.projectID).then(function (response) {
             $scope.project = response.data
 
@@ -216,7 +232,14 @@ angular.module('Holu')
                             title: $scope.SaveSuccessHeader,
                             template: $scope.SaveSuccess
                         });
-                        //$state.go("tab.notes")
+                        if($stateParams.from == 'task'){
+                            $rootScope.$broadcast("MissionUpdate");
+                            $state.go("tab.tasks")
+                        }
+                        else if($stateParams.from == 'urgent'){
+                            $rootScope.$broadcast("UrgentMissionUpdate");
+                            $state.go("tab.urgenttask")
+                        }
                     }
                     else {
                         var alertPopup = $ionicPopup.alert({
@@ -284,23 +307,22 @@ angular.module('Holu')
         }
         $scope.getPosition();
     })
-    .controller('TaskCtrl',function($scope, Projects,$state, $rootScope,AuthService){
+    .controller('TaskCtrl',function($scope,$rootScope, Projects,$state, $rootScope,AuthService){
         var user = AuthService.currentUser();
         if (user == undefined) {
             $rootScope.backurl = "tab.tasks"
             $state.go("login")
             return
         }
-        Projects.myTasks(user.userID).then(function(response){
-            $scope.taskList=response.data;
-            if($scope.taskList==undefined || $scope.taskList.length==0){
-                $scope.noContent=true;
-            }
-            else {
-                $scope.noContent=false;
-            }
+        flushData();
+        $rootScope.$on('MissionUpdate',function(){
+            console.log("get mission update event")
+            flushData();
         })
         $scope.doRefresh = function () {
+            flushData();
+        }
+        function flushData(){
             Projects.myTasks(user.userID).then(function(response){
                 $scope.taskList=response.data;
                 if($scope.taskList==undefined || $scope.taskList.length==0){
@@ -321,16 +343,15 @@ angular.module('Holu')
             $state.go("login")
             return
         }
-        Projects.urgentTask(user.userID).then(function(response){
-            $scope.taskList=response.data;
-            if($scope.taskList==undefined || $scope.taskList.length==0){
-                $scope.noContent=true;
-            }
-            else {
-                $scope.noContent=false;
-            }
+        $rootScope.$on('UrgentMissionUpdate',function(){
+            flushData();
         })
+        flushData();
         $scope.doRefresh = function () {
+           flushData();
+        }
+
+        function flushData(){
             Projects.urgentTask(user.userID).then(function(response){
                 $scope.taskList=response.data;
                 if($scope.taskList==undefined || $scope.taskList.length==0){

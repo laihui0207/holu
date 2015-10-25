@@ -1,4 +1,4 @@
-<ion-view view-title="{{ 'MyTask' | translate }}">
+<ion-view view-title="{{ 'urgentTask' | translate }}">
     <ion-header-bar class="bar bar-subheader button-right custom-subheader">
         <div class="tabs" tab-slide-box>
             <a class="tab-item " href="#/tab/tasks">
@@ -47,19 +47,19 @@
 <!--                    <a class="button button-balanced" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>
                     <a class="button button-balanced" ng-show="item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
                 </div>
-                <div class="item row confirmButton button-bar">
+                <div class="row confirmButton">
                     <div class="col col-33">
                         <!--                        <a class="button button-small" ng-if="item.processMid.startDate" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
-                        <a class="button button-positive" ng-disabled="item.processMid.startDate" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}/start">{{'confirmStart' | translate }}</a>
+                        <a class="button button-positive button-small" ng-disabled="item.processMid.startDate" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}/start/urgent">{{'confirmStart' | translate }}</a>
                     </div>
 
                     <div class="col col-33">
                         <!--                        <a class="button button-small" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
-                        <a class="button button-positive" ng-disabled="!item.processMid.startDate && !item.processMid.endDate" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}/end">{{'confirmEnd' | translate }}</a>
+                        <a class="button button-positive button-small" ng-disabled="!item.processMid.startDate && !item.processMid.endDate" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}/end/urgent">{{'confirmEnd' | translate }}</a>
                     </div>
                     <div class="col col-33">
                         <!--                        <a class="button button-small" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
-                        <a class="button " ng-show="item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}/note">{{'confirmQuestion' | translate }}</a>
+                        <a class="button button-small" ng-show="item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}/note/urgent">{{'confirmQuestion' | translate }}</a>
                     </div>
                 </div>
             </ion-item>
