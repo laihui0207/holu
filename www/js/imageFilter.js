@@ -34,3 +34,30 @@ angular.module('Holu.imageFilter', [])
 /*            return "http://220.178.1.10:8089/holusystem"+ input;*/
         }
     })
+    .filter('video',function(){
+        return function(input, scope){
+            if(input==undefined) return
+            if(input.indexOf("<embed") < 0) return input;
+            var newContent = input.replace(
+                new RegExp("(<embed.*flashvars=\"f=(.*)?\" type=\".*/>)", 'gi'),
+                function ($0, $1,$2) {
+                    var url=$2;
+                    if(url.substring(0,4) != "http"){
+                        if(url.indexOf("/attached")>0){
+                            url=url.substring(url.indexOf("/attached"))
+                        }
+                        console.log("URL:"+url);
+                        var newContent='<video controls="controls" class="videoplatform"  preload="metadata"  webkit-playsinline="webkit-playsinline" class="videoPlayer"><source src="'
+                            +scope.ServerUrl + url +'" type="video/mp4"/></video>'
+                        return newContent;
+                    }
+                    /*else {
+
+autoplay="autoplay"                        var newContent=$1 +url +"\" ng-click=\"showImage('"+url+"')" + $3;
+                        return newContent;
+                    }*/
+
+                });
+            return newContent;
+        }
+    })
