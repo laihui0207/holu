@@ -13,16 +13,16 @@
     <ion-content class="padding">
         <div class="list list-inset">
             <label class="item item-input">
-                <span class="input-label">{{'UserName' | translate}}</span>
+                <span class="input-label login-label">{{'UserName' | translate}}</span>
                 <input type="text"  ng-model="data.userName" required>
             </label>
             <label class="item item-input">
-                <span class="input-label">{{ 'Password' | translate }}</span>
+                <span class="input-label login-label">{{ 'Password' | translate }}</span>
                 <input type="password"  ng-model="data.password" required>
             </label>
         </div>
         <label class="item item-toggle">
-            {{'RemeberMe' | translate }}
+          <span class="login-label"> {{'RemeberMe' | translate }}</span>
             <label class="toggle">
                 <input type="checkbox" ng-model="data.remeberMe">
                 <div class="track">
