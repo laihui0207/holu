@@ -103,6 +103,11 @@ angular.module('Holu')
             $scope.imageSrc=url;
             $scope.openModal();
         }
+        $scope.playVideo=function(url){
+/*            document.addEventListener("deviceready", function () {*/
+                VideoPlayer.play(url);
+            /*})*/
+        }
     })
     .controller("ImportantNewsCtrl", function ($scope, News, ENV,AuthService) {
         var currentUser=AuthService.currentUser();
