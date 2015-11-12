@@ -171,12 +171,28 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                     }*/
                     return config
                 },
+                'requestError': function(rejection) {
+                    // do something on error
+                   /* if (canRecover(rejection)) {
+                        return responseOrNewPromise
+                    }*/
+                    $rootScope.$broadcast('loading:hide')
+                    return $q.reject(rejection);
+                },
                 response: function (response) {
                     $rootScope.$broadcast('loading:hide')
                     if (response.status === 401) {
                         $rootScope.$broadcast("holu.logout");
                     }
                     return response
+                },
+                'responseError': function(rejection) {
+                    // do something on error
+                    /*if (canRecover(rejection)) {
+                        return responseOrNewPromise
+                    }*/
+                    $rootScope.$broadcast('loading:hide')
+                    return $q.reject(rejection);
                 }
             }
         })

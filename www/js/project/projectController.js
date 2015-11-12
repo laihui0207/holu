@@ -221,7 +221,13 @@ angular.module('Holu')
             $scope.subComponent=response.data;
         })
         Projects.processMid(user.userID,$stateParams.componentID,$stateParams.styleProcessID).then(function(response){
-            $scope.processMid=response.data;
+            if(response.data!=""){
+                $scope.processMid=response.data;
+            }
+            else {
+                $scope.processMid.styleProcessID=$stateParams.styleProcessID;
+                $scope.processMid.subComponentID=$stateParams.componentID;
+            }
         })
         $scope.save = function () {
             Projects.confirm($scope.processMid,$stateParams.type, user.userID)

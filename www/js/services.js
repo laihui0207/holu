@@ -85,6 +85,7 @@ angular.module('Holu.services', [])
                     deferred.reject('Sign up Failed');
                 }
                 else {
+                    user=data;
                     deferred.resolve(data);
                 }
             }).error(function (data) {

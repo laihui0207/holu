@@ -74,7 +74,9 @@ autoplay="autoplay"                        var newContent=$1 +url +"\" ng-click=
                             url=url.substring(url.indexOf("/attached"))
                         }
                         console.log("URL:"+url);
-                    var newContent='<div class="videoplatform video-container"><iframe src="'+scope.ServerUrl + url+'?&autoplay=0&autohide=1&fs=1&cc_load_policy=1&loop=0&rel=0&modestbranding=1&&hd=1&playsinline=0&showinfo=0&theme=light" frameborder="0" allowfullscreen width="560" height="315"></iframe></div>';
+                    var newContent='<div class="videoplatform video-container"><iframe src="'+scope.ServerUrl + url+
+                        '?&autoplay=0&autohide=1&fs=1&cc_load_policy=1&loop=0&rel=0&modestbranding=1&&hd=1&playsinline=0&showinfo=0&theme=light"' +
+                        ' frameborder="0" allowfullscreen width="560" height="315"></iframe></div>';
                         /*var newContent='<video controls="controls" class="videoplatform"  preload="metadata"  webkit-playsinline="webkit-playsinline" class="videoPlayer"><source src="'
                             +scope.ServerUrl + url +'" type="video/mp4"/></video>'*/
                         return newContent;

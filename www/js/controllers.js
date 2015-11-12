@@ -33,7 +33,6 @@ angular.module('Holu.controllers', ['ngSanitize'])
                 var user=Storage.get("user");
                 if(user!=undefined){
                     AuthService.setUser(user);
-                    console.log("user name:"+user.userID);
                     $rootScope.menuItems=menuItemService.menuList(true);
                     $rootScope.$broadcast('holu.logged');
                     $state.go('tab.home')
@@ -120,7 +119,7 @@ angular.module('Holu.controllers', ['ngSanitize'])
             $rootScope.networkStatus=false;
         })
     })
-    .controller("HomeCtrl",function($scope,AuthService,Messages,News, $ionicSlideBoxDelegate,ENV,$state,$cordovaSplashscreen){
+    .controller("HomeCtrl",function($scope,$rootScope,AuthService,Messages,News, $ionicSlideBoxDelegate,ENV,$state,$cordovaSplashscreen){
         var user=AuthService.currentUser();
         if(user!=undefined){
             $scope.companyName=user.company.companyShortNameCN
@@ -137,12 +136,21 @@ angular.module('Holu.controllers', ['ngSanitize'])
             News.lastedNews().then(function(response){
                 $scope.newsList=response.data;
             })
+            $scope.companyName=user.company.companyShortNameCN;
             $scope.$broadcast('scroll.refreshComplete');
         }
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            $scope.doRefresh();
+        })
         $scope.$on("holu.messageCountUpdate",function(){
             Messages.refreshNewMessagecount(user.id);
             $scope.$broadcast('scroll.refreshComplete');
         })
+        /*$rootScope.$on('holu.logged',function(){
+            console.log("Home page Get login event")
+            var user=AuthService.currentUser();
+            $scope.companyName=user.company.companyShortNameCN
+        })*/
         $scope.navSlide = function(index) {
             $ionicSlideBoxDelegate.slide(index, 500);
         }
@@ -166,7 +174,6 @@ angular.module('Holu.controllers', ['ngSanitize'])
          var currentUser=AuthService.currentUser();
         if(currentUser!= undefined){
             $scope.userName=currentUser.username || null;
-            console.log($scope.userName);
         }
         $translate(['mainMenu', 'rightMenu','mainMenuHeader']).then(function (translations) {
             $scope.mainMenu = translations.mainMenu;
@@ -188,7 +195,6 @@ angular.module('Holu.controllers', ['ngSanitize'])
             $state.go('tab.home')
         }
         $rootScope.$on('holu.logged',function(){
-            console.log("Get event:Logged")
             var currentUser=AuthService.currentUser();
             if(currentUser!= undefined){
                 $scope.userName=currentUser.username || null;
@@ -196,7 +202,6 @@ angular.module('Holu.controllers', ['ngSanitize'])
             $scope.menuItems=menuItemService.menuList(true);
         })
         $rootScope.$on('holu.logout',function(){
-            console.log("Get event:Logout")
             $scope.userName=null;
             $scope.menuItems=menuItemService.menuList(false);
             AuthService.logout();
