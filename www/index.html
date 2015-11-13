@@ -123,9 +123,9 @@
 </ion-side-menus>
 <script id="image-modal.html" type="text/ng-template">
     <div class="modal image-modal transparent" ng-click="closeModal()">
-        <ion-pane class="transparent">
-            <img ng-src="{{imageSrc}}" class="fullscreen-image"/>
-        </ion-pane>
+        <ion-scroll zooming="true" direction="xy" delegate-handle="zoom-pane" class="zoom-pane transparent" min-zoom="1" scrollbar-x="false" scrollbar-y="false">
+            <img ng-src="{{imageSrc}}">
+        </ion-scroll>
     </div>
 </script>
 </body>

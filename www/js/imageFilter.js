@@ -79,12 +79,6 @@ autoplay="autoplay"                        var newContent=$1 +url +"\" ng-click=
                             +scope.ServerUrl + url +'" type="video/mp4"/></video>'*/
                         return newContent;
                     }
-                    /*else {
-
-                     autoplay="autoplay"                        var newContent=$1 +url +"\" ng-click=\"showImage('"+url+"')" + $3;
-                     return newContent;
-                     }*/
-
                 });
             return newContent;
         }
@@ -101,36 +95,15 @@ autoplay="autoplay"                        var newContent=$1 +url +"\" ng-click=
                         if(url.indexOf("/attached")>0){
                             url=url.substring(url.indexOf("/attached"))
                         }
-                        console.log("URL:"+url);
-                       /* navigator.createThumbnail(scope.ServerUrl + url, function(err, imageData) {
-                            if (err)
-                                throw err;
-
-                            console.log(imageData); // Will log the base64 encoded string in console.
-                        });*/
-                       /* var newContent='<div class="videoplatform video-container"><iframe src="'+scope.ServerUrl + url+
-                            '?&autoplay=0&autohide=1&fs=1&cc_load_policy=1&loop=0&rel=0&modestbranding=1&&hd=1&playsinline=0&showinfo=0&theme=light"' +
-                            ' frameborder="0" allowfullscreen width="560" height="315"></iframe></div>';*/
-                        /*var newContent='<video controls="controls" class="videoplatform"  preload="metadata"  webkit-playsinline="webkit-playsinline" class="videoPlayer"><source src="'
-                         +scope.ServerUrl + url +'" type="video/mp4"/></video>'*/
-/*                        var platform = $cordovaDevice.getPlatform();*/
-                        if(window.cordova.platformId =='Android'){
-                            newContent='<img src="'+scope.ServerUrl+'/attached/holu_default.jpg\"'+' ng-click=\"playVideo(\''+scope.ServerUrl + url+'\')\"/>';
+                        if(window.cordova && window.cordova.platformId && window.cordova.platformId =='android'){
+                            newContent='<img src="img/play.png" ng-click=\"playVideo(\''+scope.ServerUrl + url+'\')\"/>';
                         }
                         else {
                             newContent='<video controls="controls" class="videoplatform"  preload="metadata"  webkit-playsinline="webkit-playsinline" class="videoPlayer"><source src="'
                                 +scope.ServerUrl + url +'" type="video/mp4"/></video>'
                         }
-
-                        //<img ng-if="$index%5 != 0" ng-src="http://220.178.1.10:8089/holusystem/attached/holu_default.jpg" src="http://220.178.1.10:8089/holusystem/attached/holu_default.jpg" class="">
                         return newContent;
                     }
-                    /*else {
-
-                     autoplay="autoplay"                        var newContent=$1 +url +"\" ng-click=\"showImage('"+url+"')" + $3;
-                     return newContent;
-                     }*/
-
                 });
             return newContent;
         }
