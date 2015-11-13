@@ -10,7 +10,8 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
 
     .run(function ($ionicPlatform, $rootScope, $state, $timeout, $ionicHistory,
                    $cordovaToast, amMoment, $cordovaSplashscreen, $cordovaNetwork,$cordovaDevice,
-                   $cordovaAppVersion,$ionicLoading, Upgrade,$ionicPopup,$cordovaFileTransfer, $cordovaFile, $cordovaFileOpener2) {
+                   $cordovaAppVersion,$ionicLoading, Upgrade,$ionicPopup,$cordovaFileTransfer,
+                   $cordovaFile, $cordovaFileOpener2) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -28,6 +29,10 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                    // console.log("network online");
                 }
             }
+            if(window.cordova && window.cordova.plugins && window.cordova.plugins.VideoPlayer){
+                console.log("video player")
+            }
+
             if (window.StatusBar) {
                 // org.apache.cordova.statusbar required
                 StatusBar.styleLightContent();

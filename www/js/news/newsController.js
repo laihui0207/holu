@@ -53,15 +53,6 @@ angular.module('Holu')
         }).then(function(modal) {
             $scope.modal = modal;
         });
-       /* $ionicModal.fromTemplateUrl(
-            'templates/fullImage.html', function (modal) {
-                scope.modal = modal;
-            },
-            {
-                scope: $scope,
-                animation: 'slide-in-up'
-            }
-        )*/
         $scope.openModal = function() {
             $scope.modal.show();
         };
@@ -89,19 +80,11 @@ angular.module('Holu')
         //$scope.imageSrc = 'http://ionicframework.com/img/ionic-logo-blog.png';
 
         $scope.showImage = function(url) {
-            /*switch(index) {
-                case 1:
-                    $scope.imageSrc = 'http://ionicframework.com/img/ionic-logo-blog.png';
-                    break;
-                case 2:
-                    $scope.imageSrc  = 'http://ionicframework.com/img/ionic_logo.svg';
-                    break;
-                case 3:
-                    $scope.imageSrc  = 'http://ionicframework.com/img/homepage/phones-weather-demo@2x.png';
-                    break;
-            }*/
             $scope.imageSrc=url;
             $scope.openModal();
+        }
+        $scope.playVideo=function(url){
+                VideoPlayer.play(url);
         }
     })
     .controller("ImportantNewsCtrl", function ($scope, News, ENV,AuthService) {
