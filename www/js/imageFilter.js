@@ -84,7 +84,7 @@ autoplay="autoplay"                        var newContent=$1 +url +"\" ng-click=
         }
     })
     .filter('videoFull',function(){
-        return function(input, scope){
+        return function(input, scope,news){
             if(input==undefined) return
             if(input.indexOf("<embed") < 0) return input
             var newContent = input.replace(
@@ -96,7 +96,7 @@ autoplay="autoplay"                        var newContent=$1 +url +"\" ng-click=
                             url=url.substring(url.indexOf("/attached"))
                         }
                         if(window.cordova && window.cordova.platformId && window.cordova.platformId =='android'){
-                            newContent='<img src="img/play.png" ng-click=\"playVideo(\''+scope.ServerUrl + url+'\')\"/>';
+                            newContent='<img src="'+scope.ServerUrl+news.thumbnailUrl+'" ng-click=\"playVideo(\''+scope.ServerUrl + url+'\')\"/>';
                         }
                         else {
                             newContent='<video controls="controls" class="videoplatform"  preload="metadata"  webkit-playsinline="webkit-playsinline" class="videoPlayer"><source src="'

@@ -7,7 +7,7 @@ angular.module('Holu')
         var subjectData={};
         var currentSubject="";
         var postBarData={};
-        var pageSize=10;
+        var pageSize=20;
         return ({
             postSubjects: listPostSubjects,
             subjectData: getSubjectData,

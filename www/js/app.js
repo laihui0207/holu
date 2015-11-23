@@ -61,7 +61,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
             function showUpdateConfirm(appversion) {
                 var confirmPopup = $ionicPopup.confirm({
                     title: '版本升级',
-                    template: '检测到有新版本:<br/>'+appversion.releaseNote, //从服务端获取更新的内容
+                    template: '检测到有新版本:<br/><br/>'+appversion.releaseNote, //从服务端获取更新的内容
                     cancelText: '取消',
                     okText: '升级'
                 });
@@ -84,6 +84,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                                 });
                             $ionicLoading.hide();
                         }, function (err) {
+                            $ionicLoading.hide();
                             alert('下载失败');
                         }, function (progress) {
                             //进度，这里使用文字显示下载百分比

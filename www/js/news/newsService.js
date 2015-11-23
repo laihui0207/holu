@@ -5,7 +5,7 @@ angular.module('Holu')
     .factory('News', function ($http, ENV,$rootScope) {
         var datas={};
         var importantDatas={};
-        var pageSize=10;
+        var pageSize=20;
         var newsType="all"
         return ({
             lastedNews: listLastNews,

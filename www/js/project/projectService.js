@@ -4,7 +4,7 @@
 angular.module('Holu')
     .factory('Projects',function($http,$q,ENV,$rootScope){
         var ProjectsData={};
-        var pageSize=5;
+        var pageSize=20;
         var currentProject="";
         var currentComponent="";
         var currentSubComponent="";

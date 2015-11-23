@@ -4,7 +4,7 @@
 angular.module('Holu')
     .factory('Notes', function ($http, $q, ENV,$rootScope) {
         var NoteData={};
-        var pageSize=10;
+        var pageSize=20;
 
         return ({
             all: listNote,
