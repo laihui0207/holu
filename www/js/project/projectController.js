@@ -349,6 +349,24 @@ angular.module('Holu')
             $state.go("login")
             return
         }
+        $scope.$on("UrgentTaskRefreshed",function(){
+            $scope.taskList=Projects.urgentTaskData();
+            if($scope.taskList==undefined || $scope.taskList.length==0){
+                $scope.noContent=true;
+            }
+            else {
+                $scope.noContent=false;
+            }
+            needReload=false;
+            $scope.$broadcast('scroll.refreshComplete');
+        })
+        $scope.loadMore=function(){
+            Projects.moreUrgentTask();
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+        }
+        $scope.canMore=function(){
+            return Projects.canMoreUrgentTask();
+        }
         $rootScope.$on('UrgentMissionUpdate',function(){
             flushData();
         })
@@ -358,16 +376,8 @@ angular.module('Holu')
         }
 
         function flushData(){
-            Projects.urgentTask(user.userID).then(function(response){
-                $scope.taskList=response.data;
-                if($scope.taskList==undefined || $scope.taskList.length==0){
-                    $scope.noContent=true;
-                }
-                else {
-                    $scope.noContent=false;
-                }
-                $scope.$broadcast('scroll.refreshComplete');
-            })
+            Projects.urgentTask(user.userID);
+            $scope.$broadcast('scroll.refreshComplete');
         }
 
     })

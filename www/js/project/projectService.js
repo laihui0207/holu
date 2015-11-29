@@ -10,6 +10,7 @@ angular.module('Holu')
         var currentSubComponent="";
         var componentsData={};
         var subComponentData={};
+        var urgentTasks={};
 
         return ({
             myTasks: getMyTask,
@@ -36,10 +37,60 @@ angular.module('Holu')
             componentStyles: listComponentStyleOfCompanyAndStyle,
             confirm: confirmProcess,
             processMid: getProcessMid,
-            urgentTask: getUrgentTask
+            //////////========================
+            urgentTask: getUrgentTask,
+            moreUrgentTask: loadMoreUrgentTask,
+            canMoreUrgentTask: isUrgentTaskNextPage,
+            urgentTaskData: getUrgentData
         })
         function getUrgentTask(userId){
-            return $http.get(ENV.ServerUrl+"/services/api/tasks/"+userId+".json");
+            var currentPage=0;
+            var hasNextPage=true;
+            var serviceURL=ENV.ServerUrl+"/services/api/tasks/"+userId+".json?page="+currentPage+"&pageSize="+pageSize;
+
+            $http.get(serviceURL).then(function(response){
+                if(response.data.length < pageSize){
+                    hasNextPage=false;
+                }
+                urgentTasks={
+                    hasNextPage: hasNextPage,
+                    pageIndex: currentPage,
+                    data: response.data,
+                    userId: userId
+                }
+                $rootScope.$broadcast("UrgentTaskRefreshed");
+            });
+        }
+
+        function loadMoreUrgentTask() {
+            var currentPage = urgentTasks.pageIndex;
+            currentPage++;
+            var hasNextPage = true;
+            var currentData = urgentTasks.data;
+            var userId=urgentTasks.userId;
+            var serviceURL = ENV.ServerUrl + "/services/api/tasks/" + userId + ".json?page=" + currentPage + "&pageSize=" + pageSize;
+            $http.get(serviceURL).then(function (response) {
+                if (response.data.length < pageSize) {
+                    hasNextPage = false;
+                }
+                currentData = currentData.concat(response.data)
+                urgentTasks = {
+                    hasNextPage: hasNextPage,
+                    pageIndex: currentPage,
+                    data: response.data,
+                    userId: userId
+                }
+                $rootScope.$broadcast("UrgentTaskRefreshed");
+            });
+        }
+        function isUrgentTaskNextPage(){
+            return urgentTasks.hasNextPage;
+        }
+        function getUrgentData(){
+            if(urgentTasks.data==undefined){
+                return ;
+            }
+            return urgentTasks.data;
         }
         function getMyTask(userId){
             return $http.get(ENV.ServerUrl+"/services/api/componentStyles/"+userId+"/Task.json");
