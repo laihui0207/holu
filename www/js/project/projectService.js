@@ -13,6 +13,7 @@ angular.module('Holu')
         var urgentTasks={};
 
         return ({
+            myProjects: getMyProject,
             myTasks: getMyTask,
             projects: listMyProjects,
             moreProject: loadMoreProject,
@@ -92,8 +93,11 @@ angular.module('Holu')
             }
             return urgentTasks.data;
         }
-        function getMyTask(userId){
-            return $http.get(ENV.ServerUrl+"/services/api/componentStyles/"+userId+"/Task.json");
+        function getMyProject(userId){
+            return $http.get(ENV.ServerUrl+"/services/api/projects/all/"+userId+".json");
+        }
+        function getMyTask(userId,projectId){
+            return $http.get(ENV.ServerUrl+"/services/api/componentStyles/"+userId+"/Task/"+projectId+".json");
         }
         function getProject(id){
             return $http.get(ENV.ServerUrl+"/services/api/projects/"+id+".json")

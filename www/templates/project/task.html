@@ -18,9 +18,9 @@
         <ion-list class="list">
             <ion-item ng-repeat="item in taskList" class="item "><!-- href="#/tab/components/{{item.projectID}} -->
                 <div ng-if="item.componentStyle" >
-                    <h2>{{'projectName' | translate }}:{{ item.component.project.projectPathName }}</h2>
-                    <p>{{'component' | translate }}:{{item.component.componentName}}</p>
-                    <p ng-show="item.subCompoent">{{item.subComponent.subComponentName}}</p>
+                    <h2>{{'projectName' | translate }}:{{ item.projectPathName }}</h2>
+                    <p>{{'component' | translate }}:{{item.componentName}}</p>
+                    <p ng-show="item.subCompoent">{{item.subComponentName}}</p>
                     <p>{{'componentStyle'| translate }}:{{ item.componentStyle.styleName}} - {{item.componentStyle.processName}}</p>
 <!--                    <a class="button button-balanced" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>
                     <a class="button button-balanced" ng-show="item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
@@ -28,16 +28,16 @@
                 <div class="row confirmButton">
                     <div class="col col-33">
 <!--                        <a class="button button-small" ng-if="item.processMid.startDate" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
-                        <a class="button button-positive button-small" ng-disabled="item.processMid.startDate" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}/start/task">{{'confirmStart' | translate }}</a>
+                        <a class="button button-positive button-small" ng-disabled="item.processMid.startDate" href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.componentStyle.styleProcessID}}/start/task">{{'confirmStart' | translate }}</a>
                     </div>
 
                     <div class="col col-33">
 <!--                        <a class="button button-small" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
-                        <a class="button button-positive button-small" ng-disabled="!item.processMid.startDate && !item.processMid.endDate" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}/end/task">{{'confirmEnd' | translate }}</a>
+                        <a class="button button-positive button-small" ng-disabled="!item.processMid.startDate && !item.processMid.endDate" href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.componentStyle.styleProcessID}}/end/task">{{'confirmEnd' | translate }}</a>
                     </div>
                     <div class="col col-33">
 <!--                        <a class="button button-small" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
-                        <a class="button button-small" ng-show="item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.subComponent.subComponentID}}/{{item.componentStyle.styleProcessID}}/note/task">{{'confirmQuestion' | translate }}</a>
+                        <a class="button button-small"  href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.componentStyle.styleProcessID}}/note/task">{{'confirmQuestion' | translate }}</a>
                     </div>
                 </div>
             </ion-item>

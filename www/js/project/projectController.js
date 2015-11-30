@@ -329,16 +329,24 @@ angular.module('Holu')
             flushData();
         }
         function flushData(){
-            Projects.myTasks(user.userID).then(function(response){
-                $scope.taskList=response.data;
-                if($scope.taskList==undefined || $scope.taskList.length==0){
-                    $scope.noContent=true;
-                }
-                else {
-                    $scope.noContent=false;
-                }
-                $scope.$broadcast('scroll.refreshComplete');
+            Projects.myProjects(user.userID).then(function(response){
+                var projects=response.data;
+                var missionData=[];
+                projects.forEach(function(project){
+                    Projects.myTasks(user.userID,project.projectID).then(function(response){
+                        missionData=missionData.concat(response.data);
+                        $scope.taskList=missionData;
+                        if($scope.taskList==undefined || $scope.taskList.length==0){
+                            $scope.noContent=true;
+                        }
+                        else {
+                            $scope.noContent=false;
+                        }
+                        $scope.$broadcast('scroll.refreshComplete');
+                    })
+                })
             })
+
         }
 
     })
