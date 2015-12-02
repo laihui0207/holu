@@ -143,6 +143,19 @@ angular.module('Holu')
         $scope.currentUser=user;
         $scope.componentType=$stateParams.type;
         $scope.componentID=$stateParams.componentID;
+        var needReload=true;
+        $rootScope.$on("$ionicView.enter", function(scopes, states){
+            user=AuthService.currentUser();
+            if(needReload){
+                Projects.processList($stateParams.styleID, user.company.companyId,user.userID,$stateParams.componentID).then(function (response) {
+                    $scope.componentStyleList = response.data;
+                    needReload=false;
+                })
+            }
+        })
+        $rootScope.$on("ProjectMissionUpdate",function(){
+            needReload=true;
+        })
         if($scope.componentType =='parent'){
             Projects.viewComponent($stateParams.componentID,user.userID).then(function(response){
                 $scope.component=response.data;
@@ -156,12 +169,11 @@ angular.module('Holu')
                 $scope.component=response.data;
             })
         }
-        Projects.processList($stateParams.styleID, user.company.companyId,user.userID,$stateParams.componentID).then(function (response) {
-            $scope.componentStyleList = response.data
-        })
+
         $scope.doRefresh = function () {
             Projects.processList($stateParams.styleID, user.company.companyId,user.userID,$stateParams.componentID).then(function (response) {
                 $scope.componentStyleList = response.data
+                needReload=false;
             }).then(function () {
                 $scope.$broadcast('scroll.refreshComplete');
             })
@@ -246,6 +258,11 @@ angular.module('Holu')
                             $rootScope.$broadcast("UrgentMissionUpdate");
                             $state.go("tab.urgenttask")
                         }
+                        else if($stateParams.from == 'project'){
+                            $rootScope.$broadcast("ProjectMissionUpdate");
+                            ///:styleID/:componentID/:type
+                            $state.go("tab.styles",{type:'sub',styleID:$scope.component.styleID,componentID:$stateParams.componentID})
+                        }
                     }
                     else {
                         var alertPopup = $ionicPopup.alert({
@@ -320,35 +337,51 @@ angular.module('Holu')
             $state.go("login")
             return
         }
-        flushData();
+        var needReload=true;
+       /* var currentData={
+            currentIndex:0,
+            projects:[]
+        };*/
+        $rootScope.$on("$ionicView.enter", function(scopes, states){
+            user=AuthService.currentUser();
+            if(needReload){
+                Projects.myTasks(user.userID);
+            }
+        })
+        $rootScope.$on("holu.logout",function(){
+            needReload=true;
+        })
         $rootScope.$on('MissionUpdate',function(){
             console.log("get mission update event")
-            flushData();
+            needReload=true;
+            //Projects.myTasks(user.userID);
         })
+
         $scope.doRefresh = function () {
-            flushData();
+            Projects.myTasks(user.userID);
+            //$scope.$broadcast('scroll.refreshComplete');
         }
-        function flushData(){
-            Projects.myProjects(user.userID).then(function(response){
-                var projects=response.data;
-                var missionData=[];
-                projects.forEach(function(project){
-                    Projects.myTasks(user.userID,project.projectID).then(function(response){
-                        missionData=missionData.concat(response.data);
-                        $scope.taskList=missionData;
-                        if($scope.taskList==undefined || $scope.taskList.length==0){
-                            $scope.noContent=true;
-                        }
-                        else {
-                            $scope.noContent=false;
-                        }
-                        $scope.$broadcast('scroll.refreshComplete');
-                    })
-                })
-            })
-
+        $scope.loadMore=function(){
+           Projects.moreTask(user.userID);
         }
+        $scope.canLoadMore=function(){
+            return Projects.canLoadMoreTask();
+        }
+        $rootScope.$on("TaskListUpdated",function(){
+            console.log("get task updated event")
+            $scope.taskList = Projects.taskData();
+            needReload=false;
+            if ($scope.taskList == undefined || $scope.taskList.length == 0) {
+                $scope.noContent = true;
+            }
+            else {
+                $scope.noContent = false;
+            }
+            $scope.$broadcast('scroll.refreshComplete');
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+        })
 
+        //$scope.doRefresh();
     })
     .controller('UrgentTaskCtrl',function($scope, Projects,AuthService, $rootScope,$state){
         var user=AuthService.currentUser();
@@ -357,7 +390,18 @@ angular.module('Holu')
             $state.go("login")
             return
         }
-        $scope.$on("UrgentTaskRefreshed",function(){
+        var needReload=true;
+        $rootScope.$on("$ionicView.enter", function(scopes, states){
+            user=AuthService.currentUser();
+            if(needReload){
+                flushData();
+            }
+
+        })
+        $rootScope.$on("holu.logout",function(){
+            needReload=true;
+        })
+        $rootScope.$on("UrgentTaskRefreshed",function(){
             $scope.taskList=Projects.urgentTaskData();
             if($scope.taskList==undefined || $scope.taskList.length==0){
                 $scope.noContent=true;
@@ -376,9 +420,10 @@ angular.module('Holu')
             return Projects.canMoreUrgentTask();
         }
         $rootScope.$on('UrgentMissionUpdate',function(){
-            flushData();
+            needReload=true;
+            //flushData();
         })
-        flushData();
+       // flushData();
         $scope.doRefresh = function () {
            flushData();
         }

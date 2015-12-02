@@ -11,10 +11,10 @@ angular.module('Holu')
         var componentsData={};
         var subComponentData={};
         var urgentTasks={};
+        var taskData={};
 
         return ({
-            myProjects: getMyProject,
-            myTasks: getMyTask,
+
             projects: listMyProjects,
             moreProject: loadMoreProject,
             canMoreProject: isProjectHasNextPage,
@@ -42,8 +42,16 @@ angular.module('Holu')
             urgentTask: getUrgentTask,
             moreUrgentTask: loadMoreUrgentTask,
             canMoreUrgentTask: isUrgentTaskNextPage,
-            urgentTaskData: getUrgentData
+            urgentTaskData: getUrgentData,
+            ////////task==============
+            //myProjects: getMyProject,
+            myTasks: getMyTask,
+            moreTask:loadMoreTask,
+            canLoadMoreTask: isCanLoadMoreTask,
+            taskData: getTaskData
         })
+
+
         function getUrgentTask(userId){
             var currentPage=0;
             var hasNextPage=true;
@@ -96,8 +104,58 @@ angular.module('Holu')
         function getMyProject(userId){
             return $http.get(ENV.ServerUrl+"/services/api/projects/all/"+userId+".json");
         }
-        function getMyTask(userId,projectId){
-            return $http.get(ENV.ServerUrl+"/services/api/componentStyles/"+userId+"/Task/"+projectId+".json");
+        function getMyTask(userId){
+            taskData={
+                projects: [],
+                index:0,
+                data:[]
+            }
+            $rootScope.$broadcast("TaskListUpdated");
+            $http.get(ENV.ServerUrl+"/services/api/projects/all/"+userId+".json")
+                .then(function(response){
+                    taskData={
+                        projects: response.data,
+                        index:0,
+                        data:[]
+                    }
+                    //loadTask(userId);
+                });
+        }
+        function loadTask(userId){
+            var index=taskData.index;
+            var projects=taskData.projects;
+            var projectId=projects[index].projectID;
+            $http.get(ENV.ServerUrl+"/services/api/componentStyles/"+userId+"/Task/"+projectId+".json").then(function(response){
+                index++;
+                taskData={
+                    projects: projects,
+                    index: index,
+                    data: response.data
+                }
+                $rootScope.$broadcast("TaskListUpdated");
+            })
+        }
+        function loadMoreTask(userId){
+            var index=taskData.index;
+            var projects=taskData.projects;
+            var projectId=projects[index].projectID;
+            $http.get(ENV.ServerUrl+"/services/api/componentStyles/"+userId+"/Task/"+projectId+".json").then(function(response){
+                index++;
+                var data=taskData.data;
+                data=data.concat(response.data);
+                taskData={
+                    projects: projects,
+                    index: index,
+                    data: data
+                }
+                $rootScope.$broadcast("TaskListUpdated");
+            })
+        }
+        function isCanLoadMoreTask(){
+            return taskData.index < taskData.projects.length
+        }
+        function getTaskData(){
+            return taskData.data;
         }
         function getProject(id){
             return $http.get(ENV.ServerUrl+"/services/api/projects/"+id+".json")
@@ -290,7 +348,7 @@ angular.module('Holu')
             return subComponentData[currentComponent].hasNextPage;
         }
         function listProcessListOfComponents(styleID,companyId,userId,componentID){
-            return $http.get(ENV.ServerUrl+"/services/api/componentStyles/processList/"+companyId+"/"+styleID+"/"+userId+"/"+componentID+".json")
+            return $http.get(ENV.ServerUrl+"/services/api/componentStyles/processList/"+styleID+"/"+userId+"/"+componentID+".json")
         }
         function listComponentStyleOfCompanyAndStyle(companyID,styleID,userID){
             return $http.get(ENV.ServerUrl+"/services/api/componentStyles/processList/"+companyID+"/"+styleID+"/"+userID+".json")

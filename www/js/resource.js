@@ -113,7 +113,9 @@ var translations = {
         taskType: 'Task Type',
         confirmStart: 'Start',
         confirmEnd: 'End',
-        confirmQuestion: 'Question'
+        confirmQuestion: 'Question',
+        confirmStartDate: 'Start at',
+        confirmEndDate: 'End ata'
     },
     "zh": {
         HEADLINE : '这是我们的节日哦',
@@ -257,7 +259,9 @@ var translations = {
         taskType: '任务类型',
         confirmStart: '开工确认',
         confirmEnd: '完工确认',
-        confirmQuestion: '问题反馈'
+        confirmQuestion: '问题反馈',
+        confirmStartDate: '开工于',
+        confirmEndDate: '完工于'
 
     }
 }

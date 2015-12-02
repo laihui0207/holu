@@ -16,8 +16,8 @@
             <ion-item class="item-divider">{{'componentStyleList' | translate }}</ion-item>
             <div ng-repeat="item in componentStyleList" class="item" ><!--href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}" -->
                     <h2>{{ item.styleName}} - {{item.processName}}</h2>
-                    <p>{{item.confirmDate | date:'yyyy-MM-dd HH:mm:ss'}}</p>
-                    <p>{{item.confirmer.username}}</p>
+                <p ng-show="item.processMid && item.processMid.startDate">{{'confirmStartDate' | translate }}: {{item.processMid.startDate | date:'yyyy-MM-dd HH:mm:ss' }}</p>
+                <p ng-show="item.processMid && item.processMid.endDate">{{'confirmEndDate' | translate }}: {{item.processMid.endDate | date:'yyyy-MM-dd HH:mm:ss' }}</p>
 
                 <div class="row confirmButton">
                     <div class="col col-33">
@@ -27,7 +27,7 @@
 
                     <div class="col col-33">
                         <!--                        <a class="button button-small" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
-                        <a class="button button-positive button-small" ng-disabled="!item.processMid.startDate && !item.processMid.endDate" href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}/end/project">{{'confirmEnd' | translate }}</a>
+                        <a class="button button-positive button-small" ng-disabled="item.processMid.endDate || !item.processMid.startDate" href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}/end/project">{{'confirmEnd' | translate }}</a>
                     </div>
                     <div class="col col-33">
                         <!--                        <a class="button button-small" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
