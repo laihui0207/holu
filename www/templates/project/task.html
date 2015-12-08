@@ -1,5 +1,5 @@
 <ion-view view-title="{{ 'MyTask' | translate }}">
-    <ion-header-bar class="bar bar-subheader button-right custom-subheader">
+ <!--   <ion-header-bar class="bar bar-subheader button-right custom-subheader">
         <div class="tabs" tab-slide-box>
             <a class="tab-item tab-item-active" href="#/tab/tasks">
                 <p> {{'normalTask' | translate }} </p>
@@ -8,6 +8,25 @@
                 <p> {{'urgentTask' | translate }} </p>
             </a>
         </div>
+        &lt;!&ndash;        <a class="button button-clear pull-right">Button</a>&ndash;&gt;
+    </ion-header-bar>-->
+    <ion-header-bar class="bar-subheader ">
+        <ion-scroll direction="x" class="wide-as-needed">
+            <a ng-class="{'button button-clear': currentType!='doing','button button-calm': currentType== 'doing'} "
+               ng-click="taskListByType('doing')">
+                {{'taskDoing' | translate }}
+            </a>
+            <a
+                    ng-class="{'button button-clear': currentType!='finish','button button-calm': currentType== 'finish'} "
+                    ng-click="taskListByType('finish')">
+                {{'taskFinished' | translate }}
+            </a>
+            <a ng-class="{'button button-clear': currentType!='all','button button-calm': currentType== 'all'} "
+               ng-click="taskListByType('all')">
+                {{'All' | translate }}
+            </a>
+
+        </ion-scroll>
         <!--        <a class="button button-clear pull-right">Button</a>-->
     </ion-header-bar>
     <ion-content>
@@ -22,8 +41,8 @@
                     <p>{{'component' | translate }}: {{item.componentName}} </p>
                     <p>{{'subComponent' | translate }}: {{item.subComponentName}}</p>
                     <p>{{'componentStyle'| translate }}: {{ item.componentStyle.styleName}} - {{item.componentStyle.processName}}</p>
-                    <p ng-show="item.processMid && item.processMid.startDate">{{'confirmStartDate' | translate }}: {{item.processMid.startDate | date:'yyyy-MM-dd HH:mm:ss' }}</p>
-                    <p ng-show="item.processMid && item.processMid.endDate">{{'confirmEndDate' | translate }}: {{item.processMid.endDate | date:'yyyy-MM-dd HH:mm:ss' }}</p>
+                    <p ng-show="item.processMid && item.processMid.startDate">{{'confirmStartDate' | translate }}: {{item.processMid.startDate | date:'yyyy-MM-dd' }}</p>
+                    <p ng-show="item.processMid && item.processMid.endDate">{{'confirmEndDate' | translate }}: {{item.processMid.endDate | date:'yyyy-MM-dd' }}</p>
                 </div>
                 <div class="row confirmButton">
                     <div class="col col-33">
@@ -43,6 +62,6 @@
             </ion-item>
             <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>
-        <ion-infinite-scroll on-infinite="loadMore()" distance="5%" ng-if="canLoadMore()"></ion-infinite-scroll>
+        <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>
     </ion-content>
 </ion-view>

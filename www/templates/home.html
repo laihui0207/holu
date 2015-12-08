@@ -30,18 +30,24 @@
                         <img src="img/projectoverview.png" style="width: 100%;"/>
                         {{'ProjectOverview' | translate }}</a>
                 </div>
-                <div class="col">
-                    <a class="button  button-light" href="#/tab/projects">
-                        <img src="img/myproject.png" style="width: 100%"/>
-                        {{'MyProject' | translate }}</a>
-                </div>
+
                 <div class="col">
                     <a class="button  button-light" href="#/tab/tasks">
                         <img src="img/mytask.png" style="width: 100%"/>
                         {{'MyTask' | translate }}</a>
                 </div>
+                <div class="col">
+                    <a class="button  button-light" href="#/tab/urgenttask">
+                        <img src="img/postbarnew.png" style="width: 100%"/>
+                        {{'urgentTask' | translate }}</a>
+                </div>
             </div>
             <div class="row mainNav">
+                <div class="col">
+                    <a class="button  button-light" href="#/tab/projects">
+                        <img src="img/myproject.png" style="width: 100%"/>
+                        {{'MyProject' | translate }}</a>
+                </div>
                 <div class="col">
                     <a class="button  button-light" href="#/tab/news">
                         <img src="img/news.png" style="width: 100%"/>
@@ -57,10 +63,8 @@
                         <span class="badge badge-assertive" ng-hide="newMessageCount==0">{{newMessageCount}}</span>
                     </a>
                 </div>
-                <div class="col">
-                    <a class="button  button-light" href="#/tab/postsubjects">
-                        <img src="img/postbar.png" style="width: 100%"/>{{ 'Posts' | translate }}</a>
-                </div>
+
+
 
             </div>
             <div class="row mainNav">
@@ -73,8 +77,15 @@
                         <img src="img/note.png" style="width: 100%"/>{{ 'Notes' | translate }}</a>
                 </div>
 <!--                <div class="col col-25"></div>-->
-                <div class="col"></div>
-                <div class="col"></div>
+                <div class="col">
+                    <a class="button  button-light" href="#/tab/postsubjects">
+                        <img src="img/postbar.png" style="width: 100%"/>{{ 'Posts' | translate }}</a>
+                </div>
+                <div class="col">
+                    <a class="button  button-light" href="#">
+                        <img src="img/friend.png" style="width: 100%"/>
+                        {{'friendLink' | translate }}</a>
+                </div>
             </div>
 
         </div>

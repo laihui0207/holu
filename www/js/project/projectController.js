@@ -13,7 +13,7 @@ angular.module('Holu')
         /*Projects.projects(user.userID,$stateParams.projectID).then(function (response) {
             $scope.projectList = response.data
         })*/
-        $scope.$on("ProjectRefreshed",function(){
+        $rootScope.$on("ProjectRefreshed",function(){
             $scope.projectList=Projects.projectData();
             if($scope.projectList==undefined || $scope.projectList.length==0){
                 $scope.noContent=true;
@@ -40,7 +40,7 @@ angular.module('Holu')
                 Projects.projects(user.userID,$stateParams.projectID)
             }
         })
-        $scope.$on("holu.logout",function(){
+        $rootScope.$on("holu.logout",function(){
             needReload=true;
         })
         $scope.myTask=function(){
@@ -144,7 +144,7 @@ angular.module('Holu')
         $scope.componentType=$stateParams.type;
         $scope.componentID=$stateParams.componentID;
         var needReload=true;
-        $rootScope.$on("$ionicView.enter", function(scopes, states){
+        $scope.$on("$ionicView.enter", function(scopes, states){
             user=AuthService.currentUser();
             if(needReload){
                 Projects.processList($stateParams.styleID, user.company.companyId,user.userID,$stateParams.componentID).then(function (response) {
@@ -338,14 +338,15 @@ angular.module('Holu')
             return
         }
         var needReload=true;
+        $scope.currentType="doing";
        /* var currentData={
             currentIndex:0,
             projects:[]
         };*/
-        $rootScope.$on("$ionicView.enter", function(scopes, states){
+        $scope.$on("$ionicView.enter", function(scopes, states){
             user=AuthService.currentUser();
             if(needReload){
-                Projects.myTasks(user.userID);
+                Projects.myTasks(user.userID,$scope.currentType);
             }
         })
         $rootScope.$on("holu.logout",function(){
@@ -358,7 +359,7 @@ angular.module('Holu')
         })
 
         $scope.doRefresh = function () {
-            Projects.myTasks(user.userID);
+            Projects.myTasks(user.userID,$scope.currentType);
             //$scope.$broadcast('scroll.refreshComplete');
         }
         $scope.loadMore=function(){
@@ -366,6 +367,10 @@ angular.module('Holu')
         }
         $scope.canLoadMore=function(){
             return Projects.canLoadMoreTask();
+        }
+        $scope.taskListByType=function(type){
+            $scope.currentType=type;
+            Projects.myTasks(user.userID,$scope.currentType);
         }
         $rootScope.$on("TaskListUpdated",function(){
             console.log("get task updated event")
@@ -390,11 +395,13 @@ angular.module('Holu')
             $state.go("login")
             return
         }
+        $scope.currentType="doing"
         var needReload=true;
-        $rootScope.$on("$ionicView.enter", function(scopes, states){
+
+        $scope.$on("$ionicView.enter", function(scopes, states){
             user=AuthService.currentUser();
             if(needReload){
-                flushData();
+                Projects.urgentTask(user.userID,$scope.currentType);
             }
 
         })
@@ -411,17 +418,21 @@ angular.module('Holu')
             }
             needReload=false;
             $scope.$broadcast('scroll.refreshComplete');
+            $scope.$broadcast('scroll.infiniteScrollComplete');
         })
         $scope.loadMore=function(){
             Projects.moreUrgentTask();
-            $scope.$broadcast('scroll.infiniteScrollComplete');
+            //$scope.$broadcast('scroll.infiniteScrollComplete');
         }
-        $scope.canMore=function(){
+        $scope.taskListByType=function(type){
+            $scope.currentType=type;
+            Projects.urgentTask(user.userID,type);
+        }
+        $scope.canLoadMore=function(){
             return Projects.canMoreUrgentTask();
         }
         $rootScope.$on('UrgentMissionUpdate',function(){
             needReload=true;
-            //flushData();
         })
        // flushData();
         $scope.doRefresh = function () {
@@ -429,7 +440,7 @@ angular.module('Holu')
         }
 
         function flushData(){
-            Projects.urgentTask(user.userID);
+            Projects.urgentTask(user.userID,$scope.currentType);
             $scope.$broadcast('scroll.refreshComplete');
         }
 

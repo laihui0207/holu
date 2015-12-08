@@ -16,8 +16,8 @@
             <ion-item class="item-divider">{{'componentStyleList' | translate }}</ion-item>
             <div ng-repeat="item in componentStyleList" class="item" ><!--href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}" -->
                     <h2>{{ item.styleName}} - {{item.processName}}</h2>
-                <p ng-show="item.processMid && item.processMid.startDate">{{'confirmStartDate' | translate }}: {{item.processMid.startDate | date:'yyyy-MM-dd HH:mm:ss' }}</p>
-                <p ng-show="item.processMid && item.processMid.endDate">{{'confirmEndDate' | translate }}: {{item.processMid.endDate | date:'yyyy-MM-dd HH:mm:ss' }}</p>
+                <p ng-show="item.processMid && item.processMid.startDate">{{'confirmStartDate' | translate }}: {{item.processMid.startDate | date:'yyyy-MM-dd' }}</p>
+                <p ng-show="item.processMid && item.processMid.endDate">{{'confirmEndDate' | translate }}: {{item.processMid.endDate | date:'yyyy-MM-dd' }}</p>
 
                 <div class="row confirmButton">
                     <div class="col col-33">

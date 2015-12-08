@@ -11,6 +11,8 @@ angular.module('Holu')
         var componentsData={};
         var subComponentData={};
         var urgentTasks={};
+        var urgentTaskType="doing"
+        var taskType="doing";
         var taskData={};
 
         return ({
@@ -43,108 +45,101 @@ angular.module('Holu')
             moreUrgentTask: loadMoreUrgentTask,
             canMoreUrgentTask: isUrgentTaskNextPage,
             urgentTaskData: getUrgentData,
+/*            setUrgentTaskType: setUrgentType,*/
             ////////task==============
             //myProjects: getMyProject,
             myTasks: getMyTask,
             moreTask:loadMoreTask,
             canLoadMoreTask: isCanLoadMoreTask,
             taskData: getTaskData
+/*            setTaskType: setTaskType*/
         })
 
 
-        function getUrgentTask(userId){
-            var currentPage=0;
-            var hasNextPage=true;
-            var serviceURL=ENV.ServerUrl+"/services/api/tasks/"+userId+".json?page="+currentPage+"&pageSize="+pageSize;
-
+        function getUrgentTask(userId,taskType){
+            urgentTaskType=taskType;
+            var serviceURL=ENV.ServerUrl+"/services/api/tasks/subComponents/"+userId+".json";
+            urgentTasks[urgentTaskType]={
+                subComponentList:[],
+                userId:userId,
+                index:0,
+                data:[]
+            }
             $http.get(serviceURL).then(function(response){
-                if(response.data.length < pageSize){
-                    hasNextPage=false;
+                urgentTasks[urgentTaskType]={
+                    subComponentList:response.data,
+                    userId:userId,
+                    index:0,
+                    data:[]
                 }
-                urgentTasks={
-                    hasNextPage: hasNextPage,
-                    pageIndex: currentPage,
-                    data: response.data,
-                    userId: userId
-                }
-                $rootScope.$broadcast("UrgentTaskRefreshed");
+                loadMoreUrgentTask();
+/*                $rootScope.$broadcast("UrgentTaskRefreshed");*/
+                //$rootScope.$broadcast("UrgentTaskUpdated");
             });
         }
-
+       /* function setUrgentType(userId,taskType){
+            urgentTaskType=taskType;
+            getUrgentTask(userId,taskType);
+        }*/
         function loadMoreUrgentTask() {
-            var currentPage = urgentTasks.pageIndex;
-            currentPage++;
-            var hasNextPage = true;
-            var currentData = urgentTasks.data;
-            var userId=urgentTasks.userId;
-            var serviceURL = ENV.ServerUrl + "/services/api/tasks/" + userId + ".json?page=" + currentPage + "&pageSize=" + pageSize;
+            var index=urgentTasks[urgentTaskType].index;
+            var subComponentList=urgentTasks[urgentTaskType].subComponentList
+            var subComponentID=subComponentList[index].subComponentID;
+            var userId=urgentTasks[urgentTaskType].userId;
+            var serviceURL = ENV.ServerUrl + "/services/api/tasks/" + userId + "/"+subComponentID+".json?type="+urgentTaskType;
             $http.get(serviceURL).then(function (response) {
-                if (response.data.length < pageSize) {
-                    hasNextPage = false;
-                }
+                index++;
+                var currentData = urgentTasks[urgentTaskType].data;
                 currentData = currentData.concat(response.data)
-                urgentTasks = {
-                    hasNextPage: hasNextPage,
-                    pageIndex: currentPage,
-                    data: response.data,
-                    userId: userId
+                urgentTasks[urgentTaskType] = {
+                    index: index,
+                    data: currentData,
+                    userId: userId,
+                    subComponentList: subComponentList
                 }
                 $rootScope.$broadcast("UrgentTaskRefreshed");
             });
         }
         function isUrgentTaskNextPage(){
-            return urgentTasks.hasNextPage;
+            if(urgentTasks[urgentTaskType]==undefined) return false;
+            return urgentTasks[urgentTaskType].index < urgentTasks[urgentTaskType].subComponentList.length ;
         }
         function getUrgentData(){
-            if(urgentTasks.data==undefined){
+            if(urgentTasks[urgentTaskType].data==undefined){
                 return ;
             }
-            return urgentTasks.data;
+            return urgentTasks[urgentTaskType].data;
         }
         function getMyProject(userId){
             return $http.get(ENV.ServerUrl+"/services/api/projects/all/"+userId+".json");
         }
-        function getMyTask(userId){
-            taskData={
-                projects: [],
+        function getMyTask(userId,type){
+            taskType=type;
+            taskData[taskType]={
+                components: [],
                 index:0,
                 data:[]
             }
-            $rootScope.$broadcast("TaskListUpdated");
-            $http.get(ENV.ServerUrl+"/services/api/projects/all/"+userId+".json")
+            $http.get(ENV.ServerUrl+"/services/api/components/"+userId+".json")
                 .then(function(response){
-                    taskData={
-                        projects: response.data,
+                    taskData[taskType]={
+                        components: response.data,
                         index:0,
                         data:[]
                     }
-                    //loadTask(userId);
+                    loadMoreTask(userId);
                 });
         }
-        function loadTask(userId){
-            var index=taskData.index;
-            var projects=taskData.projects;
-            var projectId=projects[index].projectID;
-            $http.get(ENV.ServerUrl+"/services/api/componentStyles/"+userId+"/Task/"+projectId+".json").then(function(response){
-                index++;
-                taskData={
-                    projects: projects,
-                    index: index,
-                    data: response.data
-                }
-                $rootScope.$broadcast("TaskListUpdated");
-            })
-        }
         function loadMoreTask(userId){
-            var index=taskData.index;
-            var projects=taskData.projects;
-            var projectId=projects[index].projectID;
-            $http.get(ENV.ServerUrl+"/services/api/componentStyles/"+userId+"/Task/"+projectId+".json").then(function(response){
+            var index=taskData[taskType].index;
+            var components=taskData[taskType].components;
+            var componentId=components[index].componentID;
+            $http.get(ENV.ServerUrl+"/services/api/componentStyles/task/"+userId+".json?type="+taskType+"&cplist="+componentId).then(function(response){
                 index++;
-                var data=taskData.data;
+                var data=taskData[taskType].data;
                 data=data.concat(response.data);
-                taskData={
-                    projects: projects,
+                taskData[taskType]={
+                    components: components,
                     index: index,
                     data: data
                 }
@@ -152,10 +147,11 @@ angular.module('Holu')
             })
         }
         function isCanLoadMoreTask(){
-            return taskData.index < taskData.projects.length
+            if(taskData[taskType]==undefined) return false;
+            return taskData[taskType].index < taskData[taskType].components.length
         }
         function getTaskData(){
-            return taskData.data;
+            return taskData[taskType].data;
         }
         function getProject(id){
             return $http.get(ENV.ServerUrl+"/services/api/projects/"+id+".json")

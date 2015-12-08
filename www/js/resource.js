@@ -115,7 +115,10 @@ var translations = {
         confirmEnd: 'End',
         confirmQuestion: 'Question',
         confirmStartDate: 'Start at',
-        confirmEndDate: 'End ata'
+        confirmEndDate: 'End ata',
+        friendLink: 'Friend Link',
+        taskDoing: 'Working',
+        taskFinished: 'Finished'
     },
     "zh": {
         HEADLINE : '这是我们的节日哦',
@@ -261,7 +264,10 @@ var translations = {
         confirmEnd: '完工确认',
         confirmQuestion: '问题反馈',
         confirmStartDate: '开工于',
-        confirmEndDate: '完工于'
+        confirmEndDate: '完工于',
+        friendLink: '友情链接',
+        taskDoing: '未完工',
+        taskFinished: '已完工'
 
     }
 }
