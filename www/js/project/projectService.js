@@ -72,7 +72,7 @@ angular.module('Holu')
                     index:0,
                     data:[]
                 }
-                loadMoreUrgentTask();
+                //loadMoreUrgentTask();
 /*                $rootScope.$broadcast("UrgentTaskRefreshed");*/
                 //$rootScope.$broadcast("UrgentTaskUpdated");
             });
@@ -84,7 +84,7 @@ angular.module('Holu')
         function loadMoreUrgentTask() {
             var index=urgentTasks[urgentTaskType].index;
             var subComponentList=urgentTasks[urgentTaskType].subComponentList
-            var subComponentID=subComponentList[index].subComponentID;
+            var subComponentID=subComponentList[index];
             var userId=urgentTasks[urgentTaskType].userId;
             var serviceURL = ENV.ServerUrl + "/services/api/tasks/" + userId + "/"+subComponentID+".json?type="+urgentTaskType;
             $http.get(serviceURL).then(function (response) {
@@ -127,13 +127,13 @@ angular.module('Holu')
                         index:0,
                         data:[]
                     }
-                    loadMoreTask(userId);
+                    //loadMoreTask(userId);
                 });
         }
         function loadMoreTask(userId){
             var index=taskData[taskType].index;
             var components=taskData[taskType].components;
-            var componentId=components[index].componentID;
+            var componentId=components[index];
             $http.get(ENV.ServerUrl+"/services/api/componentStyles/task/"+userId+".json?type="+taskType+"&cplist="+componentId).then(function(response){
                 index++;
                 var data=taskData[taskType].data;

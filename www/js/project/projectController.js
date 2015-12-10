@@ -37,11 +37,13 @@ angular.module('Holu')
         $scope.$on("$ionicView.enter", function(scopes, states){
             user=AuthService.currentUser();
             if(needReload){
+
                 Projects.projects(user.userID,$stateParams.projectID)
             }
         })
         $rootScope.$on("holu.logout",function(){
             needReload=true;
+            $scope.projectList=undefined;
         })
         $scope.myTask=function(){
             Projects.myTasks(user.userID);
@@ -153,8 +155,18 @@ angular.module('Holu')
                 })
             }
         })
-        $rootScope.$on("ProjectMissionUpdate",function(){
-            needReload=true;
+        $rootScope.$on("ProjectMissionUpdate",function(event,args){
+            //needReload=true;
+            $scope.componentStyleList.forEach(function(mission){
+                if(mission.processMid.subComponentID == args.componentID && mission.processMid.styleProcessID== args.styleID){
+                    if(args.type=="start"){
+                        mission.processMid.startDate=new Date();
+                    }
+                    else if(args.type=="end"){
+                        mission.processMid.endDate=new Date();
+                    }
+                }
+            })
         })
         if($scope.componentType =='parent'){
             Projects.viewComponent($stateParams.componentID,user.userID).then(function(response){
@@ -251,15 +263,18 @@ angular.module('Holu')
                             template: $scope.SaveSuccess
                         });
                         if($stateParams.from == 'task'){
-                            $rootScope.$broadcast("MissionUpdate");
+                            $rootScope.$broadcast("MissionUpdate",
+                                {styleID:$stateParams.styleProcessID,componentID:$stateParams.componentID,type:$stateParams.type});
                             $state.go("tab.tasks")
                         }
                         else if($stateParams.from == 'urgent'){
-                            $rootScope.$broadcast("UrgentMissionUpdate");
+                            $rootScope.$broadcast("UrgentMissionUpdate",
+                                {styleID:$stateParams.styleProcessID,componentID:$stateParams.componentID,type:$stateParams.type});
                             $state.go("tab.urgenttask")
                         }
                         else if($stateParams.from == 'project'){
-                            $rootScope.$broadcast("ProjectMissionUpdate");
+                            $rootScope.$broadcast("ProjectMissionUpdate",
+                                {styleID:$stateParams.styleProcessID,componentID:$stateParams.componentID,type:$stateParams.type});
                             ///:styleID/:componentID/:type
                             $state.go("tab.styles",{type:'sub',styleID:$scope.component.styleID,componentID:$stateParams.componentID})
                         }
@@ -351,11 +366,19 @@ angular.module('Holu')
         })
         $rootScope.$on("holu.logout",function(){
             needReload=true;
+            $scope.taskList=undefined;
         })
-        $rootScope.$on('MissionUpdate',function(){
-            console.log("get mission update event")
-            needReload=true;
-            //Projects.myTasks(user.userID);
+        $rootScope.$on('MissionUpdate',function(event,args){
+            $scope.taskList.forEach(function(mission){
+                if(mission.subComponentID == args.componentID && mission.processMid.styleProcessID== args.styleID){
+                    if(args.type=="start"){
+                        mission.processMid.startDate=new Date();
+                    }
+                    else if(args.type=="end"){
+                        mission.processMid.endDate=new Date();
+                    }
+                }
+            })
         })
 
         $scope.doRefresh = function () {
@@ -363,14 +386,16 @@ angular.module('Holu')
             //$scope.$broadcast('scroll.refreshComplete');
         }
         $scope.loadMore=function(){
-           Projects.moreTask(user.userID);
+           Projects.moreTask(user.userID,$scope.currentType);
         }
         $scope.canLoadMore=function(){
             return Projects.canLoadMoreTask();
         }
         $scope.taskListByType=function(type){
             $scope.currentType=type;
+            $scope.taskList=[];
             Projects.myTasks(user.userID,$scope.currentType);
+            //$scope.doRefresh();
         }
         $rootScope.$on("TaskListUpdated",function(){
             console.log("get task updated event")
@@ -407,6 +432,7 @@ angular.module('Holu')
         })
         $rootScope.$on("holu.logout",function(){
             needReload=true;
+            $scope.taskList=undefined;
         })
         $rootScope.$on("UrgentTaskRefreshed",function(){
             $scope.taskList=Projects.urgentTaskData();
@@ -426,13 +452,24 @@ angular.module('Holu')
         }
         $scope.taskListByType=function(type){
             $scope.currentType=type;
+            $scope.taskList=[];
             Projects.urgentTask(user.userID,type);
         }
         $scope.canLoadMore=function(){
             return Projects.canMoreUrgentTask();
         }
-        $rootScope.$on('UrgentMissionUpdate',function(){
-            needReload=true;
+        $rootScope.$on('UrgentMissionUpdate',function(event,args){
+            //needReload=true;
+            $scope.taskList.forEach(function(mission){
+                if(mission.subComponentID == args.componentID && mission.processMid.styleProcessID== args.styleID){
+                    if(args.type=="start"){
+                        mission.processMid.startDate=new Date();
+                    }
+                    else if(args.type=="end"){
+                        mission.processMid.endDate=new Date();
+                    }
+                }
+            })
         })
        // flushData();
         $scope.doRefresh = function () {
