@@ -360,8 +360,9 @@ angular.module('Holu')
         };*/
         $scope.$on("$ionicView.enter", function(scopes, states){
             user=AuthService.currentUser();
+            console.log(user.allowCreateProject);
             if(needReload){
-                Projects.myTasks(user.userID,$scope.currentType);
+                Projects.myTasks(user.userID,$scope.currentType,user.allowCreateProject);
             }
         })
         $rootScope.$on("holu.logout",function(){

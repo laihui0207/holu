@@ -169,9 +169,10 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                     else {
                         config.headers.authorization = "login";
                     }
-/*                    if ($rootScope.networkStatus) {*/
+                    //console.log(config.url)
+                    if (config.url.indexOf("noneedloading")<0) {
                         $rootScope.$broadcast('loading:show');
-/*                    }*/
+                    }
                    /* else {
                         //$cordovaToast.showShortBottom("请确认网络是否在线！")
                     }*/
