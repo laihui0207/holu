@@ -13,16 +13,16 @@
     <ion-content class="padding">
         <div class="list list-inset">
             <label class="item item-input">
-                <span class="input-label login-label">{{'UserName' | translate}}</span>
+                <span class="input-label login-label">{{::UserName}}</span>
                 <input type="text"  ng-model="data.userName" required>
             </label>
             <label class="item item-input">
-                <span class="input-label login-label">{{ 'Password' | translate }}</span>
+                <span class="input-label login-label">{{ ::Password}}</span>
                 <input type="password"  ng-model="data.password" required>
             </label>
         </div>
         <label class="item item-toggle">
-          <span class="login-label"> {{'RemeberMe' | translate }}</span>
+          <span class="login-label"> {{::RemeberMe}}</span>
             <label class="toggle">
                 <input type="checkbox" ng-model="data.remeberMe">
                 <div class="track">
@@ -40,19 +40,19 @@
             </select>
         </label>-->
         <!--<p class="padding">-->
-            <button class="button button-block button-calm" ng-click="login()">{{ 'Login' | translate }}</button>
-            <a class="button button-block" href="#/signup">{{ 'SignUp' | translate }}</a>
+            <button class="button button-block button-calm" ng-click="login()">{{ ::Login}}</button>
+            <a class="button button-block" href="#/signup">{{ ::SignUp}}</a>
         <!--</p>-->
     </ion-content>
     <div class="bar bar-footer bar-light item-input-inset">
 <!--        <button class="button button-clear hide">Left</button>-->
         <label class=" item-input item-select">
             <div class="input-label">
-                {{'Language' | translate }}
+                {{::Language}}
             </div>
             <select ng-model="data.language" ng-change="changeLanguage()">
-                <option value="zh" selected="data.language=='zh'">{{ 'BUTTON_TEXT_ZH' | translate }}</option>
-                <option value="en" selected="data.language=='en'" >{{'BUTTON_TEXT_EN'| translate }}</option>
+                <option value="zh" selected="data.language=='zh'">{{ ::BUTTON_TEXT_ZH}}</option>
+                <option value="en" selected="data.language=='en'" >{{::BUTTON_TEXT_EN}}</option>
             </select>
         </label>
 

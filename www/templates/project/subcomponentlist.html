@@ -1,24 +1,24 @@
-<ion-view view-title="{{ 'subComponent' | translate }}">
+<ion-view view-title="{{ ::subComponent}}">
     <ion-content>
         <ion-refresher
-                pulling-text="{{ 'PullToFresh' | translate }}"
+                pulling-text="{{ ::PullToFresh}}"
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item class="item-divider">{{'ComponentList' | translate }}</ion-item>
+            <ion-item class="item-divider">{{::ComponentList}}</ion-item>
             <ion-item class="item-body">
-                <h2>{{component.componentName}}</h2>
-                <span>{{project.company.companyFullName}}</span>
+                <h2>{{::component.componentName}}</h2>
+                <span>{{::project.company.companyFullName}}</span>
             </ion-item>
-            <ion-item class="item-divider">{{'subComponent' | translate }}</ion-item>
-            <ion-item ng-repeat="item in subComponentList" collection-item-width="'100%'" class="item" href="#/tab/componentStyle/{{component.styleID}}/{{item.subComponentID}}/sub">
-                <h2>{{ item.subComponentName}}</h2>
+            <ion-item class="item-divider">{{::subComponent}}</ion-item>
+            <ion-item ng-repeat="item in subComponentList track by $index" collection-item-width="'100%'" class="item" href="#/tab/componentStyle/{{component.styleID}}/{{item.subComponentID}}/sub">
+                <h2>{{ ::item.subComponentName}}</h2>
                 <!--<a class="button icon-right  button-clear" href="#/tab/componentStyle/{{component.styleID}}/{{item.subComponentID}}/sub" >
 &lt;!&ndash;                    {{ 'styleList' | translate }}&ndash;&gt;
                     <i class="ion-arrow-right-a"></i>
                 </a>-->
             </ion-item>
-            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>
+            <ion-item ng-if="noContent">{{::EmptyContent}}</ion-item>
 
         </ion-list>
         <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>

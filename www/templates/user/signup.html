@@ -1,21 +1,21 @@
-<ion-view view-title="{{ 'SignUp' | translate}}" name="login-view">
+<ion-view view-title="{{ ::SignUp}}" name="login-view">
     <ion-content class="padding">
         <div class="list list-inset">
             <label class="item item-input">
-                <span class="input-label">{{'loginCode' | translate}}</span>
+                <span class="input-label">{{::loginCode}}</span>
                 <input type="text" ng-model="newUser.loginCode" required>
             </label>
             <label class="item item-input">
-                <span class="input-label">{{ 'Password' | translate }}</span>
+                <span class="input-label">{{ ::Password}}</span>
                 <input type="password" ng-model="newUser.password" required>
             </label>
             <label class="item item-input">
-                <span class="input-label">{{'UserName' | translate}}</span>
+                <span class="input-label">{{::UserName}}</span>
                 <input type="text" ng-model="newUser.userName" required>
             </label>
             <label class="item item-input">
-                <span class="input-label">{{'company' | translate}}</span>
-                <input type="text" ng-model="newUser.userNote" required placeholder="{{'CompanyNote' | translate}}">
+                <span class="input-label">{{::company}}</span>
+                <input type="text" ng-model="newUser.userNote" required placeholder="{{::CompanyNote}}">
             </label>
         <!--    <label class="item item-input">
                 <div class="input-label">
@@ -37,17 +37,17 @@
                 <option value="en" selected="data.language=='en'">{{'BUTTON_TEXT_EN'| translate }}</option>
             </select>
         </label>-->
-        <button class="button button-block button-calm" ng-click="signup()">{{ 'SignUp' | translate }}</button>
+        <button class="button button-block button-calm" ng-click="signup()">{{ ::SignUp}}</button>
     </ion-content>
     <div class="bar bar-footer bar-light item-input-inset">
         <!--        <button class="button button-clear hide">Left</button>-->
         <label class=" item-input item-select">
             <div class="input-label">
-                {{'Language' | translate }}
+                {{::Language}}
             </div>
             <select ng-model="data.language" ng-change="changeLanguage()">
-                <option value="zh" selected="data.language=='zh'">{{ 'BUTTON_TEXT_ZH' | translate }}</option>
-                <option value="en" selected="data.language=='en'" >{{'BUTTON_TEXT_EN'| translate }}</option>
+                <option value="zh" selected="data.language=='zh'">{{ ::BUTTON_TEXT_ZH}}</option>
+                <option value="en" selected="data.language=='en'" >{{::BUTTON_TEXT_EN}}</option>
             </select>
         </label>
 

@@ -9,7 +9,7 @@
             <ul rn-carousel rn-carousel-index="carouselIndex2" rn-carousel-auto-slide rn-carousel-pause-on-hover rn-carousel-buffered class="row">
                 <li ng-repeat="news in newsList track by news.id" >
                     <div style="background-image: url('{{news.midImageUrl | imagePath:this }}')" class="bgimage" ng-click="gotoNews(news.id)">
-                       <span class="maintitle">#{{ news.title }}</span>
+                       <span class="maintitle">#{{ ::news.title }}</span>
                     </div>
                 </li>
             </ul>
@@ -23,43 +23,43 @@
                 <div class="col">
                     <a class="button button-light" href="#/tab/totalsearch">
                         <img src="img/projectsummary.png" style="width: 100%"/>
-                        {{'ProjectSummary' | translate }}</a>
+                        {{::ProjectSummary}}</a>
                 </div>
                 <div class="col">
                     <a class="button  button-light" href="#/tab/progress" >
                         <img src="img/projectoverview.png" style="width: 100%;"/>
-                        {{'ProjectOverview' | translate }}</a>
+                        {{::ProjectOverview}}</a>
                 </div>
 
                 <div class="col">
                     <a class="button  button-light" href="#/tab/tasks">
                         <img src="img/mytask.png" style="width: 100%"/>
-                        {{'MyTask' | translate }}</a>
+                        {{::MyTask}}</a>
                 </div>
                 <div class="col">
                     <a class="button  button-light" href="#/tab/urgenttask">
                         <img src="img/postbarnew.png" style="width: 100%"/>
-                        {{'urgentTask' | translate }}</a>
+                        {{::urgentTask}}</a>
                 </div>
             </div>
             <div class="row mainNav">
                 <div class="col">
                     <a class="button  button-light" href="#/tab/projects">
                         <img src="img/myproject.png" style="width: 100%"/>
-                        {{'MyProject' | translate }}</a>
+                        {{::MyProject}}</a>
                 </div>
                 <div class="col">
                     <a class="button  button-light" href="#/tab/news">
                         <img src="img/news.png" style="width: 100%"/>
-                        {{'News' | translate }}</a>
+                        {{::News}}</a>
                 </div>
                 <div class="col">
                     <a class="button  button-light" href="#/tab/importantNews">
-                        <img src="img/importantNews.png" style="width: 100%"/>{{'ImportNews' | translate }}</a>
+                        <img src="img/importantNews.png" style="width: 100%"/>{{::ImportNews}}</a>
                 </div>
                 <div class="col">
                     <a class="button  button-light" href="#/tab/messages">
-                        <img src="img/OA.png" style="width: 100%"/>{{ 'Messages' | translate }}
+                        <img src="img/OA.png" style="width: 100%"/>{{ ::Messages}}
                         <span class="badge badge-assertive" ng-hide="newMessageCount==0">{{newMessageCount}}</span>
                     </a>
                 </div>
@@ -70,21 +70,21 @@
             <div class="row mainNav">
                 <div class="col">
                     <a class="button  button-light mainButton" href="#/tab/docs">
-                        <img src="img/doc.png" style="width: 100%"/>{{ 'Documents' | translate }}</a>
+                        <img src="img/doc.png" style="width: 100%"/>{{ ::Documents}}</a>
                 </div>
                 <div class="col">
                     <a class="button  button-light" href="#/tab/notes">
-                        <img src="img/note.png" style="width: 100%"/>{{ 'Notes' | translate }}</a>
+                        <img src="img/note.png" style="width: 100%"/>{{ ::Notes}}</a>
                 </div>
 <!--                <div class="col col-25"></div>-->
                 <div class="col">
                     <a class="button  button-light" href="#/tab/postsubjects">
-                        <img src="img/postbar.png" style="width: 100%"/>{{ 'Posts' | translate }}</a>
+                        <img src="img/postbar.png" style="width: 100%"/>{{ ::Posts}}</a>
                 </div>
                 <div class="col">
                     <a class="button  button-light" href="#">
                         <img src="img/friend.png" style="width: 100%"/>
-                        {{'friendLink' | translate }}</a>
+                        {{::friendLink}}</a>
                 </div>
             </div>
 

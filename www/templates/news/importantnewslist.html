@@ -19,17 +19,17 @@
             <!--<ion-item class="item item-image">
                 <img ng-src="{{newsList[0].midImageUrl | imagePath:this }}"/>
             </ion-item>-->
-            <ion-item ng-class="{'item item-thumbnail-right': $index%5 !=0 ,'item midImg item-image': $index%5==0}" ng-repeat="item in newsList" href="#/tab/news/{{item.id}}">
-                <img ng-if="$index%5 != 0" ng-src="{{item.thumbnailUrl | imagePath:this }}">
-                <img class="newsMidimage" ng-if="$index%5 == 0" ng-src="{{item.midImageUrl | imagePath:this }}">
+            <ion-item ng-class="{'item item-thumbnail-right': $index%5 !=0 ,'item midImg item-image': $index%5==0}" ng-repeat="item in newsList track by item.id" href="#/tab/news/{{item.id}}">
+                <img ng-if="$index%5 != 0" ng-src="{{::item.thumbnailUrl | imagePath:this }}">
+                <img class="newsMidimage" ng-if="$index%5 == 0" ng-src="{{::item.midImageUrl | imagePath:this }}">
 
-                <h2  ng-class="{'textLeft': $index%5 == 0 }" >{{ item.title }}</h2>
+                <h2  ng-class="{'textLeft': $index%5 == 0 }" >{{ ::item.title }}</h2>
 
                 <p ng-if="$index%5 != 0" class="summary">
-                    <span><!--{{'NewsType' | translate}}:-->{{item.newsType.name}} {{item.createTime | date:'yyyy-MM-dd' }}</span>
+                    <span><!--{{'NewsType' | translate}}:-->{{::item.newsType.name}} {{::item.createTime | date:'yyyy-MM-dd' }}</span>
 <!--                    <span class="ago" am-time-ago="item.createTime"/>-->
                 </p>
-                <p ng-if="$index%5 !=0" class="summary">{{item.summary}}</p>
+                <p ng-if="$index%5 !=0" class="summary">{{::item.summary}}</p>
             </ion-item>
             <ion-item ng-show="!(newsList | filter:nameText).length">{{'EmptyContent' | translate}}</ion-item>
         </ion-list>

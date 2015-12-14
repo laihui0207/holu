@@ -38,10 +38,10 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item ng-repeat="note in noteList" class="item" href="#/tab/notes/{{note.id}}">
-                <h2>{{ note.title }}</h2>
+            <ion-item ng-repeat="note in noteList track by $index" class="item" href="#/tab/notes/{{note.id}}">
+                <h2>{{ ::note.title }}</h2>
 
-                <p> {{ note.createTime | date:'yyyy-MM-dd' }}</p>
+                <p> {{ ::note.createTime | date:'yyyy-MM-dd' }}</p>
             </ion-item>
             <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>
            <!-- <div class="item">

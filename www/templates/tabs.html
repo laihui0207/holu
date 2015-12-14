@@ -6,23 +6,23 @@ navigation history that also transitions its views in and out.
 
 
 <ion-tabs  tabs-swipable class="tabs-icon-top tabs-top tabs-stable tabs-color-active-positive tabs-item-hide">
-    <ion-tab title="{{'Home' | translate }}" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/home">
+    <ion-tab title="{{::Home}}" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/home">
         <ion-nav-view name="tab-home"></ion-nav-view>
     </ion-tab>
-    <ion-tab title="{{'News' | translate }}" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/news">
+    <ion-tab title="{{::News}}" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/news">
         <ion-nav-view name="tab-news"></ion-nav-view>
     </ion-tab>
-    <ion-tab title="{{ 'Posts' | translate }}" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes"
+    <ion-tab title="{{ ::Posts}}" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes"
              href="#/tab/postsubjects">
         <ion-nav-view name="tab-posts"></ion-nav-view>
     </ion-tab>
-    <ion-tab title="{{ 'OA' | translate }}" icon-off="ion-clipboard" icon-on="ion-clipboard" href="#/tab/notes">
+    <ion-tab title="{{ ::OA}}" icon-off="ion-clipboard" icon-on="ion-clipboard" href="#/tab/notes">
         <ion-nav-view name="tab-OA"></ion-nav-view>
     </ion-tab>
-    <ion-tab title="{{ 'Project' | translate }}" icon-off="ion-folder" icon-on="ion-folder" href="#/tab/projects">
+    <ion-tab title="{{ ::Project}}" icon-off="ion-folder" icon-on="ion-folder" href="#/tab/projects">
         <ion-nav-view name="tab-project"></ion-nav-view>
     </ion-tab>
-    <ion-tab title="{{ 'ProjectSummary' | translate }}" icon-off="ion-folder" icon-on="ion-folder" href="#/tab/summary">
+    <ion-tab title="{{ ::ProjectSummary}}" icon-off="ion-folder" icon-on="ion-folder" href="#/tab/summary">
         <ion-nav-view name="tab-summary"></ion-nav-view>
     </ion-tab>
 </ion-tabs>

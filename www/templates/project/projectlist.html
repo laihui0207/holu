@@ -1,14 +1,14 @@
-<ion-view view-title="{{ 'Project' | translate }}">
+<ion-view view-title="{{ ::Project}}">
     <ion-content>
         <ion-refresher
-                pulling-text="{{ 'PullToFresh' | translate }}"
+                pulling-text="{{ ::PullToFresh}}"
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item ng-repeat="item in projectList" class="item" ng-click="goto(item.childProjects.length,item.projectID)" ><!-- href="#/tab/components/{{item.projectID}} -->
-                <h2>{{ item.projectPathName }}</h2>
+            <ion-item ng-repeat="item in projectList track by item.id" class="item" ng-click="goto(item.childProjects.length,item.projectID)" ><!-- href="#/tab/components/{{item.projectID}} -->
+                <h2>{{ ::item.projectPathName }}</h2>
                 <p class="summary">
-                    <span>{{item.company.companyFullName}}</span>
+                    <span>{{::item.company.companyFullName}}</span>
                 </p>
               <!--  <p>
                     <span>Plan Date: {{item.startDate}} ~ {{item.endDate}}</span>
@@ -23,7 +23,7 @@
                 </a>-->
 <!--                <a class="button icon-right ion-chevron-right button-clear">child</a>-->
             </ion-item>
-            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>
+            <ion-item ng-if="noContent">{{::EmptyContent}}</ion-item>
         </ion-list>
         <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>
     </ion-content>

@@ -22,8 +22,8 @@
 
     <!-- ionic/angularjs js -->
     <script src="lib/jquery/dist/jquery.min.js"></script>
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&libraries=convertor"></script>
+    <script src="lib/ionic/js/ionic.bundle.min.js"></script>
+    <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&key=HXOBZ-G4BW4-MGGUG-XXYEV-YDGTZ-RHFGS&libraries=convertor"></script>
     <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
 <!--    <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>-->
 <!--    <script src="lib/tabsliderbox/tabSlideBox.js"></script>-->
@@ -31,7 +31,7 @@
     <script src="lib/angular-carousel/dist/angular-carousel.min.js"></script>
     <script src="lib/angular-translate/angular-translate.min.js"></script>
 <!--    <script src="lib/textAngular/textAngular-rangy.min.js"></script>-->
-    <script src="lib/rangy/rangy-core.js"></script>
+    <script src="lib/rangy/rangy-core.min.js"></script>
 <!--    <script src="lib/rangy/rangy-selectionsaverestore.js"></script>-->
 <!--    <script src="lib/textAngular/textAngularSetup.js"></script>-->
 <!--    <script src="lib/textAngular/textAngular.js"></script>-->
@@ -88,7 +88,7 @@
 
             <ion-nav-buttons side="right">
                 <button class="button button-icon button-clear " ng-show="userName" ng-click="logout()">
-                    {{'Logout' | translate }}
+                    {{::Logout}}
                 </button>
             </ion-nav-buttons>
         </ion-nav-bar>

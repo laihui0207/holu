@@ -7,18 +7,18 @@
         <ion-list>
             <ion-item class="item-divider">{{'ProjectInformation' | translate }}</ion-item>
             <ion-item class="item-body">
-                <h2>{{project.projectPathName}}</h2>
-                <span>{{project.company.companyFullName}}</span>
+                <h2>{{::project.projectPathName}}</h2>
+                <span>{{::project.company.companyFullName}}</span>
             </ion-item>
             <ion-item class="item-divider">{{'component' | translate }}</ion-item>
             <ion-item class="item-body">
-                <h2 ng-show="component">{{'component' | translate }}: {{component.componentName}}</h2>
-                <h2 ng-show="subComponent">{{'subComponent' | translate }}: {{subComponent.subComponentName}}</h2>
+                <h2 ng-show="component">{{'component' | translate }}: {{::component.componentName}}</h2>
+                <h2 ng-show="subComponent">{{'subComponent' | translate }}: {{::subComponent.subComponentName}}</h2>
             </ion-item>
-            <ion-item ng-if="type!='note'" class="item-divider">{{'processConfirm' | translate }}</ion-item>
-            <ion-item ng-if="type=='note'" class="item-divider">{{'confirmQuestion' | translate }}</ion-item>
+            <ion-item ng-if="type!='note'" class="item-divider">{{::processConfirm}}</ion-item>
+            <ion-item ng-if="type=='note'" class="item-divider">{{::confirmQuestion}}</ion-item>
             <label class="item item-input item-stacked-label">
-                <span ng-if="type!='note'" class="input-label">{{'note' | translate }}: </span>
+                <span ng-if="type!='note'" class="input-label">{{'note' | translate}}: </span>
                 <input type="text" ng-model="processMid.processNote">
             </label>
            <!-- <label class="item item-input item-stacked-label">
@@ -30,15 +30,16 @@
                 <input type="text" ng-model="processMid.endDate | amDateFormat:'YYYY-MM-DD'" ng-click="showDatePicker('end')">
             </label>-->
             <label class="item item-input item-stacked-label">
-                <span class="input-label">{{'position' | translate }}: </span>
-                <input type="text" ng-model="processMid.positionName">
+                <span class="input-label">{{'position'| translate }}: </span>
+                <input disabled="disabled" type="text" ng-model="processMid.positionName">
             </label>
           <!--  <ion-item class="item">
                 &lt;!&ndash;<a class="button" ng-click="getPosition()">Get Position</a>&ndash;&gt;
             </ion-item>-->
         </ion-list>
         <div class="padding">
-            <button class="button button-block button-calm activated" ng-click="save()">{{ 'Submit' | translate }}</button>
+            <label ng-if="!locationed">{{'Location' | translate}}</label>
+            <button class="button button-block button-calm activated" ng-disabled="!locationed" ng-click="save()">{{ 'Submit' | translate}}</button>
         </div>
 <!--        <app-map style="height:400px;margin:12px;box-shadow:0 3px 25px black;" address="{{address}}"> </app-map>-->
     </ion-content>

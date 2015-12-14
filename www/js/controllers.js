@@ -10,13 +10,27 @@ angular.module('Holu.controllers', ['ngSanitize'])
             $scope.companies=response.data;
         })
         $translate(['LoginFailHeader', 'LoginFailMessage','SignUpSuccessHeader','SignUpFailedHeader','SignUpSuccessMessage',
-        'SignUpFailedMessage']).then(function (translations) {
+        'SignUpFailedMessage','UserName','Password','RemeberMe','Login','SignUp',
+            'Language','BUTTON_TEXT_ZH','BUTTON_TEXT_EN','loginCode','company','CompanyNote'
+        ])
+            .then(function (translations) {
             $scope.loginFailHeader = translations.LoginFailHeader;
             $scope.LoginFailMessage = translations.LoginFailMessage;
             $scope.SignUpSuccessHeader = translations.SignUpSuccessHeader;
             $scope.SignUpFailedHeader = translations.SignUpFailedHeader;
             $scope.SignUpSuccessMessage = translations.SignUpSuccessMessage;
             $scope.SignUpFailedMessage = translations.SignUpFailedMessage;
+                $scope.UserName = translations.UserName;
+                $scope.Password = translations.Password;
+                $scope.RemeberMe = translations.RemeberMe;
+                $scope.Login = translations.Login;
+                $scope.SignUp = translations.SignUp;
+                $scope.Language = translations.Language;
+                $scope.BUTTON_TEXT_ZH = translations.BUTTON_TEXT_ZH;
+                $scope.BUTTON_TEXT_EN = translations.BUTTON_TEXT_EN;
+                $scope.loginCode = translations.loginCode;
+                $scope.company = translations.company;
+                $scope.CompanyNote = translations.CompanyNote;
         });
         $scope.$on("$ionicView.enter", function(scopes, states){
             $scope.data.userName=Storage.get("userName");
@@ -119,7 +133,8 @@ angular.module('Holu.controllers', ['ngSanitize'])
             $rootScope.networkStatus=false;
         })
     })
-    .controller("HomeCtrl",function($scope,$rootScope,AuthService,Messages,News, $ionicSlideBoxDelegate,ENV,$state,$cordovaSplashscreen){
+    .controller("HomeCtrl",function($scope,$rootScope,AuthService,Messages,News,$translate,
+                                    $ionicSlideBoxDelegate,ENV,$state,$cordovaSplashscreen){
         var user=AuthService.currentUser();
         if(user!=undefined){
             $scope.companyName=user.company.companyShortNameCN
@@ -131,6 +146,24 @@ angular.module('Holu.controllers', ['ngSanitize'])
         })
 /*        backcallFactory.backcallfun();*/
         //$scope.newMessageCount=Messages.getNewMessageCount();
+        $translate(['ProjectSummary', 'ProjectOverview','MyTask','urgentTask','MyProject',
+            'News','MyTask','urgentTask','ImportNews','Messages','Documents','Notes','Posts','friendLink'])
+            .then(function (translations) {
+                $scope.ProjectSummary = translations.ProjectSummary;
+                $scope.ProjectOverview = translations.ProjectOverview;
+                $scope.MyTask = translations.MyTask;
+                $scope.urgentTask = translations.urgentTask;
+                $scope.MyProject = translations.MyProject;
+                $scope.News = translations.News;
+                $scope.MyTask = translations.MyTask;
+                $scope.urgentTask = translations.urgentTask;
+                $scope.ImportNews = translations.ImportNews;
+                $scope.Messages = translations.Messages;
+                $scope.Documents = translations.Documents;
+                $scope.Notes = translations.Notes;
+                $scope.Posts = translations.Posts;
+                $scope.friendLink = translations.friendLink;
+            });
         $scope.doRefresh=function(){
             Messages.refreshNewMessagecount(user.id);
             News.lastedNews().then(function(response){
@@ -175,10 +208,18 @@ angular.module('Holu.controllers', ['ngSanitize'])
         if(currentUser!= undefined){
             $scope.userName=currentUser.username || null;
         }
-        $translate(['mainMenu', 'rightMenu','mainMenuHeader']).then(function (translations) {
+        $translate(['mainMenu', 'rightMenu','mainMenuHeader','Logout','Home','News','Posts','OA','Project','ProjectSummary'])
+            .then(function (translations) {
             $scope.mainMenu = translations.mainMenu;
             $scope.rightMenu = translations.rightMenu;
             $scope.mainMenuHeader = translations.mainMenuHeader;
+            $scope.Logout = translations.Logout;
+                $scope.Home = translations.Home;
+                $scope.News = translations.News;
+                $scope.Posts = translations.Posts;
+                $scope.OA = translations.OA;
+                $scope.Project = translations.Project;
+                $scope.ProjectSummary = translations.ProjectSummary;
         });
         $scope.showMenu = function () {
             $ionicSideMenuDelegate.toggleLeft();

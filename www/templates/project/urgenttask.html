@@ -35,15 +35,15 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item ng-repeat="item in taskList" class="item "><!-- href="#/tab/components/{{item.projectID}} -->
+            <ion-item ng-repeat="item in taskList track by $index" class="item "><!-- href="#/tab/components/{{item.projectID}} -->
                 <div ng-if="item.componentStyle" class="item-button-right">
-                    <p>{{'taskType' | translate }}: {{item.type}}</p>
-                    <p>{{'projectName' | translate }}: {{ item.projectPathName }}</p>
-                    <p>{{'component' | translate }}: {{item.componentName}} </p>
-                    <p>{{'subComponent' | translate }}: {{item.subComponentName}}</p>
-                    <p>{{'componentStyle'| translate }}: {{ item.componentStyle.styleName}} - {{item.componentStyle.processName}}</p>
-                    <p ng-show="item.processMid && item.processMid.startDate">{{'confirmStartDate' | translate }}: {{item.processMid.startDate | date:'yyyy-MM-dd' }}</p>
-                    <p ng-show="item.processMid && item.processMid.endDate">{{'confirmEndDate' | translate }}: {{item.processMid.endDate | date:'yyyy-MM-dd' }}</p>
+                    <p>{{'taskType' | translate }}: {{::item.type}}</p>
+                    <p>{{'projectName' | translate }}: {{::item.projectPathName }}</p>
+                    <p>{{'component' | translate }}: {{::item.componentName}} </p>
+                    <p>{{'subComponent' | translate }}: {{::item.subComponentName}}</p>
+                    <p>{{'componentStyle'| translate }}: {{::item.componentStyle.styleName}} - {{::item.componentStyle.processName}}</p>
+                    <p ng-show="item.processMid && item.processMid.startDate">{{'confirmStartDate' | translate }}: {{item.processMid.startDate | date:'yyyy-MM-dd HH:mm:ss' }}</p>
+                    <p ng-show="item.processMid && item.processMid.endDate">{{'confirmEndDate' | translate }}: {{item.processMid.endDate | date:'yyyy-MM-dd HH:mm:ss' }}</p>
                 </div>
                 <div class="row confirmButton">
                     <div class="col col-33">

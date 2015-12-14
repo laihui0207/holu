@@ -1,81 +1,58 @@
 
-<ion-view view-title="{{'ProjectSummary' | translate }}">
+<ion-view view-title="{{::ProjectSummary}}">
     <ion-header-bar class="bar-subheader ">
 
         <ion-scroll direction="x" class="wide-as-needed">
 
             <a ng-class="{'button button-clear': currentType!='totalSearch','button button-calm': currentType== 'totalSearch'} "
                href="#/tab/totalsearch">
-                {{'TotalSearch' | translate }}
+                {{::TotalSearch}}
             </a>
             <a ng-class="{'button button-clear': currentType!='factorySearch','button button-calm': currentType== 'factorySearch'} "
                href="#/tab/factorysearch">
-                {{'factorySummary' | translate }}
+                {{::factorySummary}}
             </a>
             <a ng-class="{'button button-clear': currentType!='projectMonthSummary','button button-calm': currentType== 'projectMonthSummary'} "
                href="#/tab/projectsummary">
-                {{'projectMonthSummary' | translate }}
+                {{::projectMonthSummary}}
             </a>
             <a ng-class="{'button button-clear': currentType!='ProjectTotalSummary','button button-calm': currentType== 'ProjectTotalSummary'} "
                href="#/tab/projecttotalsummary">
-                {{'ProjectTotalSummary' | translate }}
+                {{::ProjectTotalSummary}}
             </a>
         </ion-scroll>
     </ion-header-bar>
 
     <ion-content class="OA-content">
         <ion-refresher
-                pulling-text="{{ 'PullToFresh' | translate }}"
+                pulling-text="{{ ::PullToFresh}}"
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
             <label class="item item-input item-stacked-label">
-                <span class="input-label">{{'startDate' | translate }}: </span><!--| amDateFormat:'YYYY-MM-DD' -->
+                <span class="input-label">{{::startDate}}: </span><!--| amDateFormat:'YYYY-MM-DD' -->
                 <input type="text" ng-model="searchDate.startDate "
                        ng-click="showDatePicker('start')">
             </label>
             <label class="item item-input item-stacked-label">
-                <span class="input-label">{{'endDate' | translate }}: </span>
+                <span class="input-label">{{::endDate}}: </span>
                 <input type="text" ng-model="searchDate.endDate "
                        ng-click="showDatePicker('end')">
             </label>
         </ion-list>
         <div class="padding">
-            <button class="button button-block button-calm activated" ng-click="search()">{{ 'search' | translate }}</button>
+            <button class="button button-block button-calm activated" ng-click="search()">{{ 'search' | translate}}</button>
         </div>
 
         <ion-list>
-            <!--<ion-item class="item-divider">
-                <div class="row">
-                    <div class="col">{{ 'searchDate' | translate }}</div>
-                    <div class="col">{{'completed' | translate }}</div>
-                    <div class="col">{{'actual' | translate }}</div>
-                    <div class="col">{{'percent' | translate }}</div>
-                </div>
-            </ion-item>-->
-<!--            <div ng-repeat="item in searchResult" >-->
                 <ion-item ng-repeat="item in searchResult" class="item"> <!-- href="#/tab/summarydetail/{{item.itemID}}/{{searchDate}}/{{searchStyle}}/{{searchStatus}}"-->
-                    <h2>{{ 'searchDate' | translate }}: {{item.itemName}}</h2>
-                    <p>{{'completed' | translate }}: {{item.actual | number:1 }}</p>
-                    <p>{{'plan' | translate }}: {{item.plan | number:1}}</p>
+                    <h2>{{ 'searchDate' | translate }}: {{::item.itemName}}</h2>
+                    <p>{{::completed}}: {{::item.actual | number:1 }}</p>
+                    <p>{{::plan}}: {{::item.plan | number:1}}</p>
                     <p>
-                        {{'percent' | translate }}: {{item.percent }}
+                        {{::percent}}: {{::item.percent }}
                     </p>
-                    <!--<div class="row">
-                        <div class="col">{{item.itemName}}</div>
-                        <div class="col">
-                            {{item.actual | number:1 }}
-                        </div>
-                        <div class="col">
-                            {{item.plan | number:1}}
-                        </div>
-                        <div class="col">
-                            {{item.percent }}
-                        </div>
-                    </div>-->
-<!--                    <p>{{ item.itemName}}: {{item.percent }}   {{item.actual | number:1 }}  {{item.plan | number:1}}</p>-->
                 </ion-item>
-<!--            </div>-->
         </ion-list>
     </ion-content>
 </ion-view>

@@ -2,7 +2,7 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .controller('ProjectCtrl', function ($scope, Projects, $rootScope, AuthService, $state, $stateParams,$ionicLoading) {
+    .controller('ProjectCtrl', function ($scope, Projects,$translate, $rootScope, AuthService, $state, $stateParams,$ionicLoading) {
         var user = AuthService.currentUser();
         var needReload=true;
         if (user == undefined) {
@@ -13,6 +13,12 @@ angular.module('Holu')
         /*Projects.projects(user.userID,$stateParams.projectID).then(function (response) {
             $scope.projectList = response.data
         })*/
+        $translate(['Project','PullToFresh','EmptyContent'])
+            .then(function (translations) {
+                $scope.Project = translations.Project;
+                $scope.PullToFresh = translations.PullToFresh;
+                $scope.EmptyContent = translations.EmptyContent;
+            });
         $rootScope.$on("ProjectRefreshed",function(){
             $scope.projectList=Projects.projectData();
             if($scope.projectList==undefined || $scope.projectList.length==0){
@@ -59,7 +65,7 @@ angular.module('Holu')
 
     })
 
-    .controller('ComponentCtrl', function ($scope, Projects,$state, $rootScope, $stateParams,AuthService,$ionicLoading) {
+    .controller('ComponentCtrl', function ($scope, Projects,$state,$translate, $rootScope, $stateParams,AuthService,$ionicLoading) {
         var user=AuthService.currentUser();
         var needReload=true;
         if (user == undefined) {
@@ -67,6 +73,13 @@ angular.module('Holu')
             $state.go("login")
             return
         }
+        $translate(['ComponentList','PullToFresh','EmptyContent','ProjectInformation'])
+            .then(function (translations) {
+                $scope.ComponentList = translations.ComponentList;
+                $scope.PullToFresh = translations.PullToFresh;
+                $scope.EmptyContent = translations.EmptyContent;
+                $scope.ProjectInformation = translations.ProjectInformation;
+            });
         Projects.viewProject($stateParams.projectId).then(function (response) {
             $scope.project = response.data
         })
@@ -102,13 +115,21 @@ angular.module('Holu')
             }
         }
     })
-    .controller('SubComponentCtrl',function($scope, Projects,$state, $rootScope, $stateParams,AuthService,$ionicLoading){
+    .controller('SubComponentCtrl',function($scope, Projects,$state,$translate, $rootScope, $stateParams,AuthService,$ionicLoading){
         var user=AuthService.currentUser();
         if (user == undefined) {
             $rootScope.backurl = "tab.project"
             $state.go("login")
             return
         }
+        $translate(['ComponentList','PullToFresh','subComponent','EmptyContent','ProjectInformation'])
+            .then(function (translations) {
+                $scope.ComponentList = translations.ComponentList;
+                $scope.PullToFresh = translations.PullToFresh;
+                $scope.EmptyContent = translations.EmptyContent;
+                $scope.ProjectInformation = translations.ProjectInformation;
+                $scope.subComponent = translations.subComponent;
+            });
         Projects.viewComponent($stateParams.componentID,user.userID).then(function(response){
             $scope.component=response.data;
         })
@@ -135,13 +156,34 @@ angular.module('Holu')
             return Projects.canMoreSubComponent();
         }
     })
-    .controller('ProcessCtrl', function ($scope, Projects, $rootScope,AuthService, $stateParams,$ionicLoading) {
+    .controller('ProcessCtrl', function ($scope, Projects, $rootScope,$translate,AuthService, $stateParams,$ionicLoading) {
         var user=AuthService.currentUser();
         if (user == undefined) {
             $rootScope.backurl = "tab.project"
             $state.go("login")
             return
         }
+        $translate(['ComponentList','Project','PullToFresh','processConfirm','EmptyContent','confirmStart','confirmEnd',
+            'ProjectInformation','confirmStartDate','confirmEndDate','confirmQuestion','componentStyleList',
+            'note','position','ProjectInformation','Location','Submit'])
+            .then(function (translations) {
+                $scope.ComponentList = translations.ComponentList;
+                $scope.PullToFresh = translations.PullToFresh;
+                $scope.EmptyContent = translations.EmptyContent;
+                $scope.ProjectInformation = translations.ProjectInformation;
+                $scope.confirmStartDate = translations.confirmStartDate;
+                $scope.confirmEndDate = translations.confirmEndDate;
+                $scope.confirmQuestion = translations.confirmQuestion;
+                $scope.componentStyleList = translations.componentStyleList;
+                $scope.confirmStart = translations.confirmStart;
+                $scope.confirmEnd = translations.confirmEnd;
+                $scope.processConfirm = translations.processConfirm;
+                $scope.note = translations.note;
+                $scope.position = translations.position;
+                $scope.ProjectInformation = translations.ProjectInformation;
+                $scope.Location = translations.Location;
+                $scope.Submit = translations.Submit;
+            });
         $scope.currentUser=user;
         $scope.componentType=$stateParams.type;
         $scope.componentID=$stateParams.componentID;
@@ -221,10 +263,15 @@ angular.module('Holu')
             subComponentID: $stateParams.componentID,
             userID: user.userID
         }
+        $scope.$on("$ionicView.enter", function(scopes, states){
+           $scope.locationed=false;
+            getPosition();
+        })
         $scope.processMid.styleProcessID=$stateParams.styleProcessID;
         $scope.processMid.subComponentID=$stateParams.componentID;
         $scope.from=$stateParams.from;
         $scope.type=$stateParams.type;
+        //$scope.locationed=false;
         if($stateParams.type == 'note'){
             $scope.title='confirmQuestion';
         }
@@ -321,7 +368,7 @@ angular.module('Holu')
             $scope.getPositionFailed = translations.getPositionFailed;
             $scope.cancel = translations.cancel;
         });
-        $scope.getPosition=function(){
+        function getPosition(){
             var posOptions = {timeout: 10000, enableHighAccuracy: true};
             $cordovaGeolocation
                 .getCurrentPosition(posOptions)
@@ -332,18 +379,23 @@ angular.module('Holu')
                         geocoder = new qq.maps.Geocoder({
                             complete: function (result) {
                                 $scope.processMid.positionName=result.detail.address;
+                                $scope.locationed=true;
+                                $scope.$apply()
                             }
                         });
                         geocoder.getAddress(latlng);
+
                     });
 
 
                 }, function(err) {
                     $cordovaToast.showShortCenter($scope.getPositionFailed)
+                    $scope.locationed=true;
+                    $scope.$apply()
                 });
 
         }
-        $scope.getPosition();
+
     })
     .controller('TaskCtrl',function($scope,$rootScope, Projects,$state, $rootScope,AuthService){
         var user = AuthService.currentUser();
@@ -353,6 +405,7 @@ angular.module('Holu')
             return
         }
         var needReload=true;
+        $scope.config={itemsDisplayedInList:10};
         $scope.currentType="doing";
        /* var currentData={
             currentIndex:0,
@@ -401,6 +454,9 @@ angular.module('Holu')
         $rootScope.$on("TaskListUpdated",function(){
             console.log("get task updated event")
             $scope.taskList = Projects.taskData();
+            if($scope.config.itemsDisplayedInList < $scope.taskList.length){
+                $scope.config.itemsDisplayedInList = $scope.config.itemsDisplayedInList + 20;
+            }
             needReload=false;
             if ($scope.taskList == undefined || $scope.taskList.length == 0) {
                 $scope.noContent = true;

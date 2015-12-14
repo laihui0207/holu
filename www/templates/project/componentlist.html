@@ -1,18 +1,18 @@
-<ion-view view-title="{{ 'ComponentList' | translate }}">
+<ion-view view-title="{{ ::ComponentList}}">
     <ion-content>
         <ion-refresher
-                pulling-text="{{ 'PullToFresh' | translate }}"
+                pulling-text="{{ ::PullToFresh}}"
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item class="item-divider">{{'ProjectInformation' | translate }}</ion-item>
+            <ion-item class="item-divider">{{::ProjectInformation}}</ion-item>
             <ion-item class="item-body">
-                <h2>{{project.projectPathName}}</h2>
-                <span>{{project.company.companyFullName}}</span>
+                <h2>{{::project.projectPathName}}</h2>
+                <span>{{::project.company.companyFullName}}</span>
             </ion-item>
-            <ion-item class="item-divider">{{'ComponentList' | translate }}</ion-item>
-            <ion-item ng-repeat="item in componentList" collection-item-width="'100%'" class="item" ng-click="goto(item.subComponentListSet.length,item)">
-                <h2>{{ item.componentName}}</h2>
+            <ion-item class="item-divider">{{::ComponentList}}</ion-item>
+            <ion-item ng-repeat="item in componentList track by $index" collection-item-width="'100%'" class="item" ng-click="goto(item.subComponentListSet.length,item)">
+                <h2>{{ ::item.componentName}}</h2>
                 <!--<a class="button icon-right  button-clear" ng-show="item.subComponentListSet.length" href="#/tab/subComponent/{{item.componentID}}" >
 &lt;!&ndash;                    {{'childComponent' | translate}}&ndash;&gt;
                     <i class="ion-more"></i>
@@ -22,7 +22,7 @@
                     <i class="ion-arrow-right-a"></i>
                 </a>-->
             </ion-item>
-            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>
+            <ion-item ng-show="noContent">{{::EmptyContent}}</ion-item>
 
         </ion-list>
         <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>

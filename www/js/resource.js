@@ -118,7 +118,8 @@ var translations = {
         confirmEndDate: 'End ata',
         friendLink: 'Friend Link',
         taskDoing: 'Working',
-        taskFinished: 'Finished'
+        taskFinished: 'Finished',
+        Location: 'Location.......'
     },
     "zh": {
         HEADLINE : '这是我们的节日哦',
@@ -267,7 +268,8 @@ var translations = {
         confirmEndDate: '完工于',
         friendLink: '友情链接',
         taskDoing: '未完工',
-        taskFinished: '已完工'
+        taskFinished: '已完工',
+        Location: '定位中.....'
 
     }
 }

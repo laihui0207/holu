@@ -1,14 +1,14 @@
-<ion-view view-title="{{'ProjectOverview' | translate }}">
+<ion-view view-title="{{::ProjectOverview}}">
     <ion-header-bar class="bar-subheader ">
         <ion-scroll direction="x" class="wide-as-needed">
 
             <a ng-class="{'button button-clear': currentType!='project','button button-calm': currentType== 'project'} "
                ng-click="changeTab('project')">
-                {{'projectProgress' | translate }}
+                {{::projectProgress}}
             </a>
             <a ng-class="{'button button-clear': currentType!='factory','button button-calm': currentType== 'factory'} "
                ng-click="changeTab('factory')">
-                {{'factoryProgress' | translate }}
+                {{::factoryProgress}}
             </a>
 
         </ion-scroll>
@@ -16,42 +16,42 @@
 
     <ion-content class="OA-content">
         <ion-refresher
-                pulling-text="{{ 'PullToFresh' | translate }}"
+                pulling-text="{{ ::PullToFresh}}"
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item class="item-divider">{{progressName}} ({{'progressTo' | translate }} {{date | date:'yyyy-MM-dd'}})</ion-item>
-            <ion-item ng-repeat="item in progressList" class="item" href="#/tab/progressdetail/{{currentType}}/{{item.itemID}}">
-                <h2>{{item.itemName}}</h2>
+            <ion-item class="item-divider">{{::progressName}} ({{::progressTo}} {{::date | date:'yyyy-MM-dd'}})</ion-item>
+            <ion-item ng-repeat="item in progressList track by $index" class="item" href="#/tab/progressdetail/{{currentType}}/{{item.itemID}}">
+                <h2>{{::item.itemName}}</h2>
                 <p>
-                    {{'progressStatus' | translate}}:
-                    {{'progressCurrent' | translate}}
-                    <span ng-if="item.currentStatus > 0"> {{'progressInAdvance' | translate }} {{item.currentStatus}}</span>
-                    <span ng-if="item.currentStatus < 0" class="progressDelay"> {{'progressDelay' | translate }} {{item.currentStatus}}</span>
-                    {{'progressDays' | translate}}
-                    {{'progressPredict'| translate}}
-                    <span ng-if="item.predictStatus > 0 || item.predictStatus == 0"> {{'progressInAdvance' | translate }} {{item.predictStatus}}</span>
-                    <span ng-if="item.predictStatus < 0" class="progressDelay"> {{'progressDelay' | translate }} {{item.predictStatus}}</span>
-                    {{'progressDays' | translate}}
+                    {{::progressStatus}}:
+                    {{::progressCurrent}}
+                    <span ng-if="item.currentStatus > 0"> {{::progressInAdvance}} {{::item.currentStatus}}</span>
+                    <span ng-if="item.currentStatus < 0" class="progressDelay"> {{::progressDelay}} {{::item.currentStatus}}</span>
+                    {{::progressDays}}
+                    {{::progressPredict}}
+                    <span ng-if="item.predictStatus > 0 || item.predictStatus == 0"> {{::progressInAdvance}} {{::item.predictStatus}}</span>
+                    <span ng-if="item.predictStatus < 0" class="progressDelay"> {{::progressDelay}} {{::item.predictStatus}}</span>
+                    {{::progressDays}}
                 </p>
 
                 <p>
-                    {{'progressDuration' | translate}}:
-                    {{'progressPlan' | translate}} {{item.planDuration}} {{'progressDays' | translate}}
-                    {{'progressUsed' | translate}} {{item.actualDuration}} {{'progressDays' | translate}}
-                    {{'progressPredict' | translate}} {{item.predictDuration}} {{'progressDays' | translate}}
+                    {{::progressDuration}}:
+                    {{::progressPlan}} {{::item.planDuration}} {{::progressDays}}
+                    {{::progressUsed}} {{::item.actualDuration}} {{::progressDays}}
+                    {{::progressPredict}} {{::item.predictDuration}} {{::progressDays}}
                 </p>
                 <p>
-                    {{'progressDate' | translate}}:
+                    {{::progressDate}}:
                 </p>
                 <p>
-                    {{'progressPlan' | translate}}: {{item.sumDate_plan_start | date:'yyyy-MM-dd'}} ~ {{item.sumDate_plan_end | date:'yyyy-MM-dd'}}
+                    {{::progressPlan}}: {{::item.sumDate_plan_start | date:'yyyy-MM-dd'}} ~ {{::item.sumDate_plan_end | date:'yyyy-MM-dd'}}
                 </p>
                 <p>
-                    {{'progressActual' | translate}}: {{item.sumDate_actual_start | date:'yyyy-MM-dd'}} ~ {{item.sumDate_actual_end | date:'yyyy-MM-dd'}}
+                    {{::progressActual}}: {{::item.sumDate_actual_start | date:'yyyy-MM-dd'}} ~ {{::item.sumDate_actual_end | date:'yyyy-MM-dd'}}
                 </p>
                 <p>
-                    {{'progressPredict' | translate}}: {{item.sumDate_predict_start | date:'yyyy-MM-dd'}} {{item.sumDate_predict_end | date:'yyyy-MM-dd'}}
+                    {{::progressPredict}}: {{::item.sumDate_predict_start | date:'yyyy-MM-dd'}} {{::item.sumDate_predict_end | date:'yyyy-MM-dd'}}
                 </p>
             </ion-item>
 <!--            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>-->
