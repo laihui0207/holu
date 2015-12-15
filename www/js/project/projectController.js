@@ -244,8 +244,8 @@ angular.module('Holu')
             $state.go("login")
             return
         }
-        $translate(['SaveFailed', 'SaveFailedHeader','APICallFailed','SaveSuccess','SaveSuccessHeader',
-            'confirmQuestion','MyTask','urgentTask','processConfirm'])
+        $translate(['SaveFailed', 'SaveFailedHeader','APICallFailed','SaveSuccess','SaveSuccessHeader','PullToFresh',
+            'confirmQuestion','MyTask','urgentTask','processConfirm','note','position','ProjectInformation','Location','Submit'])
             .then(function (translations) {
             $scope.SaveFailed = translations.LoginFailHeader;
             $scope.SaveFailedHeader = translations.SaveFailedHeader;
@@ -256,6 +256,12 @@ angular.module('Holu')
                 $scope.MyTask = translations.MyTask;
                 $scope.urgentTask = translations.urgentTask;
                 $scope.processConfirm = translations.processConfirm;
+                $scope.note = translations.note;
+                $scope.position = translations.position;
+                $scope.ProjectInformation = translations.ProjectInformation;
+                $scope.Location = translations.Location;
+                $scope.Submit = translations.Submit;
+                $scope.PullToFresh = translations.PullToFresh;
         });
         $scope.user=user;
         $scope.processMid = {
@@ -380,7 +386,8 @@ angular.module('Holu')
                             complete: function (result) {
                                 $scope.processMid.positionName=result.detail.address;
                                 $scope.locationed=true;
-                                $scope.$apply()
+                                //$scope.$apply()
+                                $scope.$digest();
                             }
                         });
                         geocoder.getAddress(latlng);
@@ -391,7 +398,7 @@ angular.module('Holu')
                 }, function(err) {
                     $cordovaToast.showShortCenter($scope.getPositionFailed)
                     $scope.locationed=true;
-                    $scope.$apply()
+                    $scope.$digest();
                 });
 
         }
@@ -433,6 +440,7 @@ angular.module('Holu')
                     }
                 }
             })
+            $scope.$digest();
         })
 
         $scope.doRefresh = function () {
@@ -464,6 +472,7 @@ angular.module('Holu')
             else {
                 $scope.noContent = false;
             }
+            $scope.$digest();
             $scope.$broadcast('scroll.refreshComplete');
             $scope.$broadcast('scroll.infiniteScrollComplete');
         })
@@ -490,6 +499,7 @@ angular.module('Holu')
         $rootScope.$on("holu.logout",function(){
             needReload=true;
             $scope.taskList=undefined;
+            $scope.$digest();
         })
         $rootScope.$on("UrgentTaskRefreshed",function(){
             $scope.taskList=Projects.urgentTaskData();
@@ -500,6 +510,7 @@ angular.module('Holu')
                 $scope.noContent=false;
             }
             needReload=false;
+            $scope.$digest();
             $scope.$broadcast('scroll.refreshComplete');
             $scope.$broadcast('scroll.infiniteScrollComplete');
         })
@@ -527,6 +538,7 @@ angular.module('Holu')
                     }
                 }
             })
+            $scope.$digest();
         })
        // flushData();
         $scope.doRefresh = function () {
