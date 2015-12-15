@@ -251,6 +251,9 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
         }];
 
     })
+    .config(function($ionicConfigProvider){
+        //$ionicConfigProvider.scrolling.jsScrolling(false)
+    })
     .config(function ($stateProvider, $urlRouterProvider) {
 
         // Ionic uses AngularUI Router which uses the concept of states

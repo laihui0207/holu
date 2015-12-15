@@ -472,7 +472,7 @@ angular.module('Holu')
             else {
                 $scope.noContent = false;
             }
-            $scope.$digest();
+           // $scope.$digest();
             $scope.$broadcast('scroll.refreshComplete');
             $scope.$broadcast('scroll.infiniteScrollComplete');
         })
@@ -510,7 +510,7 @@ angular.module('Holu')
                 $scope.noContent=false;
             }
             needReload=false;
-            $scope.$digest();
+            //$scope.$digest();
             $scope.$broadcast('scroll.refreshComplete');
             $scope.$broadcast('scroll.infiniteScrollComplete');
         })
