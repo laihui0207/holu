@@ -444,7 +444,7 @@ angular.module('Holu')
         })
 
         $scope.doRefresh = function () {
-            Projects.myTasks(user.userID,$scope.currentType);
+            Projects.myTasks(user.userID,$scope.currentType,user.allowCreateProject);
             //$scope.$broadcast('scroll.refreshComplete');
         }
         $scope.loadMore=function(){
@@ -456,15 +456,15 @@ angular.module('Holu')
         $scope.taskListByType=function(type){
             $scope.currentType=type;
             $scope.taskList=[];
-            Projects.myTasks(user.userID,$scope.currentType);
+            Projects.myTasks(user.userID,$scope.currentType,user.allowCreateProject);
             //$scope.doRefresh();
         }
         $rootScope.$on("TaskListUpdated",function(){
             console.log("get task updated event")
             $scope.taskList = Projects.taskData();
-            if($scope.config.itemsDisplayedInList < $scope.taskList.length){
+           /* if($scope.config.itemsDisplayedInList < $scope.taskList.length){
                 $scope.config.itemsDisplayedInList = $scope.config.itemsDisplayedInList + 20;
-            }
+            }*/
             needReload=false;
             if ($scope.taskList == undefined || $scope.taskList.length == 0) {
                 $scope.noContent = true;
