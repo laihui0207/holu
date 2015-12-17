@@ -1,0 +1,9 @@
+1. create certification
+keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+2. sign apk file
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore HelloWorld-release-unsigned.apk alias_name
+3. zip apk file
+zipalign -v 4 HelloWorld-release-unsigned.apk HelloWorld.apk
+
+holu.keystore
+P@ss123
