@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c680df56-0d25-43a8-882c-fb82a04fa691" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.xml" afterPath="$PROJECT_DIR$/config.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/project/projectController.js" afterPath="$PROJECT_DIR$/www/js/project/projectController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/project/task.html" afterPath="$PROJECT_DIR$/www/templates/project/task.html" />
-    </list>
+    <list default="true" id="c680df56-0d25-43a8-882c-fb82a04fa691" name="Default" comment="" />
     <ignored path="holu.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -1281,12 +1276,12 @@
       <workItem from="1450140081444" duration="1081000" />
       <workItem from="1450163682480" duration="2503000" />
       <workItem from="1450247928169" duration="744000" />
-      <workItem from="1450254320066" duration="2789000" />
+      <workItem from="1450254320066" duration="2905000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="743945000" />
+    <option name="totallyTimeSpent" value="744061000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="6" />
