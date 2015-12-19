@@ -35,7 +35,7 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item ng-repeat="item in taskList track by $index" class="item "><!-- href="#/tab/components/{{item.projectID}} -->
+            <ion-item ng-repeat="item in taskList" class="item "><!-- href="#/tab/components/{{item.projectID}} -->
                 <div ng-if="item.componentStyle" class="item-button-right">
                     <p>{{'taskType' | translate }}: {{::item.type}}</p>
                     <p>{{'projectName' | translate }}: {{::item.projectPathName }}</p>

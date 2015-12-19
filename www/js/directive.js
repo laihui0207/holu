@@ -175,13 +175,13 @@ angular.module('Holu.SelectDirective', [])
                             scope: scope,
                             animation: 'slide-in-up'
                         }
-                    )
+                    );
 
 
                     /* Validate selection from header bar */
                     scope.validate = function (event) {
                         // Construct selected values and selected text
-                        if (scope.multiSelect == true) {
+                        if (scope.multiSelect === true) {
 
                             // Clear values
                             scope.value = '';
@@ -201,8 +201,8 @@ angular.module('Holu.SelectDirective', [])
                         }
 
                         // Select first value if not nullable
-                        if (typeof scope.value == 'undefined' || scope.value == '' || scope.value == null) {
-                            if (scope.allowEmpty == false) {
+                        if (typeof scope.value === 'undefined' || scope.value === '' || scope.value === null) {
+                            if (scope.allowEmpty === false) {
                                 scope.value = scope.items[0].id;
                                 scope.text = scope.items[0].text;
 
@@ -220,9 +220,9 @@ angular.module('Holu.SelectDirective', [])
                         if (typeof scope.callback == 'function') {
                             scope.callback(scope.value);
                         }
-                    }
+                    };
                     scope.init = function () {
-                        if (scope.multiSelect == true) {
+                        if (scope.multiSelect === true) {
 
                             // Clear values
                             scope.value = '';
@@ -240,17 +240,17 @@ angular.module('Holu.SelectDirective', [])
                             scope.value = scope.value.substr(0, scope.value.length - 1);
                             scope.text = scope.text.substr(0, scope.text.length - 2);
                         }
-                    }
+                    };
                     /* Show list */
                     scope.showItems = function (event) {
                         //event.preventDefault();
                         scope.modal.show();
-                    }
+                    };
 
                     /* Hide list */
                     scope.hideItems = function () {
                         scope.modal.hide();
-                    }
+                    };
 
                     /* Destroy modal */
                     scope.$on('$destroy', function () {
@@ -273,9 +273,9 @@ angular.module('Holu.SelectDirective', [])
                         if (typeof scope.callback == 'function') {
                             scope.callback(scope.value);
                         }
-                    }
+                    };
                 }
             };
         }
     ]
-)
+);

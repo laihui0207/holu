@@ -199,16 +199,22 @@ angular.module('Holu')
         })
         $rootScope.$on("ProjectMissionUpdate",function(event,args){
             //needReload=true;
-            $scope.componentStyleList.forEach(function(mission){
-                if(mission.processMid.subComponentID == args.componentID && mission.processMid.styleProcessID== args.styleID){
-                    if(args.type=="start"){
-                        mission.processMid.startDate=new Date();
+            if(args === undefined){
+                $scope.doRefresh();
+            }
+            else {
+                $scope.componentStyleList.forEach(function(mission){
+                    if(mission.processMid.subComponentID == args.componentID && mission.processMid.styleProcessID== args.styleID){
+                        if(args.type=="start"){
+                            mission.processMid.startDate=new Date();
+                        }
+                        else if(args.type=="end"){
+                            mission.processMid.endDate=new Date();
+                        }
                     }
-                    else if(args.type=="end"){
-                        mission.processMid.endDate=new Date();
-                    }
-                }
-            })
+                })
+            }
+
         })
         if($scope.componentType =='parent'){
             Projects.viewComponent($stateParams.componentID,user.userID).then(function(response){
@@ -326,8 +332,13 @@ angular.module('Holu')
                             $state.go("tab.urgenttask")
                         }
                         else if($stateParams.from == 'project'){
-                            $rootScope.$broadcast("ProjectMissionUpdate",
-                                {styleID:$stateParams.styleProcessID,componentID:$stateParams.componentID,type:$stateParams.type});
+                            if($stateParams.type == 'end'){
+                                $rootScope.$broadcast("ProjectMissionUpdate");
+                            }
+                            else {
+                                $rootScope.$broadcast("ProjectMissionUpdate",
+                                    {styleID:$stateParams.styleProcessID,componentID:$stateParams.componentID,type:$stateParams.type});
+                            }
                             ///:styleID/:componentID/:type
                             $state.go("tab.styles",{type:'sub',styleID:$scope.component.styleID,componentID:$stateParams.componentID})
                         }

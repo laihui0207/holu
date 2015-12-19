@@ -38,8 +38,8 @@
             </ion-item>-->
         </ion-list>
         <div class="padding">
-            <label ng-if="!locationed">{{::Location}}</label>
-            <button class="button button-block button-calm activated" ng-disabled="!locationed" ng-click="save()">{{ ::Submit}}</button>
+            <label ng-if="!locationed">{{::Location}}</label><!--ng-disabled="!locationed" -->
+            <button class="button button-block button-calm activated" ng-disabled="!locationed"  ng-click="save()">{{ ::Submit}}</button>
         </div>
 <!--        <app-map style="height:400px;margin:12px;box-shadow:0 3px 25px black;" address="{{address}}"> </app-map>-->
     </ion-content>
