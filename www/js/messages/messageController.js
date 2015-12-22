@@ -4,7 +4,7 @@
  */
 
 angular.module('Holu')
-    .controller('MessageCtrl',function($scope,Messages,$state,$rootScope,AuthService,$ionicLoading){
+    .controller('MessageCtrl',function($scope,Messages,$state,$rootScope,AuthService){
         var user=AuthService.currentUser();
         var needReload=true;
         $scope.messageType="all";
@@ -55,7 +55,7 @@ angular.module('Holu')
             Messages.messageType(type,user.id);
         }
     })
-    .controller('MessageDetailCtrl',function($scope,Messages,AuthService,$state,$stateParams,$ionicLoading,$ionicPopup){
+    .controller('MessageDetailCtrl',function($scope,Messages,AuthService,$state,$stateParams,$ionicPopup){
         var user=AuthService.currentUser();
         if(user == undefined){
             $rootScope.backurl="tab.messages"
@@ -85,7 +85,7 @@ angular.module('Holu')
         }
     })
     .controller('MessageSendCtrl',function($scope, Messages,UserService,UserGroup,$rootScope,AuthService,
-                                           $stateParams,$translate,$state,$ionicPopup,Department,$ionicLoading){
+                                           $stateParams,$translate,$state,$ionicPopup,Department){
         var user=AuthService.currentUser();
         if(user == undefined){
             $rootScope.backurl="tab.messages"
@@ -126,7 +126,7 @@ angular.module('Holu')
                 })
         }
     })
-    .controller('MessageNewCtrl',function($scope,Messages,UserService,UserGroup,Department,$translate,$rootScope,$state,$ionicPopup,$ionicLoading,AuthService){
+    .controller('MessageNewCtrl',function($scope,Messages,UserService,UserGroup,Department,$translate,$rootScope,$state,$ionicPopup,AuthService){
         $scope.autoExpand = function(e) {
             var element = typeof e === 'object' ? e.target : document.getElementById(e);
             var scrollHeight = element.scrollHeight - 1; // replace 60 by the sum of padding-top and padding-bottom
@@ -224,7 +224,7 @@ angular.module('Holu')
 
     })
     .controller('MessageEditCtrl',function($scope, Messages, $stateParams,$translate,$rootScope,
-                                           $ionicLoading,$state,$ionicPopup,AuthService){
+                                           $state,$ionicPopup,AuthService){
         $scope.autoExpand = function(e) {
             var element = typeof e === 'object' ? e.target : document.getElementById(e);
             var scrollHeight = element.scrollHeight - 5; // replace 60 by the sum of padding-top and padding-bottom

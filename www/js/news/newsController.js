@@ -42,7 +42,7 @@ angular.module('Holu')
             News.setCurrentNewsType(typeId);
         }
     })
-    .controller('NewsDetailCtrl', function ($scope, News, $stateParams, ENV,$ionicModal, $ionicLoading) {
+    .controller('NewsDetailCtrl', function ($scope, News, $stateParams, ENV,$ionicModal ) {
         News.viewNews($stateParams.newsId).then(function (response) {
             $scope.news = response.data;
         })

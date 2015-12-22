@@ -2,7 +2,7 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .controller('PostSubjectCtrl',function($scope,PostBars,$state,$rootScope,$ionicLoading){
+    .controller('PostSubjectCtrl',function($scope,PostBars){
         var needReload=true;
         PostBars.postSubjects()
         $scope.doRefresh = function () {
@@ -31,7 +31,7 @@ angular.module('Holu')
             needReload=true;
         })
     })
-    .controller('PostBarCtrl',function($scope,PostBars,$stateParams,$rootScope,ENV,$ionicLoading){
+    .controller('PostBarCtrl',function($scope,PostBars,$stateParams,$rootScope,ENV){
         $scope.subjectId=$stateParams.subjectId;
         var needReload=true;
         $scope.ServerUrl = ENV.ServerUrl;
@@ -65,7 +65,7 @@ angular.module('Holu')
             })
         })
     })
-    .controller('PostBarDetailCtrl',function($scope,PostBars,$stateParams,$rootScope,$ionicPopup,ENV,$ionicLoading){
+    .controller('PostBarDetailCtrl',function($scope,PostBars,$stateParams,$rootScope,$ionicPopup,ENV){
         PostBars.viewPost($stateParams.postBarId).then(function(response){
             $scope.postBar=response.data
         })
@@ -96,7 +96,7 @@ angular.module('Holu')
         }
 
     })
-    .controller('PostBarNewCtrl',function($scope,PostBars,$translate,$state,$stateParams,$rootScope,$ionicPopup,$ionicLoading){
+    .controller('PostBarNewCtrl',function($scope,PostBars,$translate,$state,$stateParams,$rootScope,$ionicPopup){
         var user=AuthService.currentUser();
         if(user == undefined){
             $rootScope.backurl="tab.postbars"

@@ -15,22 +15,23 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
+            var isOnline=true;
             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 var type = $cordovaNetwork.getNetwork();
                 if (type == "none") {
-                    $cordovaToast.showShortCenter("~ ~ 没有网络可用 ~ ~")
+                    $cordovaToast.showShortCenter("~ ~ 没有网络可用 ~ ~");
                 }
-                var isOnline = $cordovaNetwork.isOnline();
+                isOnline = $cordovaNetwork.isOnline();
                 if (!isOnline) {
-                    $cordovaToast.showShortCenter("请确认网络是否在线！")
+                    $cordovaToast.showShortCenter("请确认网络是否在线！");
                 }
                 else {
                    // console.log("network online");
                 }
             }
             if(window.cordova && window.cordova.plugins && window.cordova.plugins.VideoPlayer){
-                console.log("video player")
+                console.log("video player");
             }
 
             if (window.StatusBar) {
@@ -53,7 +54,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                             showUpdateConfirm(serverAppVersion);
                         }
                     });
-                })
+                });
 
             }
 
@@ -61,7 +62,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
             function showUpdateConfirm(appversion) {
                 var confirmPopup = $ionicPopup.confirm({
                     title: '版本升级',
-                    template: '检测到有新版本:<br/><br/>'+appversion.releaseNote, //从服务端获取更新的内容
+                    template: '检测到有新版本:'+appversion.version+'<br/><br/>'+appversion.releaseNote, //从服务端获取更新的内容
                     cancelText: '取消',
                     okText: '升级'
                 });
@@ -72,7 +73,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                         });
                         var url = Upgrade.downloadLink(); //可以从服务端获取更新APP的路径
                         var targetPath = "file:///storage/sdcard0/Download/ICMS2015.apk"; //APP下载存放的路径，可以使用cordova file插件进行相关配置
-                        var trustHosts = true
+                        var trustHosts = true;
                         var options = {};
                         $cordovaFileTransfer.download(url, targetPath, options, trustHosts).then(function (result) {
                             // 打开下载下来的APP
@@ -97,7 +98,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                                 if (downloadProgress > 99) {
                                     $ionicLoading.hide();
                                 }
-                            })
+                            });
                         });
                     } else {
                         // 取消更新
@@ -114,7 +115,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                 setTimeout(function () {
                     $cordovaSplashscreen.hide();
                 }, 3000);
-            })
+            });
         });
         $ionicPlatform.registerBackButtonAction(function (e) {
             //判断处于哪个页面时双击退出
@@ -144,12 +145,12 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
     })
     .run(function ($rootScope, $ionicLoading) {
         $rootScope.$on('loading:show', function () {
-            $ionicLoading.show()
-        })
+            $ionicLoading.show({duration:10000,hideOnStateChange:true});
+        });
 
         $rootScope.$on('loading:hide', function () {
-            $ionicLoading.hide()
-        })
+            $ionicLoading.hide();
+        });
     })
     /*  .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")*/
     /*   .constant("ServerUrl", "http://localhost:8087/holusystem")*/
@@ -159,8 +160,8 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
             return {
                 request: function (config) {
                     var currentUser = Storage.get("user");
-                    var access_token =undefined;
-                    if(currentUser!=undefined){
+                    var access_token;
+                    if(currentUser!==undefined){
                         access_token=currentUser.access_token;
                     }
                     if (access_token) {
@@ -176,33 +177,33 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                    /* else {
                         //$cordovaToast.showShortBottom("请确认网络是否在线！")
                     }*/
-                    return config
+                    return config;
                 },
                 'requestError': function(rejection) {
                     // do something on error
                    /* if (canRecover(rejection)) {
                         return responseOrNewPromise
                     }*/
-                    $rootScope.$broadcast('loading:hide')
+                    $rootScope.$broadcast('loading:hide');
                     return $q.reject(rejection);
                 },
                 response: function (response) {
-                    $rootScope.$broadcast('loading:hide')
+                    $rootScope.$broadcast('loading:hide');
                     if (response.status === 401) {
                         $rootScope.$broadcast("holu.logout");
                     }
-                    return response
+                    return response;
                 },
                 'responseError': function(rejection) {
                     // do something on error
                     /*if (canRecover(rejection)) {
                         return responseOrNewPromise
                     }*/
-                    $rootScope.$broadcast('loading:hide')
+                    $rootScope.$broadcast('loading:hide');
                     return $q.reject(rejection);
                 }
-            }
-        })
+            };
+        });
         $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         $httpProvider.defaults.timeout = 30000;
@@ -237,17 +238,14 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                             query += param(innerObj) + '&';
                         }
                     } else if (value !== undefined && value !== null) {
-                        query += encodeURIComponent(name) + '='
-                            + encodeURIComponent(value) + '&';
+                        query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
                     }
                 }
 
                 return query.length ? query.substr(0, query.length - 1) : query;
             };
 
-            return angular.isObject(data) && String(data) !== '[object File]'
-                ? param(data)
-                : data;
+            return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
         }];
 
     })

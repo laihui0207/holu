@@ -22,16 +22,16 @@
                 <div class="row confirmButton">
                     <div class="col col-33">
                         <!--                        <a class="button button-small" ng-if="item.processMid.startDate" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
-                        <a class="button button-positive button-small" ng-disabled="item.processMid.startDate" href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}/start/project">{{::confirmStart}}</a>
+                        <a class="button button-positive button-small" ng-if="item.operationer" ng-disabled="item.processMid.startDate" href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}/start/project">{{::confirmStart}}</a>
                     </div>
 
                     <div class="col col-33">
                         <!--                        <a class="button button-small" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
-                        <a class="button button-positive button-small" ng-disabled="item.processMid.endDate || !item.processMid.startDate" href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}/end/project">{{::confirmEnd}}</a>
+                        <a class="button button-positive button-small" ng-if="item.operationer" ng-disabled="item.operationer && item.processMid.endDate || !item.processMid.startDate" href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}/end/project">{{::confirmEnd}}</a>
                     </div>
                     <div class="col col-33">
                         <!--                        <a class="button button-small" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
-                        <a class="button button-small"  href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}/note/project">{{::confirmQuestion}}</a>
+                        <a class="button button-small" ng-if="item.operationer"  href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}/note/project">{{::confirmQuestion}}</a>
                     </div>
                 </div>
                 <!--<a class="button button-clear item-note" ng-if="item.operationer" href="#/tab/processconfirm/{{component.project.projectID}}/{{componentID}}/{{item.styleProcessID}}">

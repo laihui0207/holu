@@ -6,6 +6,64 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var uglify = require('gulp-uglify');
+var watch = require('gulp-watch');
+var jshint = require('gulp-jshint');
+var notify = require('gulp-notify');
+var useref = require('gulp-useref');
+var filter = require('gulp-filter');
+var gulpif = require('gulp-if');
+var clean = require('gulp-clean');
+
+gulp.task('index', function () {
+  return gulp.src('www/index.html')
+      .pipe(useref())
+      .pipe(gulpif('*.js', uglify()))
+      .pipe(gulpif('*.css', minifyCss()))
+      .pipe(gulp.dest('app'));
+});
+gulp.task('compress', function() {
+  return gulp.src('lib/*.js')
+      .pipe(uglify())
+      .pipe(gulp.dest('dist'));
+});
+// 语法检查
+gulp.task('jshint', function () {
+  return gulp.src('www/js/*.js')
+      .pipe(jshint())
+      .pipe(jshint.reporter('default'));
+});
+// 复制文件
+gulp.task('copyToWWW', function () {
+  gulp.src('app/**/*.*')
+      .pipe(gulp.dest('www_b/'))
+
+ /* gulp.src('app/css/!*')
+      .pipe(gulp.dest('www/css/'))*/
+  /*gulp.src('app/index.html')
+      .pipe(gulp.dest('www/'))
+  gulp.src('app/img/!*')
+      .pipe(gulp.dest('www/img/'))
+  gulp.src('app/js/!*')
+      .pipe(gulp.dest('www/js/'))
+  gulp.src('app/templates/!*')
+      .pipe(gulp.dest('www/templates/'))*/
+});
+// 复制文件
+gulp.task('copyToApp', function () {
+  gulp.src('www/templates/**')
+      .pipe(gulp.dest('app/templates/'))
+  gulp.src('www/img/*')
+      .pipe(gulp.dest('app/img/'))
+  gulp.src('www/lib/**/*.min.js')
+      .pipe(gulp.dest('app/lib/'))
+
+});
+// 清空图片、样式、js
+gulp.task('clean', function () {
+  return gulp.src(['www/css/*', 'www/js/*', 'www/img/*', 'www/lib/*', 'www/templates/*'], {read: false})
+      .pipe(clean({force: true}));
+});
 
 var paths = {
   sass: ['./scss/**/*.scss']

@@ -2,7 +2,7 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .controller('ProjectCtrl', function ($scope, Projects,$translate, $rootScope, AuthService, $state, $stateParams,$ionicLoading) {
+    .controller('ProjectCtrl', function ($scope, Projects,$translate, $rootScope, AuthService, $state, $stateParams) {
         var user = AuthService.currentUser();
         var needReload=true;
         if (user == undefined) {
@@ -65,7 +65,7 @@ angular.module('Holu')
 
     })
 
-    .controller('ComponentCtrl', function ($scope, Projects,$state,$translate, $rootScope, $stateParams,AuthService,$ionicLoading) {
+    .controller('ComponentCtrl', function ($scope, Projects,$state,$translate, $rootScope, $stateParams,AuthService) {
         var user=AuthService.currentUser();
         var needReload=true;
         if (user == undefined) {
@@ -115,7 +115,7 @@ angular.module('Holu')
             }
         }
     })
-    .controller('SubComponentCtrl',function($scope, Projects,$state,$translate, $rootScope, $stateParams,AuthService,$ionicLoading){
+    .controller('SubComponentCtrl',function($scope, Projects,$state,$translate, $rootScope, $stateParams,AuthService){
         var user=AuthService.currentUser();
         if (user == undefined) {
             $rootScope.backurl = "tab.project"
@@ -156,7 +156,7 @@ angular.module('Holu')
             return Projects.canMoreSubComponent();
         }
     })
-    .controller('ProcessCtrl', function ($scope, Projects, $rootScope,$translate,AuthService, $stateParams,$ionicLoading) {
+    .controller('ProcessCtrl', function ($scope, Projects, $rootScope,$translate,AuthService, $stateParams) {
         var user=AuthService.currentUser();
         if (user == undefined) {
             $rootScope.backurl = "tab.project"
@@ -199,16 +199,22 @@ angular.module('Holu')
         })
         $rootScope.$on("ProjectMissionUpdate",function(event,args){
             //needReload=true;
-            $scope.componentStyleList.forEach(function(mission){
-                if(mission.processMid.subComponentID == args.componentID && mission.processMid.styleProcessID== args.styleID){
-                    if(args.type=="start"){
-                        mission.processMid.startDate=new Date();
+            if(args === undefined){
+                $scope.doRefresh();
+            }
+            else {
+                $scope.componentStyleList.forEach(function(mission){
+                    if(mission.processMid.subComponentID == args.componentID && mission.processMid.styleProcessID== args.styleID){
+                        if(args.type=="start"){
+                            mission.processMid.startDate=new Date();
+                        }
+                        else if(args.type=="end"){
+                            mission.processMid.endDate=new Date();
+                        }
                     }
-                    else if(args.type=="end"){
-                        mission.processMid.endDate=new Date();
-                    }
-                }
-            })
+                })
+            }
+
         })
         if($scope.componentType =='parent'){
             Projects.viewComponent($stateParams.componentID,user.userID).then(function(response){
@@ -237,7 +243,7 @@ angular.module('Holu')
         }
     })
     .controller('ProcessConfirmCtrl', function ($scope, Projects,$state, $rootScope,AuthService,$cordovaGeolocation,$cordovaToast,
-                                                $cordovaDatePicker,$stateParams,$ionicLoading,$translate,$ionicPopup) {
+                                                $cordovaDatePicker,$stateParams,$translate,$ionicPopup) {
         var user=AuthService.currentUser();
         if (user == undefined) {
             $rootScope.backurl = "tab.project"
@@ -326,8 +332,13 @@ angular.module('Holu')
                             $state.go("tab.urgenttask")
                         }
                         else if($stateParams.from == 'project'){
-                            $rootScope.$broadcast("ProjectMissionUpdate",
-                                {styleID:$stateParams.styleProcessID,componentID:$stateParams.componentID,type:$stateParams.type});
+                            if($stateParams.type == 'end'){
+                                $rootScope.$broadcast("ProjectMissionUpdate");
+                            }
+                            else {
+                                $rootScope.$broadcast("ProjectMissionUpdate",
+                                    {styleID:$stateParams.styleProcessID,componentID:$stateParams.componentID,type:$stateParams.type});
+                            }
                             ///:styleID/:componentID/:type
                             $state.go("tab.styles",{type:'sub',styleID:$scope.component.styleID,componentID:$stateParams.componentID})
                         }
