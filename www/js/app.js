@@ -62,7 +62,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
             function showUpdateConfirm(appversion) {
                 var confirmPopup = $ionicPopup.confirm({
                     title: '版本升级',
-                    template: '检测到有新版本:<br/><br/>'+appversion.releaseNote, //从服务端获取更新的内容
+                    template: '检测到有新版本:'+appversion.version+'<br/><br/>'+appversion.releaseNote, //从服务端获取更新的内容
                     cancelText: '取消',
                     okText: '升级'
                 });
@@ -145,7 +145,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
     })
     .run(function ($rootScope, $ionicLoading) {
         $rootScope.$on('loading:show', function () {
-            $ionicLoading.show();
+            $ionicLoading.show({duration:10000,hideOnStateChange:true});
         });
 
         $rootScope.$on('loading:hide', function () {

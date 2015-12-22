@@ -30,7 +30,7 @@
                     <h2>{{'projectName' | translate }}: {{::item.projectPathName }}</h2>
                     <p>{{'component' | translate }}: {{::item.componentName}} </p>
                     <p>{{'subComponent' | translate }}: {{::item.subComponentName}}</p>
-                    <p>{{'componentStyle'| translate }}: {{::item.componentStyle.styleName}} - {{::item.componentStyle.processName}}</p>
+                    <p>{{'componentStyle'| translate }}: {{item.componentStyle.styleName}} - {{item.componentStyle.processName}}</p>
                     <p ng-if="item.processMid && item.processMid.startDate">{{'confirmStartDate' | translate }}: {{item.processMid.startDate | date:'yyyy-MM-dd HH:mm:ss' }}</p>
                     <p ng-if="item.processMid && item.processMid.endDate">{{'confirmEndDate' | translate }}: {{item.processMid.endDate | date:'yyyy-MM-dd HH:mm:ss' }}</p>
                 </div>

@@ -46,7 +46,8 @@ angular.module('Holu')
         $scope.download = function (fileName, docId) {
             /*            window.open('http://ionicframework.com/img/ionic-logo-blog.png', '_system', 'location=yes');*/
             $ionicLoading.show({
-                template: 'Loading...'
+                template: 'Loading...',
+                duration:10000,hideOnStateChange:true
             });
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
                     fs.root.getDirectory(

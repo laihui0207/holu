@@ -90,7 +90,7 @@ angular.module('Holu')
                 })
         }
     })
-    .controller('NoteDetailCtrl', function ($scope, Notes, $stateParams,$ionicLoading,ENV) {
+    .controller('NoteDetailCtrl', function ($scope, Notes, $stateParams,ENV) {
         $scope.$on("$ionicView.enter", function(scopes, states){
             Notes.view($stateParams.noteId).then(function (response) {
                 $scope.note = response.data;
@@ -98,7 +98,7 @@ angular.module('Holu')
         })
         $scope.ServerUrl = ENV.ServerUrl;
     })
-    .controller('NoteNewCtrl',function($scope, Notes, $translate,$rootScope,$state,$ionicPopup,$ionicLoading){
+    .controller('NoteNewCtrl',function($scope, Notes, $translate,$rootScope,$state,$ionicPopup){
         $scope.autoExpand = function(e) {
             var element = typeof e === 'object' ? e.target : document.getElementById(e);
             var scrollHeight = element.scrollHeight - 5; // replace 60 by the sum of padding-top and padding-bottom
@@ -139,7 +139,7 @@ angular.module('Holu')
         }
     })
     .controller('NoteEditCtrl',function($scope, Notes, $stateParams,$translate,$rootScope,$state,
-                                        $ionicPopup,$ionicLoading,ENV){
+                                        $ionicPopup,ENV){
         $scope.autoExpand = function(e) {
             var element = typeof e === 'object' ? e.target : document.getElementById(e);
             var scrollHeight = element.scrollHeight - 5; // replace 60 by the sum of padding-top and padding-bottom

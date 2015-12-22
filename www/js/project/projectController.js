@@ -2,7 +2,7 @@
  * Created by sunlaihui on 7/11/15.
  */
 angular.module('Holu')
-    .controller('ProjectCtrl', function ($scope, Projects,$translate, $rootScope, AuthService, $state, $stateParams,$ionicLoading) {
+    .controller('ProjectCtrl', function ($scope, Projects,$translate, $rootScope, AuthService, $state, $stateParams) {
         var user = AuthService.currentUser();
         var needReload=true;
         if (user == undefined) {
@@ -65,7 +65,7 @@ angular.module('Holu')
 
     })
 
-    .controller('ComponentCtrl', function ($scope, Projects,$state,$translate, $rootScope, $stateParams,AuthService,$ionicLoading) {
+    .controller('ComponentCtrl', function ($scope, Projects,$state,$translate, $rootScope, $stateParams,AuthService) {
         var user=AuthService.currentUser();
         var needReload=true;
         if (user == undefined) {
@@ -115,7 +115,7 @@ angular.module('Holu')
             }
         }
     })
-    .controller('SubComponentCtrl',function($scope, Projects,$state,$translate, $rootScope, $stateParams,AuthService,$ionicLoading){
+    .controller('SubComponentCtrl',function($scope, Projects,$state,$translate, $rootScope, $stateParams,AuthService){
         var user=AuthService.currentUser();
         if (user == undefined) {
             $rootScope.backurl = "tab.project"
@@ -156,7 +156,7 @@ angular.module('Holu')
             return Projects.canMoreSubComponent();
         }
     })
-    .controller('ProcessCtrl', function ($scope, Projects, $rootScope,$translate,AuthService, $stateParams,$ionicLoading) {
+    .controller('ProcessCtrl', function ($scope, Projects, $rootScope,$translate,AuthService, $stateParams) {
         var user=AuthService.currentUser();
         if (user == undefined) {
             $rootScope.backurl = "tab.project"
@@ -243,7 +243,7 @@ angular.module('Holu')
         }
     })
     .controller('ProcessConfirmCtrl', function ($scope, Projects,$state, $rootScope,AuthService,$cordovaGeolocation,$cordovaToast,
-                                                $cordovaDatePicker,$stateParams,$ionicLoading,$translate,$ionicPopup) {
+                                                $cordovaDatePicker,$stateParams,$translate,$ionicPopup) {
         var user=AuthService.currentUser();
         if (user == undefined) {
             $rootScope.backurl = "tab.project"
