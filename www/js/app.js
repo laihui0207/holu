@@ -30,17 +30,20 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                    // console.log("network online");
                 }
             }
-            if(window.cordova && window.cordova.plugins && window.cordova.plugins.VideoPlayer){
+           /* if(window.cordova && window.cordova.plugins && window.cordova.plugins.VideoPlayer){
                 console.log("video player");
-            }
+            }*/
 
             if (window.StatusBar) {
                 // org.apache.cordova.statusbar required
                 StatusBar.styleLightContent();
             }
+            var noop=function(){};
+
             var platform = $cordovaDevice.getPlatform();
             if(isOnline && platform=='Android'){
                 checkUpdate();
+                window.BaiduGeolocation.getCurrentPosition(noop,noop);
             }
             function checkUpdate() {
 

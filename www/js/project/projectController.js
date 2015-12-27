@@ -243,11 +243,11 @@ angular.module('Holu')
         }
     })
     .controller('ProcessConfirmCtrl', function ($scope, Projects,$state, $rootScope,AuthService,$cordovaGeolocation,$cordovaToast,
-                                                $cordovaDatePicker,$stateParams,$translate,$ionicPopup) {
+                                                $cordovaDatePicker,$stateParams,$translate,$ionicPopup,$cordovaDevice) {
         var user=AuthService.currentUser();
         if (user == undefined) {
             $rootScope.backurl = "tab.project"
-            $state.go("login")
+            $state.go("login");
             return
         }
         $translate(['SaveFailed', 'SaveFailedHeader','APICallFailed','SaveSuccess','SaveSuccessHeader','PullToFresh',
@@ -277,7 +277,16 @@ angular.module('Holu')
         }
         $scope.$on("$ionicView.enter", function(scopes, states){
            $scope.locationed=false;
-            getPosition();
+            var platform = $cordovaDevice.getPlatform();
+            if(platform=='Android'){
+                //alert("baidu location");
+                getPostion_baidu();
+            }
+            else {
+                getPosition();
+            }
+            //alert("normal location");
+            //getPosition();
         })
         $scope.processMid.styleProcessID=$stateParams.styleProcessID;
         $scope.processMid.subComponentID=$stateParams.componentID;
@@ -385,6 +394,23 @@ angular.module('Holu')
             $scope.getPositionFailed = translations.getPositionFailed;
             $scope.cancel = translations.cancel;
         });
+        var noop=function(){}
+        function getPostion_baidu(){
+            BaiduGeolocation.getCurrentPosition(function(position){
+                //alert(JSON.stringify(position));
+                $scope.processMid.positionGPS=position.coords.latitude+","+position.coords.longitude;
+                $scope.processMid.positionName=position.addr;
+                $scope.locationed=true;
+                $scope.$digest();
+                //BaiduGeolocation.stop(noop,noop);
+            },function(e){
+                $cordovaToast.showLongCenter(e)
+                $scope.locationed=false;
+                $scope.$digest();
+                //alert(JSON.stringify(e))
+                //BaiduGeolocation.stop(noop,noop)
+            });
+        }
         function getPosition(){
             var posOptions = {timeout: 10000, enableHighAccuracy: true};
             $cordovaGeolocation
@@ -397,7 +423,6 @@ angular.module('Holu')
                             complete: function (result) {
                                 $scope.processMid.positionName=result.detail.address;
                                 $scope.locationed=true;
-                                //$scope.$apply()
                                 $scope.$digest();
                             }
                         });
@@ -407,8 +432,8 @@ angular.module('Holu')
 
 
                 }, function(err) {
-                    $cordovaToast.showShortCenter($scope.getPositionFailed)
-                    $scope.locationed=true;
+                    $cordovaToast.showLongCenter($scope.getPositionFailed)
+                    $scope.locationed=false;
                     $scope.$digest();
                 });
 
