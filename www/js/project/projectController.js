@@ -404,6 +404,7 @@ angular.module('Holu')
                 $scope.$digest();
                 //BaiduGeolocation.stop(noop,noop);
             },function(e){
+                //alert(e);
                 $cordovaToast.showLongCenter(e)
                 $scope.locationed=false;
                 $scope.$digest();
