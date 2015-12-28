@@ -397,7 +397,7 @@ angular.module('Holu')
         var noop=function(){}
         function getPostion_baidu(){
             BaiduGeolocation.getCurrentPosition(function(position){
-                //alert(JSON.stringify(position));
+               // alert(JSON.stringify(position));
                 $scope.processMid.positionGPS=position.coords.latitude+","+position.coords.longitude;
                 $scope.processMid.positionName=position.addr;
                 $scope.locationed=true;
