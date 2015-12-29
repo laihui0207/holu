@@ -457,7 +457,6 @@ angular.module('Holu')
         };*/
         $scope.$on("$ionicView.enter", function(scopes, states){
             user=AuthService.currentUser();
-            console.log(user.allowCreateProject);
             if(needReload){
                 Projects.myTasks(user.userID,$scope.currentType,user.allowCreateProject);
             }
@@ -499,9 +498,6 @@ angular.module('Holu')
         $rootScope.$on("TaskListUpdated",function(){
             console.log("get task updated event")
             $scope.taskList = Projects.taskData();
-           /* if($scope.config.itemsDisplayedInList < $scope.taskList.length){
-                $scope.config.itemsDisplayedInList = $scope.config.itemsDisplayedInList + 20;
-            }*/
             needReload=false;
             if ($scope.taskList == undefined || $scope.taskList.length == 0) {
                 $scope.noContent = true;

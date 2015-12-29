@@ -11,10 +11,11 @@ angular.module('Holu')
         var componentsData={};
         var subComponentData={};
         var urgentTasks={};
+        var urgentTaskIndex=0;
         var urgentTaskType="doing"
         var taskType="doing";
         var taskData={};
-
+        var taskIndex=0;
         return ({
 
             projects: listMyProjects,
@@ -62,7 +63,8 @@ angular.module('Holu')
             urgentTasks[urgentTaskType]={
                 subComponentList:[],
                 userId:userId,
-            }
+            };
+            urgentTaskIndex=0;
             $http.get(serviceURL).then(function(response){
                 urgentTasks[urgentTaskType]={
                     subComponentList:response.data,
@@ -72,18 +74,16 @@ angular.module('Holu')
             });
         }
         function loadUrgentTask(userId){
-            var index=0;
             var subComponentList=urgentTasks[urgentTaskType].subComponentList
-            var subComponentID=subComponentList[index];
+            var subComponentID=subComponentList[urgentTaskIndex];
             if(subComponentID==undefined) {
                 $rootScope.$broadcast("UrgentTaskRefreshed");
                 return;
             }
+            urgentTaskIndex++;
             var serviceURL = ENV.ServerUrl + "/services/api/tasks/" + userId + "/"+subComponentID+".json?type="+urgentTaskType;
             $http.get(serviceURL).then(function (response) {
-                index++;
                 urgentTasks[urgentTaskType] = {
-                    index: index,
                     data: response.data,
                     userId: userId,
                     subComponentList: subComponentList
@@ -92,17 +92,15 @@ angular.module('Holu')
             });
         }
         function loadMoreUrgentTask() {
-            var index=urgentTasks[urgentTaskType].index;
             var subComponentList=urgentTasks[urgentTaskType].subComponentList
-            var subComponentID=subComponentList[index];
+            var subComponentID=subComponentList[urgentTaskIndex];
             var userId=urgentTasks[urgentTaskType].userId;
+            urgentTaskIndex++;
             var serviceURL = ENV.ServerUrl + "/services/api/tasks/" + userId + "/"+subComponentID+".json?type="+urgentTaskType+"&noneedloading=true";
             $http.get(serviceURL).then(function (response) {
                 var currentData = urgentTasks[urgentTaskType].data;
                 currentData = currentData.concat(response.data)
-                index++;
                 urgentTasks[urgentTaskType] = {
-                    index: index,
                     data: currentData,
                     userId: userId,
                     subComponentList: subComponentList
@@ -112,7 +110,7 @@ angular.module('Holu')
         }
         function isUrgentTaskNextPage(){
             if(urgentTasks[urgentTaskType]==undefined) return false;
-            return urgentTasks[urgentTaskType].subComponentList.length >0 && urgentTasks[urgentTaskType].index < urgentTasks[urgentTaskType].subComponentList.length ;
+            return urgentTasks[urgentTaskType].subComponentList.length >0 && urgentTaskIndex < urgentTasks[urgentTaskType].subComponentList.length ;
         }
         function getUrgentData(){
             if(urgentTasks[urgentTaskType].data==undefined){
@@ -128,7 +126,8 @@ angular.module('Holu')
             taskData[taskType]={
                 components: [],
                 isAdmin: isAdmin
-            }
+            };
+            taskIndex=0;
             var url=ENV.ServerUrl+"/services/api/projects/all/"+userId+".json";
             if(isAdmin){
                 url=ENV.ServerUrl+"/services/api/components/"+userId+".json";
@@ -143,55 +142,61 @@ angular.module('Holu')
                 });
         }
         function loadTask(userId){
-            var index=0;
             var components=taskData[taskType].components;
             var isAdmin=taskData[taskType].isAdmin;
-            var componentId=components[index];
+            var componentId=components[taskIndex];
             if(componentId==undefined){
                 $rootScope.$broadcast("TaskListUpdated");
                 return;
             }
+            //if user is not admin the component id is project ID
             var url=ENV.ServerUrl+"/services/api/componentStyles/task/"+userId+"/"+componentId+".json?type="+taskType;
-            console.log("load task:"+isAdmin)
             if (isAdmin){
                 url=ENV.ServerUrl+"/services/api/componentStyles/task/"+userId+".json?type="+taskType+"&cplist="+componentId;
             }
+            taskIndex++;
             $http.get(url).then(function(response){
-                index++;
                 taskData[taskType]={
                     components: components,
-                    index: index,
                     isAdmin: isAdmin,
                     data: response.data
+                };
+                if(taskData[taskType].data.length==0 && isCanLoadMoreTask()){
+                    loadMoreTask(userId);
                 }
-                $rootScope.$broadcast("TaskListUpdated");
+                else {
+                    $rootScope.$broadcast("TaskListUpdated");
+                }
             })
         }
         function loadMoreTask(userId){
-            var index=taskData[taskType].index;
             var components=taskData[taskType].components;
             var isAdmin=taskData[taskType].isAdmin;
-            var componentId=components[index];
+            var componentId=components[taskIndex];
             var url=ENV.ServerUrl+"/services/api/componentStyles/task/"+userId+"/"+componentId+".json?type="+taskType+"&noneedloading=true";
             if (isAdmin){
                 url=ENV.ServerUrl+"/services/api/componentStyles/task/"+userId+".json?type="+taskType+"&cplist="+componentId+"&noneedloading=true";
             }
+            taskIndex++;
             $http.get(url).then(function(response){
                 var data=taskData[taskType].data;
                 data=data.concat(response.data);
-                index++;
                 taskData[taskType]={
                     components: components,
-                    index: index,
                     isAdmin: isAdmin,
                     data: data
                 }
-                $rootScope.$broadcast("TaskListUpdated");
+                if(taskData[taskType].data.length==0 && isCanLoadMoreTask()){
+                    loadMoreTask(userId);
+                }
+                else {
+                    $rootScope.$broadcast("TaskListUpdated");
+                }
             })
         }
         function isCanLoadMoreTask(){
             if(taskData[taskType]==undefined) return false;
-            return taskData[taskType].components.length>0 && taskData[taskType].index < taskData[taskType].components.length
+            return taskData[taskType].components.length>0 && taskIndex < taskData[taskType].components.length
         }
         function getTaskData(){
             return taskData[taskType].data;
