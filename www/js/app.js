@@ -20,19 +20,16 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 var type = $cordovaNetwork.getNetwork();
                 if (type == "none") {
-                    $cordovaToast.showShortCenter("~ ~ 没有网络可用 ~ ~");
+                    $cordovaToast.showLongCenter("~ ~ 没有网络可用 ~ ~");
                 }
                 isOnline = $cordovaNetwork.isOnline();
                 if (!isOnline) {
-                    $cordovaToast.showShortCenter("请确认网络是否在线！");
+                    $cordovaToast.showLongCenter("请确认网络是否在线！");
                 }
                 else {
                    // console.log("network online");
                 }
             }
-           /* if(window.cordova && window.cordova.plugins && window.cordova.plugins.VideoPlayer){
-                console.log("video player");
-            }*/
 
             if (window.StatusBar) {
                 // org.apache.cordova.statusbar required
@@ -49,7 +46,6 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
 
                 Upgrade.lastVersion().then(function (response) {
                     var serverAppVersion = response.data;
-                    //showUpdateConfirm();
                     //获取版本
                     $cordovaAppVersion.getAppVersion().then(function (version) {
                         //如果本地于服务端的APP版本不符合
@@ -155,9 +151,6 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
             $ionicLoading.hide();
         });
     })
-    /*  .constant("ServerUrl", "http://220.178.1.10:8089/holusystem")*/
-    /*   .constant("ServerUrl", "http://localhost:8087/holusystem")*/
-    /*    .constant("ServerUrl", "http://192.168.199.162:8087/holusystem")*/
     .config(function ($httpProvider) {
         $httpProvider.interceptors.push(function ($rootScope, Storage, $cordovaToast) {
             return {
@@ -529,6 +522,16 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                     'tab-project': {
                         templateUrl: 'templates/project/processconfirm.html',
                         controller: 'ProcessConfirmCtrl'
+                    }
+                }
+            })
+            .state('tab.batchConfirm',{
+                url: '/batchConfirm',
+                params:{type:null,from:null,data:null},
+                views: {
+                    'tab-project':{
+                        templateUrl: 'templates/project/batchConfirm.html',
+                        controller: 'ProcessBatchConfirmCtrl'
                     }
                 }
             })

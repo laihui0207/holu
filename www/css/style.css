@@ -168,6 +168,9 @@ ul[rn-carousel] {
 .search-right{
     float:right;
 }
+.button-splite {
+    border-right: solid 1px;
+}
 
 
 

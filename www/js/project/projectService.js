@@ -17,7 +17,7 @@ angular.module('Holu')
         var taskData={};
         var taskIndex=0;
         return ({
-
+            componentStyle: getComponentStyle,
             projects: listMyProjects,
             moreProject: loadMoreProject,
             canMoreProject: isProjectHasNextPage,
@@ -56,6 +56,9 @@ angular.module('Holu')
 /*            setTaskType: setTaskType*/
         })
 
+        function getComponentStyle(componentProcessID){
+            return $http.get(ENV.ServerUrl+"/services/api/componentStyles/"+componentProcessID+".json");
+        }
 
         function getUrgentTask(userId,taskType){
             urgentTaskType=taskType;

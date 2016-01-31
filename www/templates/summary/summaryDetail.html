@@ -3,21 +3,21 @@
 
         <ion-scroll direction="x" class="wide-as-needed">
 
-            <a ng-class="{'button button-clear': currentType!='totalSearch','button button-calm': currentType== 'totalSearch'} "
+            <a ng-class="{'button button-clear': currentType!='totalSearch','button button-clear button-calm': currentType== 'totalSearch'} "
                href="#/tab/totalsearch">
-                {{::TotalSearch}}
+                {{::TotalSearch}} |
             </a>
-            <a ng-class="{'button button-clear': currentType!='factorySearch','button button-calm': currentType== 'factorySearch'} "
+            <a ng-class="{'button button-clear': currentType!='factorySearch','button button-clear button-calm': currentType== 'factorySearch'} "
                href="#/tab/factorysearch">
-                {{::factorySummary}}
+                {{::factorySummary}} |
             </a>
-            <a ng-class="{'button button-clear': currentType!='projectMonthSummary','button button-calm': currentType== 'projectMonthSummary'} "
+            <a ng-class="{'button button-clear': currentType!='projectMonthSummary','button button-clear button-calm': currentType== 'projectMonthSummary'} "
                href="#/tab/projectsummary">
-                {{::projectMonthSummary}}
+                {{::projectMonthSummary}} |
             </a>
-            <a ng-class="{'button button-clear': currentType!='ProjectTotalSummary','button button-calm': currentType== 'ProjectTotalSummary'} "
+            <a ng-class="{'button button-clear': currentType!='ProjectTotalSummary','button button-clear button-calm': currentType== 'ProjectTotalSummary'} "
                href="#/tab/projecttotalsummary">
-                {{::ProjectTotalSummary}}
+                {{::ProjectTotalSummary}} |
             </a>
         </ion-scroll>
     </ion-header-bar>

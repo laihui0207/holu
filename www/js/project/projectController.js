@@ -242,6 +242,101 @@ angular.module('Holu')
 
         }
     })
+    .controller('ProcessBatchConfirmCtrl',function($scope, Projects,$state, $rootScope,AuthService,$cordovaGeolocation,$cordovaToast,
+                                                   $stateParams,$translate,$ionicPopup,$cordovaDevice){
+        var user=AuthService.currentUser();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.project"
+            $state.go("login");
+            return
+        }
+        $translate(['SaveFailed', 'SaveFailedHeader','APICallFailed','SaveSuccess','SaveSuccessHeader','PullToFresh',
+            'confirmQuestion','MyTask','urgentTask','processConfirm','note','position','ProjectInformation','Location','Submit'])
+            .then(function (translations) {
+                $scope.SaveFailed = translations.LoginFailHeader;
+                $scope.SaveFailedHeader = translations.SaveFailedHeader;
+                $scope.SaveSuccess = translations.SaveSuccess;
+                $scope.SaveSuccessHeader = translations.SaveSuccessHeader;
+                $scope.APICallFailed = translations.LoginFailMessage;
+                $scope.confirmQuestion = translations.confirmQuestion;
+                $scope.MyTask = translations.MyTask;
+                $scope.urgentTask = translations.urgentTask;
+                $scope.processConfirm = translations.processConfirm;
+                $scope.note = translations.note;
+                $scope.position = translations.position;
+                $scope.ProjectInformation = translations.ProjectInformation;
+                $scope.Location = translations.Location;
+                $scope.Submit = translations.Submit;
+                $scope.PullToFresh = translations.PullToFresh;
+                $scope.BatchStart = translations.BatchStart;
+                $scope.BatchEnd= translations.BatchEnd;
+            });
+        var confirmData=$stateParams.data;
+        console.log("confirmData",confirmData);
+        $scope.user=user;
+        $scope.confirmDetail=[];
+
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            $scope.locationed=false;
+            for(id in confirmData){
+                getDetailData(confirmData[id]);
+            }
+            var platform = $cordovaDevice.getPlatform();
+            if(platform=='Android'){
+                getPostion_baidu();
+            }
+            else {
+                getPosition();
+            }
+        })
+        if($stateParams.type == 'note'){
+            $scope.title='confirmQuestion';
+        }
+        else if ($stateParams.type == 'start'){
+            $scope.title='BatchStart';
+        }
+        else if ($stateParams.type == 'end'){
+            $scope.title='BatchEnd';
+        }
+        $scope.save=function(){
+
+        }
+        function getDetailData(id){
+            //id format: projectID,subcomponentID,processID
+            console.log("id",id);
+            var ids=id.split("-");
+            var projectID=ids[0];
+            var subcomponentID=ids[1];
+            var processID=ids[2];
+            var result={};
+            /*Projects.viewProject(projectID).then(function (response) {
+                result.project=response.data
+            });*/
+            Projects.parentComponent(subcomponentID,user.userID).then(function(response){
+                result.component=response.data;
+                result.project=response.data.project;
+            });
+            Projects.viewSubComponent(subcomponentID,user.userID).then(function(response){
+                result.subComponent=response.data;
+            });
+            Projects.componentStyle(processID).then(function(response){
+                result.componentStyle=response.data;
+            })
+            Projects.processMid(user.userID,subcomponentID,processID).then(function(response){
+                if(response.data!=""){
+                    result.processMid=response.data;
+                }
+                else {
+                    result.processMid.styleProcessID=processID;
+                    result.processMid.subComponentID=subcomponentID;
+                }
+            })
+
+            $scope.confirmDetail.push(result);
+        }
+
+
+    })
     .controller('ProcessConfirmCtrl', function ($scope, Projects,$state, $rootScope,AuthService,$cordovaGeolocation,$cordovaToast,
                                                 $cordovaDatePicker,$stateParams,$translate,$ionicPopup,$cordovaDevice) {
         var user=AuthService.currentUser();
@@ -253,11 +348,11 @@ angular.module('Holu')
         $translate(['SaveFailed', 'SaveFailedHeader','APICallFailed','SaveSuccess','SaveSuccessHeader','PullToFresh',
             'confirmQuestion','MyTask','urgentTask','processConfirm','note','position','ProjectInformation','Location','Submit'])
             .then(function (translations) {
-            $scope.SaveFailed = translations.LoginFailHeader;
-            $scope.SaveFailedHeader = translations.SaveFailedHeader;
-            $scope.SaveSuccess = translations.SaveSuccess;
-            $scope.SaveSuccessHeader = translations.SaveSuccessHeader;
-            $scope.APICallFailed = translations.LoginFailMessage;
+                $scope.SaveFailed = translations.LoginFailHeader;
+                $scope.SaveFailedHeader = translations.SaveFailedHeader;
+                $scope.SaveSuccess = translations.SaveSuccess;
+                $scope.SaveSuccessHeader = translations.SaveSuccessHeader;
+                $scope.APICallFailed = translations.LoginFailMessage;
                 $scope.confirmQuestion = translations.confirmQuestion;
                 $scope.MyTask = translations.MyTask;
                 $scope.urgentTask = translations.urgentTask;
@@ -279,14 +374,11 @@ angular.module('Holu')
            $scope.locationed=false;
             var platform = $cordovaDevice.getPlatform();
             if(platform=='Android'){
-                //alert("baidu location");
                 getPostion_baidu();
             }
             else {
                 getPosition();
             }
-            //alert("normal location");
-            //getPosition();
         })
         $scope.processMid.styleProcessID=$stateParams.styleProcessID;
         $scope.processMid.subComponentID=$stateParams.componentID;
@@ -451,6 +543,8 @@ angular.module('Holu')
         var needReload=true;
         $scope.config={itemsDisplayedInList:10};
         $scope.currentType="doing";
+        $scope.selectedStartProcess=[];
+        $scope.selectedEndProcess=[];
        /* var currentData={
             currentIndex:0,
             projects:[]
@@ -511,6 +605,35 @@ angular.module('Holu')
         })
 
         //$scope.doRefresh();
+        $scope.toggleProcess=function(value,type){
+            if(type==='start'){
+                var index=$scope.selectedStartProcess.indexOf(value);
+                if(index > -1){
+                    $scope.selectedStartProcess.splice(index,1)
+                }
+                else {
+                    $scope.selectedStartProcess.push(value)
+                }
+            }
+            else if(type==='end'){
+                var index=$scope.selectedEndProcess.indexOf(value);
+                if(index > -1){
+                    $scope.selectedEndProcess.splice(index,1)
+                }
+                else {
+                    $scope.selectedEndProcess.push(value)
+                }
+            }
+        }
+        $scope.batchConfirm=function(type){
+            if(type==='start'){
+               $state.go('tab.batchConfirm',{type:'start',from:'task',data: $scope.selectedStartProcess});
+            }
+            else if (type === 'end'){
+                $state.go('tab.batchConfirm',{type:'end',from:'task',data:$scope.selectedEndProcess});
+            }
+
+        }
     })
     .controller('UrgentTaskCtrl',function($scope, Projects,AuthService, $rootScope,$state){
         var user=AuthService.currentUser();

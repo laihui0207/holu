@@ -119,7 +119,9 @@ var translations = {
         friendLink: 'Friend Link',
         taskDoing: 'Working',
         taskFinished: 'Finished',
-        Location: 'Location.......'
+        Location: 'Location.......',
+        BatchStart: 'Batch Start',
+        BatchEnd: 'Batch End'
     },
     "zh": {
         HEADLINE : '这是我们的节日哦',
@@ -269,7 +271,9 @@ var translations = {
         friendLink: '友情链接',
         taskDoing: '未完工',
         taskFinished: '已完工',
-        Location: '定位中.....'
+        Location: '定位中.....',
+        BatchStart: '批量开工',
+        BatchEnd: '批量完工'
 
     }
 }

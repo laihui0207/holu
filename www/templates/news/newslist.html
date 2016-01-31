@@ -2,11 +2,9 @@
     <ion-header-bar class="bar-subheader ">
         <ion-scroll direction="x" class="wide-as-needed">
 
-            <a ng-class="{'button button-clear': currentType!='all','button button-calm': currentType== 'all'} "  ng-click="newsListByType('all')">
-                {{'All' | translate }}
+            <a ng-class="{'button button-clear ': currentType!='all','button button-clear button-calm': currentType== 'all'} "  ng-click="newsListByType('all')">{{'All' | translate }} |
             </a>
-            <a ng-class="{'button button-clear': currentType != newstype.id,'button button-calm': currentType == newstype.id} " ng-repeat="newstype in newsTypeList" ng-click="newsListByType({{newstype.id}})">
-                {{newstype.name}}
+            <a ng-class="{'button button-clear': currentType != newstype.id,'button  button-clear button-calm': currentType == newstype.id} " ng-repeat="newstype in newsTypeList" ng-click="newsListByType({{newstype.id}})">{{newstype.name}} |
             </a>
             </ion-scroll>
 <!--        <a class="button button-clear pull-right">Button</a>-->

@@ -1,0 +1,48 @@
+<ion-view view-title="{{title | translate }}">
+    <ion-content>
+        <ion-refresher
+                pulling-text="{{ ::PullToFresh}}"
+                on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list>
+           <!-- <ion-item class="item-divider">{{::ProjectInformation}}</ion-item>
+            <ion-item class="item-body">
+                <h2>{{::project.projectPathName}}</h2>
+                <span>{{::project.company.companyFullName}}</span>
+            </ion-item>
+            <ion-item class="item-divider">{{'component' | translate }}</ion-item>
+            <ion-item class="item-body">
+                <h2 ng-show="component">{{'component' | translate }}: {{::component.componentName}}</h2>
+                <h2 ng-show="subComponent">{{'subComponent' | translate }}: {{::subComponent.subComponentName}}</h2>
+            </ion-item>
+            <ion-item ng-if="type!='note'" class="item-divider">{{::processConfirm}}</ion-item>
+            <ion-item ng-if="type=='note'" class="item-divider">{{::confirmQuestion}}</ion-item>
+            <label class="item item-input item-stacked-label">
+                <span ng-if="type!='note'" class="input-label">{{::note}}: </span>
+                <input type="text" ng-model="processMid.processNote">
+            </label>-->
+           <!-- <label class="item item-input item-stacked-label">
+                <span class="input-label">{{'startDate' | translate }}: </span>&lt;!&ndash;| amDateFormat:'YYYY-MM-DD' &ndash;&gt;
+                <input type="text" ng-model="processMid.startDate | amDateFormat:'YYYY-MM-DD' " ng-click="showDatePicker('start')" >
+            </label>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">{{'endDate' | translate }}: </span>
+                <input type="text" ng-model="processMid.endDate | amDateFormat:'YYYY-MM-DD'" ng-click="showDatePicker('end')">
+            </label>-->
+            <ion-item class="item-body" ng-repeat="item in confirmDetail">
+                <h2>{{'projectName' | translate }}:{{item.project.projectPathName}}</h2>
+                <h2 ng-show="item.component">{{'component' | translate }}: {{item.component.componentName}}</h2>
+                <h2 ng-show="item.subComponent">{{'subComponent' | translate }}: {{item.subComponent.subComponentName}}</h2>
+                <h2>{{'componentStyle'| translate }}: {{item.componentStyle.styleName}} - {{item.componentStyle.processName}}</h2>
+            </ion-item>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">{{::position}}: </span>
+                <input disabled="disabled" type="text" ng-model="processMid.positionName">
+            </label>
+        </ion-list>
+        <div class="padding">
+            <label ng-if="!locationed">{{::Location}}</label><!--ng-disabled="!locationed" -->
+            <button class="button button-block button-calm activated" ng-disabled="!locationed"  ng-click="save()">{{ ::Submit}}</button>
+        </div>
+    </ion-content>
+</ion-view>
