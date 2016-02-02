@@ -14,11 +14,11 @@
                ng-click="taskListByType('all')">
                 {{'All' | translate }} |
             </a>
-            <a class="button button-clear pull-right" ng-disabled="selectedEndProcess.length == 0" ng-click="batchConfirm('end')">{{'BatchEnd' | translate }}</a>
-            <a class="button button-clear pull-right" ng-disabled="selectedStartProcess.length == 0" ng-click="batchConfirm('start')">{{'BatchStart' | translate}}</a>
-           <!-- <span class="search-right">
-                <input type="text" placeholder="Search"/>
-            </span>-->
+            <a ng-class="{'button button-clear pull-right':selectedEndProcess.length == 0,'button button-clear pull-right button-calm': selectedEndProcess.length != 0}" ng-disabled="selectedEndProcess.length == 0" ng-click="batchConfirm('end')">{{'BatchEnd' | translate }}</a>
+            <a ng-class="{'button button-clear pull-right':selectedStartProcess.length == 0,'button button-clear pull-right button-calm': selectedStartProcess.length != 0}" ng-disabled="selectedStartProcess.length == 0" ng-click="batchConfirm('start')">{{'BatchStart' | translate}}</a>
+            <!-- <span class="search-right">
+                           <input type="text" placeholder="Search"/>
+                       </span>-->
         </ion-scroll>
     </ion-header-bar>
     <ion-content>
@@ -38,13 +38,15 @@
                 </div>
                 <div class="row confirmButton">
                     <div class="col col-33">
-                            <input type="checkbox" ng-checked="selectedStartProcess.indexOf('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}') > -1" ng-click="toggleProcess('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}','start')" id="start-{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}" value="{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}-start-task" ng-disabled="item.processMid.startDate">
-                        <a class="button button-positive button-small" ng-disabled="item.processMid.startDate" href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.componentStyle.styleProcessID}}/start/task">{{'confirmStart' | translate }}</a>
+                        <input type="checkbox"  style="margin:10px 10px 10px 0" ng-checked="selectedStartProcess.indexOf('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}') > -1"
+                               ng-click="toggleProcess('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}','start')" id="start-{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}" value="{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}-start-task" ng-disabled="item.processMid.startDate">
+                        <a class="button button-positive button-small" ng-disabled="item.processMid.startDate" href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.componentStyle.styleProcessID}}/start/task"> {{'confirmStart' | translate }} </a>
                     </div>
 
                     <div class="col col-33">
-                        <input type="checkbox" ng-checked="selectedEndProcess.indexOf('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}') > -1"  ng-click="toggleProcess('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}','end')" id="end-{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}" value="{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}-end-task" ng-disabled="item.processMid.endDate || !item.processMid.startDate">
-                        <a class="button button-positive button-small" ng-disabled="item.processMid.endDate || !item.processMid.startDate" href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.componentStyle.styleProcessID}}/end/task">{{'confirmEnd' | translate }}</a>
+                        <input type="checkbox" style="margin:10px 10px 10px 0 "  ng-checked="selectedEndProcess.indexOf('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}') > -1"
+                               ng-click="toggleProcess('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}','end')" id="end-{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}" value="{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}-end-task" ng-disabled="item.processMid.endDate || !item.processMid.startDate">
+                        <a class="button button-positive button-small" ng-disabled="item.processMid.endDate || !item.processMid.startDate" href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.componentStyle.styleProcessID}}/end/task"> {{'confirmEnd' | translate }} </a>
                     </div>
                     <div class="col col-33">
                         <a class="button button-small"  href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.componentStyle.styleProcessID}}/note/task">{{'confirmQuestion' | translate }}</a>

@@ -17,11 +17,11 @@
     <ion-header-bar class="bar bar-subheader button-right custom-subheader">
         <ion-scroll direction="x" class="wide-as-needed">
 
-            <a ng-class="{'button button-clear': currentType!='all','button button-calm': currentType== 'all'} "  ng-click="docListByType('all')">
-                {{'All' | translate }}
+            <a ng-class="{'button button-clear': currentType!='all','button button-clear button-calm': currentType== 'all'} "  ng-click="docListByType('all')">
+                {{'All' | translate }} |
             </a>
-            <a ng-class="{'button button-clear': currentType != doctype.id,'button button-calm': currentType == doctype.id} " ng-repeat="doctype in docTypeList" ng-click="docListByType({{doctype.id}})">
-                {{doctype.name}}
+            <a ng-class="{'button button-clear': currentType != doctype.id,'button button-clear button-calm': currentType == doctype.id} " ng-repeat="doctype in docTypeList" ng-click="docListByType({{doctype.id}})">
+                {{doctype.name}} |
             </a>
         </ion-scroll>
         <!--<div class="tabs" tab-slide-box>

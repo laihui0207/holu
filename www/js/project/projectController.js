@@ -275,6 +275,9 @@ angular.module('Holu')
         console.log("confirmData",confirmData);
         $scope.user=user;
         $scope.confirmDetail=[];
+        $scope.processMid = {
+            userID: user.userID
+        };
 
         $scope.$on("$ionicView.enter", function(scopes, states){
             $scope.locationed=false;
@@ -299,11 +302,63 @@ angular.module('Holu')
             $scope.title='BatchEnd';
         }
         $scope.save=function(){
-
-        }
+            Projects.batchConfirm(confirmData.join(','),$scope.processMid,$stateParams.type,user.userID)
+                .success(function (data) {
+                    if (data.length > 0) {
+                       // $rootScope.$broadcast('ProcessUpdate', data);
+                        var alertPopup = $ionicPopup.alert({
+                            title: $scope.SaveSuccessHeader,
+                            template: $scope.SaveSuccess
+                        });
+                        if($stateParams.from == 'task'){
+                            var batchData="";
+                            for(var id in data){
+                                batchData+=data[id].subComponentID+"-"+data[id].styleProcessID+",";
+                            }
+                            $rootScope.$broadcast("MissionUpdate",
+                                {type:$stateParams.type,batchData: batchData});
+                            $state.go("tab.tasks")
+                        }
+                        else if($stateParams.from == 'urgent'){
+                            var batchData="";
+                            for(var id in data){
+                                batchData+=data[id].subComponentID+"-"+data[id].styleProcessID+",";
+                            }
+                                $rootScope.$broadcast("UrgentMissionUpdate",
+                                    {
+                                        type: $stateParams.type,
+                                        batchData: batchData
+                                    });
+                            $state.go("tab.urgenttask")
+                        }
+                       /* else if($stateParams.from == 'project'){
+                            if($stateParams.type == 'end'){
+                                $rootScope.$broadcast("ProjectMissionUpdate");
+                            }
+                            else {
+                                $rootScope.$broadcast("ProjectMissionUpdate",
+                                    {styleID:$stateParams.styleProcessID,componentID:$stateParams.componentID,type:$stateParams.type});
+                            }
+                            ///:styleID/:componentID/:type
+                            $state.go("tab.styles",{type:'sub',styleID:$scope.component.styleID,componentID:$stateParams.componentID})
+                        }*/
+                    }
+                    else {
+                        var alertPopup = $ionicPopup.alert({
+                            title: $scope.SaveFailedHeader,
+                            template: $scope.SaveFailed
+                        });
+                    }
+                })
+                .error(function (data) {
+                    var alertPopup = $ionicPopup.alert({
+                        title: $scope.SaveFailedHeader,
+                        template: $scope.APICallFailed
+                    });
+                })
+        };
         function getDetailData(id){
             //id format: projectID,subcomponentID,processID
-            console.log("id",id);
             var ids=id.split("-");
             var projectID=ids[0];
             var subcomponentID=ids[1];
@@ -369,7 +424,7 @@ angular.module('Holu')
             styleProcessID: $stateParams.styleProcessID,
             subComponentID: $stateParams.componentID,
             userID: user.userID
-        }
+        };
         $scope.$on("$ionicView.enter", function(scopes, states){
            $scope.locationed=false;
             var platform = $cordovaDevice.getPlatform();
@@ -560,17 +615,42 @@ angular.module('Holu')
             $scope.taskList=undefined;
         })
         $rootScope.$on('MissionUpdate',function(event,args){
+            var batchConfirmResult=[];
+            if(args.batchData != undefined){
+                batchConfirmResult=args.batchData.split(",");
+            }
+            if(args.type=='start'){
+                $scope.selectedStartProcess=[];
+            }
+            if(args.type === 'end'){
+                $scope.selectedEndProcess=[];
+            }
+
             $scope.taskList.forEach(function(mission){
-                if(mission.subComponentID == args.componentID && mission.processMid.styleProcessID== args.styleID){
+                if(args.componentID != undefined && mission.subComponentID == args.componentID && mission.processMid.styleProcessID == args.styleID){
                     if(args.type=="start"){
                         mission.processMid.startDate=new Date();
                     }
                     else if(args.type=="end"){
                         mission.processMid.endDate=new Date();
                     }
+                    console.log('mission',mission);
+                } else if(args.batchData != undefined){
+                    for(var i in batchConfirmResult){
+                        var strA=batchConfirmResult[i].split("-");
+                        if(mission.subComponentID == strA[0] && mission.processMid.styleProcessID== strA[1]) {
+                            if (args.type === "start") {
+                                mission.processMid.startDate = new Date();
+                            }
+                            else if (args.type === "end") {
+                                mission.processMid.endDate = new Date();
+                            }
+                            console.log('mission',mission);
+                        }
+                    }
                 }
-            })
-            $scope.$digest();
+            });
+            //$scope.$digest();
         })
 
         $scope.doRefresh = function () {
@@ -645,6 +725,9 @@ angular.module('Holu')
         $scope.currentType="doing"
         var needReload=true;
 
+        $scope.selectedStartProcess=[];
+        $scope.selectedEndProcess=[];
+
         $scope.$on("$ionicView.enter", function(scopes, states){
             user=AuthService.currentUser();
             if(needReload){
@@ -684,8 +767,18 @@ angular.module('Holu')
         }
         $rootScope.$on('UrgentMissionUpdate',function(event,args){
             //needReload=true;
+            var batchConfirmResult=[];
+            if(args.batchData != undefined){
+                batchConfirmResult=args.batchData.split(",");
+            }
+            if(args.type=='start'){
+                $scope.selectedStartProcess=[];
+            }
+            if(args.type === 'end'){
+                $scope.selectedEndProcess=[];
+            }
             $scope.taskList.forEach(function(mission){
-                if(mission.subComponentID == args.componentID && mission.processMid.styleProcessID== args.styleID){
+                if(args.componentID != undefined && mission.subComponentID == args.componentID && mission.processMid.styleProcessID== args.styleID){
                     if(args.type=="start"){
                         mission.processMid.startDate=new Date();
                     }
@@ -693,8 +786,22 @@ angular.module('Holu')
                         mission.processMid.endDate=new Date();
                     }
                 }
+                else if(args.batchData != undefined){
+                    for(var i in batchConfirmResult){
+                        var strA=batchConfirmResult[i].split("-");
+                        if(mission.subComponentID == strA[0] && mission.processMid.styleProcessID== strA[1]) {
+                            if (args.type === "start") {
+                                mission.processMid.startDate = new Date();
+                            }
+                            else if (args.type === "end") {
+                                mission.processMid.endDate = new Date();
+                            }
+                            console.log('mission',mission);
+                        }
+                    }
+                }
             })
-            $scope.$digest();
+            //$scope.$digest();
         })
        // flushData();
         $scope.doRefresh = function () {
@@ -704,6 +811,36 @@ angular.module('Holu')
         function flushData(){
             Projects.urgentTask(user.userID,$scope.currentType);
             $scope.$broadcast('scroll.refreshComplete');
+        }
+
+        $scope.toggleProcess=function(value,type){
+            if(type==='start'){
+                var index=$scope.selectedStartProcess.indexOf(value);
+                if(index > -1){
+                    $scope.selectedStartProcess.splice(index,1)
+                }
+                else {
+                    $scope.selectedStartProcess.push(value)
+                }
+            }
+            else if(type==='end'){
+                var index=$scope.selectedEndProcess.indexOf(value);
+                if(index > -1){
+                    $scope.selectedEndProcess.splice(index,1)
+                }
+                else {
+                    $scope.selectedEndProcess.push(value)
+                }
+            }
+        }
+        $scope.batchConfirm=function(type){
+            if(type==='start'){
+                $state.go('tab.batchConfirm',{type:'start',from:'urgent',data: $scope.selectedStartProcess});
+            }
+            else if (type === 'end'){
+                $state.go('tab.batchConfirm',{type:'end',from:'urgent',data:$scope.selectedEndProcess});
+            }
+
         }
 
     })

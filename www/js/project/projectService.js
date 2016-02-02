@@ -41,6 +41,7 @@ angular.module('Holu')
             componentStyles: listComponentStyleOfCompanyAndStyle,
             confirm: confirmProcess,
             processMid: getProcessMid,
+            batchConfirm: batchConfirmProcess,
             //////////========================
             urgentTask: getUrgentTask,
             moreUrgentTask: loadMoreUrgentTask,
@@ -439,5 +440,38 @@ angular.module('Holu')
                 return promise;
             }
             return promise;
+        }
+        function batchConfirmProcess(data,processMid,type,userID){
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            var confirmUrl=ENV.ServerUrl + "/services/api/processMid/BatchStartConfirm.json";
+            $http({
+                method: 'POST',
+                url: confirmUrl,
+                data: "Data="+data+"&type="+type
+                + "&userID=" + userID +"&positionGPS="+processMid.positionGPS+"&positionName="+processMid.positionName,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (data) {
+                console.log("processMid save:" + data)
+                if (data == "") {
+                    deferred.reject('Failed');
+                }
+                else {
+                    deferred.resolve(data);
+                }
+            }).error(function (data) {
+                deferred.reject('Call Failed');
+            })
+
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
+
         }
     })
