@@ -25,9 +25,9 @@
                ng-click="taskListByType('all')">
                 {{'All' | translate }} |
             </a>
-            <a ng-class="{'button button-clear pull-right':selectedEndProcess.length == 0,'button button-clear pull-right button-calm': selectedEndProcess.length != 0}" ng-disabled="selectedEndProcess.length == 0" ng-click="batchConfirm('end')">{{'BatchEnd' | translate }}</a>
+           <!-- <a ng-class="{'button button-clear pull-right':selectedEndProcess.length == 0,'button button-clear pull-right button-calm': selectedEndProcess.length != 0}" ng-disabled="selectedEndProcess.length == 0" ng-click="batchConfirm('end')">{{'BatchEnd' | translate }}</a>
             <a ng-class="{'button button-clear pull-right':selectedStartProcess.length == 0,'button button-clear pull-right button-calm': selectedStartProcess.length != 0}" ng-disabled="selectedStartProcess.length == 0" ng-click="batchConfirm('start')">{{'BatchStart' | translate}}</a>
-
+-->
         </ion-scroll>
         <!--        <a class="button button-clear pull-right">Button</a>-->
     </ion-header-bar>
@@ -49,14 +49,36 @@
                 </div>
                 <div class="row confirmButton">
                     <div class="col col-33">
-                        <input type="checkbox" style="margin:10px"  ng-checked="selectedStartProcess.indexOf('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}') > -1" ng-click="toggleProcess('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}','start')" id="start-{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}" value="{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}-start-task" ng-disabled="item.processMid.startDate">
+                        <label class="toggle">
+                            <input type="checkbox" ng-checked="selectedStartProcess.indexOf('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}') > -1"
+                                   ng-click="toggleProcess('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}','start')"
+                                   id="start-{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}"
+                                   ng-disabled="item.processMid.startDate">
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>
                         <a class="button button-positive button-small" ng-disabled="item.processMid.startDate" href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.componentStyle.styleProcessID}}/start/urgent">{{'confirmStart' | translate }}</a>
                     </div>
 
                     <div class="col col-33">
-                        <input type="checkbox" style="margin:10px"  ng-checked="selectedEndProcess.indexOf('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}') > -1"  ng-click="toggleProcess('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}','end')" id="end-{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}" value="{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}-end-task" ng-disabled="item.processMid.endDate || !item.processMid.startDate">
+                        <label class="toggle">
+                            <input type="checkbox" ng-checked="selectedEndProcess.indexOf('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}') > -1"
+                                   ng-click="toggleProcess('{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}','end')"
+                                   id="end-{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}"
+                                   ng-disabled="item.processMid.endDate || !item.processMid.startDate">
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>
                         <a class="button button-positive button-small" ng-disabled="item.processMid.endDate || !item.processMid.startDate" href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.componentStyle.styleProcessID}}/end/urgent">{{'confirmEnd' | translate }}</a>
                     </div>
+                   <!-- <div class="col col-33">
+                        &lt;!&ndash;                        <a class="button button-small" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>&ndash;&gt;
+                        <a class="button button-small"  href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.componentStyle.styleProcessID}}/note/urgent">{{'confirmQuestion' | translate }}</a>
+                    </div>-->
+                </div>
+                <div class="row confirmButton">
                     <div class="col col-33">
                         <!--                        <a class="button button-small" ng-show="!item.subComponent" href="#/tab/processconfirm/{{item.component.project.projectID}}/{{item.component.componentID}}/{{item.componentStyle.styleProcessID}}">{{'processConfirm' | translate }}</a>-->
                         <a class="button button-small"  href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.componentStyle.styleProcessID}}/note/urgent">{{'confirmQuestion' | translate }}</a>
@@ -67,4 +89,8 @@
         </ion-list>
         <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>
     </ion-content>
+    <div class="tabs">
+        <a class="tab-item" ng-disabled="selectedStartProcess.length == 0" ng-click="batchConfirm('start')">{{'BatchStart' | translate}}</a>
+        <a class="tab-item" ng-disabled="selectedEndProcess.length == 0" ng-click="batchConfirm('end')">{{'BatchEnd' | translate }}</a>
+    </div>
 </ion-view>

@@ -284,13 +284,13 @@ angular.module('Holu')
             for(id in confirmData){
                 getDetailData(confirmData[id]);
             }
-            var platform = $cordovaDevice.getPlatform();
-            if(platform=='Android'){
+           /* var platform = $cordovaDevice.getPlatform();
+            if(platform=='Android'){*/
                 getPostion_baidu();
-            }
+           /* }
             else {
                 getPosition();
-            }
+            }*/
         })
         if($stateParams.type == 'note'){
             $scope.title='confirmQuestion';
@@ -389,7 +389,23 @@ angular.module('Holu')
 
             $scope.confirmDetail.push(result);
         }
-
+        function getPostion_baidu(){
+            BaiduGeolocation.getCurrentPosition(function(position){
+                // alert(JSON.stringify(position));
+                $scope.processMid.positionGPS=position.coords.latitude+","+position.coords.longitude;
+                $scope.processMid.positionName=position.addr;
+                $scope.locationed=true;
+                $scope.$digest();
+                //BaiduGeolocation.stop(noop,noop);
+            },function(e){
+                //alert(e);
+                $cordovaToast.showLongCenter(e)
+                $scope.locationed=false;
+                $scope.$digest();
+                //alert(JSON.stringify(e))
+                //BaiduGeolocation.stop(noop,noop)
+            });
+        }
 
     })
     .controller('ProcessConfirmCtrl', function ($scope, Projects,$state, $rootScope,AuthService,$cordovaGeolocation,$cordovaToast,
@@ -427,13 +443,13 @@ angular.module('Holu')
         };
         $scope.$on("$ionicView.enter", function(scopes, states){
            $scope.locationed=false;
-            var platform = $cordovaDevice.getPlatform();
-            if(platform=='Android'){
+/*            var platform = $cordovaDevice.getPlatform();*/
+/*            if(platform=='Android'){*/
                 getPostion_baidu();
-            }
+            /*}
             else {
                 getPosition();
-            }
+            }*/
         })
         $scope.processMid.styleProcessID=$stateParams.styleProcessID;
         $scope.processMid.subComponentID=$stateParams.componentID;
@@ -541,7 +557,9 @@ angular.module('Holu')
             $scope.getPositionFailed = translations.getPositionFailed;
             $scope.cancel = translations.cancel;
         });
+/*
         var noop=function(){}
+*/
         function getPostion_baidu(){
             BaiduGeolocation.getCurrentPosition(function(position){
                // alert(JSON.stringify(position));
@@ -559,7 +577,7 @@ angular.module('Holu')
                 //BaiduGeolocation.stop(noop,noop)
             });
         }
-        function getPosition(){
+       /* function getPosition(){
             var posOptions = {timeout: 10000, enableHighAccuracy: true};
             $cordovaGeolocation
                 .getCurrentPosition(posOptions)
@@ -586,7 +604,7 @@ angular.module('Holu')
                 });
 
         }
-
+*/
     })
     .controller('TaskCtrl',function($scope,$rootScope, Projects,$state, $rootScope,AuthService){
         var user = AuthService.currentUser();

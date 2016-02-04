@@ -106,14 +106,14 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
             }
             setTimeout(function () {
                 $cordovaSplashscreen.hide();
-            }, 3000);
+            }, 5000);
 
             amMoment.changeLocale('zh-cn');
             $ionicPlatform.on('resume', function () {
                 $cordovaSplashscreen.show();
                 setTimeout(function () {
                     $cordovaSplashscreen.hide();
-                }, 3000);
+                }, 2000);
             });
         });
         $ionicPlatform.registerBackButtonAction(function (e) {

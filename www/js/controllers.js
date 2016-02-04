@@ -210,10 +210,10 @@ angular.module('Holu.controllers', ['ngSanitize'])
         }
         $translate(['mainMenu', 'rightMenu','mainMenuHeader','Logout','Home','News','Posts','OA','Project','ProjectSummary'])
             .then(function (translations) {
-            $scope.mainMenu = translations.mainMenu;
-            $scope.rightMenu = translations.rightMenu;
-            $scope.mainMenuHeader = translations.mainMenuHeader;
-            $scope.Logout = translations.Logout;
+                $scope.mainMenu = translations.mainMenu;
+                $scope.rightMenu = translations.rightMenu;
+                $scope.mainMenuHeader = translations.mainMenuHeader;
+                $scope.Logout = translations.Logout;
                 $scope.Home = translations.Home;
                 $scope.News = translations.News;
                 $scope.Posts = translations.Posts;

@@ -39,10 +39,9 @@ ul[rn-carousel-transition="hexagon"] {
 /* indicators */
 div.rn-carousel-indicator span {
   cursor: pointer;
-  text-align: right;
   color: #666; }
   div.rn-carousel-indicator span.active {
-    color: #B22222; }
+    color: white; }
 
 /* prev/next controls */
 .rn-carousel-control {
