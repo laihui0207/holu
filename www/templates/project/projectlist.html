@@ -10,18 +10,6 @@
                 <p class="summary">
                     <span>{{::item.company.companyFullName}}</span>
                 </p>
-              <!--  <p>
-                    <span>Plan Date: {{item.startDate}} ~ {{item.endDate}}</span>
-                </p>-->
-               <!-- <a class="button icon-right  button-clear button-small" ng-show="item.childProjects.length" href="#/tab/projects/{{item.projectID}}" >
-&lt;!&ndash;                    {{'childProject' | translate}}&ndash;&gt;
-                    <i class="ion-more"></i>
-                </a>
-                <a class="button icon-right  button-clear button-small" ng-show="!item.childProjects.length" href="#/tab/components/{{item.projectID}}" >
-&lt;!&ndash;                    {{ 'component' | translate }}&ndash;&gt;
-                    <i class="ion-arrow-right-a"></i>
-                </a>-->
-<!--                <a class="button icon-right ion-chevron-right button-clear">child</a>-->
             </ion-item>
             <ion-item ng-if="noContent">{{::EmptyContent}}</ion-item>
         </ion-list>

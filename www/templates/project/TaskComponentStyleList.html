@@ -1,0 +1,31 @@
+<ion-view view-title="{{'MyTask'| translate}}">
+    <ion-header-bar class="bar-subheader">
+        <ion-scroll direction="x" class="wide-as-needed">
+            <a ng-class="{'button button-clear': currentType!='doing','button button-clear button-calm': currentType== 'doing'} "
+               ng-click="taskListByType('doing')">
+                {{'taskDoing' | translate }} |
+            </a>
+            <a ng-class="{'button button-clear': currentType!='finish','button button-clear button-calm': currentType== 'finish'} "
+                    ng-click="taskListByType('finish')">
+                {{'taskFinished' | translate }} |
+            </a>
+            <a ng-class="{'button button-clear': currentType!='all','button button-clear button-calm': currentType== 'all'} "
+               ng-click="taskListByType('all')">
+                {{'All' | translate }} |
+            </a>
+        </ion-scroll>
+    </ion-header-bar>
+    <ion-content>
+        <ion-refresher
+                pulling-text="{{ ::PullToFresh}}"
+                on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-list>
+            <ion-item ng-repeat="item in stylesList" class="item" href="#/tab/tasks/mission/{{projectID}}/{{item.value}}/{{currentType}}" >
+                <h2>{{ ::item.label}}</h2>
+            </ion-item>
+            <ion-item ng-if="noContent">{{'EmptyContent' | translate }}</ion-item>
+        </ion-list>
+<!--        <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>-->
+    </ion-content>
+</ion-view>

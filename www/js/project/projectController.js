@@ -606,6 +606,163 @@ angular.module('Holu')
         }
 */
     })
+    .controller('TaskProjectCtrl',function($scope,$rootScope, Projects,$state, $rootScope,AuthService){
+        var user = AuthService.currentUser();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.tasks"
+            $state.go("login")
+            return
+        }
+        $scope.currentType="doing";
+        loadData();
+        $scope.doRefresh = function () {
+            loadData();
+            $scope.$broadcast('scroll.refreshComplete');
+        }
+       /* $scope.loadMore=function(){
+            Projects.moreTask(user.userID,$scope.currentType);
+        }
+        $scope.canLoadMore=function(){
+            return Projects.canLoadMoreTask();
+        }*/
+        function loadData(){
+            Projects.myTaskProjects(user.userID,$scope.currentType).then(function(response){
+                $scope.projectList=response.data;
+            })
+        }
+        $scope.taskListByType=function(type){
+            $scope.currentType=type;
+            loadData();
+        }
+    })
+    .controller('TaskComponentStyleCtrl',function($scope,$rootScope, Projects,$state,$stateParams, $rootScope,AuthService){
+        var user = AuthService.currentUser();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.tasks"
+            $state.go("login")
+            return
+        }
+        $scope.currentType=$stateParams.type;
+        $scope.projectID=$stateParams.projectID;
+        loadData();
+        $scope.doRefresh = function () {
+            loadData();
+            $scope.$broadcast('scroll.refreshComplete');
+        }
+        /* $scope.loadMore=function(){
+         Projects.moreTask(user.userID,$scope.currentType);
+         }
+         $scope.canLoadMore=function(){
+         return Projects.canLoadMoreTask();
+         }*/
+        function loadData(){
+            Projects.myStyleListOfProject(user.userID,$stateParams.projectID,$scope.currentType).then(function(response){
+                $scope.stylesList=response.data;
+            })
+        }
+        $scope.taskListByType=function(type){
+            $scope.currentType=type;
+            loadData();
+        }
+    })
+    .controller('TaskMissionCtrl',function($scope,$rootScope, Projects,$state,$stateParams, $rootScope,AuthService){
+        var user = AuthService.currentUser();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.tasks"
+            $state.go("login")
+            return
+        }
+        $scope.currentType=$stateParams.type;
+        loadData();
+        $scope.doRefresh = function () {
+            loadData();
+            $scope.$broadcast('scroll.refreshComplete');
+        }
+        /* $scope.loadMore=function(){
+         Projects.moreTask(user.userID,$scope.currentType);
+         }
+         $scope.canLoadMore=function(){
+         return Projects.canLoadMoreTask();
+         }*/
+        $scope.selectedStartProcess=[];
+        $scope.selectedEndProcess=[];
+        function loadData(){
+            Projects.myTaskMissions(user.userID,$stateParams.projectID,$stateParams.styleID,$scope.currentType).then(function(response){
+                $scope.taskList=response.data;
+            })
+        }
+        $scope.taskListByType=function(type){
+            $scope.currentType=type;
+            loadData();
+        }
+        $scope.toggleProcess=function(value,type){
+            if(type==='start'){
+                var index=$scope.selectedStartProcess.indexOf(value);
+                if(index > -1){
+                    $scope.selectedStartProcess.splice(index,1)
+                }
+                else {
+                    $scope.selectedStartProcess.push(value)
+                }
+            }
+            else if(type==='end'){
+                var index=$scope.selectedEndProcess.indexOf(value);
+                if(index > -1){
+                    $scope.selectedEndProcess.splice(index,1)
+                }
+                else {
+                    $scope.selectedEndProcess.push(value)
+                }
+            }
+        }
+        $scope.batchConfirm=function(type){
+            if(type==='start'){
+                $state.go('tab.batchConfirm',{type:'start',from:'task',data: $scope.selectedStartProcess});
+            }
+            else if (type === 'end'){
+                $state.go('tab.batchConfirm',{type:'end',from:'task',data:$scope.selectedEndProcess});
+            }
+
+        }
+        $rootScope.$on('MissionUpdate',function(event,args){
+            var batchConfirmResult=[];
+            if(args.batchData != undefined){
+                batchConfirmResult=args.batchData.split(",");
+            }
+            if(args.type=='start'){
+                $scope.selectedStartProcess=[];
+            }
+            if(args.type === 'end'){
+                $scope.selectedEndProcess=[];
+            }
+
+            $scope.taskList.forEach(function(mission){
+                if(args.componentID != undefined && mission.subComponentID == args.componentID && mission.processMid.styleProcessID == args.styleID){
+                    if(args.type=="start"){
+                        mission.processMid.startDate=new Date();
+                    }
+                    else if(args.type=="end"){
+                        mission.processMid.endDate=new Date();
+                    }
+                    console.log('mission',mission);
+                } else if(args.batchData != undefined){
+                    for(var i in batchConfirmResult){
+                        var strA=batchConfirmResult[i].split("-");
+                        if(mission.subComponentID == strA[0] && mission.processMid.styleProcessID== strA[1]) {
+                            if (args.type === "start") {
+                                mission.processMid.startDate = new Date();
+                            }
+                            else if (args.type === "end") {
+                                mission.processMid.endDate = new Date();
+                            }
+                            console.log('mission',mission);
+                        }
+                    }
+                }
+            });
+            //$scope.$digest();
+        })
+    })
     .controller('TaskCtrl',function($scope,$rootScope, Projects,$state, $rootScope,AuthService){
         var user = AuthService.currentUser();
         if (user == undefined) {
@@ -861,4 +1018,123 @@ angular.module('Holu')
 
         }
 
+    })
+    .controller("urgentTaskProjectCtrl",function($scope, Projects,AuthService, $rootScope,$state){
+        var user = AuthService.currentUser();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.urgenttask"
+            $state.go("login")
+            return
+        }
+        $scope.currentType="doing";
+        loadData();
+        $scope.doRefresh = function () {
+            loadData();
+            $scope.$broadcast('scroll.refreshComplete');
+        }
+        /* $scope.loadMore=function(){
+         Projects.moreTask(user.userID,$scope.currentType);
+         }
+         $scope.canLoadMore=function(){
+         return Projects.canLoadMoreTask();
+         }*/
+        function loadData(){
+            Projects.urgentTaskProject(user.userID,$scope.currentType).then(function(response){
+                $scope.projectList=response.data;
+            })
+        }
+        $scope.taskListByType=function(type){
+            $scope.currentType=type;
+            loadData();
+        }
+    })
+    .controller("urgentTaskSubCtrl",function($scope, Projects,AuthService, $rootScope,$state,$stateParams){
+        var user = AuthService.currentUser();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.urgenttask"
+            $state.go("login")
+            return
+        }
+        $scope.currentType=$stateParams.type;
+        loadData();
+        $scope.doRefresh = function () {
+            loadData();
+            $scope.$broadcast('scroll.refreshComplete');
+        }
+        /* $scope.loadMore=function(){
+         Projects.moreTask(user.userID,$scope.currentType);
+         }
+         $scope.canLoadMore=function(){
+         return Projects.canLoadMoreTask();
+         }*/
+        function loadData(){
+            Projects.urgentTaskSubComponents(user.userID,$stateParams.projectID,$scope.currentType).then(function(response){
+                $scope.subList=response.data;
+            })
+        }
+        $scope.taskListByType=function(type){
+            $scope.currentType=type;
+            loadData();
+        }
+    })
+    .controller("urgentTaskMissionCtrl",function($scope, Projects,AuthService, $rootScope,$state,$stateParams){
+        var user = AuthService.currentUser();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.urgenttask"
+            $state.go("login")
+            return
+        }
+        $scope.currentType=$stateParams.type;
+        loadData();
+        $scope.doRefresh = function () {
+            loadData();
+            $scope.$broadcast('scroll.refreshComplete');
+        }
+        $scope.selectedStartProcess=[];
+        $scope.selectedEndProcess=[];
+        /* $scope.loadMore=function(){
+         Projects.moreTask(user.userID,$scope.currentType);
+         }
+         $scope.canLoadMore=function(){
+         return Projects.canLoadMoreTask();
+         }*/
+        function loadData(){
+            Projects.urgentTaskMission(user.userID,$stateParams.subID,$scope.currentType).then(function(response){
+                $scope.taskList=response.data;
+            })
+        }
+        $scope.taskListByType=function(type){
+            $scope.currentType=type;
+            loadData();
+        }
+        //$scope.doRefresh();
+        $scope.toggleProcess=function(value,type){
+            if(type==='start'){
+                var index=$scope.selectedStartProcess.indexOf(value);
+                if(index > -1){
+                    $scope.selectedStartProcess.splice(index,1)
+                }
+                else {
+                    $scope.selectedStartProcess.push(value)
+                }
+            }
+            else if(type==='end'){
+                var index=$scope.selectedEndProcess.indexOf(value);
+                if(index > -1){
+                    $scope.selectedEndProcess.splice(index,1)
+                }
+                else {
+                    $scope.selectedEndProcess.push(value)
+                }
+            }
+        }
+        $scope.batchConfirm=function(type){
+            if(type==='start'){
+                $state.go('tab.batchConfirm',{type:'start',from:'task',data: $scope.selectedStartProcess});
+            }
+            else if (type === 'end'){
+                $state.go('tab.batchConfirm',{type:'end',from:'task',data:$scope.selectedEndProcess});
+            }
+
+        }
     })

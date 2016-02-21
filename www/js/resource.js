@@ -121,7 +121,10 @@ var translations = {
         taskFinished: 'Finished',
         Location: 'Location.......',
         BatchStart: 'Batch Start',
-        BatchEnd: 'Batch End'
+        BatchEnd: 'Batch End',
+        inputMobileNumber: 'Mobile Number',
+        inputMobileNumber_valid: 'Mobile Number should 11 Number',
+        inputPassword: 'Password'
     },
     "zh": {
         HEADLINE : '这是我们的节日哦',
@@ -251,7 +254,7 @@ var translations = {
         progressDate: '时间',
         progressDuration: '工期',
         progressPlan: '计划',
-        progressPredict: '预计',
+        progressPredict: '执行',
         progressUsed: '实际',
         progressActual: '实际',
         progressInAdvance: '提前',
@@ -273,7 +276,10 @@ var translations = {
         taskFinished: '已完工',
         Location: '定位中.....',
         BatchStart: '批量开工',
-        BatchEnd: '批量完工'
+        BatchEnd: '批量完工',
+        inputMobileNumber: '请输入手机号',
+        inputMobileNumber_valid: '手机号是11位数字',
+        inputPassword: '请输入登录密码'
 
     }
 }

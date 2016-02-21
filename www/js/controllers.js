@@ -11,15 +11,16 @@ angular.module('Holu.controllers', ['ngSanitize'])
         });
         $translate(['LoginFailHeader', 'LoginFailMessage','SignUpSuccessHeader','SignUpFailedHeader','SignUpSuccessMessage',
         'SignUpFailedMessage','UserName','Password','RemeberMe','Login','SignUp',
-            'Language','BUTTON_TEXT_ZH','BUTTON_TEXT_EN','loginCode','company','CompanyNote'
+            'Language','BUTTON_TEXT_ZH','BUTTON_TEXT_EN','loginCode','company','CompanyNote','inputMobileNumber','inputPassword',
+            'inputMobileNumber_valid'
         ])
             .then(function (translations) {
-            $scope.loginFailHeader = translations.LoginFailHeader;
-            $scope.LoginFailMessage = translations.LoginFailMessage;
-            $scope.SignUpSuccessHeader = translations.SignUpSuccessHeader;
-            $scope.SignUpFailedHeader = translations.SignUpFailedHeader;
-            $scope.SignUpSuccessMessage = translations.SignUpSuccessMessage;
-            $scope.SignUpFailedMessage = translations.SignUpFailedMessage;
+                $scope.loginFailHeader = translations.LoginFailHeader;
+                $scope.LoginFailMessage = translations.LoginFailMessage;
+                $scope.SignUpSuccessHeader = translations.SignUpSuccessHeader;
+                $scope.SignUpFailedHeader = translations.SignUpFailedHeader;
+                $scope.SignUpSuccessMessage = translations.SignUpSuccessMessage;
+                $scope.SignUpFailedMessage = translations.SignUpFailedMessage;
                 $scope.UserName = translations.UserName;
                 $scope.Password = translations.Password;
                 $scope.RemeberMe = translations.RemeberMe;
@@ -31,9 +32,19 @@ angular.module('Holu.controllers', ['ngSanitize'])
                 $scope.loginCode = translations.loginCode;
                 $scope.company = translations.company;
                 $scope.CompanyNote = translations.CompanyNote;
+                $scope.inputMobileNumber = translations.inputMobileNumber;
+                $scope.inputPassword = translations.inputPassword;
+                $scope.inputMobileNumber_valid = translations.inputMobileNumber_valid;
         });
         $scope.$on("$ionicView.enter", function(scopes, states){
-            $scope.data.userName=Storage.get("userName");
+            var userName=Storage.get("userName");
+            if(userName!=undefined){
+                $scope.data.userName=userName;
+            }
+            else {
+                $scope.data.userName="";
+            }
+
             var remeberMe=Storage.get("remeberMe");
             if(remeberMe!==undefined){
                 $scope.data.remeberMe=remeberMe;

@@ -7,6 +7,7 @@
   "dependencies": {
     "angular-http-auth": "~1.2.2",
     "angular-moment": "~0.10.2",
-    "moment": "~2.10.6"
+    "moment": "~2.10.6",
+    "angular-ui-utils": "~3.0.0"
   }
 }

@@ -17,8 +17,7 @@
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes -->
 <!--    <link href="css/ionic.app.css" rel="stylesheet">-->
-
-
+    <!--build:js lib/lib.min.js -->
     <script src="lib/jquery/dist/jquery.min.js"></script>
     <script src="lib/ionic/js/ionic.bundle.min.js"></script>
     <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
@@ -29,12 +28,8 @@
     <script src="lib/moment/min/moment-with-locales.min.js"></script>
     <script src="lib/angular-moment/angular-moment.min.js"></script>
     <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
-<!--    <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&key=HXOBZ-G4BW4-MGGUG-XXYEV-YDGTZ-RHFGS&libraries=convertor"></script>-->
-<!--    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ny5VTu66aPa0xQK5lzl5Dw4f"></script>-->
-<!--    <script type="text/javascript" src="http://api.map.baidu.com/api?type=quick&ak=ny5VTu66aPa0xQK5lzl5Dw4f&v=1.0"></script>-->
-    <!--    <script src="lib/textAngular/textAngular.min.js"></script>-->
-<!--    <script src="lib/textAngular/textAngular.min.js"></script>-->
-
+    <script src="lib/angular-ui-mask/dist/mask.min.js"></script>
+<!-- endbuild -->
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
@@ -92,8 +87,9 @@
         </ion-content>
     </ion-side-menu>-->
 </ion-side-menus>
-<!-- build:js js/app.min.js -->
+
 <script src="js/app.js"></script>
+<script src="js/resource.js"></script>
 <script src="js/config.js"></script>
 <script src="js/news/newsController.js"></script>
 <script src="js/news/newsService.js"></script>
@@ -110,12 +106,12 @@
 <script src="js/summary/summaryController.js"></script>
 <script src="js/summary/summaryService.js"></script>
 <script src="js/imageFilter.js"></script>
-<script src="js/resource.js"></script>
+
 <script src="js/services.js"></script>
 <script src="js/controllers.js"></script>
 <script src="js/directive.js"></script>
 <script src="js/VideoPlayer.js"></script>
-<!-- endbuild -->
+
 <script id="image-modal.html" type="text/ng-template">
     <div class="modal image-modal transparent" ng-click="closeModal()">
         <ion-scroll zooming="true" direction="xy" delegate-handle="zoom-pane" class="zoom-pane transparent" min-zoom="1" scrollbar-x="false" scrollbar-y="false">

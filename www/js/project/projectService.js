@@ -43,13 +43,18 @@ angular.module('Holu')
             processMid: getProcessMid,
             batchConfirm: batchConfirmProcess,
             //////////========================
+            urgentTaskProject: getUrgentTaskProject,
+            urgentTaskSubComponents: getUrgentTaskSubComponents,
+            urgentTaskMission: getUrgentTaskMission,
             urgentTask: getUrgentTask,
             moreUrgentTask: loadMoreUrgentTask,
             canMoreUrgentTask: isUrgentTaskNextPage,
             urgentTaskData: getUrgentData,
 /*            setUrgentTaskType: setUrgentType,*/
             ////////task==============
-            //myProjects: getMyProject,
+            myTaskProjects: getMyTaskProject,
+            myStyleListOfProject: getTaskStyleListByProject,
+            myTaskMissions: getMyMissions,
             myTasks: getMyTask,
             moreTask:loadMoreTask,
             canLoadMoreTask: isCanLoadMoreTask,
@@ -60,7 +65,15 @@ angular.module('Holu')
         function getComponentStyle(componentProcessID){
             return $http.get(ENV.ServerUrl+"/services/api/componentStyles/"+componentProcessID+".json");
         }
-
+        function getUrgentTaskProject(userID,taskType){
+            return $http.get(ENV.ServerUrl+"/services/api/tasks/projects/"+userID+".json?type="+taskType);
+        }
+        function getUrgentTaskSubComponents(userID,projectId,taskType){
+            return $http.get(ENV.ServerUrl+"/services/api/tasks/sub/"+projectId+"/"+userID+".json?type="+taskType);
+        }
+        function getUrgentTaskMission(userID,subID,taskType){
+            return $http.get(ENV.ServerUrl+"/services/api/tasks/"+userID+"/"+subID+".json?type="+taskType);
+        }
         function getUrgentTask(userId,taskType){
             urgentTaskType=taskType;
             var serviceURL=ENV.ServerUrl+"/services/api/tasks/subComponents/"+userId+".json";
@@ -122,8 +135,14 @@ angular.module('Holu')
             }
             return urgentTasks[urgentTaskType].data;
         }
-        function getMyProject(userId){
-            return $http.get(ENV.ServerUrl+"/services/api/projects/all/"+userId+".json");
+        function getMyTaskProject(userId,type){
+            return $http.get(ENV.ServerUrl+"/services/api/processMid/projects/"+userId+".json?type="+type);
+        }
+        function getTaskStyleListByProject(userId,projectID,type){
+            return $http.get(ENV.ServerUrl+"/services/api/processMid/styles/"+projectID+"/"+userId+".json?type="+type);
+        }
+        function getMyMissions(userId,projectID,styleID,type){
+            return $http.get(ENV.ServerUrl+"/services/api/processMid/missions/"+projectID+"/"+styleID+"/"+userId+".json?type="+type);
         }
         function getMyTask(userId,type,isAdmin){
             taskType=type;

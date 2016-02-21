@@ -38,7 +38,7 @@
                 <p>
                     {{::progressDuration}}:
                     {{::progressPlan}} {{item.planDuration}} {{::progressDays}}
-                    {{::progressUsed}} {{item.actualDuration}} {{::progressDays}}
+<!--                    {{::progressUsed}} {{item.actualDuration}} {{::progressDays}}-->
                     {{::progressPredict}} {{item.predictDuration}} {{::progressDays}}
                 </p>
                 <p>
@@ -47,11 +47,11 @@
                 <p>
                     {{::progressPlan}}: {{item.sumDate_plan_start | date:'yyyy-MM-dd'}} ~ {{item.sumDate_plan_end | date:'yyyy-MM-dd'}}
                 </p>
-                <p>
+               <!-- <p>
                     {{::progressActual}}: {{item.sumDate_actual_start | date:'yyyy-MM-dd'}} ~ {{item.sumDate_actual_end | date:'yyyy-MM-dd'}}
-                </p>
+                </p>-->
                 <p>
-                    {{::progressPredict}}: {{item.sumDate_predict_start | date:'yyyy-MM-dd'}} {{item.sumDate_predict_end | date:'yyyy-MM-dd'}}
+                    {{::progressPredict}}: {{item.sumDate_predict_start | date:'yyyy-MM-dd'}} ~ {{item.sumDate_predict_end | date:'yyyy-MM-dd'}}
                 </p>
             </ion-item>
 <!--            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>-->

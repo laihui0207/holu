@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'Holu.controllers', 'Holu.imageFilter',
-    'Holu.translate', 'Holu.SelectDirective', 'angularMoment', 'angular-carousel'])
+    'Holu.translate', 'Holu.SelectDirective', 'angularMoment', 'angular-carousel','ui.mask'])
 
     .run(function ($ionicPlatform, $rootScope, $state, $timeout, $ionicHistory,
                    $cordovaToast, amMoment, $cordovaSplashscreen, $cordovaNetwork,$cordovaDevice,
@@ -462,12 +462,39 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                     }
                 }
             })
-            .state('tab.tasks', {
+          /*  .state('tab.tasks', {
                 url: '/tasks',
                 views: {
                     'tab-project': {
                         templateUrl: 'templates/project/task.html',
                         controller: 'TaskCtrl'
+                    }
+                }
+            })*/
+            .state('tab.tasks', {
+                url: '/tasks',
+                views: {
+                    'tab-project': {
+                        templateUrl: 'templates/project/TaskProjectList.html',
+                        controller: 'TaskProjectCtrl'
+                    }
+                }
+            })
+            .state('tab.tasks-styles', {
+                url: '/tasks/styles/:projectID/:type',
+                views: {
+                    'tab-project': {
+                        templateUrl: 'templates/project/TaskComponentStyleList.html',
+                        controller: 'TaskComponentStyleCtrl'
+                    }
+                }
+            })
+            .state('tab.tasks-missions', {
+                url: '/tasks/mission/:projectID/:styleID/:type',
+                views: {
+                    'tab-project': {
+                        templateUrl: 'templates/project/task.html',
+                        controller: 'TaskMissionCtrl'
                     }
                 }
             })
@@ -535,12 +562,39 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                     }
                 }
             })
-            .state('tab.urgenttask', {
+          /*  .state('tab.urgenttask', {
                 url: '/urgenttask',
                 views: {
                     'tab-project': {
                         templateUrl: 'templates/project/urgenttask.html',
                         controller: 'UrgentTaskCtrl'
+                    }
+                }
+            })*/
+            .state('tab.urgenttask', {
+                url: '/urgenttask',
+                views: {
+                    'tab-project': {
+                        templateUrl: 'templates/project/urgentTaskProjectList.html',
+                        controller: 'urgentTaskProjectCtrl'
+                    }
+                }
+            })
+            .state('tab.urgenttask-sub', {
+                url: '/urgenttask/:projectID/:type',
+                views: {
+                    'tab-project': {
+                        templateUrl: 'templates/project/urgentTaskSubcomponent.html',
+                        controller: 'urgentTaskSubCtrl'
+                    }
+                }
+            })
+            .state('tab.urgenttask-mission', {
+                url: '/urgentMission/:subID/:type',
+                views: {
+                    'tab-project': {
+                        templateUrl: 'templates/project/urgenttask.html',
+                        controller: 'urgentTaskMissionCtrl'
                     }
                 }
             })

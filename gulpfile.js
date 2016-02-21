@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var bower = require('bower');
 var concat = require('gulp-concat');
-var sass = require('gulp-sass');
+/*var sass = require('gulp-sass');*/
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
@@ -22,32 +22,26 @@ gulp.task('index', function () {
       .pipe(gulpif('*.css', minifyCss()))
       .pipe(gulp.dest('app'));
 });
-gulp.task('compress', function() {
-  return gulp.src('lib/*.js')
+/*gulp.task('compress', function() {
+  return gulp.src('www/js/!**!/!*.js')
       .pipe(uglify())
       .pipe(gulp.dest('dist'));
-});
+});*/
 // 语法检查
 gulp.task('jshint', function () {
-  return gulp.src('www/js/*.js')
+  return gulp.src('www/js/**/*.js')
       .pipe(jshint())
       .pipe(jshint.reporter('default'));
 });
+//backup www content
+gulp.task("backup",function(){
+  gulp.src('www/**/*.*')
+      .pipe(gulp.dest('www_b/'));
+})
 // 复制文件
 gulp.task('copyToWWW', function () {
   gulp.src('app/**/*.*')
-      .pipe(gulp.dest('www_b/'))
-
- /* gulp.src('app/css/!*')
-      .pipe(gulp.dest('www/css/'))*/
-  /*gulp.src('app/index.html')
-      .pipe(gulp.dest('www/'))
-  gulp.src('app/img/!*')
-      .pipe(gulp.dest('www/img/'))
-  gulp.src('app/js/!*')
-      .pipe(gulp.dest('www/js/'))
-  gulp.src('app/templates/!*')
-      .pipe(gulp.dest('www/templates/'))*/
+      .pipe(gulp.dest('www/'));
 });
 // 复制文件
 gulp.task('copyToApp', function () {
@@ -55,8 +49,8 @@ gulp.task('copyToApp', function () {
       .pipe(gulp.dest('app/templates/'))
   gulp.src('www/img/*')
       .pipe(gulp.dest('app/img/'))
-  gulp.src('www/lib/**/*.min.js')
-      .pipe(gulp.dest('app/lib/'))
+  gulp.src('www/js/**/*.js')
+      .pipe(gulp.dest('app/js/'))
 
 });
 // 清空图片、样式、js
@@ -65,13 +59,13 @@ gulp.task('clean', function () {
       .pipe(clean({force: true}));
 });
 
-var paths = {
-  sass: ['./scss/**/*.scss']
-};
+/*var paths = {
+  sass: ['./scss/!**!/!*.scss']
+};*/
 
-gulp.task('default', ['sass']);
+gulp.task('default', ['backup','copyToApp','index','clean','copyToWWW']);
 
-gulp.task('sass', function(done) {
+/*gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
     .pipe(sass({
       errLogToConsole: true
@@ -83,10 +77,10 @@ gulp.task('sass', function(done) {
     .pipe(rename({ extname: '.min.css' }))
     .pipe(gulp.dest('./www/css/'))
     .on('end', done);
-});
+});*/
 
 gulp.task('watch', function() {
-  gulp.watch(paths.sass, ['sass']);
+/*  gulp.watch(paths.sass, ['sass']);*/
 });
 
 gulp.task('install', ['git-check'], function() {
