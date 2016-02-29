@@ -2,15 +2,15 @@
     <ion-header-bar class="bar-subheader">
         <ion-scroll direction="x" class="wide-as-needed">
             <a ng-class="{'button button-clear': currentType!='doing','button button-clear button-calm': currentType== 'doing'} "
-               ng-click="taskListByType('doing')">
+               href="#/tab/tasks/doing">
                 {{'taskDoing' | translate }} |
             </a>
             <a ng-class="{'button button-clear': currentType!='finish','button button-clear button-calm': currentType== 'finish'} "
-                    ng-click="taskListByType('finish')">
+               href="#/tab/tasks/finish">
                 {{'taskFinished' | translate }} |
             </a>
             <a ng-class="{'button button-clear': currentType!='all','button button-clear button-calm': currentType== 'all'} "
-               ng-click="taskListByType('all')">
+               href="#/tab/tasks/all">
                 {{'All' | translate }} |
             </a>
         </ion-scroll>

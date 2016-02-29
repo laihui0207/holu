@@ -47,7 +47,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                 Upgrade.lastVersion().then(function (response) {
                     var serverAppVersion = response.data;
                     //获取版本
-                    $cordovaAppVersion.getAppVersion().then(function (version) {
+                    $cordovaAppVersion.getVersionNumber().then(function (version) {
                         //如果本地于服务端的APP版本不符合
                         if (version != serverAppVersion.version) {
                             showUpdateConfirm(serverAppVersion);
@@ -472,7 +472,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                 }
             })*/
             .state('tab.tasks', {
-                url: '/tasks',
+                url: '/tasks/:type',
                 views: {
                     'tab-project': {
                         templateUrl: 'templates/project/TaskProjectList.html',
@@ -544,7 +544,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                 }
             })
             .state('tab.process', {
-                url: '/processconfirm/:projectID/:componentID/:styleProcessID/:type/:from',
+                url: '/processconfirm/:projectID/:componentID/:styleProcessID/:type/:from/:styleID/:taskType',
                 views: {
                     'tab-project': {
                         templateUrl: 'templates/project/processconfirm.html',
@@ -554,7 +554,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
             })
             .state('tab.batchConfirm',{
                 url: '/batchConfirm',
-                params:{type:null,from:null,data:null},
+                params:{type:null,from:null,data:null,taskType:null,projectID:null,styleID:null,subID:null},
                 views: {
                     'tab-project':{
                         templateUrl: 'templates/project/batchConfirm.html',
@@ -572,7 +572,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                 }
             })*/
             .state('tab.urgenttask', {
-                url: '/urgenttask',
+                url: '/urgenttask/:type',
                 views: {
                     'tab-project': {
                         templateUrl: 'templates/project/urgentTaskProjectList.html',

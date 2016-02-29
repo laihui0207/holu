@@ -24,7 +24,11 @@
 
 }
 .confirmButton{
-    margin-top: 10px;
+    margin-top: 1px;
+}
+.confirmButton label {
+    margin-top:5px;
+    margin-right: 10px;
 }
 textarea {
     height:auto;
@@ -177,6 +181,29 @@ ul[rn-carousel] {
 .batchConfirm_active {
     color:#FFF;
     font-size: medium
+}
+#taskContent {
+    margin-bottom: 20px;
+}
+#taskList .item-content {
+    padding-top:5px;
+    padding-bottom: 5px;
+}
+#taskList .item{
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+/*.list .item:nth-child(odd) .item-content{
+    background-color:red;
+}*/
+.list .item:nth-child(even) .item-content{
+    background-color: #f9f9f9;
+}
+#taskList .item:nth-child(even){
+    background-color: #f9f9f9;
+}
+#List .item:nth-child(even){
+    background-color: #f9f9f9;
 }
 
 

@@ -4,7 +4,7 @@
 angular.module('Holu')
     .factory('Projects',function($http,$q,ENV,$rootScope){
         var ProjectsData={};
-        var pageSize=20;
+        var pageSize=10;
         var currentProject="";
         var currentComponent="";
         var currentSubComponent="";
@@ -16,6 +16,7 @@ angular.module('Holu')
         var taskType="doing";
         var taskData={};
         var taskIndex=0;
+        var taskMission={};
         return ({
             componentStyle: getComponentStyle,
             projects: listMyProjects,
@@ -55,6 +56,9 @@ angular.module('Holu')
             myTaskProjects: getMyTaskProject,
             myStyleListOfProject: getTaskStyleListByProject,
             myTaskMissions: getMyMissions,
+            moreTaskMission: getMoreTaskMission,
+            canMoreTaskMission: isHaveMoreTaskMission,
+            taskMissionData: getTaskMissionData,
             myTasks: getMyTask,
             moreTask:loadMoreTask,
             canLoadMoreTask: isCanLoadMoreTask,
@@ -142,7 +146,69 @@ angular.module('Holu')
             return $http.get(ENV.ServerUrl+"/services/api/processMid/styles/"+projectID+"/"+userId+".json?type="+type);
         }
         function getMyMissions(userId,projectID,styleID,type){
-            return $http.get(ENV.ServerUrl+"/services/api/processMid/missions/"+projectID+"/"+styleID+"/"+userId+".json?type="+type);
+            var hasNextPage=true;
+            var currentPage=0;
+            taskMission={
+                projectID: projectID,
+                styleID: styleID,
+                type: type,
+                userID: userId
+            };
+            console.log(taskMission);
+            $http.get(ENV.ServerUrl+"/services/api/processMid/missions/"+projectID+"/"+styleID+"/"
+                +userId+".json?type="+type+"&pageSize="+pageSize+"&page="+currentPage)
+                .then(function(response){
+                    if(response.data.length < pageSize){
+                        hasNextPage=false;
+                    }
+                    taskMission={
+                        hasNextPage: hasNextPage,
+                        pageIndex: currentPage,
+                        data:response.data,
+                        projectID: projectID,
+                        styleID: styleID,
+                        type: type,
+                        userID: userId
+                    }
+                    $rootScope.$broadcast("TaskMission.updated");
+                });
+        }
+        function getMoreTaskMission(){
+            var currentPage=taskMission.pageIndex;
+            var hasNextPage=true;
+            currentPage++;
+            var currentData=taskMission.data;
+            var projectID=taskMission.projectID;
+            var styleID=taskMission.styleID;
+            var userId=taskMission.userID;
+            var type=taskMission.type;
+
+            $http.get(ENV.ServerUrl+"/services/api/processMid/missions/"+projectID+"/"+styleID+"/"
+                    +userId+".json?type="+type+"&pageSize="+pageSize+"&page="+currentPage)
+                .then(function(response){
+                    if(response.data.length < pageSize){
+                        hasNextPage=false;
+                    }
+                    currentData=currentData.concat(response.data)
+                    taskMission={
+                        hasNextPage: hasNextPage,
+                        pageIndex: currentPage,
+                        data:currentData,
+                        projectID: projectID,
+                        styleID: styleID,
+                        type: type,
+                        userID: userId
+                    }
+                    $rootScope.$broadcast("TaskMission.updated");
+                });
+        }
+        function isHaveMoreTaskMission(){
+            if(taskMission==undefined) return false;
+            return  taskMission.hasNextPage;
+        }
+        function getTaskMissionData(){
+            if(taskMission===undefined) return;
+            return taskMission.data;
         }
         function getMyTask(userId,type,isAdmin){
             taskType=type;

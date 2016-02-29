@@ -124,7 +124,8 @@ var translations = {
         BatchEnd: 'Batch End',
         inputMobileNumber: 'Mobile Number',
         inputMobileNumber_valid: 'Mobile Number should 11 Number',
-        inputPassword: 'Password'
+        inputPassword: 'Password',
+        preProcessNotFinish: 'Pre-process Not finish'
     },
     "zh": {
         HEADLINE : '这是我们的节日哦',
@@ -266,8 +267,8 @@ var translations = {
         TotalSearch: '总体查询',
         searchDate: '查询时间',
         taskType: '任务类型',
-        confirmStart: '开工确认',
-        confirmEnd: '完工确认',
+        confirmStart: '开工',
+        confirmEnd: '完工',
         confirmQuestion: '问题反馈',
         confirmStartDate: '开工于',
         confirmEndDate: '完工于',
@@ -279,7 +280,8 @@ var translations = {
         BatchEnd: '批量完工',
         inputMobileNumber: '请输入手机号',
         inputMobileNumber_valid: '手机号是11位数字',
-        inputPassword: '请输入登录密码'
+        inputPassword: '请输入登录密码',
+        preProcessNotFinish: '前置工艺还没有完工'
 
     }
 }

@@ -4,12 +4,13 @@
                 pulling-text="{{ ::PullToFresh}}"
                 on-refresh="doRefresh()">
         </ion-refresher>
-        <ion-list>
-            <ion-item ng-repeat="item in projectList track by item.id" class="item" ng-click="goto(item.childProjects.length,item.projectID)" ><!-- href="#/tab/components/{{item.projectID}} -->
-                <h2>{{ ::item.projectPathName }}</h2>
-                <p class="summary">
-                    <span>{{::item.company.companyFullName}}</span>
-                </p>
+        <ion-list id="List">
+            <ion-item ng-repeat="item in projectList track by item.id"
+                      ng-click="goto(item.childProjects.length,item.projectID)" >
+                    <h2>{{ ::item.projectPathName }}</h2>
+                    <p class="summary">
+                        <span>{{::item.company.companyFullName}}</span>
+                    </p>
             </ion-item>
             <ion-item ng-if="noContent">{{::EmptyContent}}</ion-item>
         </ion-list>

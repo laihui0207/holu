@@ -2,15 +2,15 @@
     <ion-header-bar class="bar-subheader">
         <ion-scroll direction="x" class="wide-as-needed">
             <a ng-class="{'button button-clear': currentType!='doing','button button-clear button-calm': currentType== 'doing'} "
-               ng-click="taskListByType('doing')">
+               href="#/tab/urgenttask/doing">
                 {{'taskDoing' | translate }} |
             </a>
             <a ng-class="{'button button-clear': currentType!='finish','button button-clear button-calm': currentType== 'finish'} "
-                    ng-click="taskListByType('finish')">
+               href="#/tab/urgenttask/finish">
                 {{'taskFinished' | translate }} |
             </a>
             <a ng-class="{'button button-clear': currentType!='all','button button-clear button-calm': currentType== 'all'} "
-               ng-click="taskListByType('all')">
+               href="#/tab/urgenttask/all">
                 {{'All' | translate }} |
             </a>
         </ion-scroll>
@@ -21,7 +21,7 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list>
-            <ion-item ng-repeat="item in projectList" class="item"  href="#/tab/urgenttask/{{item.value}}/{{currentType}}">
+            <ion-item  ng-repeat="item in projectList" class="item"  href="#/tab/urgenttask/{{item.value}}/{{currentType}}">
                 <h2>{{ ::item.label}}</h2>
             </ion-item>
             <ion-item ng-if="noContent">{{'EmptyContent' | translate}}</ion-item>
