@@ -178,9 +178,9 @@ ul[rn-carousel] {
 .batchConfirm_checkbox {
     margin: 10px;
 }
-.batchConfirm_active {
-    color:#FFF;
-    font-size: medium
+#batchButton .batchConfirm_active {
+    color:blue;
+    font-size: medium;
 }
 #taskContent {
     margin-bottom: 20px;
@@ -193,6 +193,10 @@ ul[rn-carousel] {
     padding-top: 2px;
     padding-bottom: 2px;
 }
+#taskList .list:last-child {
+    padding-bottom: 30px;
+}
+
 /*.list .item:nth-child(odd) .item-content{
     background-color:red;
 }*/

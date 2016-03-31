@@ -158,7 +158,8 @@ angular.module('Holu')
             $http.get(ENV.ServerUrl+"/services/api/processMid/missions/"+projectID+"/"+styleID+"/"
                 +userId+".json?type="+type+"&pageSize="+pageSize+"&page="+currentPage)
                 .then(function(response){
-                    if(response.data.length < pageSize){
+                    console.log(response.data);
+                    if(response.data.length == 0 || response.data[0].subComponentList.length < pageSize){
                         hasNextPage=false;
                     }
                     taskMission={
@@ -186,7 +187,7 @@ angular.module('Holu')
             $http.get(ENV.ServerUrl+"/services/api/processMid/missions/"+projectID+"/"+styleID+"/"
                     +userId+".json?type="+type+"&pageSize="+pageSize+"&page="+currentPage)
                 .then(function(response){
-                    if(response.data.length < pageSize){
+                    if(response.data.length == 0 || response.data[0].subComponentList.length < pageSize){
                         hasNextPage=false;
                     }
                     currentData=currentData.concat(response.data)

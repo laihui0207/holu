@@ -285,13 +285,13 @@ angular.module('Holu')
             for(id in confirmData){
                 getDetailData(confirmData[id]);
             }
-           /* var platform = $cordovaDevice.getPlatform();
-            if(platform=='Android'){*/
+            var platform = $cordovaDevice.getPlatform();
+            if(platform=='Android'){
                 getPostion_baidu();
-           /* }
+            }
             else {
                 getPosition();
-            }*/
+            }
         })
         if($stateParams.type == 'note'){
             $scope.title='confirmQuestion';
@@ -361,7 +361,7 @@ angular.module('Holu')
         };
         function getDetailData(id){
             //id format: projectID,subcomponentID,processID
-            var ids=id.split("-");
+            var ids=id.split("#");
             var projectID=ids[0];
             var subcomponentID=ids[1];
             var processID=ids[2];
@@ -408,6 +408,33 @@ angular.module('Holu')
                 //BaiduGeolocation.stop(noop,noop)
             });
         }
+        function getPosition(){
+            var posOptions = {timeout: 10000, enableHighAccuracy: true};
+            $cordovaGeolocation
+                .getCurrentPosition(posOptions)
+                .then(function (position) {
+                    $scope.processMid.positionGPS=position.coords.latitude+","+position.coords.longitude;
+                    qq.maps.convertor.translate(new qq.maps.LatLng(position.coords.latitude, position.coords.longitude), 1, function (res) {
+                        latlng = res[0];
+                        geocoder = new qq.maps.Geocoder({
+                            complete: function (result) {
+                                $scope.processMid.positionName=result.detail.address;
+                                $scope.locationed=true;
+                                $scope.$digest();
+                            }
+                        });
+                        geocoder.getAddress(latlng);
+
+                    });
+
+
+                }, function(err) {
+                    $cordovaToast.showLongCenter($scope.getPositionFailed)
+                    $scope.locationed=false;
+                    $scope.$digest();
+                });
+
+        }
 
     })
     .controller('ProcessConfirmCtrl', function ($scope, Projects,$state, $rootScope,AuthService,$cordovaGeolocation,$cordovaToast,
@@ -445,13 +472,13 @@ angular.module('Holu')
         };
         $scope.$on("$ionicView.enter", function(scopes, states){
            $scope.locationed=false;
-/*            var platform = $cordovaDevice.getPlatform();*/
-/*            if(platform=='Android'){*/
+            var platform = $cordovaDevice.getPlatform();
+            if(platform=='Android'){
                 getPostion_baidu();
-            /*}
+            }
             else {
                 getPosition();
-            }*/
+            }
         })
         $scope.processMid.styleProcessID=$stateParams.styleProcessID;
         $scope.processMid.subComponentID=$stateParams.componentID;
@@ -580,7 +607,7 @@ angular.module('Holu')
                 //BaiduGeolocation.stop(noop,noop)
             });
         }
-       /* function getPosition(){
+        function getPosition(){
             var posOptions = {timeout: 10000, enableHighAccuracy: true};
             $cordovaGeolocation
                 .getCurrentPosition(posOptions)
@@ -607,7 +634,6 @@ angular.module('Holu')
                 });
 
         }
-*/
     })
     .controller('TaskProjectCtrl',function($scope,$rootScope, Projects,$state,$stateParams,$rootScope,AuthService){
         var user = AuthService.currentUser();

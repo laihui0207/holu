@@ -32,13 +32,13 @@
             <ion-item class="item-divider">{{::todaySummary}} （{{::startDate | amDateFormat:'YYYY-MM-DD'}} ~ {{::date | amDateFormat:'YYYY-MM-DD'}})</ion-item>
             <ion-item ng-repeat="item in totalSummary track by $index" class="item">
                 <p>
-                    {{::completed}}: {{::item.actual | number:1 }}{{::dun}}
+                    {{::completed}}: {{item.actual | number:1 }}{{::dun}}
                 </p>
                     <p >
-                        {{::plan}}: {{::item.plan | number:1}}{{::dun}}
+                        {{::plan}}: {{item.plan | number:1}}{{::dun}}
                     </p>
                     <p >
-                        {{::percent}}: {{::item.percent }}
+                        {{::percent}}: {{item.percent }}
                     </p>
             </ion-item>
         </ion-list>
@@ -46,10 +46,10 @@
             <div ng-repeat="(name,items) in summaryItem" >
                 <ion-item class="item-divider">{{ ::projectName}}: {{::name}} </ion-item>
                 <ion-item ng-repeat="item in items" class="item" href="#/tab/summarydetail/{{item.itemID}}/{{name}}" > <!-- href="#/tab/summarydetail/{{item.itemID}}/{{searchDate}}/{{searchStyle}}/{{searchStatus}}"-->
-                    <p>{{::completed}}: {{::item.actual | number:1 }}</p>
-                    <p>{{::plan}}: {{::item.plan | number:1}}</p>
+                    <p>{{::completed}}: {{item.actual | number:1 }}</p>
+                    <p>{{::plan}}: {{item.plan | number:1}}</p>
                     <p>
-                        {{::percent}}: {{::item.percent }}
+                        {{::percent}}: {{item.percent }}
                     </p>
                 </ion-item>
             </div>

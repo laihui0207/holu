@@ -7,12 +7,12 @@
         <ion-list id="List">
             <ion-item ng-repeat="item in projectList track by item.id"
                       ng-click="goto(item.childProjects.length,item.projectID)" >
-                    <h2>{{ ::item.projectPathName }}</h2>
+                    <h2>{{ item.projectPathName }}</h2>
                     <p class="summary">
-                        <span>{{::item.company.companyFullName}}</span>
+                        <span>{{item.company.companyFullName}}</span>
                     </p>
             </ion-item>
-            <ion-item ng-if="noContent">{{::EmptyContent}}</ion-item>
+            <ion-item ng-if="noContent">{{EmptyContent}}</ion-item>
         </ion-list>
         <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="canLoadMore()"></ion-infinite-scroll>
     </ion-content>

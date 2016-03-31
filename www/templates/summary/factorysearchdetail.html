@@ -28,13 +28,15 @@
         </ion-refresher>
 
         <ion-list>
-            <ion-item class="item-divider">{{::projectName}} （ {{::progressTo}}{{::date | date:'yyyy-MM-dd'}} ) </ion-item>
-                    <h2>{{ ::projectName}}: {{::item.itemName}}</h2>
-                    <p>{{::completed}}: {{::item.actual | number:1 }}</p>
-                    <p>{{::plan}}: {{::item.plan | number:1}}</p>
+            <ion-item class="item-divider">{{projectName}} （ {{::progressTo}}{{date | date:'yyyy-MM-dd'}} ) </ion-item>
+            <ion-item ng-repeat="item in items" class="item">
+                    <h2>{{ ::projectName}}: {{item.itemName}}</h2>
+                    <p>{{::completed}}: {{item.actual | number:1 }}</p>
+                    <p>{{::plan}}: {{item.plan | number:1}}</p>
                     <p>
-                        {{::percent}}: {{::item.percent }}
+                        {{::percent}}: {{item.percent }}
                     </p>
+                </ion-item>
                 </ion-item>
         </ion-list>
     </ion-content>

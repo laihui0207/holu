@@ -5,20 +5,20 @@
                 on-refresh="doRefresh()">
         </ion-refresher>
         <ion-list id="taskList">
-            <ion-item class="item-divider">{{::ProjectInformation}}</ion-item>
+            <ion-item class="item-divider">{{ProjectInformation}}</ion-item>
             <ion-item class="item-body">
-                <h2>{{::project.projectPathName}}</h2>
-                <span>{{::project.company.companyFullName}}</span>
+                <h2>{{project.projectPathName}}</h2>
+                <span>{{project.company.companyFullName}}</span>
             </ion-item>
             <ion-item class="item-divider">{{'component' | translate }}</ion-item>
             <ion-item class="item-body">
-                <h2 ng-show="component">{{'component' | translate }}: {{::component.componentName}}</h2>
-                <h2 ng-show="subComponent">{{'subComponent' | translate }}: {{::subComponent.subComponentName}}</h2>
+                <h2 ng-show="component">{{'component' | translate }}: {{component.componentName}}</h2>
+                <h2 ng-show="subComponent">{{'subComponent' | translate }}: {{subComponent.subComponentName}}</h2>
             </ion-item>
-            <ion-item ng-if="type!='note'" class="item-divider">{{::processConfirm}}</ion-item>
-            <ion-item ng-if="type=='note'" class="item-divider">{{::confirmQuestion}}</ion-item>
+            <ion-item ng-if="type!='note'" class="item-divider">{{processConfirm}}</ion-item>
+            <ion-item ng-if="type=='note'" class="item-divider">{{confirmQuestion}}</ion-item>
             <label class="item item-input item-stacked-label">
-                <span ng-if="type!='note'" class="input-label">{{::note}}: </span>
+                <span ng-if="type!='note'" class="input-label">{{note}}: </span>
                 <input type="text" ng-model="processMid.processNote">
             </label>
            <!-- <label class="item item-input item-stacked-label">

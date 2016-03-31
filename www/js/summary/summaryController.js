@@ -329,12 +329,12 @@ angular.module('Holu')
         $scope.projectName=$stateParams.projectName;
         Summary.searchFactoryItemByDate(user.userID,$stateParams.start,$stateParams.end,'factory',$stateParams.itemID)
             .then(function(response){
-                $scope.details=response.data;
+                $scope.items=response.data;
             })
         $scope.doRefresh = function () {
             Summary.searchFactoryItemByDate(user.userID,$stateParams.start,$stateParams.end,'factory',$stateParams.itemID)
                 .then(function(response){
-                    $scope.details=response.data;
+                    $scope.items=response.data;
                 })
             $scope.$broadcast('scroll.refreshComplete');
         }

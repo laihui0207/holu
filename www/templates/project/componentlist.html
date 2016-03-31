@@ -7,12 +7,12 @@
         <ion-list id="List">
             <ion-item class="item-divider">{{::ProjectInformation}}</ion-item>
             <ion-item class="item-body">
-                <h2>{{::project.projectPathName}}</h2>
-                <span>{{::project.company.companyFullName}}</span>
+                <h2>{{project.projectPathName}}</h2>
+                <span>{{project.company.companyFullName}}</span>
             </ion-item>
             <ion-item class="item-divider">{{::ComponentList}}</ion-item>
             <ion-item ng-repeat="item in componentList track by $index" collection-item-width="'100%'" class="item" ng-click="goto(item.subComponentListSet.length,item)">
-                <h2>{{ ::item.componentName}}</h2>
+                <h2>{{ item.componentName}}</h2>
                 <!--<a class="button icon-right  button-clear" ng-show="item.subComponentListSet.length" href="#/tab/subComponent/{{item.componentID}}" >
 &lt;!&ndash;                    {{'childComponent' | translate}}&ndash;&gt;
                     <i class="ion-more"></i>

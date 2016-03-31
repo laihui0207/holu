@@ -22,7 +22,7 @@
         </ion-refresher>
         <ion-list>
             <ion-item ng-repeat="item in stylesList" class="item" href="#/tab/tasks/mission/{{projectID}}/{{item.value}}/{{currentType}}" >
-                <h2>{{ ::item.label}}</h2>
+                <h2>{{ item.label}}</h2>
             </ion-item>
             <ion-item ng-if="noContent">{{'EmptyContent' | translate }}</ion-item>
         </ion-list>

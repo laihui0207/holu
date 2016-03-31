@@ -45,11 +45,11 @@
         </div>
         <ion-list>
             <ion-item ng-repeat="item in searchResult" class="item" href="#/tab/factorysearchdetail/{{item.processID}}/{{searchDate.startDate}}/{{searchDate.endDate}}/{{item.itemName}}"> <!-- href="#/tab/summarydetail/{{item.itemID}}/{{searchDate}}/{{searchStyle}}/{{searchStatus}}"-->
-                <h2>{{ ::projectName}}: {{::item.itemName}}</h2>
-                <p>{{::completed}}: {{::item.actual | number:1 }}</p>
-                <p>{{::plan}}: {{::item.plan | number:1}}</p>
+                <h2>{{ ::projectName}}: {{item.itemName}}</h2>
+                <p>{{::completed}}: {{item.actual | number:1 }}</p>
+                <p>{{::plan}}: {{item.plan | number:1}}</p>
                 <p>
-                    {{::percent}}: {{::item.percent }}
+                    {{::percent}}: {{item.percent }}
                 </p>
             </ion-item>
         </ion-list>

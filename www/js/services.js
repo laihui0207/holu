@@ -47,7 +47,7 @@ angular.module('Holu.services', [])
                     deferred.reject('Wrong credentials.');
                 }
                 else {
-                    $rootScope.currentUser=data;
+                    $rootScope.currentUser=data,
                     Storage.set("user", data);
                     user=data;
                     //saveCred(userName,pw);
