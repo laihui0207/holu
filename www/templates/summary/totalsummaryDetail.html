@@ -30,7 +30,7 @@
 
         <ion-list>
             <div ng-repeat="(name,items) in details">
-                <ion-item class="item-divider">{{::projectName}} （{{::progressTo}} {{::date | amDateFormat:'YYYY-MM-DD'}}) </ion-item>
+                <ion-item class="item-divider">{{::DateLabel}} （{{::progressTo}} {{::date | amDateFormat:'YYYY-MM-DD'}}) </ion-item>
                 <ion-item ng-repeat="item in items" class="item">
                     <h2>{{ ::projectName}}: {{::item.itemName}}</h2>
                     <p>{{::completed}}: {{::item.actual | number:1 }}</p>

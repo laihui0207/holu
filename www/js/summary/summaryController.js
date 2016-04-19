@@ -14,7 +14,7 @@ angular.module('Holu')
             return
         }
         $translate(['ProjectSummary', 'TotalSearch','factorySummary','projectMonthSummary','ProjectTotalSummary',
-            'PullToFresh','todaySummary','completed','dun','plan','percent','projectName'])
+            'PullToFresh','todaySummary','completed','dun','plan','percent','projectName','DateLabel'])
             .then(function (translations) {
                 $scope.ProjectSummary = translations.ProjectSummary;
                 $scope.TotalSearch = translations.TotalSearch;
@@ -23,6 +23,7 @@ angular.module('Holu')
                 $scope.ProjectTotalSummary = translations.ProjectTotalSummary;
                 $scope.PullToFresh = translations.PullToFresh;
                 $scope.todaySummary = translations.todaySummary;
+                $scope.DateLabel= translations.DateLabel;
                 $scope.completed = translations.completed;
                 $scope.dun = translations.dun;
                 $scope.plan = translations.plan;
@@ -57,7 +58,7 @@ angular.module('Holu')
             return
         }
         $translate(['ProjectSummary', 'TotalSearch','factorySummary','projectMonthSummary','ProjectTotalSummary',
-            'PullToFresh','todaySummary','completed','dun','plan','percent','projectName','progressTo'])
+            'PullToFresh','todaySummary','completed','dun','plan','percent','projectName','progressTo','DateLabel'])
             .then(function (translations) {
                 $scope.ProjectSummary = translations.ProjectSummary;
                 $scope.TotalSearch = translations.TotalSearch;
@@ -66,6 +67,7 @@ angular.module('Holu')
                 $scope.ProjectTotalSummary = translations.ProjectTotalSummary;
                 $scope.PullToFresh = translations.PullToFresh;
                 $scope.todaySummary = translations.todaySummary;
+                $scope.DateLabel= translations.DateLabel;
                 $scope.completed = translations.completed;
                 $scope.dun = translations.dun;
                 $scope.plan = translations.plan;
@@ -91,7 +93,7 @@ angular.module('Holu')
             return
         }
         $translate(['ProjectSummary', 'TotalSearch','factorySummary','projectMonthSummary','ProjectTotalSummary',
-            'PullToFresh','todaySummary','completed','dun','plan','percent','projectName','progressTo'])
+            'PullToFresh','todaySummary','completed','dun','plan','percent','projectName','progressTo','DateLabel'])
             .then(function (translations) {
                 $scope.ProjectSummary = translations.ProjectSummary;
                 $scope.TotalSearch = translations.TotalSearch;
@@ -100,6 +102,7 @@ angular.module('Holu')
                 $scope.ProjectTotalSummary = translations.ProjectTotalSummary;
                 $scope.PullToFresh = translations.PullToFresh;
                 $scope.todaySummary = translations.todaySummary;
+                $scope.DateLabel= translations.DateLabel;
                 $scope.completed = translations.completed;
                 $scope.dun = translations.dun;
                 $scope.plan = translations.plan;
@@ -135,7 +138,7 @@ angular.module('Holu')
             return
         }
         $translate(['ProjectSummary', 'TotalSearch','factorySummary','projectMonthSummary','ProjectTotalSummary',
-            'PullToFresh','todaySummary','completed','dun','plan','percent','projectName','progressTo'])
+            'PullToFresh','todaySummary','completed','dun','plan','percent','projectName','progressTo','DateLabel'])
             .then(function (translations) {
                 $scope.ProjectSummary = translations.ProjectSummary;
                 $scope.TotalSearch = translations.TotalSearch;
@@ -144,6 +147,7 @@ angular.module('Holu')
                 $scope.ProjectTotalSummary = translations.ProjectTotalSummary;
                 $scope.PullToFresh = translations.PullToFresh;
                 $scope.todaySummary = translations.todaySummary;
+                $scope.DateLabel= translations.DateLabel;
                 $scope.completed = translations.completed;
                 $scope.dun = translations.dun;
                 $scope.plan = translations.plan;

@@ -50,8 +50,8 @@
                 <div class="row confirmButton">
                     <div class="col col-33">
                         <label class="toggle toggle-small">
-                            <input type="checkbox" ng-checked="selectedStartProcess.indexOf('{{item.projectID}}#{{item.subComponentID}}#{{item.componentStyle.styleProcessID}}') > -1"
-                                   ng-click="toggleProcess('{{item.projectID}}#{{item.subComponentID}}#{{item.componentStyle.styleProcessID}}','start')"
+                            <input type="checkbox" ng-checked="selectedStartProcess.indexOf('{{item.projectID}}${{item.subComponentID}}${{item.componentStyle.styleProcessID}}') > -1"
+                                   ng-click="toggleProcess('{{item.projectID}}${{item.subComponentID}}${{item.componentStyle.styleProcessID}}','start')"
                                    id="start-{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}"
                                    ng-disabled="item.processMid.startDate">
                             <div class="track">
@@ -64,8 +64,8 @@
 
                     <div class="col col-33">
                         <label class="toggle toggle-small">
-                            <input type="checkbox" ng-checked="selectedEndProcess.indexOf('{{item.projectID}}#{{item.subComponentID}}#{{item.componentStyle.styleProcessID}}') > -1"
-                                   ng-click="toggleProcess('{{item.projectID}}#{{item.subComponentID}}#{{item.componentStyle.styleProcessID}}','end')"
+                            <input type="checkbox" ng-checked="selectedEndProcess.indexOf('{{item.projectID}}${{item.subComponentID}}${{item.componentStyle.styleProcessID}}') > -1"
+                                   ng-click="toggleProcess('{{item.projectID}}${{item.subComponentID}}${{item.componentStyle.styleProcessID}}','end')"
                                    id="end-{{item.projectID}}-{{item.subComponentID}}-{{item.componentStyle.styleProcessID}}"
                                    ng-disabled="item.processMid.endDate || !item.processMid.startDate">
                             <div class="track">

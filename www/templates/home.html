@@ -34,12 +34,16 @@
                 <div class="col">
                     <a class="button  button-light" href="#/tab/tasks/doing">
                         <img src="img/mytask.png" style="width: 100%"/>
-                        {{::MyTask}}</a>
+                        {{::MyTask}}
+                        <span class="badge badge-assertive" ng-hide="taskCount==0">{{taskCount}}</span>
+                    </a>
                 </div>
                 <div class="col">
                     <a class="button  button-light" href="#/tab/urgenttask/doing">
                         <img src="img/postbar.png" style="width: 100%"/>
-                        {{::urgentTask}}</a>
+                        {{::urgentTask}}
+                        <span class="badge badge-assertive" ng-hide="urgentTaskCount==0">{{urgentTaskCount}}</span>
+                    </a>
                 </div>
             </div>
             <div class="row mainNav">
@@ -51,7 +55,8 @@
                 <div class="col">
                     <a class="button  button-light" href="#/tab/news">
                         <img src="img/news.png" style="width: 100%"/>
-                        {{::News}}</a>
+                        {{::News}}
+                    </a>
                 </div>
                <!-- <div class="col">
                     <a class="button  button-light" href="#/tab/importantNews">

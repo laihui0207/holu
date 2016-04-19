@@ -361,7 +361,7 @@ angular.module('Holu')
         };
         function getDetailData(id){
             //id format: projectID,subcomponentID,processID
-            var ids=id.split("#");
+            var ids=id.split("##");
             var projectID=ids[0];
             var subcomponentID=ids[1];
             var processID=ids[2];
@@ -499,13 +499,13 @@ angular.module('Holu')
             $scope.project = response.data
 
         })
-        Projects.parentComponent($stateParams.componentID,user.userID).then(function(response){
+        Projects.parentComponent(window.encodeURIComponent($stateParams.componentID),user.userID).then(function(response){
             $scope.component=response.data;
         })
-        Projects.viewSubComponent($stateParams.componentID,user.userID).then(function(response){
+        Projects.viewSubComponent(window.encodeURIComponent($stateParams.componentID),user.userID).then(function(response){
             $scope.subComponent=response.data;
         })
-        Projects.processMid(user.userID,$stateParams.componentID,$stateParams.styleProcessID).then(function(response){
+        Projects.processMid(user.userID,window.encodeURIComponent($stateParams.componentID),$stateParams.styleProcessID).then(function(response){
             if(response.data!=""){
                 $scope.processMid=response.data;
             }
@@ -736,7 +736,7 @@ angular.module('Holu')
         $scope.selectedStartProcess=[];
         $scope.selectedEndProcess=[];
         function loadData(){
-            Projects.myTaskMissions(user.userID,$stateParams.projectID,$stateParams.styleID,$stateParams.type);
+            Projects.myTaskMissions(user.userID,$stateParams.projectID,$stateParams.styleID,$stateParams.type,user.allowCreateProject);
         }
         $scope.$on("TaskMission.updated", function () {
             $scope.taskList= Projects.taskMissionData();

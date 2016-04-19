@@ -144,7 +144,7 @@ angular.module('Holu.controllers', ['ngSanitize'])
             $rootScope.networkStatus=false;
         });
     })
-    .controller("HomeCtrl",function($scope,$rootScope,AuthService,Messages,News,$translate,
+    .controller("HomeCtrl",function($scope,$rootScope,AuthService,Messages,News,Projects,$translate,
                                     $ionicSlideBoxDelegate,ENV,$state,$cordovaSplashscreen){
         var user=AuthService.currentUser();
         if(user!==undefined){
@@ -176,20 +176,26 @@ angular.module('Holu.controllers', ['ngSanitize'])
                 $scope.friendLink = translations.friendLink;
             });
         $scope.doRefresh=function(){
-            Messages.refreshNewMessagecount(user.id);
             News.lastedNews().then(function(response){
                 $scope.newsList=response.data;
             });
             $scope.companyName=user.company.companyShortNameCN;
+            Messages.refreshNewMessagecount(user.id);
+            Projects.urgentTaskCount(user.userID);
+            Projects.myTaskCount(user.userID);
             $scope.$broadcast('scroll.refreshComplete');
         };
         $scope.$on("$ionicView.enter", function(scopes, states){
             $scope.doRefresh();
         });
-        $scope.$on("holu.messageCountUpdate",function(){
+       /* $scope.$on("holu.messageCountUpdate",function(){
             Messages.refreshNewMessagecount(user.id);
             $scope.$broadcast('scroll.refreshComplete');
         });
+        $scope.$on("holu.urgentTaskCountUpdate",function(){
+            Projects.urgentTaskCount(user.id);
+            $scope.$broadcast('scroll.refreshComplete');
+        });*/
         /*$rootScope.$on('holu.logged',function(){
             console.log("Home page Get login event")
             var user=AuthService.currentUser();

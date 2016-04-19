@@ -4,7 +4,7 @@
 angular.module('Holu')
     .factory('Projects',function($http,$q,ENV,$rootScope){
         var ProjectsData={};
-        var pageSize=10;
+        var pageSize=50;
         var currentProject="";
         var currentComponent="";
         var currentSubComponent="";
@@ -51,6 +51,7 @@ angular.module('Holu')
             moreUrgentTask: loadMoreUrgentTask,
             canMoreUrgentTask: isUrgentTaskNextPage,
             urgentTaskData: getUrgentData,
+            urgentTaskCount: getUrgentTaskCount,
 /*            setUrgentTaskType: setUrgentType,*/
             ////////task==============
             myTaskProjects: getMyTaskProject,
@@ -62,7 +63,8 @@ angular.module('Holu')
             myTasks: getMyTask,
             moreTask:loadMoreTask,
             canLoadMoreTask: isCanLoadMoreTask,
-            taskData: getTaskData
+            taskData: getTaskData,
+            myTaskCount: getMyTaskCount
 /*            setTaskType: setTaskType*/
         })
 
@@ -77,6 +79,16 @@ angular.module('Holu')
         }
         function getUrgentTaskMission(userID,subID,taskType){
             return $http.get(ENV.ServerUrl+"/services/api/tasks/"+userID+"/"+subID+".json?type="+taskType);
+        }
+        function getUrgentTaskCount(userID){
+            $http.get(ENV.ServerUrl+"/services/api/tasks/"+userID+".json?type=doing").then(function(response){
+                $rootScope.urgentTaskCount=response.data.length;
+            })
+        }
+        function getMyTaskCount(userID){
+            $http.get(ENV.ServerUrl+"/services/api/processMid/missions/"+userID+"/count.json").then(function(response){
+                $rootScope.taskCount=response.data;
+            })
         }
         function getUrgentTask(userId,taskType){
             urgentTaskType=taskType;
@@ -145,7 +157,7 @@ angular.module('Holu')
         function getTaskStyleListByProject(userId,projectID,type){
             return $http.get(ENV.ServerUrl+"/services/api/processMid/styles/"+projectID+"/"+userId+".json?type="+type);
         }
-        function getMyMissions(userId,projectID,styleID,type){
+        function getMyMissions(userId,projectID,styleID,type,isManager){
             var hasNextPage=true;
             var currentPage=0;
             taskMission={
@@ -159,7 +171,7 @@ angular.module('Holu')
                 +userId+".json?type="+type+"&pageSize="+pageSize+"&page="+currentPage)
                 .then(function(response){
                     console.log(response.data);
-                    if(response.data.length == 0 || response.data[0].subComponentList.length < pageSize){
+                    if(!isManager || response.data.length == 0 || response.data[0].subComponentList.length < pageSize ){
                         hasNextPage=false;
                     }
                     taskMission={

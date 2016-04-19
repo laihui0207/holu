@@ -94,7 +94,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                                 $ionicLoading.show({
                                     template: "已经下载：" + Math.floor(downloadProgress)+"%"
                                 });
-                                if (downloadProgress > 99) {
+                                if (downloadProgress > 97) {
                                     $ionicLoading.hide();
                                 }
                             });

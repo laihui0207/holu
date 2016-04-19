@@ -39,33 +39,33 @@
                 <div class="row confirmButton" ng-if="item.owner">
                     <div class="col col-33">
                         <label class="toggle toggle-small">
-                            <input type="checkbox" ng-checked="selectedStartProcess.indexOf('{{item.projectID}}#{{item.subComponentID}}#{{item.styleProcessID}}') > -1"
-                                   ng-click="toggleProcess('{{item.projectID}}#{{item.subComponentID}}#{{item.styleProcessID}}','start')"
-                                   id="start-{{item.projectID}}-{{item.subComponentID}}-{{item.styleProcessID}}"
+                            <input type="checkbox" ng-checked="selectedStartProcess.indexOf('{{item.projectID}}##{{item.subComponentID | escape}}##{{item.styleProcessID}}') > -1"
+                                   ng-click="toggleProcess('{{item.projectID}}##{{item.subComponentID | escape}}##{{item.styleProcessID}}','start')"
+                                   id="start-{{item.projectID}}-{{item.subComponentID | escape}}-{{item.styleProcessID}}"
                                    ng-disabled="item.startDate">
                             <div class="track">
                                 <div class="handle"></div>
                             </div>
                         </label>
                         <a class="button button-positive button-small" ng-disabled="item.startDate"
-                           href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.styleProcessID}}/start/task/{{styleID}}/{{currentType}}"> {{'confirmStart' | translate }} </a>
+                           ng-href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID | escape}}/{{item.styleProcessID}}/start/task/{{styleID}}/{{currentType}}"> {{'confirmStart' | translate }} </a>
                     </div>
 
                     <div class="col col-33">
                         <label class="toggle toggle-small">
-                            <input type="checkbox" ng-checked="selectedEndProcess.indexOf('{{item.projectID}}#{{item.subComponentID}}#{{item.styleProcessID}}') > -1"
-                                   ng-click="toggleProcess('{{item.projectID}}#{{item.subComponentID}}#{{item.styleProcessID}}','end')"
-                                   id="end-{{item.projectID}}-{{item.subComponentID}}-{{item.styleProcessID}}"
+                            <input type="checkbox" ng-checked="selectedEndProcess.indexOf('{{item.projectID}}##{{item.subComponentID | escape}}##{{item.styleProcessID}}') > -1"
+                                   ng-click="toggleProcess('{{item.projectID}}##{{item.subComponentID | escape}}##{{item.styleProcessID}}','end')"
+                                   id="end-{{item.projectID}}-{{item.subComponentID | escape}}-{{item.styleProcessID}}"
                                    ng-disabled="item.endDate || !item.startDate">
                             <div class="track">
                                 <div class="handle"></div>
                             </div>
                         </label>
                         <a class="button button-positive button-small" ng-disabled="item.endDate || !item.startDate"
-                           href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.styleProcessID}}/end/task/{{styleID}}/{{currentType}}"> {{'confirmEnd' | translate }} </a>
+                           href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID | escape}}/{{item.styleProcessID}}/end/task/{{styleID}}/{{currentType}}"> {{'confirmEnd' | translate }} </a>
                     </div>
                     <div class="col col-33">
-                        <a class="button button-small"  href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID}}/{{item.styleProcessID}}/note/task/{{styleID}}/{{currentType}}">{{'confirmQuestion' | translate }}</a>
+                        <a class="button button-small"  href="#/tab/processconfirm/{{item.projectID}}/{{item.subComponentID | escape}}/{{item.styleProcessID}}/note/task/{{styleID}}/{{currentType}}">{{'confirmQuestion' | translate }}</a>
                     </div>
                 </div>
                 <div class="row confirmButton" ng-if="!item.owner">

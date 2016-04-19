@@ -125,7 +125,8 @@ var translations = {
         inputMobileNumber: 'Mobile Number',
         inputMobileNumber_valid: 'Mobile Number should 11 Number',
         inputPassword: 'Password',
-        preProcessNotFinish: 'Pre-process Not finish'
+        preProcessNotFinish: 'Pre-process Not finish',
+        DateLabel: 'Date'
     },
     "zh": {
         HEADLINE : '这是我们的节日哦',
@@ -281,7 +282,8 @@ var translations = {
         inputMobileNumber: '请输入手机号',
         inputMobileNumber_valid: '手机号是11位数字',
         inputPassword: '请输入登录密码',
-        preProcessNotFinish: '前置工艺还没有完工'
+        preProcessNotFinish: '前置工艺还没有完工',
+        DateLabel: '日期'
 
     }
 }
