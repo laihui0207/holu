@@ -186,13 +186,13 @@ angular.module('Holu')
             });
         $scope.currentUser=user;
         $scope.componentType=$stateParams.type;
-        $scope.componentID=$stateParams.componentID;
+        $scope.componentID=window.encodeURIComponent($stateParams.componentID);
         var needReload=true;
 
         $scope.$on("$ionicView.enter", function(scopes, states){
             user=AuthService.currentUser();
             if(needReload){
-                Projects.processList($stateParams.styleID, user.company.companyId,user.userID,$stateParams.componentID).then(function (response) {
+                Projects.processList($stateParams.styleID, user.company.companyId,user.userID,$scope.componentID).then(function (response) {
                     $scope.componentStyleList = response.data;
                     needReload=false;
                 })
@@ -218,21 +218,21 @@ angular.module('Holu')
 
         })
         if($scope.componentType =='parent'){
-            Projects.viewComponent($stateParams.componentID,user.userID).then(function(response){
+            Projects.viewComponent($scope.componentID,user.userID).then(function(response){
                 $scope.component=response.data;
             })
         }
         else if($scope.componentType =='sub'){
-            Projects.viewSubComponent($stateParams.componentID,user.userID).then(function(response){
+            Projects.viewSubComponent($scope.componentID,user.userID).then(function(response){
                 $scope.subComponent=response.data;
             })
-            Projects.parentComponent($stateParams.componentID,user.userID).then(function(response){
+            Projects.parentComponent($scope.componentID,user.userID).then(function(response){
                 $scope.component=response.data;
             })
         }
 
         $scope.doRefresh = function () {
-            Projects.processList($stateParams.styleID, user.company.companyId,user.userID,$stateParams.componentID).then(function (response) {
+            Projects.processList($stateParams.styleID, user.company.companyId,user.userID,$scope.componentID).then(function (response) {
                 $scope.componentStyleList = response.data
                 needReload=false;
             }).then(function () {

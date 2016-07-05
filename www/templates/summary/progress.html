@@ -22,36 +22,38 @@
         <ion-list>
             <ion-item class="item-divider">{{progressName}} ({{::progressTo}} {{date | date:'yyyy-MM-dd'}})</ion-item>
             <ion-item ng-repeat="item in progressList track by $index" class="item" href="#/tab/progressdetail/{{currentType}}/{{item.itemID}}">
-                <h2>{{item.itemName}}</h2>
+                <h2>{{objectName}}: {{item.itemName}}</h2>
                 <p>
-                    {{::progressStatus}}:
-                    {{::progressCurrent}}
-                    <span ng-if="item.currentStatus > 0"> {{::progressInAdvance}} {{item.currentStatus}}</span>
-                    <span ng-if="item.currentStatus < 0" class="progressDelay"> {{::progressDelay}} {{item.currentStatus}}</span>
+<!--                    {{::progressStatus}}:-->
+                    {{::CurrentStartStatus}}:
+                    <span ng-if="item.currentStartStatus > 0"> {{::progressInAdvance}} {{item.currentStartStatus}}</span>
+                    <span ng-if="item.currentStartStatus < 0" class="progressDelay"> {{::progressDelay}} {{item.currentStartStatus}}</span>
                     {{progressDays}}
-                    {{progressPredict}}
+                </p>
+                <p>
+                    {{::PredictEndStatus}}:
                     <span ng-if="item.predictStatus > 0 || item.predictStatus == 0"> {{::progressInAdvance}} {{item.predictStatus}}</span>
                     <span ng-if="item.predictStatus < 0" class="progressDelay"> {{::progressDelay}} {{item.predictStatus}}</span>
                     {{progressDays}}
                 </p>
 
-                <p>
+              <!--  <p>
                     {{::progressDuration}}:
                     {{::progressPlan}} {{item.planDuration}} {{::progressDays}}
-<!--                    {{::progressUsed}} {{item.actualDuration}} {{::progressDays}}-->
+&lt;!&ndash;                    {{::progressUsed}} {{item.actualDuration}} {{::progressDays}}&ndash;&gt;
                     {{::progressPredict}} {{item.predictDuration}} {{::progressDays}}
-                </p>
-                <p>
+                </p>-->
+              <!--  <p>
                     {{::progressDate}}:
-                </p>
+                </p>-->
                 <p>
-                    {{::progressPlan}}: {{item.sumDate_plan_start | date:'yyyy-MM-dd'}} ~ {{item.sumDate_plan_end | date:'yyyy-MM-dd'}}
+                    {{::PlanProcessDate}}: {{item.sumDate_plan_start | date:'yyyy-MM-dd'}} ~ {{item.sumDate_plan_end | date:'yyyy-MM-dd'}}({{item.planDuration}}{{progressDays}})
                 </p>
                <!-- <p>
                     {{::progressActual}}: {{item.sumDate_actual_start | date:'yyyy-MM-dd'}} ~ {{item.sumDate_actual_end | date:'yyyy-MM-dd'}}
                 </p>-->
                 <p>
-                    {{::progressPredict}}: {{item.sumDate_predict_start | date:'yyyy-MM-dd'}} ~ {{item.sumDate_predict_end | date:'yyyy-MM-dd'}}
+                    {{::PredictProcessDate}}: {{item.sumDate_predict_start | date:'yyyy-MM-dd'}} ~ {{item.sumDate_predict_end | date:'yyyy-MM-dd'}}({{item.predictDuration}}{{progressDays}})
                 </p>
             </ion-item>
 <!--            <ion-item ng-show="noContent">{{'EmptyContent' | translate}}</ion-item>-->

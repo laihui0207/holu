@@ -13,6 +13,9 @@ angular.module('Holu')
             $state.go("login")
             return
         }
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            user=AuthService.currentUser();
+        });
         $translate(['ProjectSummary', 'TotalSearch','factorySummary','projectMonthSummary','ProjectTotalSummary',
             'PullToFresh','todaySummary','completed','dun','plan','percent','projectName','DateLabel'])
             .then(function (translations) {
@@ -47,6 +50,10 @@ angular.module('Holu')
             });
             $scope.$broadcast('scroll.refreshComplete');
         }
+        $rootScope.$on("holu.logout",function(){
+            $scope.totalSummary=undefined;
+            $scope.summaryItem=undefined;
+        })
 
     })
     .controller('SummaryDetailCtrl',function($scope, Summary, $rootScope,$translate, AuthService, $state,$stateParams){
@@ -57,6 +64,9 @@ angular.module('Holu')
             $state.go("login")
             return
         }
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            user=AuthService.currentUser();
+        });
         $translate(['ProjectSummary', 'TotalSearch','factorySummary','projectMonthSummary','ProjectTotalSummary',
             'PullToFresh','todaySummary','completed','dun','plan','percent','projectName','progressTo','DateLabel'])
             .then(function (translations) {
@@ -92,6 +102,9 @@ angular.module('Holu')
             $state.go("login")
             return
         }
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            user=AuthService.currentUser();
+        });
         $translate(['ProjectSummary', 'TotalSearch','factorySummary','projectMonthSummary','ProjectTotalSummary',
             'PullToFresh','todaySummary','completed','dun','plan','percent','projectName','progressTo','DateLabel'])
             .then(function (translations) {
@@ -127,6 +140,10 @@ angular.module('Holu')
             });
             $scope.$broadcast('scroll.refreshComplete');
         }
+        $rootScope.$on("holu.logout",function(){
+            $scope.totalSummary=undefined;
+            $scope.summaryItem=undefined;
+        })
 
     })
     .controller('TotalSummaryDetailCtrl',function($scope, Summary,$translate, $rootScope, AuthService, $state,$stateParams){
@@ -137,6 +154,9 @@ angular.module('Holu')
             $state.go("login")
             return
         }
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            user=AuthService.currentUser();
+        });
         $translate(['ProjectSummary', 'TotalSearch','factorySummary','projectMonthSummary','ProjectTotalSummary',
             'PullToFresh','todaySummary','completed','dun','plan','percent','projectName','progressTo','DateLabel'])
             .then(function (translations) {
@@ -171,6 +191,9 @@ angular.module('Holu')
             $state.go("login")
             return
         }
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            user=AuthService.currentUser();
+        });
         $translate(['ProjectSummary', 'TotalSearch','factorySummary','projectMonthSummary','ProjectTotalSummary',
             'PullToFresh','todaySummary','completed','dun','plan','percent','projectName','progressTo',
             'startDate','endDate'])
@@ -206,7 +229,11 @@ angular.module('Holu')
                 $scope.searchResult=response.data;
             })
             $scope.$broadcast('scroll.refreshComplete');
-        }
+        };
+        $rootScope.$on("holu.logout",function(){
+            user=undefined;
+            $scope.searchResult=undefined;
+        });
         $scope.showDatePicker = function(inputElement) {
             var options = {
                 date: new Date(),
@@ -239,9 +266,12 @@ angular.module('Holu')
             $state.go("login")
             return
         }
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            user=AuthService.currentUser();
+        });
         $translate(['ProjectSummary', 'TotalSearch','factorySummary','projectMonthSummary','ProjectTotalSummary',
             'PullToFresh','todaySummary','completed','dun','plan','percent','projectName','progressTo',
-            'startDate','endDate'])
+            'startDate','endDate','factoryName'])
             .then(function (translations) {
                 $scope.ProjectSummary = translations.ProjectSummary;
                 $scope.TotalSearch = translations.TotalSearch;
@@ -258,6 +288,7 @@ angular.module('Holu')
                 $scope.progressTo = translations.progressTo;
                 $scope.startDate = translations.startDate;
                 $scope.endDate = translations.endDate;
+                $scope.factoryName = translations.factoryName;
             });
         $scope.currentType='factorySearch';
         $scope.searchDate={startDate:moment().startOf('month').format("YYYY-MM-DD"),endDate: moment().format("YYYY-MM-DD")};
@@ -274,7 +305,11 @@ angular.module('Holu')
                 $scope.searchResult=response.data;
             })
             $scope.$broadcast('scroll.refreshComplete');
-        }
+        };
+        $rootScope.$on("holu.logout",function(){
+            user=undefined;
+            $scope.searchResult=undefined;
+        });
 
         $scope.showDatePicker = function(inputElement) {
             var options = {
@@ -308,6 +343,9 @@ angular.module('Holu')
             $state.go("login")
             return
         }
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            user=AuthService.currentUser();
+        });
         $translate(['ProjectSummary', 'TotalSearch','factorySummary','projectMonthSummary','ProjectTotalSummary',
             'PullToFresh','todaySummary','completed','dun','plan','percent','projectName','progressTo',
             'startDate','endDate'])
@@ -351,9 +389,15 @@ angular.module('Holu')
             $state.go("login");
             return
         }
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            user=AuthService.currentUser();
+            $scope.progressName=$scope.projectProgress;
+            $scope.objectName=$scope.projectName;
+        });
         $translate(['projectProgress', 'factoryProgress','ProjectOverview','progressStatus',
             'progressCurrent','progressInAdvance','progressDelay','progressDays','progressDuration','progressPlan'
-        ,'progressUsed','progressDate','progressActual','progressPredict','progressTo','PullToFresh'])
+        ,'progressUsed','progressDate','progressActual','progressPredict','progressTo','PullToFresh','projectName',
+            'factoryName','CurrentStartStatus','PredictEndStatus','PlanProcessDate','PredictProcessDate'])
             .then(function (translations) {
             $scope.projectProgress = translations.projectProgress;
             $scope.factoryProgress = translations.factoryProgress;
@@ -372,9 +416,16 @@ angular.module('Holu')
                 $scope.progressPredict=translations.progressPredict;
                 $scope.progressTo = translations.progressTo;
                 $scope.PullToFresh = translations.PullToFresh;
+                $scope.projectName=translations.projectName;
+                $scope.factoryName=translations.factoryName;
+                $scope.CurrentStartStatus=translations.CurrentStartStatus;
+                $scope.PredictEndStatus=translations.PredictEndStatus;
+                $scope.PlanProcessDate=translations.PlanProcessDate;
+                $scope.PredictProcessDate=translations.PredictProcessDate;
         });
 
         $scope.progressName=$scope.projectProgress;
+        $scope.objectName=$scope.projectName;
         $scope.date = new Date();
         $scope.currentType="project";
         Summary.Progress(user.userID,$scope.currentType).then(function(response){
@@ -385,9 +436,11 @@ angular.module('Holu')
             $scope.currentType=itemStyle;
             if(itemStyle=='project'){
                 $scope.progressName=$scope.projectProgress;
+                $scope.objectName=$scope.projectName;
             }
             else {
                 $scope.progressName=$scope.factoryProgress;
+                $scope.objectName=$scope.factoryName;
             }
             Summary.Progress(user.userID,$scope.currentType).then(function(response){
                 $scope.progressList=response.data;
@@ -399,9 +452,12 @@ angular.module('Holu')
             })
             $scope.$broadcast('scroll.refreshComplete');
         }
+        $rootScope.$on("holu.logout",function(){
+            $scope.progressList=undefined;
+        });
 
     })
-    .controller('ProgressDetailCtrl',function($scope, Summary, $rootScope, AuthService, $state,$stateParams){
+    .controller('ProgressDetailCtrl',function($scope, Summary, $rootScope, AuthService, $state,$stateParams,$translate){
         var user = AuthService.currentUser();
         $scope.date = new Date();
         if (user == undefined) {
@@ -409,12 +465,52 @@ angular.module('Holu')
             $state.go("login");
             return
         }
+        $scope.$on("$ionicView.enter", function(scopes, states){
+            user=AuthService.currentUser();
+            $scope.progressName=$scope.projectProgress;
+            if($stateParams.style==='project'){
+                $scope.objectName=$scope.projectName;
+            }
+            else {
+                $scope.objectName=$scope.factoryName;
+            }
+
+        });
         $scope.date = new Date();
         $scope.currentType=$stateParams.style;
         if($scope.currentType=='factory') {
             $scope.currentType='project'
         }
-
+        $translate(['projectProgress', 'factoryProgress','ProjectOverview','progressStatus',
+            'progressCurrent','progressInAdvance','progressDelay','progressDays','progressDuration','progressPlan'
+            ,'progressUsed','progressDate','progressActual','progressPredict','progressTo','PullToFresh','projectName',
+            'factoryName','CurrentStartStatus','PredictEndStatus','PlanProcessDate','PredictProcessDate','WorkingFactory'])
+            .then(function (translations) {
+                $scope.projectProgress = translations.projectProgress;
+                $scope.factoryProgress = translations.factoryProgress;
+                $scope.progressName=translations.projectProgress;
+                $scope.ProjectOverview=translations.ProjectOverview;
+                $scope.progressStatus=translations.progressStatus;
+                $scope.progressCurrent=translations.progressCurrent;
+                $scope.progressInAdvance=translations.progressInAdvance;
+                $scope.progressDelay=translations.progressDelay;
+                $scope.progressDays=translations.progressDays;
+                $scope.progressDuration=translations.progressDuration;
+                $scope.progressPlan=translations.progressPlan;
+                $scope.progressUsed=translations.progressUsed;
+                $scope.progressDate=translations.progressDate;
+                $scope.progressActual=translations.progressActual;
+                $scope.progressPredict=translations.progressPredict;
+                $scope.progressTo = translations.progressTo;
+                $scope.PullToFresh = translations.PullToFresh;
+                $scope.projectName=translations.projectName;
+                $scope.factoryName=translations.factoryName;
+                $scope.CurrentStartStatus=translations.CurrentStartStatus;
+                $scope.PredictEndStatus=translations.PredictEndStatus;
+                $scope.PlanProcessDate=translations.PlanProcessDate;
+                $scope.PredictProcessDate=translations.PredictProcessDate;
+                $scope.WorkingFactory=translations.WorkingFactory;
+            });
         Summary.ProgressDetail(user.userID,$stateParams.style,$stateParams.itemId).then(function(response){
             $scope.progressList=response.data;
         })

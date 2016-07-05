@@ -149,6 +149,7 @@ angular.module('Holu.controllers', ['ngSanitize'])
         var user=AuthService.currentUser();
         if(user!==undefined){
             $scope.companyName=user.company.companyShortNameCN;
+            $scope.userFullName=user.username;
         }
         $scope.ServerUrl = ENV.ServerUrl; // use to image filter
         Messages.refreshNewMessagecount(user.id);
@@ -187,6 +188,7 @@ angular.module('Holu.controllers', ['ngSanitize'])
         };
         $scope.$on("$ionicView.enter", function(scopes, states){
             $scope.doRefresh();
+            $scope.time=getGreetingTime();
         });
        /* $scope.$on("holu.messageCountUpdate",function(){
             Messages.refreshNewMessagecount(user.id);
@@ -201,6 +203,24 @@ angular.module('Holu.controllers', ['ngSanitize'])
             var user=AuthService.currentUser();
             $scope.companyName=user.company.companyShortNameCN
         })*/
+        function getGreetingTime () {
+            var g = null; //return g
+
+            var m=moment();
+            var split_afternoon = 12 //24hr time to split the afternoon
+            var split_evening = 17 //24hr time to split the evening
+            var currentHour = parseFloat(m.format("HH"));
+
+            if(currentHour >= split_afternoon && currentHour <= split_evening) {
+                g = "Afternoon";
+            } else if(currentHour >= split_evening) {
+                g = "Evening";
+            } else {
+                g = "Morning";
+            }
+
+            return g;
+        }
         $scope.navSlide = function(index) {
             $ionicSlideBoxDelegate.slide(index, 500);
         };

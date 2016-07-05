@@ -76,6 +76,7 @@ var translations = {
         ImportNews: 'Important News',
         Undo: 'Undo',
         projectName: 'Project Name',
+        factoryName: 'Factory Name',
         componentStyle: 'Component Style',
         SubmitAndSend: 'Save and Send',
         UnRead: 'UnRead',
@@ -126,7 +127,17 @@ var translations = {
         inputMobileNumber_valid: 'Mobile Number should 11 Number',
         inputPassword: 'Password',
         preProcessNotFinish: 'Pre-process Not finish',
-        DateLabel: 'Date'
+        DateLabel: 'Date',
+        Afternoon: 'Afternoon',
+        Evening: 'Evening',
+        Morning: 'Morning',
+        Greeting_en: 'Good',
+        Greeting_zh: '',
+        CurrentStartStatus:'Start Status',
+        PredictEndStatus:'End Status',
+        PlanProcessDate:'Plan Date',
+        PredictProcessDate:'Predict Date',
+        WorkingFactory:'Factory'
     },
     "zh": {
         HEADLINE : '这是我们的节日哦',
@@ -222,6 +233,7 @@ var translations = {
         MyTask: '我的任务',
         Undo: '撤消',
         projectName: '项目名称',
+        factoryName: '工厂名称',
         componentStyle: '工艺',
         SubmitAndSend: '保存并发送',
         UnRead: '未读信息',
@@ -240,7 +252,6 @@ var translations = {
         percent:'完成比例',
         dun: '吨',
         search: '查询',
-        projectName:'项目名称',
         todayProjectEnd:'今日项目完工',
         todayFactoryEnd:'今日工厂完工',
         todayProjectStart: '今日项目开工',
@@ -283,8 +294,17 @@ var translations = {
         inputMobileNumber_valid: '手机号是11位数字',
         inputPassword: '请输入登录密码',
         preProcessNotFinish: '前置工艺还没有完工',
-        DateLabel: '日期'
-
+        DateLabel: '日期',
+        Afternoon: '下午',
+        Evening: '晚上',
+        Morning: '上午',
+        Greeting_en: '',
+        Greeting_zh: '好',
+        CurrentStartStatus:'实际开工比计划',
+        PredictEndStatus:'预计完工比较计划',
+        PlanProcessDate:'计划日期',
+        PredictProcessDate:'预计日期',
+        WorkingFactory:'制作工厂'
     }
 }
 
