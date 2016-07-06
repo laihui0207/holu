@@ -76,7 +76,7 @@ angular.module('Holu.SelectDirective', [])
         };
 
     }])*/
-   /* .directive("appMap", function () {
+    .directive("appMap", function () {
         return {
             restrict: "E",
             replace: true,
@@ -100,12 +100,14 @@ angular.module('Holu.SelectDirective', [])
                         map.addOverlay(new BMap.Marker(point));
                     }
                 }, "");
+                //map.centerAndZoom(new BMap.Point(121.491, 31.233), 11);
+
                 map.addEventListener("click",function(e){
                     alert(e.point.lng + "," + e.point.lat);
                 });
             }
         };
-    })*/
+    })
     .directive('fancySelect',
     [
         '$ionicModal',
