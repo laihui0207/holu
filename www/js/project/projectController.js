@@ -5,10 +5,10 @@ angular.module('Holu')
     .controller('ProjectCtrl', function ($scope, Projects,$translate, $rootScope, AuthService, $state, $stateParams) {
         var user = AuthService.currentUser();
         var needReload=true;
-        if (user == undefined) {
-            $rootScope.backurl = "tab.project"
-            $state.go("login")
-            return
+        if (user === undefined) {
+            $rootScope.backurl = "tab.project";
+            $state.go("login");
+            return;
         }
         /*Projects.projects(user.userID,$stateParams.projectID).then(function (response) {
             $scope.projectList = response.data
@@ -21,7 +21,7 @@ angular.module('Holu')
             });
         $rootScope.$on("ProjectRefreshed",function(){
             $scope.projectList=Projects.projectData();
-            if($scope.projectList==undefined || $scope.projectList.length==0){
+            if($scope.projectList===undefined || $scope.projectList.length===0){
                 $scope.noContent=true;
             }
             else {
@@ -29,37 +29,37 @@ angular.module('Holu')
             }
             needReload=false;
             $scope.$broadcast('scroll.refreshComplete');
-        })
+        });
         $scope.doRefresh = function () {
-            Projects.projects(user.userID,$stateParams.projectID)
-        }
+            Projects.projects(user.userID,$stateParams.projectID);
+        };
         $scope.loadMore = function () {
             Projects.moreProject();
             $scope.$broadcast('scroll.infiniteScrollComplete');
         };
         $scope.canLoadMore = function () {
             return Projects.canMoreProject();
-        }
+        };
         $scope.$on("$ionicView.enter", function(scopes, states){
             user=AuthService.currentUser();
             if(needReload){
 
-                Projects.projects(user.userID,$stateParams.projectID)
+                Projects.projects(user.userID,$stateParams.projectID);
             }
-        })
+        });
         $rootScope.$on("holu.logout",function(){
             needReload=true;
             $scope.projectList=undefined;
-        })
+        });
         $scope.myTask=function(){
             Projects.myTasks(user.userID);
-        }
+        };
         $scope.goto=function(length,projectID){
-            if(length==0){
-                $state.go("tab.component",{projectId:projectID})
+            if(length===0){
+                $state.go("tab.component",{projectId:projectID});
             }
             else {
-                $state.go("tab.project",{projectId:projectID})
+                $state.go("tab.project",{projectId:projectID});
             }
         }
 
@@ -68,10 +68,10 @@ angular.module('Holu')
     .controller('ComponentCtrl', function ($scope, Projects,$state,$translate, $rootScope, $stateParams,AuthService) {
         var user=AuthService.currentUser();
         var needReload=true;
-        if (user == undefined) {
-            $rootScope.backurl = "tab.project"
-            $state.go("login")
-            return
+        if (user === undefined) {
+            $rootScope.backurl = "tab.project";
+            $state.go("login");
+            return;
         }
         $translate(['ComponentList','PullToFresh','EmptyContent','ProjectInformation'])
             .then(function (translations) {
@@ -81,11 +81,11 @@ angular.module('Holu')
                 $scope.ProjectInformation = translations.ProjectInformation;
             });
         Projects.viewProject($stateParams.projectId).then(function (response) {
-            $scope.project = response.data
-        })
+            $scope.project = response.data;
+        });
         $scope.$on("ComponentRefreshed",function(){
             $scope.componentList=Projects.componentData();
-            if($scope.componentList==undefined || $scope.componentList.length==0){
+            if($scope.componentList===undefined || $scope.componentList.length===0){
                 $scope.noContent=true;
             }
             else {
@@ -93,34 +93,34 @@ angular.module('Holu')
             }
             needReload=false;
             $scope.$broadcast('scroll.refreshComplete');
-        })
+        });
         Projects.components($stateParams.projectId,user.userID);
         $scope.doRefresh = function () {
-            Projects.components($stateParams.projectId,user.userID)
-        }
+            Projects.components($stateParams.projectId,user.userID);
+        };
         $scope.loadMore = function () {
             Projects.moreComponent();
             $scope.$broadcast('scroll.infiniteScrollComplete');
         };
         $scope.canLoadMore = function () {
             return Projects.canMoreComponent();
-        }
+        };
         $scope.goto=function(length,item){
-            if(length==0){
-                $state.go("tab.styles",{styleID:item.styleID,componentID:item.componentID,type:'parent'})
+            if(length===0){
+                $state.go("tab.styles",{styleID:item.styleID,componentID:item.componentID,type:'parent'});
             }
             else {
 
                 $state.go("tab.subComponent",{componentID: item.componentID});
             }
-        }
+        };
     })
     .controller('SubComponentCtrl',function($scope, Projects,$state,$translate, $rootScope, $stateParams,AuthService){
         var user=AuthService.currentUser();
-        if (user == undefined) {
-            $rootScope.backurl = "tab.project"
-            $state.go("login")
-            return
+        if (user === undefined) {
+            $rootScope.backurl = "tab.project";
+            $state.go("login");
+            return;
         }
         $translate(['ComponentList','PullToFresh','subComponent','EmptyContent','ProjectInformation'])
             .then(function (translations) {
@@ -132,10 +132,10 @@ angular.module('Holu')
             });
         Projects.viewComponent($stateParams.componentID,user.userID).then(function(response){
             $scope.component=response.data;
-        })
+        });
         $scope.$on("SubComponentRefreshed",function(){
             $scope.subComponentList=Projects.subComponentData();
-            if($scope.subComponentList==undefined || $scope.subComponentList.length==0){
+            if($scope.subComponentList===undefined || $scope.subComponentList.length===0){
                 $scope.noContent=true;
             }
             else {
@@ -143,25 +143,25 @@ angular.module('Holu')
             }
             needReload=false;
             $scope.$broadcast('scroll.refreshComplete');
-        })
-        Projects.subComponents($stateParams.componentID,user.userID)
+        });
+        Projects.subComponents($stateParams.componentID,user.userID);
         $scope.doRefresh = function () {
-            Projects.subComponents($stateParams.componentID,user.userID)
-        }
+            Projects.subComponents($stateParams.componentID,user.userID);
+        };
         $scope.loadMore = function () {
             Projects.moreSubComponent();
             $scope.$broadcast('scroll.infiniteScrollComplete');
         };
         $scope.canLoadMore = function () {
             return Projects.canMoreSubComponent();
-        }
+        };
     })
     .controller('ProcessCtrl', function ($scope, Projects, $rootScope,$translate,AuthService, $stateParams) {
         var user=AuthService.currentUser();
-        if (user == undefined) {
-            $rootScope.backurl = "tab.project"
-            $state.go("login")
-            return
+        if (user === undefined) {
+            $rootScope.backurl = "tab.project";
+            $state.go("login");
+            return;
         }
         $translate(['ComponentList','Project','PullToFresh','processConfirm','EmptyContent','confirmStart','confirmEnd',
             'ProjectInformation','confirmStartDate','confirmEndDate','confirmQuestion','componentStyleList',
@@ -195,9 +195,9 @@ angular.module('Holu')
                 Projects.processList($stateParams.styleID, user.company.companyId,user.userID,$scope.componentID).then(function (response) {
                     $scope.componentStyleList = response.data;
                     needReload=false;
-                })
+                });
             }
-        })
+        });
         $rootScope.$on("ProjectMissionUpdate",function(event,args){
             //needReload=true;
             if(args === undefined){
@@ -213,43 +213,43 @@ angular.module('Holu')
                             mission.processMid.endDate=new Date();
                         }
                     }
-                })
+                });
             }
 
-        })
+        });
         if($scope.componentType =='parent'){
             Projects.viewComponent($scope.componentID,user.userID).then(function(response){
                 $scope.component=response.data;
-            })
+            });
         }
         else if($scope.componentType =='sub'){
             Projects.viewSubComponent($scope.componentID,user.userID).then(function(response){
                 $scope.subComponent=response.data;
-            })
+            });
             Projects.parentComponent($scope.componentID,user.userID).then(function(response){
                 $scope.component=response.data;
-            })
+            });
         }
 
         $scope.doRefresh = function () {
             Projects.processList($stateParams.styleID, user.company.companyId,user.userID,$scope.componentID).then(function (response) {
-                $scope.componentStyleList = response.data
+                $scope.componentStyleList = response.data;
                 needReload=false;
             }).then(function () {
                 $scope.$broadcast('scroll.refreshComplete');
-            })
-        }
+            });
+        };
         $scope.confirmProcess = function () {
 
-        }
+        };
     })
     .controller('ProcessBatchConfirmCtrl',function($scope, Projects,$state, $rootScope,AuthService,$cordovaGeolocation,$cordovaToast,
                                                    $stateParams,$translate,$ionicPopup,$cordovaDevice){
         var user=AuthService.currentUser();
-        if (user == undefined) {
-            $rootScope.backurl = "tab.project"
+        if (user === undefined) {
+            $rootScope.backurl = "tab.project";
             $state.go("login");
-            return
+            return;
         }
         $translate(['SaveFailed', 'SaveFailedHeader','APICallFailed','SaveSuccess','SaveSuccessHeader','PullToFresh',
             'confirmQuestion','MyTask','urgentTask','processConfirm','note','position','ProjectInformation','Location','Submit'])
@@ -292,7 +292,7 @@ angular.module('Holu')
             else {
                 getPosition();
             }
-        })
+        });
         if($stateParams.type == 'note'){
             $scope.title='confirmQuestion';
         }
@@ -314,7 +314,7 @@ angular.module('Holu')
                         });*/
                         if($stateParams.from == 'task'){
                             var batchData="";
-                            for(var id in data){
+                            for(id in data){
                                 batchData+=data[id].subComponentID+"-"+data[id].styleProcessID+",";
                             }
                             $rootScope.$broadcast("MissionUpdate",
@@ -323,7 +323,7 @@ angular.module('Holu')
                         }
                         else if($stateParams.from == 'urgent'){
                             var batchData="";
-                            for(var id in data){
+                            for(id in data){
                                 batchData+=data[id].subComponentID+"-"+data[id].styleProcessID+",";
                             }
                                 $rootScope.$broadcast("UrgentMissionUpdate",
@@ -331,7 +331,7 @@ angular.module('Holu')
                                         type: $stateParams.type,
                                         batchData: batchData
                                     });
-                            $state.go("tab.urgenttask-mission",{subID:$stateParams.subID,type:$stateParams.taskType})
+                            $state.go("tab.urgenttask-mission",{subID:$stateParams.subID,type:$stateParams.taskType});
                         }
                        /* else if($stateParams.from == 'project'){
                             if($stateParams.type == 'end'){
@@ -357,7 +357,7 @@ angular.module('Holu')
                         title: $scope.SaveFailedHeader,
                         template: $scope.APICallFailed
                     });
-                })
+                });
         };
         function getDetailData(id){
             //id format: projectID,subcomponentID,processID
