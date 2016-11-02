@@ -64,10 +64,14 @@ angular.module('Holu')
             moreTask:loadMoreTask,
             canLoadMoreTask: isCanLoadMoreTask,
             taskData: getTaskData,
-            myTaskCount: getMyTaskCount
+            myTaskCount: getMyTaskCount,
+            myAssignTasks: getMyAssignTasks
 /*            setTaskType: setTaskType*/
         })
 
+        function getMyAssignTasks(userID){
+            return $http.get(ENV.ServerUrl+"/services/api/paigong/mytask/"+userID+".json");
+        }
         function getComponentStyle(componentProcessID){
             return $http.get(ENV.ServerUrl+"/services/api/componentStyles/"+componentProcessID+".json");
         }

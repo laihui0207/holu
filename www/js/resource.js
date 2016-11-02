@@ -137,7 +137,8 @@ var translations = {
         PredictEndStatus:'End Status',
         PlanProcessDate:'Plan Date',
         PredictProcessDate:'Predict Date',
-        WorkingFactory:'Factory'
+        WorkingFactory:'Factory',
+        PaiGongTask: 'Assign Task'
     },
     "zh": {
         HEADLINE : '这是我们的节日哦',
@@ -304,7 +305,8 @@ var translations = {
         PredictEndStatus:'预计完工比较计划',
         PlanProcessDate:'计划日期',
         PredictProcessDate:'预计日期',
-        WorkingFactory:'制作工厂'
+        WorkingFactory:'制作工厂',
+        PaiGongTask: '推送任务'
     }
 }
 

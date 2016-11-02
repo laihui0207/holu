@@ -498,6 +498,15 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                     }
                 }
             })
+            .state('tab.tasks-assign-missions', {
+                url: '/assigntasks',
+                views: {
+                    'tab-project': {
+                        templateUrl: 'templates/project/assigntask.html',
+                        controller: 'AssignTaskMissionCtrl'
+                    }
+                }
+            })
             .state('tab.project', {
                 url: '/projects',
                 views: {

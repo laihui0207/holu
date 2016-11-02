@@ -246,7 +246,7 @@ angular.module('Holu')
                 cancelButtonColor: '#000000',
                 locale: 'zh_cn'
             };
-
+/*            datePicker.show(options,function(){},function(){});*/
             $cordovaDatePicker.show(options).then(function (date) {
                 if(inputElement=='start'){
                     $scope.searchDate.startDate=moment(date).format("YYYY-MM-DD");;

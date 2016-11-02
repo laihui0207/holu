@@ -713,6 +713,33 @@ angular.module('Holu')
             loadData();
         }
     })
+    .controller('AssignTaskMissionCtrl',function($scope,$rootScope, Projects,$state,$stateParams, $rootScope,AuthService){
+        var user = AuthService.currentUser();
+        if (user == undefined) {
+            $rootScope.backurl = "tab.tasks"
+            $state.go("login")
+            return
+        }
+        $scope.currentType="assigntask";
+        $scope.$on("$ionicView.enter", function(scopes, states) {
+            loadData();
+        })
+        function loadData(){
+            Projects.myAssignTasks(user.userID, function (response) {
+                $scope.taskList = response.data;
+                if($scope.taskList==undefined || $scope.taskList.length==0){
+                    $scope.noContent=true;
+                }
+                else {
+                    $scope.noContent=false;
+                }
+            })
+        }
+        $scope.doRefresh = function () {
+            loadData();
+            $scope.$broadcast('scroll.refreshComplete');
+        }
+    })
     .controller('TaskMissionCtrl',function($scope,$rootScope, Projects,$state,$stateParams, $rootScope,AuthService){
         var user = AuthService.currentUser();
         if (user == undefined) {

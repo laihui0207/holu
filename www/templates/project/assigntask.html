@@ -14,7 +14,7 @@
                href="#/tab/tasks/all">
                 {{'All' | translate }} |
             </a>
-            <a ng-class="{'button button-clear': currentType!='assigntask','button button-clear button-calm': currentType== 'assigntask'} "
+            <a ng-class="{'button button-clear': currentType!='all','button button-clear button-calm': currentType== 'assigntask'} "
                href="#/tab/assigntasks">
                 {{'PaiGongTask' | translate }} |
             </a>
@@ -33,8 +33,8 @@
         <ion-list class="list" id="taskList">
             <ion-item  ng-repeat="item in taskList" class="item"><!-- href="#/tab/components/{{item.projectID}} -->
                 <div ><!-- ng-if="item.componentStyle"  -->
-<!--                   <h2>{{'projectName' | translate }}: {{::item.projectPathName }}</h2>-->
-                   <!-- <p>{{'component' | translate }}: {{::item.componentName}} </p>-->
+                   <h2>{{'projectName' | translate }}: {{::item.projectPathName }}</h2>
+<!--                    <p>{{'component' | translate }}: {{::item.componentName}} </p>-->
                     <p>{{'subComponent' | translate }}: {{item.subComponentName}}</p>
                     <p>{{'componentStyle'| translate }}: {{item.styleName}} ~ {{item.processName}}<!--{{item.componentStyle.styleName}} - {{item.componentStyle.processName}}--></p>
                     <p ng-if="item.startDate">{{'confirmStartDate' | translate }}: {{item.startDate | date:'yyyy-MM-dd HH:mm:ss' }}</p>

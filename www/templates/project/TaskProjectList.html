@@ -13,6 +13,10 @@
                ng-click="taskListByType('all')">
                 {{'All' | translate }} |
             </a>
+            <a ng-class="{'button button-clear': currentType!='assigntask','button button-clear button-calm': currentType== 'assigntask'} "
+               href="#/tab/assigntasks">
+                {{'PaiGongTask' | translate }} |
+            </a>
         </ion-scroll>
     </ion-header-bar>
     <ion-content>
