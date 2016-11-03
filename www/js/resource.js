@@ -315,5 +315,6 @@ trans.config(function($translateProvider) {
     for(lang in translations){
         $translateProvider.translations(lang,translations[lang]);
     }
+    $translateProvider.useSanitizeValueStrategy(null);
     $translateProvider.preferredLanguage('zh');
 })

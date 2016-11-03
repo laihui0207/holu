@@ -721,11 +721,14 @@ angular.module('Holu')
             return
         }
         $scope.currentType="assigntask";
+
         $scope.$on("$ionicView.enter", function(scopes, states) {
+            console.log("go to load data......");
             loadData();
         })
         function loadData(){
-            Projects.myAssignTasks(user.userID, function (response) {
+            Projects.myAssignTasks(user.userID).then(function (response) {
+                console.log("Get Data:"+response.data);
                 $scope.taskList = response.data;
                 if($scope.taskList==undefined || $scope.taskList.length==0){
                     $scope.noContent=true;

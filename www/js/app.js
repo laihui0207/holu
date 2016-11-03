@@ -16,10 +16,19 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             var isOnline=true;
+           /* console.log("ionic platform Ready +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            if(window.cordova){
+                console.log("window cordova enabled ++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            }
+            else {
+                console.log("window cordova Can't enabled +++++++++++++++++++++++++++");
+            }*/
             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+/*                console.log("plugin  on +++++++++++++++++++++++++++++++++++++++++++");*/
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 var type = $cordovaNetwork.getNetwork();
                 if (type == "none") {
+/*                    console.log("network none--------------------------- online");*/
                     $cordovaToast.showLongCenter("~ ~ 没有网络可用 ~ ~");
                 }
                 isOnline = $cordovaNetwork.isOnline();
@@ -27,7 +36,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                     $cordovaToast.showLongCenter("请确认网络是否在线！");
                 }
                 else {
-                   // console.log("network online");
+/*                   console.log("network ------------------------------- online");*/
                 }
             }
 
@@ -71,7 +80,7 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                             template: "已经下载：0%"
                         });
                         var url = Upgrade.downloadLink(); //可以从服务端获取更新APP的路径
-                        var targetPath = "file:///storage/sdcard0/Download/ICMS2015.apk"; //APP下载存放的路径，可以使用cordova file插件进行相关配置
+                        var targetPath = cordova.file.dataDirectory+"ICMS2016.apk"; //APP下载存放的路径，可以使用cordova file插件进行相关配置
                         var trustHosts = true;
                         var options = {};
                         $cordovaFileTransfer.download(url, targetPath, options, trustHosts).then(function (result) {
@@ -84,8 +93,9 @@ angular.module('Holu', ['ionic', 'ngCordova', 'Holu.config', 'Holu.services', 'H
                                 });
                             $ionicLoading.hide();
                         }, function (err) {
+
                             $ionicLoading.hide();
-                            alert('下载失败');
+                            alert('下载失败 From:'+url);
                         }, function (progress) {
                             //进度，这里使用文字显示下载百分比
                             $timeout(function () {

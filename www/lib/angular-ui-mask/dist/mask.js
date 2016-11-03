@@ -1,7 +1,7 @@
 /*!
  * angular-ui-mask
  * https://github.com/angular-ui/ui-mask
- * Version: 1.7.2 - 2016-01-29T01:38:58.683Z
+ * Version: 1.8.7 - 2016-07-26T15:59:07.992Z
  * License: MIT
  */
 
@@ -20,9 +20,46 @@ angular.module('ui.mask', [])
             },
             clearOnBlur: true,
             clearOnBlurPlaceholder: false,
-            eventsToHandle: ['input', 'keyup', 'click', 'focus']
+            escChar: '\\',
+            eventsToHandle: ['input', 'keyup', 'click', 'focus'],
+            addDefaultPlaceholder: true,
+            allowInvalidValue: false
         })
-        .directive('uiMask', ['uiMaskConfig', function(maskConfig) {
+        .provider('uiMask.Config', function() {
+            var options = {};
+
+            this.maskDefinitions = function(maskDefinitions) {
+                return options.maskDefinitions = maskDefinitions;
+            };
+            this.clearOnBlur = function(clearOnBlur) {
+                return options.clearOnBlur = clearOnBlur;
+            };
+            this.clearOnBlurPlaceholder = function(clearOnBlurPlaceholder) {
+                return options.clearOnBlurPlaceholder = clearOnBlurPlaceholder;
+            };
+            this.eventsToHandle = function(eventsToHandle) {
+                return options.eventsToHandle = eventsToHandle;
+            };
+            this.addDefaultPlaceholder = function(addDefaultPlaceholder) {
+                return options.addDefaultPlaceholder = addDefaultPlaceholder;
+            };
+            this.allowInvalidValue = function(allowInvalidValue) {
+                return options.allowInvalidValue = allowInvalidValue;
+            };
+            this.$get = ['uiMaskConfig', function(uiMaskConfig) {
+                var tempOptions = uiMaskConfig;
+                for(var prop in options) {
+                    if (angular.isObject(options[prop]) && !angular.isArray(options[prop])) {
+                        angular.extend(tempOptions[prop], options[prop]);
+                    } else {
+                        tempOptions[prop] = options[prop];
+                    }
+                }
+
+                return tempOptions;
+            }];
+        })
+        .directive('uiMask', ['uiMask.Config', function(maskConfig) {
                 function isFocused (elem) {
                   return elem === document.activeElement && (!document.hasFocus || document.hasFocus()) && !!(elem.type || elem.href || ~elem.tabIndex);
                 }
@@ -32,7 +69,7 @@ angular.module('ui.mask', [])
                     require: 'ngModel',
                     restrict: 'A',
                     compile: function uiMaskCompilingFunction() {
-                        var options = maskConfig;
+                        var options = angular.copy(maskConfig);
 
                         return function uiMaskLinkingFunction(scope, iElement, iAttrs, controller) {
                             var maskProcessed = false, eventsBound = false,
@@ -50,13 +87,13 @@ angular.module('ui.mask', [])
                                     preventBackspace;
 
                             var originalIsEmpty = controller.$isEmpty;
-	                        controller.$isEmpty = function(value) {
-		                        if (maskProcessed) {
-			                        return originalIsEmpty(unmaskValue(value || ''));
-		                        } else {
-			                        return originalIsEmpty(value);
-		                        }
-	                        };
+                            controller.$isEmpty = function(value) {
+                                if (maskProcessed) {
+                                    return originalIsEmpty(unmaskValue(value || ''));
+                                } else {
+                                    return originalIsEmpty(value);
+                                }
+                            };
 
                             function initialize(maskAttr) {
                                 if (!angular.isDefined(maskAttr)) {
@@ -99,6 +136,13 @@ angular.module('ui.mask', [])
                                 }
                             });
 
+                            iAttrs.$observe('allowInvalidValue', function(val) {
+                                linkOptions.allowInvalidValue = val === ''
+                                    ? true
+                                    : !!val;
+                                formatter(controller.$modelValue);
+                            });
+
                             function formatter(fromModelValue) {
                                 if (!maskProcessed) {
                                     return fromModelValue;
@@ -106,7 +150,13 @@ angular.module('ui.mask', [])
                                 value = unmaskValue(fromModelValue || '');
                                 isValid = validateValue(value);
                                 controller.$setValidity('mask', isValid);
-                                return isValid && value.length ? maskValue(value) : undefined;
+
+                                if (!value.length) return undefined;
+                                if (isValid || linkOptions.allowInvalidValue) {
+                                    return maskValue(value);
+                                } else {
+                                    return undefined;
+                                }
                             }
 
                             function parser(fromViewValue) {
@@ -121,10 +171,9 @@ angular.module('ui.mask', [])
                                 // to be out-of-sync with what the controller's $viewValue is set to.
                                 controller.$viewValue = value.length ? maskValue(value) : '';
                                 controller.$setValidity('mask', isValid);
-                                if (isValid) {
+
+                                if (isValid || linkOptions.allowInvalidValue) {
                                     return modelViewValue ? controller.$viewValue : value;
-                                } else {
-                                    return undefined;
                                 }
                             }
 
@@ -166,7 +215,7 @@ angular.module('ui.mask', [])
                                 iAttrs.$observe('uiMaskPlaceholderChar', initPlaceholderChar);
                             }
 
-                            controller.$formatters.push(formatter);
+                            controller.$formatters.unshift(formatter);
                             controller.$parsers.unshift(parser);
 
                             function uninitialize() {
@@ -197,7 +246,7 @@ angular.module('ui.mask', [])
                                 if (iAttrs.maxlength) { // Double maxlength to allow pasting new val at end of mask
                                     iElement.attr('maxlength', maskCaretMap[maskCaretMap.length - 1] * 2);
                                 }
-                                if ( ! originalPlaceholder) {
+                                if ( ! originalPlaceholder && linkOptions.addDefaultPlaceholder) {
                                     iElement.attr('placeholder', maskPlaceholder);
                                 }
                                 var viewValue = controller.$modelValue;
@@ -314,7 +363,7 @@ angular.module('ui.mask', [])
                                 var maskPlaceholderChars = maskPlaceholder.split(''),
                                         maskPlaceholderCopy, components;
 
-                                //maskCaretMap can have bad values if the input has the ui-mask attribute implemented as an obversable property, i.e. the demo page
+                                //maskCaretMap can have bad values if the input has the ui-mask attribute implemented as an obversable property, e.g. the demo page
                                 if (maskCaretMap && !isNaN(maskCaretMap[0])) {
                                     //Instead of trying to manipulate the RegEx based on the placeholder characters
                                     //we can simply replace the placeholder characters based on the already built
@@ -325,13 +374,13 @@ angular.module('ui.mask', [])
                                     });
                                 }
                                 maskPlaceholderCopy = maskPlaceholderChars.join('');
-                                components = maskPlaceholderCopy.replace(/[_]+/g, '_').replace(/([^_]+)([a-zA-Z0-9])([^_])/g, '$1$2_$3').split('_');
+                                components = maskPlaceholderCopy.replace(/[_]+/g, '_').split('_');
                                 components = components.filter(function(s) {
                                     return s !== '';
                                 });
 
                                 // need a string search offset in cases where the mask contains multiple identical components
-                                // I.E. a mask of 99.99.99-999.99
+                                // E.g., a mask of 99.99.99-999.99
                                 var offset = 0;
                                 return components.map(function(c) {
                                     var componentPosition = maskPlaceholderCopy.indexOf(c, offset);
@@ -357,9 +406,17 @@ angular.module('ui.mask', [])
                                             numberOfOptionalCharacters = 0,
                                             splitMask = mask.split('');
 
+                                    var inEscape = false;
                                     angular.forEach(splitMask, function(chr, i) {
-                                        if (linkOptions.maskDefinitions[chr]) {
-
+                                        if (inEscape) {
+                                            inEscape = false;
+                                            maskPlaceholder += chr;
+                                            characterCount++;
+                                        }
+                                        else if (linkOptions.escChar === chr) {
+                                            inEscape = true;
+                                        }
+                                        else if (linkOptions.maskDefinitions[chr]) {
                                             maskCaretMap.push(characterCount);
 
                                             maskPlaceholder += getPlaceholderChar(i - numberOfOptionalCharacters);
@@ -398,14 +455,29 @@ angular.module('ui.mask', [])
                                         valueMasked = '';
                                         iElement.val('');
                                         scope.$apply(function() {
-                                            //don't call $setViewValue to avoid changing $pristine state.
-                                            controller.$viewValue = '';
+                                            //only $setViewValue when not $pristine to avoid changing $pristine state.
+                                            if (!controller.$pristine) {
+                                                controller.$setViewValue('');
+                                            }
                                         });
                                     }
                                 }
                                 //Check for different value and trigger change.
+                                //Check for different value and trigger change.
                                 if (value !== prevValue) {
+                                    // #157 Fix the bug from the trigger when backspacing exactly on the first letter (emptying the field)
+                                    // and then blurring out.
+                                    // Angular uses html element and calls setViewValue(element.value.trim()), setting it to the trimmed mask
+                                    // when it should be empty
+                                    var currentVal = iElement.val();
+                                    var isTemporarilyEmpty = value === '' && currentVal && angular.isDefined(iAttrs.uiMaskPlaceholderChar) && iAttrs.uiMaskPlaceholderChar === 'space';
+                                    if(isTemporarilyEmpty) {
+                                        iElement.val('');
+                                    }
                                     triggerChangeEvent(iElement[0]);
+                                    if(isTemporarilyEmpty) {
+                                        iElement.val(currentVal);
+                                    }
                                 }
                                 prevValue = value;
                             }
@@ -414,12 +486,20 @@ angular.module('ui.mask', [])
                                 var change;
                                 if (angular.isFunction(window.Event) && !element.fireEvent) {
                                     // modern browsers and Edge
-                                    change = new Event('change', {
-                                        view: window,
-                                        bubbles: true,
-                                        cancelable: false
-                                    });
-                                    element.dispatchEvent(change);
+                                    try {
+                                        change = new Event('change', {
+                                            view: window,
+                                            bubbles: true,
+                                            cancelable: false
+                                        });
+                                    } catch (ex) {
+                                        //this is for certain mobile browsers that have the Event object
+                                        //but don't support the Event constructor #168
+                                        change = document.createEvent('HTMLEvents');
+                                        change.initEvent('change', false, true);
+                                    } finally {
+                                        element.dispatchEvent(change);
+                                    }
                                 } else if ('createEvent' in document) {
                                     // older browsers
                                     change = document.createEvent('HTMLEvents');
@@ -451,7 +531,8 @@ angular.module('ui.mask', [])
                             function keydownHandler(e) {
                                 /*jshint validthis: true */
                                 var isKeyBackspace = e.which === 8,
-                                    caretPos = getCaretPosition(this) - 1 || 0; //value in keydown is pre change so bump caret position back to simulate post change
+                                caretPos = getCaretPosition(this) - 1 || 0, //value in keydown is pre change so bump caret position back to simulate post change
+                                isCtrlZ = e.which === 90 && e.ctrlKey; //ctrl+z pressed
 
                                 if (isKeyBackspace) {
                                     while(caretPos >= 0) {
@@ -464,6 +545,12 @@ angular.module('ui.mask', [])
                                         caretPos--;
                                     }
                                     preventBackspace = caretPos === -1;
+                                }
+
+                                if (isCtrlZ) {
+                                    // prevent IE bug - value should be returned to initial state
+                                    iElement.val('');
+                                    e.preventDefault();
                                 }
                             }
 
@@ -512,7 +599,7 @@ angular.module('ui.mask', [])
                                 oldSelectionLength = getSelectionLength(this);
 
                                 // These events don't require any action
-                                if (isSelection || (isSelected && (eventType === 'click' || eventType === 'keyup'))) {
+                                if (isSelection || (isSelected && (eventType === 'click' || eventType === 'keyup' || eventType === 'focus'))) {
                                     return;
                                 }
 
@@ -544,7 +631,7 @@ angular.module('ui.mask', [])
 
                                     // If value has not changed, don't want to call $setViewValue, may be caused by IE raising input event due to placeholder
                                     if (valUnmasked !== valUnmaskedOld)
-                                    	valAltered = true;
+                                        valAltered = true;
                                 }
 
                                 // Update values
@@ -644,6 +731,9 @@ angular.module('ui.mask', [])
                                     return 0;
                                 if (input.selectionStart !== undefined) {
                                     return (input.selectionEnd - input.selectionStart);
+                                }
+                                if (window.getSelection) {
+                                    return (window.getSelection().toString().length);
                                 }
                                 if (document.selection) {
                                     return (document.selection.createRange().text.length);
