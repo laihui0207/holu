@@ -741,6 +741,39 @@ angular.module('Holu')
         $scope.doRefresh = function () {
             loadData();
             $scope.$broadcast('scroll.refreshComplete');
+        };
+        $scope.selectedStartProcess=[];
+        $scope.selectedEndProcess=[];
+        $scope.toggleProcess=function(value,type){
+            if(type==='start'){
+                var index=$scope.selectedStartProcess.indexOf(value);
+                if(index > -1){
+                    $scope.selectedStartProcess.splice(index,1)
+                }
+                else {
+                    $scope.selectedStartProcess.push(value)
+                }
+            }
+            else if(type==='end'){
+                var index=$scope.selectedEndProcess.indexOf(value);
+                if(index > -1){
+                    $scope.selectedEndProcess.splice(index,1)
+                }
+                else {
+                    $scope.selectedEndProcess.push(value)
+                }
+            }
+        }
+        $scope.batchConfirm=function(type){
+            if(type==='start'){
+                $state.go('tab.batchConfirm',{taskType:$scope.currentType,type:'start',from:'task',
+                    data: $scope.selectedStartProcess,projectID:$stateParams.projectID,styleID:$stateParams.styleID});
+            }
+            else if (type === 'end'){
+                $state.go('tab.batchConfirm',{taskType:$scope.currentType,type:'end',from:'task',
+                    data:$scope.selectedEndProcess,projectID:$stateParams.projectID,styleID:$stateParams.styleID});
+            }
+
         }
     })
     .controller('TaskMissionCtrl',function($scope,$rootScope, Projects,$state,$stateParams, $rootScope,AuthService){
